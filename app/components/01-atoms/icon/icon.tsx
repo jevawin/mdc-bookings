@@ -1,5 +1,5 @@
 export type TIcon = {
-	name: 'pencil';
+	name: 'pencil' | 'cross';
 	size?: number | string;
 	title?: string;
 	className?: string;
