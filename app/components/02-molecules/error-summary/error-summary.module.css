@@ -19,7 +19,3 @@
 	display: grid;
 	gap: calc(var(--base-spacing) * 1.5);
 }
-
-.title {
-	text-wrap-style: balance;
-}

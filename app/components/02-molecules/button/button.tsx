@@ -1,27 +1,30 @@
-import type { TIcon } from '~/components/01-atoms/icon/icon';
+import type { TIcon } from '~/components/01-atoms/icon/icon.tsx';
 
 import clsx from 'clsx';
-import { Icon } from '~/components/01-atoms/icon/icon';
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './button.module.css';
 
 export type TButton = {
 	children: React.ReactNode;
+	type?: 'button' | 'reset' | 'submit';
 	variant?: 'apply' | 'revoke';
 };
 
-export const Button: React.FC<TButton> = ({ children, variant = 'apply' }) => {
-	return (
-		<button
-			type="button"
-			className={clsx(styles.base, styles[variant])}
-			data-e2e-id="button"
-		>
-			{children}
-		</button>
-	);
-};
+export const Button: React.FC<TButton> = ({
+	children,
+	type = 'button',
+	variant = 'apply',
+}) => (
+	<button
+		type={type}
+		className={clsx(styles.base, styles[variant])}
+		data-e2e-id="button"
+	>
+		{children}
+	</button>
+);
 
 const ButtonIcon: React.FC<TIcon> = ({ name, className }) => (
 	<Icon name={name} size={20} className={clsx(styles.icon, className)} />
