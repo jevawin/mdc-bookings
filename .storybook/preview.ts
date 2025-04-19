@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/react';
 
 import '../app/styles/font-face.css';
 import '../app/styles/globals.css';
-// import '../src/styles/storybook.css';
+import '../app/styles/storybook.css';
 
 const preview: Preview = {
 	parameters: {

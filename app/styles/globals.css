@@ -5,13 +5,15 @@
 	/* Colors */
 	--color-core-background: #fff;
 	--color-core-foreground: #000;
+	--color-core-negative: #c60200;
+	--color-core-positive: #228b22;
 
 	/* Spacing */
 	--base-spacing: 8px;
 	--container-max: 124.8rem;
 
 	/* Styling */
-	--border-radius: 0.6rem;
+	--border-radius: 0.4rem;
 }
 
 /* Box sizing rules */

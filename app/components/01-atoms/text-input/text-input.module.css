@@ -1,0 +1,39 @@
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--base-spacing);
+}
+
+.label {
+	color: var(--color-core-foreground);
+	font-variation-settings: 'wght' 500;
+}
+
+.input {
+	inline-size: 100%;
+	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2);
+	border-radius: var(--border-radius);
+	border: 0.2rem solid var(--color-core-foreground);
+	background-color: transparent;
+	color: var(--color-core-foreground);
+	font-family: var(--font-family-primary, sans-serif);
+	font-size: 1.6rem;
+	appearance: none;
+
+	&[aria-invalid='true'] {
+		border-color: var(--color-core-negative);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-core-foreground);
+		outline-offset: 2px;
+	}
+}
+
+.validationMessage {
+	position: relative;
+	display: inline-flex;
+	gap: calc(var(--base-spacing) / 2);
+	align-items: center;
+	color: var(--color-core-negative);
+}

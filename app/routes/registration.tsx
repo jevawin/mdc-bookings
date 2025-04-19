@@ -1,8 +1,18 @@
-import { convertFormDataToObject } from 'utils/convert-form-data-to-object';
 import type { Route } from './+types/registration';
 
 import { Form, useActionData } from 'react-router';
 import { registrationFormSchema } from 'schemas/registration-form-schema.ts';
+import { convertFormDataToObject } from 'utils/convert-form-data-to-object.ts';
+
+type TFormSubmissionError = {
+	title: string;
+	bodyText: string;
+};
+
+type TFormActionError = Promise<{
+	error?: TFormSubmissionError;
+	fieldErrors?: Record<string, string | undefined> | {};
+}>;
 
 const getErrorReturn = () => ({
 	fieldErrors: {},
@@ -11,10 +21,11 @@ const getErrorReturn = () => ({
 		bodyText:
 			"Don't worry, your information is still here. Please click 'Register your interest' again in a moment.",
 	},
-	status: 500,
 });
 
-export const action = async ({ request }: Route.ActionArgs) => {
+export const action = async ({
+	request,
+}: Route.ActionArgs): TFormActionError => {
 	if (request.method !== 'POST') return getErrorReturn();
 
 	try {
@@ -22,8 +33,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
 		const formObject = convertFormDataToObject(formData);
 		const fieldErrors: Record<string, string | undefined> = {};
 		const result = registrationFormSchema.safeParse(formObject);
-
-		console.log(formObject, 'formObject');
 
 		if (!result.success) {
 			for (const error of result.error.errors) {
@@ -34,19 +43,26 @@ export const action = async ({ request }: Route.ActionArgs) => {
 				fieldErrors,
 			};
 		}
+
+		return {
+			fieldErrors: {},
+			error: undefined,
+		};
 	} catch (error) {
 		return getErrorReturn();
 	}
 };
 
-export const loader = async (data: Route.LoaderArgs) => {
-	return data;
-};
+// export const loader = async (data: Route.LoaderArgs) => {
+// 	return data;
+// };
 
-export default function Registration(data: Route.ComponentProps) {
+export default function Registration() {
 	const actionData = useActionData<typeof action>();
+	const fieldErrors = actionData?.fieldErrors;
+	const formError = actionData?.error;
 
-	console.log(actionData, 'actionData');
+	console.log({ fieldErrors, formError });
 
 	return (
 		<>

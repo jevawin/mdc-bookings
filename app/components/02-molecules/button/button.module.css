@@ -1,5 +1,5 @@
 .base {
-	color: white;
+	color: var(--btn-fg-color);
 	border-radius: var(--border-radius);
 	background-color: var(--btn-bg-color);
 	box-shadow: 0rem 0.5rem 1.5rem -1rem rgba(0, 0, 0, 0.5);
@@ -9,6 +9,15 @@
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
+
+	&:active {
+		box-shadow: none;
+	}
+
+	&:focus-visible {
+		outline: 0.2rem solid var(--btn-outline-color);
+		outline-offset: 0.2rem;
+	}
 
 	@media (prefers-reduced-motion: no-preference) {
 		transition: box-shadow 0.1s ease-in-out,
@@ -20,25 +29,18 @@
 			background-color: var(--btn-bg-color-hover);
 		}
 	}
-
-	&:active {
-		box-shadow: none;
-	}
-
-	&:focus-visible {
-		outline: 0.2rem solid var(--btn-outline-color);
-		outline-offset: 0.2rem;
-	}
 }
 
 .apply {
-	--btn-bg-color: #228b22;
-	--btn-bg-color-hover: #1e7a1e;
-	--btn-outline-color: #228b22;
+	--btn-fg-color: #fff;
+	--btn-bg-color: var(--color-core-positive);
+	--btn-bg-color-hover: color-mix(in srgb, var(--btn-bg-color), #000 10%);
+	--btn-outline-color: var(--color-core-positive);
 }
 
 .revoke {
-	--btn-bg-color: #c60200;
-	--btn-bg-color-hover: #b60200;
-	--btn-outline-color: #c60200;
+	--btn-fg-color: #fff;
+	--btn-bg-color: var(--color-core-negative);
+	--btn-bg-color-hover: color-mix(in srgb, var(--btn-bg-color), #000 10%);
+	--btn-outline-color: var(--color-core-negative);
 }
