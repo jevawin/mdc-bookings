@@ -1,0 +1,25 @@
+.summary {
+	--color-error: var(--color-core-negative);
+
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: calc(var(--base-spacing) * 2);
+	padding: calc(var(--base-spacing) * 2);
+	border-radius: calc(var(--border-radius) * 2);
+	background-color: color-mix(in srgb, var(--color-error), #fff 80%);
+	color: var(--color-text);
+
+	&:focus-visible {
+		outline: 3px solid var(--color-error);
+		outline-offset: 3px;
+	}
+}
+
+.content {
+	display: grid;
+	gap: calc(var(--base-spacing) * 1.5);
+}
+
+.title {
+	text-wrap-style: balance;
+}

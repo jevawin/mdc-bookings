@@ -1,0 +1,74 @@
+@value type: '../../../styles/modules/typography.module.css';
+
+.text {
+	composes: text from type;
+	font-family: var(--font-family-primary);
+	font-variation-settings: 'wght' var(--text-fw);
+	font-weight: normal;
+}
+
+.weight100 {
+	--text-fw: 400;
+}
+
+.weight200 {
+	--text-fw: 500;
+}
+
+.weight300 {
+	--text-fw: 600;
+}
+
+.size0 {
+	--fs-min: 12;
+	--fs-max: 14;
+	--text-lh: 100%;
+}
+
+.size100 {
+	--fs-min: 16;
+	--fs-max: 16;
+	--text-lh: 160%;
+}
+
+.size200 {
+	--fs-min: 18;
+	--fs-max: 20;
+	--text-lh: 140%;
+}
+
+.size300 {
+	--fs-min: 20;
+	--fs-max: 24;
+	--text-lh: 140%;
+}
+
+.size400 {
+	--fs-min: 22;
+	--fs-max: 32;
+	--text-lh: 120%;
+}
+
+.size500 {
+	--fs-min: 24;
+	--fs-max: 40;
+	--text-lh: 120%;
+}
+
+.size600 {
+	--fs-min: 28;
+	--fs-max: 44;
+	--text-lh: 120%;
+}
+
+.size700 {
+	--fs-min: 38;
+	--fs-max: 48;
+	--text-lh: 120%;
+}
+
+.size800 {
+	--fs-min: 48;
+	--fs-max: 68;
+	--text-lh: 120%;
+}

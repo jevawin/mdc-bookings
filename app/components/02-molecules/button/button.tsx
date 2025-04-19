@@ -2,6 +2,7 @@ import type { TIcon } from '~/components/01-atoms/icon/icon';
 
 import clsx from 'clsx';
 import { Icon } from '~/components/01-atoms/icon/icon';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './button.module.css';
 
@@ -22,22 +23,27 @@ export const Button: React.FC<TButton> = ({ children, variant = 'apply' }) => {
 	);
 };
 
-const CtaIcon: React.FC<TIcon> = ({ name, className }) => (
+const ButtonIcon: React.FC<TIcon> = ({ name, className }) => (
 	<Icon name={name} size={20} className={clsx(styles.icon, className)} />
 );
 
-type TCtaText = {
+type TButtonText = {
 	children: React.ReactNode;
 	className?: string;
 };
 
-const CtaText: React.FC<TCtaText> = ({ children, className }) => (
-	<span role="presentation" className={clsx(styles.content, className)}>
+const ButtonText: React.FC<TButtonText> = ({ children, className }) => (
+	<Text
+		size="100"
+		weight="300"
+		role="presentation"
+		className={clsx(styles.content, className)}
+	>
 		{children}
-	</span>
+	</Text>
 );
 
-export const CtaContent = {
-	Icon: CtaIcon,
-	Text: CtaText,
+export const ButtonContent = {
+	Icon: ButtonIcon,
+	Text: ButtonText,
 };

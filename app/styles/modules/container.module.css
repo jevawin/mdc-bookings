@@ -1,0 +1,62 @@
+:where(.container) {
+	inline-size: 100%;
+}
+
+.container {
+	--padding: calc((var(--base-spacing) * 2) + env(safe-area-inset-right));
+	--container-plus-padding: calc(var(--container) + (var(--padding) * 2));
+	--max-value: calc((var(--container-plus-padding) - 100%) / 2);
+
+	margin-inline: auto;
+	max-inline-size: var(--container);
+	padding-inline: min(var(--padding), max(0rem, var(--max-value)));
+}
+
+.containerbleed {
+	--padding: calc(var(--base-spacing) * 2);
+	--space: calc(var(--padding) * 2);
+	--grid-container: calc((100% - var(--container)) + var(--space));
+	--max-value: calc(var(--grid-container) / 2);
+	--preferred-value: calc(var(--max-value) - var(--padding));
+
+	padding-inline: clamp(
+		var(--padding),
+		var(--preferred-value),
+		var(--max-value)
+	);
+	scroll-padding-inline: clamp(
+		var(--padding),
+		var(--preferred-value),
+		var(--max-value)
+	);
+}
+
+.containerbleedstart {
+	--padding: calc(var(--base-spacing) * 2);
+	--grid-container: 100% - var(--container);
+	--max-value: calc((var(--container) - 100%) / 2);
+	--max-clamp-value: calc((var(--grid-container) + (var(--padding) * 2)) / 2);
+	--preferred-value: calc(var(--max-clamp-value) - var(--padding));
+
+	margin-inline-end: clamp(
+		0rem,
+		var(--preferred-value),
+		var(--max-clamp-value)
+	);
+	padding-inline-end: min(var(--padding), max(0rem, var(--max-value)));
+}
+
+.containerbleedend {
+	--padding: calc(var(--base-spacing) * 2);
+	--grid-container: 100% - var(--container);
+	--max-value: calc((var(--container) - 100%) / 2);
+	--max-clamp-value: calc((var(--grid-container) + (var(--padding) * 2)) / 2);
+	--preferred-value: calc(var(--max-clamp-value) - var(--padding));
+
+	margin-inline-start: clamp(
+		0rem,
+		var(--preferred-value),
+		var(--max-clamp-value)
+	);
+	padding-inline-start: min(var(--padding), max(0rem, var(--max-value)));
+}

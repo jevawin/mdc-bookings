@@ -1,3 +1,7 @@
+.errorSummary {
+	max-inline-size: 75rem;
+}
+
 .field {
 	min-inline-size: 30rem;
 }

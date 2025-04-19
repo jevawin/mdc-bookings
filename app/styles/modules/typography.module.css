@@ -1,0 +1,20 @@
+/* These calculations are based on the Pedro's formula used by Utopia - https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/#aa-step-3 */
+
+.text {
+	--vp-min: 39;
+	--vp-max: 120;
+	--vp-range: calc(var(--vp-max) - var(--vp-min));
+
+	/* Font size variables */
+	--fs-min-dec: calc(var(--fs-min) * 0.1);
+	--fs-max-dec: calc(var(--fs-max) * 0.1);
+	--fs-min-rem: calc(var(--fs-min) * 0.1rem);
+	--fs-max-rem: calc(var(--fs-max) * 0.1rem);
+	--fs-slope: calc((var(--fs-max-dec) - var(--fs-min-dec)) / var(--vp-range));
+	--fs-y-axis: calc(
+		(var(--vp-min) * -1) * var(--fs-slope) + var(--fs-min-dec)
+	);
+	--fs-preferred: calc((var(--fs-y-axis) * 1rem) + var(--fs-slope) * 100vw);
+
+	font-size: clamp(var(--fs-min-rem), var(--fs-preferred), var(--fs-max-rem));
+}

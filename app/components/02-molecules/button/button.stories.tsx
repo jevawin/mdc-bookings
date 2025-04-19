@@ -2,7 +2,7 @@ import type { StoryObj, Meta } from '@storybook/react';
 
 import { mockButtonData } from './button.mock.ts';
 
-import { Button as ButtonComponent, CtaContent } from './button.tsx';
+import { Button as ButtonComponent, ButtonContent } from './button.tsx';
 
 const meta: Meta<typeof ButtonComponent> = {
 	title: '02-molecules/Button',
@@ -31,8 +31,8 @@ export const Apply: Story = {
 	},
 	render: (args) => (
 		<ButtonComponent {...args}>
-			<CtaContent.Icon name="pencil" />
-			<CtaContent.Text>Apply</CtaContent.Text>
+			<ButtonContent.Icon name="pencil" />
+			<ButtonContent.Text>Apply</ButtonContent.Text>
 		</ButtonComponent>
 	),
 };
@@ -43,8 +43,8 @@ export const Revoke: Story = {
 	},
 	render: (args) => (
 		<ButtonComponent {...args}>
-			<CtaContent.Icon name="cross" />
-			<CtaContent.Text>Revoke</CtaContent.Text>
+			<ButtonContent.Icon name="cross" />
+			<ButtonContent.Text>Revoke</ButtonContent.Text>
 		</ButtonComponent>
 	),
 };
