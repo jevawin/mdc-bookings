@@ -9,7 +9,7 @@ type InputType = React.HTMLInputTypeAttribute;
 export type TTextInput = {
 	id: string;
 	label: string;
-	type?: Extract<InputType, 'email' | 'search' | 'text' | 'url'>;
+	type?: Extract<InputType, 'email' | 'password' | 'search' | 'text' | 'url'>;
 	isRequired?: boolean;
 	isInvalid?: boolean;
 	validationMessage?: string;

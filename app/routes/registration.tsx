@@ -2,8 +2,8 @@ import type { Route } from './+types/registration';
 
 import { useEffect, useRef } from 'react';
 import { Form, useActionData } from 'react-router';
-import { registrationFormSchema } from 'schemas/registration-form-schema.ts';
-import { convertFormDataToObject } from 'utils/convert-form-data-to-object.ts';
+import { registrationFormSchema } from '~/schemas/registration-form-schema';
+import { convertFormDataToObject } from '~/utils/convert-form-data-to-object';
 import { pluraliseText } from '~/utils/pluralise-text.ts';
 
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
@@ -131,6 +131,7 @@ export default function Registration() {
 
 					<TextInput
 						id="email"
+						type="email"
 						name="email"
 						label="Email"
 						autoComplete="email"
@@ -199,6 +200,7 @@ export default function Registration() {
 
 					<TextInput
 						id="password"
+						type="password"
 						name="password"
 						label="Create a great password"
 						autoComplete="password"
