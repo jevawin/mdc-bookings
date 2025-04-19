@@ -6,17 +6,34 @@
 	padding: 0.9rem 1.8rem;
 	font-size: 1.8rem;
 	font-variation-settings: 'wght' 500;
-	transition: box-shadow 0.1s ease-in-out;
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: box-shadow 0.1s ease-in-out,
+			background-color 0.1s ease-in-out;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			--btn-bg-color: #1e7e1e;
+		}
+	}
+
+	&:active {
+		box-shadow: none;
+	}
+
+	&:focus-visible {
+		outline: 0.2rem solid var(--btn-outline-color);
+		outline-offset: 0.2rem;
+	}
 }
 
 .apply {
 	--btn-bg-color: #228b22;
+	--btn-outline-color: #228b22;
 }
 
 .revoke {
 	--btn-bg-color: #c60200;
-}
-
-:active {
-	box-shadow: none;
+	--btn-outline-color: #c60200;
 }
