@@ -21,10 +21,6 @@ export const ErrorSummary: React.FC<TErrorSummaryProps> = ({
 	className,
 }) => {
 	const titleId = 'error-summary-heading';
-	// const hasMultipleErrors = errorCount > 1;
-	// const pluralCount = pluraliseText(errorCount, 'field');
-	// const verb = hasMultipleErrors ? 'are' : 'is';
-	// const message = `Failed to submit because ${pluralCount} ${verb} invalid.`;
 
 	return (
 		<div

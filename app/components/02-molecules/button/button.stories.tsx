@@ -25,6 +25,17 @@ const meta: Meta<typeof ButtonComponent> = {
 export default meta;
 type Story = StoryObj<typeof ButtonComponent>;
 
+export const Primary: Story = {
+	args: {
+		variant: 'primary',
+	},
+	render: (args) => (
+		<ButtonComponent {...args}>
+			<ButtonContent.Text>Primary button</ButtonContent.Text>
+		</ButtonComponent>
+	),
+};
+
 export const Apply: Story = {
 	args: {
 		variant: 'apply',

@@ -9,13 +9,13 @@ import styles from './button.module.css';
 export type TButton = {
 	children: React.ReactNode;
 	type?: 'button' | 'reset' | 'submit';
-	variant?: 'apply' | 'revoke';
+	variant?: 'primary' | 'apply' | 'revoke';
 };
 
 export const Button: React.FC<TButton> = ({
 	children,
 	type = 'button',
-	variant = 'apply',
+	variant = 'primary',
 }) => (
 	<button
 		type={type}

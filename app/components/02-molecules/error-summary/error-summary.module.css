@@ -9,7 +9,7 @@
 	background-color: color-mix(in srgb, var(--color-error), #fff 80%);
 	color: var(--color-text);
 
-	&:focus-visible {
+	&:focus {
 		outline: 3px solid var(--color-error);
 		outline-offset: 3px;
 	}

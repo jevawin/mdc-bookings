@@ -1,17 +1,34 @@
 import type { Route } from './+types/registration';
 
+import { useEffect, useRef } from 'react';
 import { Form, useActionData } from 'react-router';
 import { registrationFormSchema } from 'schemas/registration-form-schema.ts';
 import { convertFormDataToObject } from 'utils/convert-form-data-to-object.ts';
+import { pluraliseText } from '~/utils/pluralise-text.ts';
+
+import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
+import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
+import {
+	Button,
+	ButtonContent,
+} from '~/components/02-molecules/button/button.tsx';
 
 type TFormSubmissionError = {
 	title: string;
 	bodyText: string;
 };
 
+type TFormFieldErrors = {
+	name?: string;
+	email?: string;
+	password?: string;
+	registrationNumber?: string;
+	registrationOrganisation?: string;
+};
+
 type TFormActionError = Promise<{
 	error?: TFormSubmissionError;
-	fieldErrors?: Record<string, string | undefined> | {};
+	fieldErrors?: TFormFieldErrors;
 }>;
 
 const getErrorReturn = () => ({
@@ -59,28 +76,69 @@ export const action = async ({
 
 export default function Registration() {
 	const actionData = useActionData<typeof action>();
+	const errorSummaryRef = useRef<HTMLDivElement>(null);
+
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 
+	const fieldErrorsCount = Object.keys(fieldErrors ?? {}).length;
+	const hasFieldsErrors = fieldErrorsCount >= 1;
+	const hasMultipleErrors = fieldErrorsCount > 1;
+	const pluralCount = pluraliseText(fieldErrorsCount, 'field');
+	const verb = hasMultipleErrors ? 'are' : 'is';
+
+	const altErrorTitle =
+		'We need some more information to complete your registration.';
+	const altErrorBodyText = `Failed to submit because ${pluralCount} ${verb} invalid.`;
+
+	const errorTitle = formError?.title ?? altErrorTitle;
+	const bodyText = formError?.bodyText ?? altErrorBodyText;
+
 	console.log({ fieldErrors, formError });
+
+	useEffect(() => {
+		if (errorSummaryRef.current && hasFieldsErrors) {
+			errorSummaryRef.current.focus();
+		}
+	}, [fieldErrors]);
 
 	return (
 		<>
 			<h1>Become an interpreter</h1>
 
+			{hasFieldsErrors ? (
+				<ErrorSummary
+					title={errorTitle}
+					bodyText={bodyText}
+					errorSummaryRef={errorSummaryRef}
+				/>
+			) : null}
+
 			<Form name="registration" method="POST">
 				<fieldset>
 					<legend>Your details</legend>
 
-					<div>
-						<label htmlFor="name">Full name</label>
-						<input id="name" type="text" name="name" />
-					</div>
+					<TextInput
+						id="name"
+						name="name"
+						label="Full name"
+						autoComplete="name"
+						inputMode="text"
+						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.name)}
+						validationMessage={fieldErrors?.name}
+					/>
 
-					<div>
-						<label htmlFor="email">Email</label>
-						<input id="email" type="email" name="email" />
-					</div>
+					<TextInput
+						id="email"
+						name="email"
+						label="Email"
+						autoComplete="email"
+						inputMode="email"
+						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.email)}
+						validationMessage={fieldErrors?.email}
+					/>
 				</fieldset>
 
 				<fieldset>
@@ -109,38 +167,46 @@ export default function Registration() {
 						<label htmlFor="non-nrcpd">Non-NRCPD</label>
 					</div>
 
-					<div>
-						<label htmlFor="registration-organisation">
-							Registration organisation
-						</label>
-						<input
-							id="registration-organisation"
-							type="text"
-							name="registrationOrganisation"
-						/>
-					</div>
+					<TextInput
+						id="registration-organisation"
+						name="registrationOrganisation"
+						label="Registration organisation"
+						autoComplete="text"
+						inputMode="text"
+						isRequired={true}
+						isInvalid={Boolean(
+							fieldErrors?.registrationOrganisation
+						)}
+						validationMessage={
+							fieldErrors?.registrationOrganisation
+						}
+					/>
 
-					<div>
-						<label htmlFor="registration-number">
-							Registration number
-						</label>
-						<input
-							id="registration-number"
-							type="text"
-							name="registrationNumber"
-						/>
-					</div>
+					<TextInput
+						id="registration-number"
+						name="registrationNumber"
+						label="Registration number"
+						autoComplete="text"
+						inputMode="text"
+						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.registrationNumber)}
+						validationMessage={fieldErrors?.registrationNumber}
+					/>
 				</fieldset>
 
 				<fieldset>
 					<legend>Password</legend>
 
-					<div>
-						<label htmlFor="password">
-							Create a great password
-						</label>
-						<input id="password" type="password" name="password" />
-					</div>
+					<TextInput
+						id="password"
+						name="password"
+						label="Create a great password"
+						autoComplete="password"
+						inputMode="text"
+						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.password)}
+						validationMessage={fieldErrors?.password}
+					/>
 				</fieldset>
 
 				<fieldset>
@@ -175,7 +241,9 @@ export default function Registration() {
 					</div>
 				</fieldset>
 
-				<button type="submit">Join</button>
+				<Button type="submit" variant="primary">
+					<ButtonContent.Text>Register</ButtonContent.Text>
+				</Button>
 			</Form>
 		</>
 	);

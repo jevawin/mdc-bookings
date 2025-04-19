@@ -5,7 +5,7 @@ import { mockTextInputData } from './text-input.mock';
 import { TextInput as TextInputComponent } from './text-input.tsx';
 
 const meta: Meta<typeof TextInputComponent> = {
-	title: '01-atoms/Text input',
+	title: '02-molecules/Text input',
 	component: TextInputComponent,
 	tags: ['autodocs'],
 	argTypes: {

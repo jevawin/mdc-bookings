@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { Icon } from '../icon/icon.tsx';
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './text-input.module.css';
 
@@ -34,7 +35,9 @@ export const TextInput: React.FC<TTextInput> = ({
 	return (
 		<div className={clsx(styles.field, className)} data-e2e-id="text-input">
 			<label className={styles.label} htmlFor={id}>
-				{labelText}
+				<Text size="200" weight="200" role="presentation">
+					{labelText}
+				</Text>
 			</label>
 
 			<div className={styles.inputWrapper}>
@@ -54,18 +57,20 @@ export const TextInput: React.FC<TTextInput> = ({
 			</div>
 
 			{showValidationMessage ? (
-				<span
+				<Text
+					size="100"
+					weight="100"
 					id={validationMessageId}
 					className={styles.validationMessage}
 				>
-					<Icon name="warning" />
+					<Icon name="warning" size={22} />
 
 					<span className="srOnly" role="presentation">
 						Error:{' '}
 					</span>
 
 					{validationMessage}
-				</span>
+				</Text>
 			) : null}
 		</div>
 	);

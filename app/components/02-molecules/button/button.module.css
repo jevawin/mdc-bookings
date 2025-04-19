@@ -29,6 +29,13 @@
 	}
 }
 
+.primary {
+	--btn-fg-color: #fff;
+	--btn-bg-color: var(--color-core-brand);
+	--btn-bg-color-hover: color-mix(in srgb, var(--btn-bg-color), #000 10%);
+	--btn-outline-color: var(--color-core-brand);
+}
+
 .apply {
 	--btn-fg-color: #fff;
 	--btn-bg-color: var(--color-core-positive);
