@@ -9,6 +9,9 @@
 	/* Spacing */
 	--base-spacing: 8px;
 	--container-max: 124.8rem;
+
+	/* Styling */
+	--border-radius: 0.6rem;
 }
 
 /* Box sizing rules */
@@ -55,6 +58,7 @@ fieldset {
 	background-color: transparent;
 	border: 0;
 	border-radius: 0;
+	font-family: var(--font-family-primary, sans-serif);
 	padding: 0;
 }
 

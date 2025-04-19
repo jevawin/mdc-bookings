@@ -1,0 +1,22 @@
+.base {
+	color: white;
+	border-radius: var(--border-radius);
+	background-color: var(--btn-bg-color);
+	box-shadow: 0rem 0.5rem 1.5rem -1rem rgba(0, 0, 0, 0.5);
+	padding: 0.9rem 1.8rem;
+	font-size: 1.8rem;
+	font-variation-settings: 'wght' 500;
+	transition: box-shadow 0.1s ease-in-out;
+}
+
+.apply {
+	--btn-bg-color: #228b22;
+}
+
+.revoke {
+	--btn-bg-color: #c60200;
+}
+
+:active {
+	box-shadow: none;
+}
