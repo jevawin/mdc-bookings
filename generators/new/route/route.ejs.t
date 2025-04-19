@@ -1,5 +1,5 @@
 ---
-to: "app/routes/<%= name %>.tsx"
+to: "app/routes/<%= h.changeCase.paramCase(name) %>.tsx"
 ---
 import type { Route } from "./+types/<%= h.changeCase.paramCase(name) %>";
 
