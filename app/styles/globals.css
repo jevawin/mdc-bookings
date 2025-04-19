@@ -1,6 +1,6 @@
 :root {
 	/* Typography */
-	--font-family-primary: 'Avenir';
+	--font-family-primary: 'Avenir Next Variable';
 
 	/* Colors */
 	--color-core-background: #fff;
@@ -8,14 +8,13 @@
 
 	/* Spacing */
 	--base-spacing: 8px;
-
 	--container-max: 124.8rem;
 }
 
 /* Box sizing rules */
 *,
-*::before,
-*::after {
+*:before,
+*:after {
 	box-sizing: border-box;
 }
 

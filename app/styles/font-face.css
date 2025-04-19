@@ -1,0 +1,7 @@
+@font-face {
+	font-display: swap;
+	font-family: 'Avenir Next Variable';
+	font-weight: 400;
+	src: url('/assets/fonts/avenir-next-variable.woff2')
+		format('woff2-variations');
+}

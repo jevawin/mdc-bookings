@@ -10,6 +10,7 @@ import {
 import type { Route } from './+types/root';
 
 import styles from './styles/globals.css?url';
+import fontFace from './styles/font-face.css?url';
 
 export const links: Route.LinksFunction = () => [
 	{
@@ -17,6 +18,19 @@ export const links: Route.LinksFunction = () => [
 		href: styles,
 		as: 'style',
 	},
+	{
+		rel: 'preload',
+		href: fontFace,
+		as: 'style',
+	},
+	{
+		rel: 'preload',
+		href: '/assets/fonts/avenir-next-variable.woff2',
+		as: 'font',
+		type: 'font/woff2',
+		crossOrigin: 'anonymous',
+	},
+	{ rel: 'stylesheet', href: fontFace },
 	{ rel: 'stylesheet', href: styles },
 ];
 
