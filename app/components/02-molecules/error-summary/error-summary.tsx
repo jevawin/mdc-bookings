@@ -1,14 +1,10 @@
+import type { TFieldError } from '~/routes/registration.tsx';
+
 import clsx from 'clsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './error-summary.module.css';
-
-type TFieldError = {
-	name: string;
-	id: string;
-	message: string;
-};
 
 export type TErrorSummary = {
 	title: string;

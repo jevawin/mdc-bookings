@@ -8,18 +8,18 @@ import { convertFormDataToObject } from '~/utils/convert-form-data-to-object';
 import { RegistrationForm } from '~/components/04-layouts/registration-form/registration-form';
 import { RegistrationFormTemplate } from '~/components/05-templates/registration-form-template/registration-form-template';
 
-type TFormSubmissionError = {
+export type TFormSubmissionError = {
 	title: string;
 	bodyText: string;
 };
 
-type TFieldError = {
+export type TFieldError = {
 	name: string;
 	id: string;
 	message: string;
 };
 
-type TFormFieldErrors = Record<string, TFieldError>;
+export type TFormFieldErrors = Record<string, TFieldError>;
 
 type TFormActionError = Promise<{
 	error?: TFormSubmissionError;
@@ -27,7 +27,7 @@ type TFormActionError = Promise<{
 	fieldErrorsList?: TFieldError[];
 }>;
 
-const getErrorReturn = () => ({
+const defaultFormError = {
 	fieldErrors: {},
 	fieldErrorsList: [],
 	error: {
@@ -35,12 +35,12 @@ const getErrorReturn = () => ({
 		bodyText:
 			"Don't worry, your information is still here. Please click 'Register your interest' again in a moment.",
 	},
-});
+};
 
 export const action = async ({
 	request,
 }: Route.ActionArgs): TFormActionError => {
-	if (request.method !== 'POST') return getErrorReturn();
+	if (request.method !== 'POST') return defaultFormError;
 
 	try {
 		const formData = await request.formData();
@@ -74,7 +74,7 @@ export const action = async ({
 			error: undefined,
 		};
 	} catch (error) {
-		return getErrorReturn();
+		return defaultFormError;
 	}
 };
 

@@ -13,8 +13,12 @@ export type TTextInput = {
 	isRequired?: boolean;
 	isInvalid?: boolean;
 	validationMessage?: string;
+	ref?: React.Ref<HTMLDivElement>;
 	className?: string;
-} & Pick<React.ComponentProps<'input'>, 'autoComplete' | 'name' | 'inputMode'>;
+} & Pick<
+	React.ComponentProps<'input'>,
+	'autoComplete' | 'name' | 'inputMode' | 'hidden'
+>;
 
 export const TextInput: React.FC<TTextInput> = ({
 	id,
@@ -26,6 +30,8 @@ export const TextInput: React.FC<TTextInput> = ({
 	isRequired = true,
 	isInvalid = false,
 	validationMessage,
+	hidden,
+	ref,
 	className,
 }) => {
 	const labelText = !isRequired ? `${label} (optional)` : label;
@@ -33,7 +39,12 @@ export const TextInput: React.FC<TTextInput> = ({
 	const showValidationMessage = isInvalid && validationMessage;
 
 	return (
-		<div className={clsx(styles.field, className)} data-e2e-id="text-input">
+		<div
+			className={clsx(styles.field, className)}
+			hidden={hidden}
+			ref={ref}
+			data-e2e-id="text-input"
+		>
 			<label className={styles.label} htmlFor={id}>
 				<Text size="100" weight="200" role="presentation">
 					{labelText}

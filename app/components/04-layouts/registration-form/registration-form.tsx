@@ -1,20 +1,15 @@
-import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
-import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
-import { InlineCheckbox } from '~/components/02-molecules/inline-checkbox/inline-checkbox.tsx';
+import type { TFormFieldErrors } from '~/routes/registration.tsx';
+
+import { useRef } from 'react';
 import {
 	Button,
 	ButtonContent,
 } from '~/components/02-molecules/button/button.tsx';
+import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
+import { InlineCheckbox } from '~/components/02-molecules/inline-checkbox/inline-checkbox.tsx';
+import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 import styles from './registration-form.module.css';
-
-type TFieldError = {
-	name: string;
-	id: string;
-	message: string;
-};
-
-type TFormFieldErrors = Record<string, TFieldError>;
 
 export type TRegistrationForm = {
 	fieldErrors?: TFormFieldErrors;
@@ -23,6 +18,22 @@ export type TRegistrationForm = {
 export const RegistrationForm: React.FC<TRegistrationForm> = ({
 	fieldErrors,
 }) => {
+	const registrationOrganisationRef = useRef<HTMLDivElement>(null);
+
+	const handleNonNrcpdClick = (e: React.MouseEvent<HTMLInputElement>) => {
+		const currentTarget = e.currentTarget;
+		const isChecked = currentTarget.checked;
+		const regOrganisation = registrationOrganisationRef.current;
+
+		if (isChecked && regOrganisation) {
+			regOrganisation.hidden = false;
+		}
+
+		if (!isChecked && regOrganisation) {
+			regOrganisation.hidden = true;
+		}
+	};
+
 	return (
 		<div className={styles.container}>
 			<Fieldset id="your-details" title="Your details">
@@ -60,9 +71,11 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 					name="nonNrcpd"
 					label="Non-NRCPD"
 					value="yes"
+					onClick={handleNonNrcpdClick}
 				/>
 
 				<TextInput
+					hidden={true}
 					id="registration-organisation"
 					name="registrationOrganisation"
 					label="Registration organisation"
@@ -70,6 +83,7 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 					inputMode="text"
 					isRequired={true}
 					isInvalid={Boolean(fieldErrors?.registrationOrganisation)}
+					ref={registrationOrganisationRef}
 					validationMessage={
 						fieldErrors?.registrationOrganisation?.message
 					}

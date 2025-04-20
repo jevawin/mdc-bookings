@@ -1,7 +1,10 @@
 .field {
-	display: flex;
 	flex-direction: column;
 	gap: var(--base-spacing);
+
+	&:not([hidden]) {
+		display: flex;
+	}
 }
 
 .label {

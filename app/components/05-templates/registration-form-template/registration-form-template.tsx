@@ -1,23 +1,16 @@
+import type {
+	TFieldError,
+	TFormFieldErrors,
+	TFormSubmissionError,
+} from '~/routes/registration.tsx';
+
 import { useEffect, useRef } from 'react';
 import { pluraliseText } from '~/utils/pluralise-text.ts';
 
+import { Text } from '~/components/01-atoms/text/text.tsx';
 import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
 
 import styles from './registration-form-template.module.css';
-import { Text } from '~/components/01-atoms/text/text';
-
-type TFormSubmissionError = {
-	title: string;
-	bodyText: string;
-};
-
-type TFieldError = {
-	name: string;
-	id: string;
-	message: string;
-};
-
-type TFormFieldErrors = Record<string, TFieldError>;
 
 export type TRegistrationFormTemplate = React.PropsWithChildren<{
 	formError?: TFormSubmissionError;
