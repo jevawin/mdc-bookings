@@ -12,6 +12,10 @@
 	gap: calc(var(--base-spacing) * 3);
 	grid-template-columns: 1fr auto;
 	padding: 2rem;
+
+	@media (width >= 650px) {
+		grid-template-rows: 1fr 1.5fr 1fr auto;
+	}
 }
 
 .dataFieldGroup {

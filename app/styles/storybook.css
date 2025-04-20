@@ -22,3 +22,7 @@
 .jobCard {
 	inline-size: 40rem;
 } 
+
+.jobGrid {
+	padding: calc(var(--base-spacing) * 2);
+}

@@ -1,0 +1,7 @@
+.base {
+	align-items: start;
+	color: inherit;
+	display: grid;
+	gap: calc(var(--base-spacing) * 3);
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 31rem), 1fr));
+}

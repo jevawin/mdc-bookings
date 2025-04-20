@@ -12,7 +12,7 @@ export type TJobCard = {
 	dateTime: string;
 	location: string;
 	description: string;
-	buttonVariant: TButtonVariant;
+	buttonVariant?: TButtonVariant;
 	className?: string;
 };
 
