@@ -142,7 +142,7 @@ export default function Registration() {
 						inputMode="text"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.name)}
-						validationMessage={fieldErrors?.name.message}
+						validationMessage={fieldErrors?.name?.message}
 					/>
 
 					<TextInput
@@ -154,7 +154,7 @@ export default function Registration() {
 						inputMode="email"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.email)}
-						validationMessage={fieldErrors?.email.message}
+						validationMessage={fieldErrors?.email?.message}
 					/>
 				</fieldset>
 
@@ -208,7 +208,7 @@ export default function Registration() {
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.registrationNumber)}
 						validationMessage={
-							fieldErrors?.registrationNumber.message
+							fieldErrors?.registrationNumber?.message
 						}
 					/>
 				</fieldset>
@@ -225,7 +225,7 @@ export default function Registration() {
 						inputMode="text"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.password)}
-						validationMessage={fieldErrors?.password.message}
+						validationMessage={fieldErrors?.password?.message}
 					/>
 				</fieldset>
 
