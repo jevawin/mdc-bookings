@@ -4,19 +4,19 @@ export const mockMenuData: TMenu = {
 	items: [
 		{
 			icon: 'cross',
-			label: 'Home',
-			href: '/',
+			label: 'Open',
+			href: '#',
 			selected: true,
 		},
 		{
 			icon: 'pencil',
-			label: 'Search',
-			href: '/search',
+			label: 'Applied',
+			href: '#',
 		},
 		{
 			icon: 'warning',
-			label: 'Settings',
-			href: '/settings',
+			label: 'Approved',
+			href: '#',
 		},
 	],
 };
