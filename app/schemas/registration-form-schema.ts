@@ -39,3 +39,7 @@ export const registrationFormSchema = z
 			return z.NEVER;
 		}
 	});
+
+export const userSchema = z.object({
+	id: z.string(),
+});
