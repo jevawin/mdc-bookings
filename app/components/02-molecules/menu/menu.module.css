@@ -1,0 +1,41 @@
+.base {
+	color: inherit;
+}
+
+.list {
+	display: flex;
+	flex-direction: row;
+	gap: calc(var(--base-spacing) * 3);
+}
+
+.listItem {
+	padding-block-end: calc(var(--base-spacing) * 0.5);
+}
+
+.listItem.selected {
+	border-block-end: calc(var(--base-spacing) * 0.5) solid
+		var(--color-core-brand);
+
+	& .link {
+		color: var(--color-core-brand);
+	}
+}
+
+.link {
+	align-items: center;
+	border-radius: var(--border-radius);
+	color: var(--color-core-foreground);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 0.5);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--color-core-brand);
+	}
+
+	&:focus-visible {
+		outline: 0.2rem solid var(--color-core-brand);
+		outline-offset: 0.2rem;
+	}
+}

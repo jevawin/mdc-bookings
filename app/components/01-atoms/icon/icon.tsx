@@ -1,4 +1,4 @@
-type TIconName = 'cross' | 'pencil' | 'warning' | 'chevron-down';
+export type TIconName = 'cross' | 'pencil' | 'warning' | 'chevron-down';
 
 export type TIcon = {
 	name: TIconName;
