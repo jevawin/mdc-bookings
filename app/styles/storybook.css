@@ -2,6 +2,19 @@
 	max-inline-size: 75rem;
 }
 
+.form {
+	display: grid;
+	gap: calc(var(--base-spacing) * 4);
+	margin-inline: auto;
+	max-inline-size: 60rem;
+	justify-items: start;
+	padding-block: calc(var(--base-spacing) * 4);
+}
+
+.fieldset {
+	max-inline-size: 65rem;
+}
+
 .field {
 	min-inline-size: 30rem;
 }

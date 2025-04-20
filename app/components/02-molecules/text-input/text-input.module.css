@@ -19,6 +19,7 @@
 	color: var(--color-core-foreground);
 	font-family: var(--font-family-primary, sans-serif);
 	font-size: 1.6rem;
+	scroll-margin-top: calc(var(--base-spacing) * 4);
 	appearance: none;
 
 	&[aria-invalid='true'] {
@@ -32,7 +33,6 @@
 }
 
 .validationMessage {
-	position: relative;
 	display: inline-flex;
 	gap: calc(var(--base-spacing) / 2);
 	align-items: center;

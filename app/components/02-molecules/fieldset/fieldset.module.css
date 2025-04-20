@@ -1,0 +1,18 @@
+.fieldset {
+	display: grid;
+	gap: calc(var(--base-spacing) * 2);
+	inline-size: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.header {
+	display: grid;
+	gap: calc(var(--base-spacing) / 1.5);
+}
+
+.fields {
+	display: grid;
+	gap: calc(var(--base-spacing) * 3);
+}

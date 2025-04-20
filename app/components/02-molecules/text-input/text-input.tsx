@@ -35,7 +35,7 @@ export const TextInput: React.FC<TTextInput> = ({
 	return (
 		<div className={clsx(styles.field, className)} data-e2e-id="text-input">
 			<label className={styles.label} htmlFor={id}>
-				<Text size="200" weight="200" role="presentation">
+				<Text size="100" weight="200" role="presentation">
 					{labelText}
 				</Text>
 			</label>
