@@ -9,7 +9,7 @@ const getPluralText = (noun: string, count: number): string => {
 export const pluraliseText = (
 	count: number,
 	noun: string,
-	withoutCount = false
+	withoutCount = false,
 ): string => {
 	const pluralText = getPluralText(noun, count);
 

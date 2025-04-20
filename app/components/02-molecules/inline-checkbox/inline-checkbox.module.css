@@ -5,18 +5,18 @@
 }
 
 .inputWrapper {
+	align-items: center;
 	display: flex;
 	gap: calc(var(--base-spacing) * 1.5);
-	align-items: center;
 }
 
 .input {
-	inline-size: 2rem;
-	block-size: 2rem;
-	margin: 0;
-	border-radius: var(--border-radius);
-	border: 1px solid var(--color-core-foreground);
 	accent-color: var(--color-core-foreground);
+	block-size: 2rem;
+	border: 1px solid var(--color-core-foreground);
+	border-radius: var(--border-radius);
+	inline-size: 2rem;
+	margin: 0;
 
 	&:focus-visible {
 		outline: 2px solid var(--color-core-foreground);
@@ -25,8 +25,8 @@
 }
 
 .validationMessage {
-	display: inline-flex;
-	gap: calc(var(--base-spacing) / 2);
 	align-items: center;
 	color: var(--color-core-negative);
+	display: inline-flex;
+	gap: calc(var(--base-spacing) / 2);
 }

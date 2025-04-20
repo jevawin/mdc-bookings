@@ -30,7 +30,7 @@ export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
 	const validationMessageId = `${id.replace(' ', '-')}-message`;
 
 	const handleInputClick = (
-		e: React.MouseEvent<HTMLInputElement, MouseEvent>
+		e: React.MouseEvent<HTMLInputElement, MouseEvent>,
 	): void => {
 		if (onClick) {
 			onClick(e);

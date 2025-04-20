@@ -1,13 +1,13 @@
 .summary {
 	--color-error: var(--color-core-negative);
 
-	display: grid;
-	grid-template-columns: 1fr auto;
-	gap: calc(var(--base-spacing) * 2);
-	padding: calc(var(--base-spacing) * 2);
-	border-radius: calc(var(--border-radius) * 2);
 	background-color: color-mix(in srgb, var(--color-error), #fff 80%);
+	border-radius: calc(var(--border-radius) * 2);
 	color: var(--color-text);
+	display: grid;
+	gap: calc(var(--base-spacing) * 2);
+	grid-template-columns: 1fr auto;
+	padding: calc(var(--base-spacing) * 2);
 
 	&:focus {
 		outline: 3px solid var(--color-error);

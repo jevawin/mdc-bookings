@@ -5,9 +5,9 @@
 .form {
 	display: grid;
 	gap: calc(var(--base-spacing) * 4);
+	justify-items: start;
 	margin-inline: auto;
 	max-inline-size: 60rem;
-	justify-items: start;
 	padding-block: calc(var(--base-spacing) * 4);
 }
 

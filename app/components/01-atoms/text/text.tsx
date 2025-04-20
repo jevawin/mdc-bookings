@@ -47,7 +47,7 @@ export const Text: React.FC<TTextProps> = ({
 			styles.text,
 			size ? styles[`size${size}`] : undefined,
 			weight ? styles[`weight${weight}`] : undefined,
-			className
+			className,
 		)}
 		{...rest}
 	>
