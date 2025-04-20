@@ -6,10 +6,12 @@ import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './button.module.css';
 
+export type TButtonVariant = 'primary' | 'apply' | 'revoke';
+
 export type TButton = {
 	children: React.ReactNode;
 	type?: 'button' | 'reset' | 'submit';
-	variant?: 'primary' | 'apply' | 'revoke';
+	variant?: TButtonVariant;
 };
 
 export const Button: React.FC<TButton> = ({
