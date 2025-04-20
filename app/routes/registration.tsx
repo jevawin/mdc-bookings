@@ -12,27 +12,30 @@ import {
 	Button,
 	ButtonContent,
 } from '~/components/02-molecules/button/button.tsx';
+import { camelToKebabCase } from '~/utils/camel-to-kebab-case.ts';
 
 type TFormSubmissionError = {
 	title: string;
 	bodyText: string;
 };
 
-type TFormFieldErrors = {
-	name?: string;
-	email?: string;
-	password?: string;
-	registrationNumber?: string;
-	registrationOrganisation?: string;
+type TFieldError = {
+	name: string;
+	id: string;
+	message: string;
 };
+
+type TFormFieldErrors = Record<string, TFieldError>;
 
 type TFormActionError = Promise<{
 	error?: TFormSubmissionError;
 	fieldErrors?: TFormFieldErrors;
+	fieldErrorsList?: TFieldError[];
 }>;
 
 const getErrorReturn = () => ({
 	fieldErrors: {},
+	fieldErrorsList: [],
 	error: {
 		title: "We're having a bit of trouble processing your request.",
 		bodyText:
@@ -48,21 +51,32 @@ export const action = async ({
 	try {
 		const formData = await request.formData();
 		const formObject = convertFormDataToObject(formData);
-		const fieldErrors: Record<string, string | undefined> = {};
+		const fieldErrors: TFormFieldErrors = {};
+		const fieldErrorsList: TFieldError[] = [];
 		const result = registrationFormSchema.safeParse(formObject);
 
 		if (!result.success) {
 			for (const error of result.error.errors) {
-				fieldErrors[error.path[0]] = error.message;
+				const name = String(error.path[0]);
+				const errorObj = {
+					name,
+					id: camelToKebabCase(name),
+					message: error.message,
+				};
+
+				fieldErrors[name] = errorObj;
+				fieldErrorsList.push(errorObj);
 			}
 
 			return {
 				fieldErrors,
+				fieldErrorsList,
 			};
 		}
 
 		return {
 			fieldErrors: {},
+			fieldErrorsList: [],
 			error: undefined,
 		};
 	} catch (error) {
@@ -79,6 +93,7 @@ export default function Registration() {
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
 
 	const fieldErrors = actionData?.fieldErrors;
+	const fieldErrorsList = actionData?.fieldErrorsList;
 	const formError = actionData?.error;
 
 	const fieldErrorsCount = Object.keys(fieldErrors ?? {}).length;
@@ -89,7 +104,7 @@ export default function Registration() {
 
 	const altErrorTitle =
 		'We need some more information to complete your registration.';
-	const altErrorBodyText = `Failed to submit because ${pluralCount} ${verb} invalid.`;
+	const altErrorBodyText = `Failed to submit because ${pluralCount} ${verb} invalid:`;
 
 	const errorTitle = formError?.title ?? altErrorTitle;
 	const bodyText = formError?.bodyText ?? altErrorBodyText;
@@ -110,6 +125,7 @@ export default function Registration() {
 				<ErrorSummary
 					title={errorTitle}
 					bodyText={bodyText}
+					fieldErrors={fieldErrorsList}
 					errorSummaryRef={errorSummaryRef}
 				/>
 			) : null}
@@ -126,7 +142,7 @@ export default function Registration() {
 						inputMode="text"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.name)}
-						validationMessage={fieldErrors?.name}
+						validationMessage={fieldErrors?.name.message}
 					/>
 
 					<TextInput
@@ -138,7 +154,7 @@ export default function Registration() {
 						inputMode="email"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.email)}
-						validationMessage={fieldErrors?.email}
+						validationMessage={fieldErrors?.email.message}
 					/>
 				</fieldset>
 
@@ -179,7 +195,7 @@ export default function Registration() {
 							fieldErrors?.registrationOrganisation
 						)}
 						validationMessage={
-							fieldErrors?.registrationOrganisation
+							fieldErrors?.registrationOrganisation?.message
 						}
 					/>
 
@@ -191,7 +207,9 @@ export default function Registration() {
 						inputMode="text"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.registrationNumber)}
-						validationMessage={fieldErrors?.registrationNumber}
+						validationMessage={
+							fieldErrors?.registrationNumber.message
+						}
 					/>
 				</fieldset>
 
@@ -207,7 +225,7 @@ export default function Registration() {
 						inputMode="text"
 						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.password)}
-						validationMessage={fieldErrors?.password}
+						validationMessage={fieldErrors?.password.message}
 					/>
 				</fieldset>
 
