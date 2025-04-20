@@ -1,4 +1,4 @@
-import type { TFormFieldErrors } from '~/routes/registration.tsx';
+import type { TFormFieldErrors } from '~/routes/registration/home';
 
 import { useRef } from 'react';
 import {
@@ -12,10 +12,12 @@ import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 import styles from './registration-form.module.css';
 
 export type TRegistrationForm = {
+	isSubmitting?: boolean;
 	fieldErrors?: TFormFieldErrors;
 };
 
 export const RegistrationForm: React.FC<TRegistrationForm> = ({
+	isSubmitting = false,
 	fieldErrors,
 }) => {
 	const registrationOrganisationRef = useRef<HTMLDivElement>(null);
@@ -135,7 +137,11 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 				/>
 			</Fieldset>
 
-			<Button type="submit" variant="primary">
+			<Button
+				type="submit"
+				variant="primary"
+				aria-disabled={isSubmitting ? 'true' : undefined}
+			>
 				<ButtonContent.Text>Register</ButtonContent.Text>
 			</Button>
 		</div>

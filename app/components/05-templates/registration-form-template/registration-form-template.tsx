@@ -2,7 +2,7 @@ import type {
 	TFieldError,
 	TFormFieldErrors,
 	TFormSubmissionError,
-} from '~/routes/registration.tsx';
+} from '~/routes/registration/home';
 
 import { useEffect, useRef } from 'react';
 import { pluraliseText } from '~/utils/pluralise-text.ts';

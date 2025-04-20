@@ -10,19 +10,22 @@ export type TButtonVariant = 'primary' | 'apply' | 'revoke';
 
 export type TButton = {
 	children: React.ReactNode;
-	type?: 'button' | 'reset' | 'submit';
 	variant?: TButtonVariant;
 };
 
-export const Button: React.FC<TButton> = ({
+type TButtonProps = TButton & React.ComponentProps<'button'>;
+
+export const Button: React.FC<TButtonProps> = ({
 	children,
 	type = 'button',
 	variant = 'primary',
+	...rest
 }) => (
 	<button
 		type={type}
 		className={clsx(styles.base, styles[variant])}
 		data-e2e-id="button"
+		{...rest}
 	>
 		{children}
 	</button>

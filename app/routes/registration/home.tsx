@@ -1,8 +1,8 @@
-import type { Route } from './+types/registration';
+import type { Route } from './+types/home';
 import type { ZodIssue } from 'zod';
 import type { Env } from '~/global-types.ts';
 
-import { useFetcher } from 'react-router';
+import { redirect, useFetcher } from 'react-router';
 import { registrationFormSchema } from '~/schemas/registration-form-schema';
 import { createAirtableRecord } from '~/services/airtable.ts';
 import { createNewUser } from '~/services/supabase.ts';
@@ -43,7 +43,7 @@ type TFormError = {
 	fieldErrorsList?: TFieldError[];
 };
 
-type TRegistrationAction = Promise<TFormError>;
+type TRegistrationAction = Promise<Response | TFormError>;
 
 type TValidateFormData = {
 	result?: TFormDataResult;
@@ -60,6 +60,7 @@ type TSendUserToAirtable = {
 const defaultFormError = {
 	fieldErrors: {},
 	fieldErrorsList: [],
+	success: false,
 	error: {
 		title: "We're having a bit of trouble processing your request.",
 		bodyText:
@@ -86,6 +87,7 @@ const buildFieldErrors = (errors: ZodIssue[]): TValidateFormData => {
 	return {
 		fieldErrors,
 		fieldErrorsList,
+		success: false,
 	};
 };
 
@@ -167,12 +169,16 @@ const sendUserToAirtable = async (
 	} catch (error) {
 		console.error('Error sending user to Airtable:', error);
 
-		return {
-			success: false,
-			...defaultFormError,
-		};
+		return defaultFormError;
 	}
 };
+
+export function meta({}: Route.MetaArgs) {
+	return [
+		{ title: 'Registration' },
+		{ name: 'description', content: 'Welcome to React Router!' },
+	];
+}
 
 export const action = async ({
 	request,
@@ -180,11 +186,12 @@ export const action = async ({
 }: Route.ActionArgs): TRegistrationAction => {
 	if (request.method !== 'POST') return defaultFormError;
 
+	const env = context.cloudflare.env;
+
 	try {
-		const env = context.cloudflare.env;
 		const formData = await validateFormData(request);
 
-		if (!formData.result) return defaultFormError;
+		if (!formData.result) return formData;
 
 		const userData = await registerUser(formData.result, env);
 
@@ -196,14 +203,11 @@ export const action = async ({
 			env,
 		);
 
-		return {
-			success: airtableData.success,
-			fieldErrors: {},
-			fieldErrorsList: [],
-			error: undefined,
-		};
+		if (!airtableData.success) return defaultFormError;
+
+		return redirect('/registration/confirmation');
 	} catch (error) {
-		console.error('Error in action:', error);
+		console.error('Error in registration action:', error);
 
 		return defaultFormError;
 	}
@@ -214,13 +218,7 @@ export default function Registration() {
 	const fieldErrors = fetcher.data?.fieldErrors;
 	const fieldErrorsList = fetcher.data?.fieldErrorsList;
 	const formError = fetcher.data?.error;
-
-	if (fetcher.data?.success) {
-		console.log(
-			'Registration - User registered successfully:',
-			fetcher.data.success,
-		);
-	}
+	const isSubmitting = fetcher.state === 'submitting';
 
 	return (
 		<RegistrationFormTemplate
@@ -229,7 +227,10 @@ export default function Registration() {
 			fieldErrorsList={fieldErrorsList}
 		>
 			<fetcher.Form name="registration" method="POST">
-				<RegistrationForm fieldErrors={fieldErrors} />
+				<RegistrationForm
+					fieldErrors={fieldErrors}
+					isSubmitting={isSubmitting}
+				/>
 			</fetcher.Form>
 		</RegistrationFormTemplate>
 	);

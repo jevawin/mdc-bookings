@@ -8,6 +8,10 @@
 	gap: var(--base-spacing);
 	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2);
 
+	&[aria-disabled='true'] {
+		pointer-events: none;
+	}
+
 	&:active {
 		box-shadow: none;
 	}

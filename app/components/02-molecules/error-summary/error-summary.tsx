@@ -1,4 +1,4 @@
-import type { TFieldError } from '~/routes/registration.tsx';
+import type { TFieldError } from '~/routes/registration/home';
 
 import clsx from 'clsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';

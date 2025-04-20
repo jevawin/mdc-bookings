@@ -7,7 +7,7 @@
 	background-color: var(--color-core-background);
 	border-radius: calc(var(--border-radius) * 2);
 	display: grid;
-	gap: calc(var(--base-spacing) * 1.5);
+	gap: calc(var(--base-spacing) * 2);
 	margin-inline: auto;
 	max-inline-size: 45rem;
 	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2.5);
