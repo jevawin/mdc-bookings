@@ -11,7 +11,7 @@ export const JobFieldGroup: React.FC<TJobFieldGroup> = ({
 	content,
 }) => {
 	return (
-		<div data-id="id" className={styles.dataFieldGroup}>
+		<div className={styles.dataFieldGroup}>
 			<Text size="100" weight="300" tag="h2" className={styles.data}>
 				{header}
 			</Text>

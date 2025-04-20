@@ -2,6 +2,8 @@ import { Text } from '~/components/01-atoms/text/text';
 import styles from './job-card.module.css';
 import { Button, ButtonContent, type TButtonVariant } from '../button/button';
 import { JobFieldGroup } from './components/job-field-group';
+import { Icon } from '~/components/01-atoms/icon/icon';
+import clsx from 'clsx';
 
 export type TJobCard = {
 	id: string;
@@ -11,6 +13,7 @@ export type TJobCard = {
 	location: string;
 	description: string;
 	buttonVariant: TButtonVariant;
+	className?: string;
 };
 
 export const JobCard: React.FC<TJobCard> = ({
@@ -21,6 +24,7 @@ export const JobCard: React.FC<TJobCard> = ({
 	location,
 	description,
 	buttonVariant = 'apply',
+	className,
 }) => {
 	// date time sent as ISO string
 	const dateTimeD = new Date(dateTime);
@@ -39,7 +43,7 @@ export const JobCard: React.FC<TJobCard> = ({
 	});
 
 	return (
-		<div className={styles.base} data-e2e-id="jobs-table">
+		<div className={clsx(styles.base, className)} data-e2e-id="jobs-table">
 			<JobFieldGroup header="Job #" content={id} />
 			<Button variant={buttonVariant}>
 				<ButtonContent.Icon name="pencil" />
@@ -49,13 +53,23 @@ export const JobCard: React.FC<TJobCard> = ({
 			<JobFieldGroup header="Specialism" content={specialism} />
 			<JobFieldGroup header="Date" content={date} />
 			<JobFieldGroup header="Time" content={time} />
-			<div data-id="more-details" className={styles.dataFullWidthSection}>
-				<Text size="100" weight="300" tag="h2" className={styles.data}>
-					More details V
-				</Text>
-				<JobFieldGroup header="Location" content={location} />
-				<JobFieldGroup header="Description" content={description} />
-			</div>
+			<details className={styles.dataFullWidthSection}>
+				<summary>
+					<Text
+						size="100"
+						weight="300"
+						tag="h2"
+						className={styles.data}
+					>
+						More details
+					</Text>
+					<Icon name="chevron-down" />
+				</summary>
+				<div className={styles.detailsContent}>
+					<JobFieldGroup header="Location" content={location} />
+					<JobFieldGroup header="Description" content={description} />
+				</div>
+			</details>
 		</div>
 	);
 };

@@ -18,3 +18,7 @@
 .field {
 	min-inline-size: 30rem;
 }
+
+.jobCard {
+	inline-size: 40rem;
+} 
