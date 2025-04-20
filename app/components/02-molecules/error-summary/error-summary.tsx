@@ -60,10 +60,21 @@ export const ErrorSummary: React.FC<TErrorSummaryProps> = ({
 				</Text>
 
 				{fieldErrors.length > 0 ? (
-					<ul>
+					<ul className={styles.list}>
 						{fieldErrors.map((error) => (
-							<li key={error.id} className={styles.listItem}>
-								<a href={`#${error.id}`}>{error.message}</a>
+							<li key={error.id} className={styles.item}>
+								<a
+									href={`#${error.id}`}
+									className={styles.link}
+								>
+									<Text
+										size="100"
+										weight="100"
+										role="presentation"
+									>
+										{error.message}
+									</Text>
+								</a>
 							</li>
 						))}
 					</ul>
