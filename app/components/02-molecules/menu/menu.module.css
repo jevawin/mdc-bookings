@@ -1,5 +1,6 @@
 .base {
 	color: inherit;
+	position: relative;
 }
 
 .list {
