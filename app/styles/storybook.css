@@ -23,6 +23,6 @@
 	inline-size: 40rem;
 } 
 
-.jobGrid {
+.previewMode {
 	padding: calc(var(--base-spacing) * 2);
 }

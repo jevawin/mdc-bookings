@@ -18,6 +18,9 @@
 
 	/* Styling */
 	--border-radius: 0.4rem;
+
+	/* Animations */
+	--animation-duration: 0.15s;
 }
 
 /* Box sizing rules */
