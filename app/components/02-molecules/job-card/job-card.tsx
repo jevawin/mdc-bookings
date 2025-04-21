@@ -55,12 +55,7 @@ export const JobCard: React.FC<TJobCard> = ({
 			<JobFieldGroup header="Time" content={time} />
 			<details className={styles.dataFullWidthSection}>
 				<summary>
-					<Text
-						size="100"
-						weight="300"
-						tag="h2"
-						className={styles.data}
-					>
+					<Text size="100" weight="300" tag="h2">
 						More details
 					</Text>
 					<Icon name="chevron-down" />
