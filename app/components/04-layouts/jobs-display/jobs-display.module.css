@@ -1,0 +1,8 @@
+.base {
+	display: grid;
+	gap: calc(var(--base-spacing) * 2);
+
+	& .updatedTime {
+		position: relative;
+	}
+}
