@@ -1,0 +1,31 @@
+.base {
+	align-items: baseline;
+	color: var(--color-core-brand);
+	display: inline-flex;
+
+	& .linkButtonText {
+		border-block-end: 2px solid var(--color-core-brand);
+		transition: color var(--animation-duration) ease-in-out;
+	}
+
+	& .linkButtonIcon {
+		margin-inline-start: calc(var(--base-spacing) * 1);
+		transition: transform var(--animation-duration) ease-in-out;
+	}
+
+	&:hover {
+		color: color-mix(in srgb, var(--color-core-brand), #000 20%);
+
+		& .linkButtonText {
+			border-block-end-color: color-mix(
+				in srgb,
+				var(--color-core-brand),
+				#000 20%
+			);
+		}
+
+		& .linkButtonIcon {
+			transform: rotate(30deg);
+		}
+	}
+}
