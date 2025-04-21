@@ -13,19 +13,23 @@
 		transition: transform var(--animation-duration-short) ease-in-out;
 	}
 
-	&:hover {
-		color: color-mix(in srgb, var(--color-core-brand), #000 20%);
+	@media (hover: hover) {
+		&:hover {
+			color: color-mix(in srgb, var(--color-core-brand), #000 20%);
 
-		& .linkButtonText {
-			border-block-end-color: color-mix(
-				in srgb,
-				var(--color-core-brand),
-				#000 20%
-			);
-		}
+			& .linkButtonText {
+				border-block-end-color: color-mix(
+					in srgb,
+					var(--color-core-brand),
+					#000 20%
+				);
+			}
 
-		& .linkButtonIcon {
-			transform: rotate(30deg);
+			@media (prefers-reduced-motion: no-preference) {
+				& .linkButtonIcon {
+					transform: rotate(30deg);
+				}
+			}
 		}
 	}
 }
