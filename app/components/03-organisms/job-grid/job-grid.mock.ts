@@ -30,5 +30,5 @@ export const mockJobGridData: TJobGrid = {
 				"Persephone is mint. She's the life of the party and will make you dance like no one is watching. She's also a great cook and loves to make waffles for her friends. If you ever need a waffle buddy, Persephone is the one.",
 		},
 	],
-	className: 'jobGrid',
+	className: 'previewMode',
 };
