@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 type TMenuItem = {
 	icon: TIconName;
+	icon_size?: number;
 	label: string;
 	href: string;
 	selected?: boolean;
@@ -28,7 +29,7 @@ export const Menu: React.FC<TMenu> = ({ items }) => {
 						<Link to={item.href} className={styles.link}>
 							<Icon
 								name={item.icon}
-								size="40"
+								size={item.icon_size || 28}
 								className={styles.linkIcon}
 							/>
 							<Text

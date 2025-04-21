@@ -1,4 +1,11 @@
-export type TIconName = 'cross' | 'pencil' | 'warning' | 'chevron-down';
+export type TIconName =
+	| 'cross'
+	| 'pencil'
+	| 'warning'
+	| 'chevron-down'
+	| 'list'
+	| 'clipboard-check'
+	| 'calendar-plus';
 
 export type TIcon = {
 	name: TIconName;

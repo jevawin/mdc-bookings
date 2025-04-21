@@ -3,18 +3,18 @@ import type { TMenu } from './menu.tsx';
 export const mockMenuData: TMenu = {
 	items: [
 		{
-			icon: 'cross',
+			icon: 'list',
 			label: 'Open',
 			href: '#',
 			selected: true,
 		},
 		{
-			icon: 'pencil',
+			icon: 'clipboard-check',
 			label: 'Applied',
 			href: '#',
 		},
 		{
-			icon: 'warning',
+			icon: 'calendar-plus',
 			label: 'Approved',
 			href: '#',
 		},
