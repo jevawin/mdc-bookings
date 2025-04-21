@@ -22,14 +22,20 @@
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
-		transition:
-			box-shadow 0.1s ease-in-out,
-			background-color 0.1s ease-in-out;
-	}
+		transition: all var(--animation-duration-short) ease-in-out;
 
-	@media (hover: hover) {
-		&:hover {
-			background-color: var(--btn-bg-color-hover);
+		& .buttonIcon {
+			transition: transform var(--animation-duration-short) ease-in-out;
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: var(--btn-bg-color-hover);
+
+				& .buttonIcon {
+					transform: rotate(30deg);
+				}
+			}
 		}
 	}
 }

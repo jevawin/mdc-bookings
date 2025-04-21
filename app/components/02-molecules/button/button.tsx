@@ -32,7 +32,11 @@ export const Button: React.FC<TButtonProps> = ({
 );
 
 const ButtonIcon: React.FC<TIcon> = ({ name, className }) => (
-	<Icon name={name} size={20} className={clsx(styles.icon, className)} />
+	<Icon
+		name={name}
+		size={20}
+		className={clsx(styles.buttonIcon, className)}
+	/>
 );
 
 type TButtonText = {
