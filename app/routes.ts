@@ -8,5 +8,6 @@ export default [
 	...prefix('registration', [
 		index('routes/registration/home.tsx'),
 		route('confirmation', 'routes/registration/confirmation.tsx'),
+		route('verify', 'routes/registration/verify.tsx'),
 	]),
 ] satisfies RouteConfig;

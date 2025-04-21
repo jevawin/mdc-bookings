@@ -13,7 +13,7 @@ export const registrationFormSchema = z
 		registrationNumber: z
 			.string()
 			.min(1, { message: 'Enter your registration number' }),
-		password: z.string().min(1, { message: 'Enter a password' }),
+		password: z.string().min(6, { message: 'Enter a strong password' }),
 		jobPostEmails: z.union([z.undefined(), z.literal('yes')], {
 			errorMap: () => ({
 				message: 'Invalid value',
@@ -39,7 +39,3 @@ export const registrationFormSchema = z
 			return z.NEVER;
 		}
 	});
-
-export const userSchema = z.object({
-	id: z.string(),
-});

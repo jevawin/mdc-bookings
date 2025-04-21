@@ -126,9 +126,13 @@ const registerUser = async (
 
 		const response = await createNewUser(payload, env);
 
-		return {
-			userId: response.userId,
-		};
+		if (response.success && response.data) {
+			return {
+				userId: response.data.id,
+			};
+		}
+
+		return defaultFormError;
 	} catch (error) {
 		console.error('Error creating user:', error);
 
@@ -194,6 +198,8 @@ export const action = async ({
 		if (!formData.result) return formData;
 
 		const userData = await registerUser(formData.result, env);
+
+		console.log(userData, 'userData');
 
 		if (!userData.userId) return defaultFormError;
 

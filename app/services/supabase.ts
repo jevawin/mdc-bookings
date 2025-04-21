@@ -1,15 +1,58 @@
 import type { Env } from '~/global-types.ts';
+import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+import type {
+	TSupabaseUserSchema,
+	TSupabaseVerifySuccessSchema,
+} from '~/schemas/supabase-user-schema.ts';
 
-import { userSchema } from '~/schemas/registration-form-schema.ts';
+import { supabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+import {
+	supabaseUserSchema,
+	supabaseVerifySuccessSchema,
+} from '~/schemas/supabase-user-schema.ts';
 
+type TSupabaseErrorResponse = {
+	success: false;
+	error?: TSupabaseErrorSchema;
+};
+
+type TSupabaseUserSuccessResponse = {
+	success: true;
+	data: TSupabaseUserSchema;
+};
+
+type TSupabaseVerifySuccessResponse = {
+	success: true;
+	data: TSupabaseVerifySuccessSchema;
+};
+
+const getHeaders = (env: Env) => ({
+	'apikey': env.SUPABASE_API_KEY,
+	'Content-Type': 'application/json',
+});
+
+const parseSupabaseUserResponse = (data: unknown): TCreateNewUser => {
+	const parsed = supabaseUserSchema.safeParse(data);
+
+	console.log(parsed.success, 'parseSupabaseUserResponse - success');
+
+	if (parsed.success) {
+		return { success: true, data: parsed.data };
+	}
+
+	const error = supabaseErrorSchema.safeParse(data);
+
+	if (error.success) {
+		return { success: false, error: error.data };
+	}
+
+	return { success: false };
+};
+
+type TCreateNewUser = TSupabaseUserSuccessResponse | TSupabaseErrorResponse;
 type TCreateNewUserBody = {
 	email: string;
 	password: string;
-};
-
-type TCreateNewUser = {
-	success: boolean;
-	userId?: string;
 };
 
 export const createNewUser = async (
@@ -17,34 +60,88 @@ export const createNewUser = async (
 	env: Env,
 ): Promise<TCreateNewUser> => {
 	try {
-		const url = `${env.SUPABASE_URL}/auth/v1/signup`;
-
-		const response = await fetch(url, {
+		const response = await fetch(`${env.SUPABASE_URL}/auth/v1/signup`, {
 			method: 'POST',
-			headers: {
-				'apikey': `${env.SUPABASE_API_KEY}`,
-				'Content-Type': 'application/json',
-			},
+			headers: getHeaders(env),
 			body: JSON.stringify(body),
 		});
 
 		if (!response.ok) {
-			console.error('Supabase error:', await response.text());
+			const error = await response.text();
 
-			return {
-				success: false,
-			};
+			console.error('createNewUser - Supabase error:', error);
+
+			return { success: false };
 		}
 
 		const data = await response.json();
-		const parsedData = userSchema.safeParse(data);
+		const parsed = parseSupabaseUserResponse(data);
 
-		return { success: true, userId: parsedData.data?.id };
+		return parsed;
 	} catch (error) {
-		console.error('Error sending user to Supabase (raw fetch):', error);
+		console.error('createNewUser - Unexpected error:', error);
 
-		return {
-			success: false,
-		};
+		return { success: false };
+	}
+};
+
+const parseSupabaseVerifyResponse = (data: unknown): TVerifySignUp => {
+	console.log(data, 'parseSupabaseVerifyResponse - data');
+
+	const parsed = supabaseVerifySuccessSchema.safeParse(data);
+
+	console.log(parsed.success, 'parseSupabaseVerifyResponse - success');
+
+	if (parsed.success) {
+		return { success: true, data: parsed.data };
+	}
+
+	const error = supabaseErrorSchema.safeParse(data);
+
+	console.log(error.success, 'parseSupabaseVerifyResponse - success');
+
+	if (error.success) {
+		return { success: false, error: error.data };
+	}
+
+	return { success: false };
+};
+
+type TVerifySignUp = TSupabaseVerifySuccessResponse | TSupabaseErrorResponse;
+
+export const verifySignUp = async (
+	token_hash: string,
+	type: string,
+	env: Env,
+): Promise<TVerifySignUp> => {
+	try {
+		const response = await fetch(`${env.SUPABASE_URL}/auth/v1/verify`, {
+			method: 'POST',
+			headers: getHeaders(env),
+			body: JSON.stringify({ token_hash, type }),
+		});
+
+		if (!response.ok) {
+			const error = await response.text();
+			console.error('verifySignUp - Supabase error:', error);
+			return { success: false };
+		}
+
+		const data = await response.json();
+		const parsed = parseSupabaseVerifyResponse(data);
+
+		if (parsed.success) {
+			console.log('verifySignUp - Success:', parsed.data);
+		} else if (parsed.error) {
+			console.error('verifySignUp - Supabase error:', parsed.error);
+		} else {
+			console.error('verifySignUp - Unknown response format:', data);
+		}
+
+		return parsed;
+	} catch (error) {
+		console.error('verifySignUp - Unexpected error:', error);
+
+		return { success: false };
 	}
 };
