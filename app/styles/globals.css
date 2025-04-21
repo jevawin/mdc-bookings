@@ -20,7 +20,8 @@
 	--border-radius: 0.4rem;
 
 	/* Animations */
-	--animation-duration: 0.15s;
+	--animation-duration-short: 0.15s;
+	--animation-duration-medium: 0.3s;
 }
 
 /* Box sizing rules */

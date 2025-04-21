@@ -1,16 +1,16 @@
 .base {
-	align-items: baseline;
+	align-items: center;
 	color: var(--color-core-brand);
 	display: inline-flex;
 
 	& .linkButtonText {
 		border-block-end: 2px solid var(--color-core-brand);
-		transition: color var(--animation-duration) ease-in-out;
+		transition: color var(--animation-duration-short) ease-in-out;
 	}
 
 	& .linkButtonIcon {
 		margin-inline-start: calc(var(--base-spacing) * 1);
-		transition: transform var(--animation-duration) ease-in-out;
+		transition: transform var(--animation-duration-short) ease-in-out;
 	}
 
 	&:hover {

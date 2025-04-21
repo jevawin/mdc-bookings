@@ -4,13 +4,22 @@ import { Text } from '~/components/01-atoms/text/text';
 
 export type TLinkButton = {
 	text: string;
-	onClick: React.MouseEventHandler<HTMLButtonElement>;
+	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	icon?: TIconName;
+	icon_size?: number;
+	styleOnly?: boolean;
 };
 
-export const LinkButton: React.FC<TLinkButton> = ({ text, onClick, icon }) => {
+export const LinkButton: React.FC<TLinkButton> = ({
+	text,
+	onClick,
+	icon,
+	icon_size,
+	styleOnly = false,
+}) => {
+	const Tag = styleOnly ? 'span' : 'button';
 	return (
-		<button type="button" onClick={onClick} className={styles.base}>
+		<Tag onClick={onClick} className={styles.base}>
 			<Text
 				size="100"
 				weight="300"
@@ -20,8 +29,12 @@ export const LinkButton: React.FC<TLinkButton> = ({ text, onClick, icon }) => {
 				{text}
 			</Text>
 			{icon ? (
-				<Icon name={icon} size={17} className={styles.linkButtonIcon} />
+				<Icon
+					name={icon}
+					size={icon_size || 17}
+					className={styles.linkButtonIcon}
+				/>
 			) : null}
-		</button>
+		</Tag>
 	);
 };
