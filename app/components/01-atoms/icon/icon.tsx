@@ -5,7 +5,8 @@ export type TIconName =
 	| 'chevron-down'
 	| 'list'
 	| 'clipboard-check'
-	| 'calendar-plus';
+	| 'calendar-plus'
+	| 'refresh';
 
 export type TIcon = {
 	name: TIconName;
