@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import clsx from 'clsx';
+
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
@@ -34,9 +36,16 @@ export const TextInput: React.FC<TTextInput> = ({
 	ref,
 	className,
 }) => {
+	const [showPassword, setshowPassword] = useState(false);
+
+	const isPassword = type === 'password';
 	const labelText = !isRequired ? `${label} (optional)` : label;
 	const validationMessageId = `${id.replace(' ', '-')}-message`;
 	const showValidationMessage = isInvalid && validationMessage;
+
+	const togglePasswordReveal = () => {
+		setshowPassword(!showPassword);
+	};
 
 	return (
 		<div
@@ -53,7 +62,7 @@ export const TextInput: React.FC<TTextInput> = ({
 
 			<div className={styles.inputWrapper}>
 				<input
-					type={type}
+					type={isPassword && showPassword ? 'text' : type}
 					id={id}
 					name={name ?? id}
 					autoComplete={autoComplete}
@@ -65,6 +74,22 @@ export const TextInput: React.FC<TTextInput> = ({
 					}
 					className={styles.input}
 				/>
+
+				{isPassword ? (
+					<button
+						type="button"
+						aria-label={
+							showPassword ? 'Hide password' : 'Show password'
+						}
+						className={styles.showPassword}
+						onClick={togglePasswordReveal}
+					>
+						<Icon
+							name={showPassword ? 'eye-closed' : 'eye-open'}
+							size={22}
+						/>
+					</button>
+				) : null}
 			</div>
 
 			{showValidationMessage ? (

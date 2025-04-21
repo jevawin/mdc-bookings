@@ -13,6 +13,10 @@
 	font-variation-settings: 'wght' 500;
 }
 
+.inputWrapper {
+	position: relative;
+}
+
 .input {
 	appearance: none;
 	background-color: transparent;
@@ -32,6 +36,43 @@
 	&:focus-visible {
 		outline: 2px solid var(--color-core-foreground);
 		outline-offset: 2px;
+	}
+
+	&:has(~ .showPassword) {
+		padding-inline-end: calc((var(--base-spacing) * 2) + 4.2rem);
+	}
+}
+
+.showPassword {
+	--password-transition: var(--animation-duration-short);
+	--password-bg-color: var(--color-core-neutral);
+
+	background-color: var(--password-bg-color);
+	border: 0.2rem solid color-mix(in srgb, var(--color-core-neutral), #000 5%);
+	border-radius: var(--border-radius);
+	display: inline-grid;
+	inset-block-start: 50%;
+	inset-inline-end: var(--base-spacing);
+	padding: calc(var(--base-spacing) / 2) var(--base-spacing);
+	position: absolute;
+	transform: translateY(-50%);
+
+	&:focus-visible {
+		outline: 2px solid var(--color-core-foreground);
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			--password-bg-color: color-mix(
+				in srgb,
+				var(--color-core-neutral),
+				#000 5%
+			);
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: background-color var(--password-transition) ease-in-out;
 	}
 }
 

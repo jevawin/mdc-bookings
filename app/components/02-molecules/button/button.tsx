@@ -32,11 +32,7 @@ export const Button: React.FC<TButtonProps> = ({
 );
 
 const ButtonIcon: React.FC<TIcon> = ({ name, className }) => (
-	<Icon
-		name={name}
-		size={20}
-		className={clsx(styles.buttonIcon, className)}
-	/>
+	<Icon name={name} size={20} className={clsx(styles.icon, className)} />
 );
 
 type TButtonText = {
@@ -49,7 +45,7 @@ const ButtonText: React.FC<TButtonText> = ({ children, className }) => (
 		size="100"
 		weight="300"
 		role="presentation"
-		className={clsx(styles.content, className)}
+		className={clsx(styles.text, className)}
 	>
 		{children}
 	</Text>

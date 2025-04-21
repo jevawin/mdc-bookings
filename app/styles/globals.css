@@ -32,8 +32,8 @@
 }
 
 ::selection {
-	background-color: #00231b;
-	color: #00aa95;
+	background-color: var(--color-core-foreground);
+	color: var(--color-core-background);
 }
 
 html,
