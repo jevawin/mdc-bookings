@@ -10,7 +10,6 @@
 .label {
 	align-self: flex-start;
 	color: var(--color-core-foreground);
-	font-variation-settings: 'wght' 500;
 }
 
 .inputWrapper {
