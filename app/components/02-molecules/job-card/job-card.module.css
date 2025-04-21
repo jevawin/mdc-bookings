@@ -16,52 +16,45 @@
 	@media (width >= 650px) {
 		grid-template-rows: 1fr 1.5fr 1fr auto;
 	}
-}
 
-.dataFieldGroup {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--base-spacing) * 0.5);
-	justify-self: start;
-}
-
-.dataFullWidthSection {
-	grid-column: 1 / span 2;
-}
-
-details {
-	overflow: hidden;
-
-	& summary {
-		align-items: center;
-		color: var(--color-core-brand);
-		display: flex;
-		list-style: none;
-		text-decoration: underline;
-
-		&::marker,
-		&::-webkit-details-marker {
-			display: none;
-		}
-
-		& svg {
-			margin-inline-start: calc(var(--base-spacing) * 0.4);
-			transition: transform 0.3s ease-in-out;
-		}
-	}
-
-	& .detailsContent {
+	& .dataFieldGroup {
 		display: flex;
 		flex-direction: column;
-		gap: calc(var(--base-spacing) * 1.5);
+		gap: calc(var(--base-spacing) * 0.5);
+		justify-self: start;
 	}
 
-	&[open] {
-		& summary {
-			margin-block-end: var(--base-spacing);
+	& .dataFullWidthSection {
+		grid-column: 1 / span 2;
+	}
 
-			& svg {
-				transform: rotate(180deg);
+	& details {
+		overflow: hidden;
+
+		& summary {
+			list-style: none;
+
+			&::marker,
+			&::-webkit-details-marker {
+				display: none;
+			}
+		}
+
+		& .detailsContent {
+			display: flex;
+			flex-direction: column;
+			gap: calc(var(--base-spacing) * 1.5);
+		}
+
+		&[open] {
+			& summary {
+				margin-block-end: var(--base-spacing);
+
+				& svg {
+					transform: rotate(180deg);
+					transition: transform var(--animation-duration-medium)
+						ease-in-out;
+				}
 			}
 		}
 	}
