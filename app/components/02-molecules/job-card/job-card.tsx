@@ -2,7 +2,6 @@ import styles from './job-card.module.css';
 import { Button, ButtonContent, type TButtonVariant } from '../button/button';
 import { JobFieldGroup } from './components/job-field-group';
 import clsx from 'clsx';
-import { LinkButton } from '../link-button/link-button';
 import { Text } from '~/components/01-atoms/text/text';
 import { Icon } from '~/components/01-atoms/icon/icon';
 

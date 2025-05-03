@@ -6,7 +6,6 @@ import {
 } from '~/components/03-organisms/job-grid/job-grid';
 import clsx from 'clsx';
 import { Text } from '~/components/01-atoms/text/text';
-import { LinkButton } from '~/components/02-molecules/link-button/link-button';
 import { Button, ButtonContent } from '~/components/02-molecules/button/button';
 
 export type TJobsDisplay = {
