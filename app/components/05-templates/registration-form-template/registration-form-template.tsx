@@ -9,7 +9,7 @@ import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { InlineCheckbox } from '~/components/02-molecules/inline-checkbox/inline-checkbox.tsx';
 import { PasswordInput } from '~/components/02-molecules/password-input/password-input.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
-import { Form } from '~/components/04-layouts/form/form.tsx';
+import { Form } from '~/components/03-organisms/form/form.tsx';
 
 import styles from './registration-form-template.module.css';
 
@@ -82,6 +82,7 @@ export const RegistrationFormTemplate: React.FC<TRegistrationFormTemplate> = ({
 					) : null}
 
 					<Form
+						action="/registration"
 						id="registration"
 						title="Registration"
 						method="post"

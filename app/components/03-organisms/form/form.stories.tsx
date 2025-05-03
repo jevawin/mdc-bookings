@@ -9,7 +9,7 @@ import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 const meta: Meta<typeof FormComponent> = {
-	title: '04-layouts/Form',
+	title: '03-organisms/Form',
 	component: FormComponent,
 	tags: ['autodocs'],
 	argTypes: {},
