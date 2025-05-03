@@ -6,25 +6,26 @@ import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './button.module.css';
 
-export type TButtonVariant = 'primary' | 'apply' | 'revoke';
+export type TButtonVariant = 'primary' | 'secondary' | 'apply' | 'revoke';
 
 export type TButton = {
 	children: React.ReactNode;
 	variant?: TButtonVariant;
+	size?: 'small' | 'medium' | 'large';
 };
 
 type TButtonProps = TButton & React.ComponentProps<'button'>;
 
 export const Button: React.FC<TButtonProps> = ({
 	children,
-	type = 'button',
 	variant = 'primary',
 	className,
+	size = 'medium',
 	...rest
 }) => (
 	<button
-		type={type}
-		className={clsx(styles.base, styles[variant], className)}
+		type="button"
+		className={clsx(styles.base, styles[variant], styles[size])}
 		data-e2e-id="button"
 		{...rest}
 	>
@@ -32,8 +33,8 @@ export const Button: React.FC<TButtonProps> = ({
 	</button>
 );
 
-const ButtonIcon: React.FC<TIcon> = ({ name, className }) => (
-	<Icon name={name} size={20} className={clsx(styles.icon, className)} />
+const ButtonIcon: React.FC<TIcon> = ({ name, className, size = 20 }) => (
+	<Icon name={name} size={size} className={clsx(styles.icon, className)} />
 );
 
 type TButtonText = {

@@ -1,15 +1,28 @@
 .base {
 	--btn-transition: var(--animation-duration-short);
 	--btn-icon-rotation: 0deg;
+	--base-size-multiplier: 1;
+
+	&.large {
+		--base-size-multiplier: 2;
+	}
+
+	&.small {
+		--base-size-multiplier: 0.5;
+	}
 
 	align-items: center;
 	background-color: var(--btn-bg-color);
+	border-color: var(--btn-outline-color);
 	border-radius: var(--border-radius);
+	border-style: solid;
+	border-width: 0.2rem;
 	box-shadow: 0 0.5rem 1.5rem -1rem rgb(0 0 0 / 50%);
 	color: var(--btn-fg-color);
 	display: flex;
 	gap: var(--base-spacing);
-	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2);
+	padding: calc(var(--base-spacing) * var(--base-size-multiplier) * 1.5)
+		calc(var(--base-spacing) * var(--base-size-multiplier) * 2);
 
 	&[aria-disabled='true'] {
 		pointer-events: none;
@@ -32,7 +45,7 @@
 		}
 	}
 
-	@media (prefers-reduced-motion: no-preference) {
+	@media (prefers-reduced-motion: \no-preference) {
 		transition:
 			background-color var(--btn-transition) ease-in-out,
 			box-shadow var(--btn-transition) ease-in-out;
@@ -43,6 +56,13 @@
 	--btn-fg-color: var(--color-core-background);
 	--btn-bg-color: var(--color-core-brand);
 	--btn-bg-color-hover: color-mix(in srgb, var(--btn-bg-color), #000 20%);
+	--btn-outline-color: var(--color-core-brand);
+}
+
+.secondary {
+	--btn-fg-color: var(--color-core-brand);
+	--btn-bg-color: var(--color-core-background);
+	--btn-bg-color-hover: color-mix(in srgb, var(--color-core-brand), #fff 90%);
 	--btn-outline-color: var(--color-core-brand);
 }
 

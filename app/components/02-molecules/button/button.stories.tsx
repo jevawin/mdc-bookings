@@ -11,7 +11,17 @@ const meta: Meta<typeof ButtonComponent> = {
 	argTypes: {
 		variant: {
 			description: 'Controls the colour of the cta',
-			options: ['apply', 'revoke'],
+			options: ['primary', 'secondary', 'apply', 'revoke'],
+			control: 'select',
+			table: {
+				type: {
+					summary: 'string',
+				},
+			},
+		},
+		size: {
+			description: 'Controls the size of the cta',
+			options: ['small', 'medium', 'large'],
 			control: 'select',
 			table: {
 				type: {
@@ -32,6 +42,31 @@ export const Primary: Story = {
 	render: (args) => (
 		<ButtonComponent {...args}>
 			<ButtonContent.Text>Primary button</ButtonContent.Text>
+		</ButtonComponent>
+	),
+};
+
+export const LargePrimary: Story = {
+	args: {
+		variant: 'primary',
+		size: 'large',
+	},
+	render: (args) => (
+		<ButtonComponent {...args}>
+			<ButtonContent.Text>Large primary button</ButtonContent.Text>
+		</ButtonComponent>
+	),
+};
+
+export const SmallSecondaryWithIcon: Story = {
+	args: {
+		variant: 'secondary',
+		size: 'small',
+	},
+	render: (args) => (
+		<ButtonComponent {...args}>
+			<ButtonContent.Icon name="refresh" size={14} />
+			<ButtonContent.Text>Small secondary button</ButtonContent.Text>
 		</ButtonComponent>
 	),
 };
