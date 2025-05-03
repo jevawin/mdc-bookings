@@ -3,6 +3,8 @@ import { Button, ButtonContent, type TButtonVariant } from '../button/button';
 import { JobFieldGroup } from './components/job-field-group';
 import clsx from 'clsx';
 import { LinkButton } from '../link-button/link-button';
+import { Text } from '~/components/01-atoms/text/text';
+import { Icon } from '~/components/01-atoms/icon/icon';
 
 export type TJobCard = {
 	id: string;
@@ -54,11 +56,18 @@ export const JobCard: React.FC<TJobCard> = ({
 			<JobFieldGroup header="Time" content={time} />
 			<details className={styles.dataFullWidthSection}>
 				<summary>
-					<LinkButton
-						text="More details"
-						icon="chevron-down"
-						icon_size={24}
-						styleOnly={true}
+					<Text
+						size="100"
+						weight="300"
+						tag="h2"
+						className={styles.moreDetailsTitle}
+					>
+						More details
+					</Text>
+					<Icon
+						name="chevron-down"
+						className={styles.chevron}
+						size={28}
 					/>
 				</summary>
 				<div className={styles.detailsContent}>

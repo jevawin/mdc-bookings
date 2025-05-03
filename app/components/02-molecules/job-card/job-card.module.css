@@ -1,4 +1,7 @@
 .base {
+	--text-color: black;
+	--chevron-rotation: 0deg;
+
 	background-color: #fff;
 	border-color: #f1f1f1;
 	border-radius: var(--border-radius);
@@ -29,14 +32,32 @@
 	}
 
 	& details {
+		color: black;
 		overflow: hidden;
 
 		& summary {
+			color: var(--text-color);
+			display: flex;
+			justify-content: space-between;
 			list-style: none;
+			padding-block-start: calc(var(--base-spacing) * 2);
+			transition: color var(--animation-duration-medium) linear;
 
 			&::marker,
 			&::-webkit-details-marker {
 				display: none;
+			}
+
+			& .chevron {
+				rotate: var(--chevron-rotation);
+				transition: rotate var(--animation-duration-medium) ease-in-out;
+			}
+
+			@media (hover: hover) {
+				&:hover {
+					--chevron-rotation: 30deg;
+					--text-color: var(--color-core-brand);
+				}
 			}
 		}
 
@@ -45,15 +66,18 @@
 			flex-direction: column;
 			gap: calc(var(--base-spacing) * 1.5);
 		}
+	}
 
-		&[open] {
-			& summary {
-				margin-block-end: var(--base-spacing);
+	& details[open] {
+		--chevron-rotation: 180deg;
+		--text-color: var(--color-core-brand);
 
-				& svg {
-					transform: rotate(180deg);
-					transition: transform var(--animation-duration-medium)
-						ease-in-out;
+		& summary {
+			margin-block-end: var(--base-spacing);
+
+			@media (hover: hover) {
+				&:hover {
+					--chevron-rotation: 120deg;
 				}
 			}
 		}
