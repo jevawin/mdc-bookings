@@ -19,11 +19,12 @@ export const Button: React.FC<TButtonProps> = ({
 	children,
 	type = 'button',
 	variant = 'primary',
+	className,
 	...rest
 }) => (
 	<button
 		type={type}
-		className={clsx(styles.base, styles[variant])}
+		className={clsx(styles.base, styles[variant], className)}
 		data-e2e-id="button"
 		{...rest}
 	>

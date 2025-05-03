@@ -19,12 +19,3 @@
 	display: grid;
 	gap: calc(var(--base-spacing) * 1.5);
 }
-
-.list {
-	list-style: disc;
-	padding-inline-start: calc(var(--base-spacing) * 2);
-}
-
-.link {
-	color: var(--color-core-foreground);
-}

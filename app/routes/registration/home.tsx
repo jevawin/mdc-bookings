@@ -1,29 +1,21 @@
 import type { Route } from './+types/home';
-import type { ZodIssue } from 'zod';
-import type { Env } from '~/global-types.ts';
+import type {
+	Env,
+	TFormFieldErrors,
+	TFormSubmissionError,
+	TValidateFormData,
+} from '~/global-types.ts';
 
-import { redirect, useFetcher } from 'react-router';
+import { redirect, useActionData } from 'react-router';
 import { registrationFormSchema } from '~/schemas/registration-form-schema';
 import { createAirtableRecord } from '~/services/airtable.ts';
 import { createNewUser } from '~/services/supabase.ts';
-import { camelToKebabCase } from '~/utils/camel-to-kebab-case.ts';
-import { convertFormDataToObject } from '~/utils/convert-form-data-to-object';
+import {
+	buildFormFieldErrors,
+	convertFormDataToObject,
+} from '~/utils/form-utils.ts';
 
-import { RegistrationForm } from '~/components/04-layouts/registration-form/registration-form';
 import { RegistrationFormTemplate } from '~/components/05-templates/registration-form-template/registration-form-template';
-
-export type TFormSubmissionError = {
-	title: string;
-	bodyText: string;
-};
-
-export type TFieldError = {
-	name: string;
-	id: string;
-	message: string;
-};
-
-export type TFormFieldErrors = Record<string, TFieldError>;
 
 type TFormDataResult = {
 	name: string;
@@ -36,31 +28,25 @@ type TFormDataResult = {
 	jobSummaryEmails?: 'yes';
 };
 
+type TValidateRegistrationForm = {
+	data?: TFormDataResult;
+} & TValidateFormData;
+
 type TFormError = {
-	success?: boolean;
+	status: number;
 	error?: TFormSubmissionError;
 	fieldErrors?: TFormFieldErrors;
-	fieldErrorsList?: TFieldError[];
 };
 
 type TRegistrationAction = Promise<Response | TFormError>;
-
-type TValidateFormData = {
-	result?: TFormDataResult;
-} & TFormError;
 
 type TRegisterUserData = {
 	userId?: string;
 } & TFormError;
 
-type TSendUserToAirtable = {
-	success: boolean;
-} & TFormError;
-
 const defaultFormError = {
 	fieldErrors: {},
-	fieldErrorsList: [],
-	success: false,
+	status: 400,
 	error: {
 		title: "We're having a bit of trouble processing your request.",
 		bodyText:
@@ -68,32 +54,9 @@ const defaultFormError = {
 	},
 };
 
-const buildFieldErrors = (errors: ZodIssue[]): TValidateFormData => {
-	const fieldErrors: TFormFieldErrors = {};
-	const fieldErrorsList: TFieldError[] = [];
-
-	for (const error of errors) {
-		const name = String(error.path[0]);
-		const errorObj = {
-			name,
-			id: camelToKebabCase(name),
-			message: error.message,
-		};
-
-		fieldErrors[name] = errorObj;
-		fieldErrorsList.push(errorObj);
-	}
-
-	return {
-		fieldErrors,
-		fieldErrorsList,
-		success: false,
-	};
-};
-
 const validateFormData = async (
-	request: Request<unknown, CfProperties<unknown>>,
-): Promise<TValidateFormData> => {
+	request: Request,
+): Promise<TValidateRegistrationForm> => {
 	try {
 		const formData = await request.formData();
 		const formObject = convertFormDataToObject(formData);
@@ -102,26 +65,27 @@ const validateFormData = async (
 
 		if (isSuccess) {
 			return {
-				result: result.data,
+				status: 200,
+				data: result.data,
 			};
 		}
 
-		return buildFieldErrors(result.error.errors);
+		return buildFormFieldErrors(result.error.errors);
 	} catch (error) {
-		console.error('Error validating form data:', error);
+		console.error('Error validating sign up form data:', error);
 
 		return defaultFormError;
 	}
 };
 
 const registerUser = async (
-	result: TFormDataResult,
+	data: TFormDataResult,
 	env: Env,
 ): Promise<TRegisterUserData> => {
 	try {
 		const payload = {
-			email: result.email,
-			password: result.password,
+			email: data.email,
+			password: data.password,
 		};
 
 		const response = await createNewUser(payload, env);
@@ -129,6 +93,7 @@ const registerUser = async (
 		if (response.success && response.data) {
 			return {
 				userId: response.data.id,
+				status: 200,
 			};
 		}
 
@@ -144,7 +109,7 @@ const sendUserToAirtable = async (
 	userId: string,
 	formData: TFormDataResult,
 	env: Env,
-): Promise<TSendUserToAirtable> => {
+): Promise<TFormError> => {
 	try {
 		const regOrg = formData.registrationOrganisation;
 		const isJobPostEmails = formData.jobPostEmails === 'yes';
@@ -168,7 +133,7 @@ const sendUserToAirtable = async (
 		);
 
 		return {
-			success: response.success,
+			status: response.success ? 200 : 400,
 		};
 	} catch (error) {
 		console.error('Error sending user to Airtable:', error);
@@ -195,21 +160,25 @@ export const action = async ({
 	try {
 		const formData = await validateFormData(request);
 
-		if (!formData.result) return formData;
+		if (formData.status !== 200 || !formData.data) {
+			return formData;
+		}
 
-		const userData = await registerUser(formData.result, env);
+		const userData = await registerUser(formData.data, env);
 
-		console.log(userData, 'userData');
-
-		if (!userData.userId) return defaultFormError;
+		if (!userData.userId) {
+			return defaultFormError;
+		}
 
 		const airtableData = await sendUserToAirtable(
 			userData.userId,
-			formData.result,
+			formData.data,
 			env,
 		);
 
-		if (!airtableData.success) return defaultFormError;
+		if (airtableData.status !== 200) {
+			return defaultFormError;
+		}
 
 		return redirect('/registration/confirmation');
 	} catch (error) {
@@ -220,24 +189,14 @@ export const action = async ({
 };
 
 export default function Registration() {
-	const fetcher = useFetcher<typeof action>();
-	const fieldErrors = fetcher.data?.fieldErrors;
-	const fieldErrorsList = fetcher.data?.fieldErrorsList;
-	const formError = fetcher.data?.error;
-	const isSubmitting = fetcher.state === 'submitting';
+	const actionData = useActionData<typeof action>();
+	const fieldErrors = actionData?.fieldErrors;
+	const formError = actionData?.error;
 
 	return (
 		<RegistrationFormTemplate
 			formError={formError}
 			fieldErrors={fieldErrors}
-			fieldErrorsList={fieldErrorsList}
-		>
-			<fetcher.Form name="registration" method="POST">
-				<RegistrationForm
-					fieldErrors={fieldErrors}
-					isSubmitting={isSubmitting}
-				/>
-			</fetcher.Form>
-		</RegistrationFormTemplate>
+		/>
 	);
 }

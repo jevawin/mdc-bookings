@@ -1,5 +1,0 @@
-.container {
-	display: grid;
-	gap: calc(var(--base-spacing) * 3);
-	justify-items: start;
-}

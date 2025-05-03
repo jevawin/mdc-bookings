@@ -34,7 +34,8 @@ const getHeaders = (env: Env) => ({
 const parseSupabaseUserResponse = (data: unknown): TCreateNewUser => {
 	const parsed = supabaseUserSchema.safeParse(data);
 
-	console.log(parsed.success, 'parseSupabaseUserResponse - success');
+	console.log(data, 'parseSupabaseUserResponse - data');
+	console.log(parsed.error, 'parseSupabaseUserResponse - parsed');
 
 	if (parsed.success) {
 		return { success: true, data: parsed.data };

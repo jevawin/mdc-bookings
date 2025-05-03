@@ -1,0 +1,9 @@
+.form {
+	display: grid;
+	gap: calc(var(--base-spacing) * 3);
+	position: relative;
+}
+
+.button {
+	justify-self: start;
+}
