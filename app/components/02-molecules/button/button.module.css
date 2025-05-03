@@ -23,6 +23,7 @@
 	gap: var(--base-spacing);
 	padding: calc(var(--base-spacing) * var(--base-size-multiplier) * 1.5)
 		calc(var(--base-spacing) * var(--base-size-multiplier) * 2);
+	white-space: nowrap;
 
 	&[aria-disabled='true'] {
 		pointer-events: none;
