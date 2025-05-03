@@ -61,139 +61,129 @@ export const RegistrationFormTemplate: React.FC<TRegistrationFormTemplate> = ({
 	}, [fieldErrors]);
 
 	return (
-		<div
-			className={styles.container}
-			data-e2e-id="registration-form-template"
-		>
-			<div className={styles.inner}>
-				<header className={styles.header}>
-					<Text tag="h1" size="400" weight="300">
-						Become an interpreter
-					</Text>
-				</header>
+		<>
+			<header className={styles.header}>
+				<Text tag="h1" size="400" weight="300">
+					Become an interpreter
+				</Text>
+			</header>
 
-				<main id="main" className={styles.main}>
-					{hasFieldsErrors ? (
-						<ErrorSummary
-							title={errorTitle}
-							bodyText={bodyText}
-							errorSummaryRef={errorSummaryRef}
+			<main id="main" className={styles.main}>
+				{hasFieldsErrors ? (
+					<ErrorSummary
+						title={errorTitle}
+						bodyText={bodyText}
+						errorSummaryRef={errorSummaryRef}
+					/>
+				) : null}
+
+				<Form
+					action="/registration"
+					id="registration"
+					title="Registration"
+					method="post"
+					className={styles.form}
+				>
+					<Fieldset id="your-details" title="Your details">
+						<TextInput
+							id="name"
+							name="name"
+							label="Full name"
+							autoComplete="name"
+							inputMode="text"
+							isRequired={true}
+							isInvalid={Boolean(fieldErrors?.name)}
+							validationMessage={fieldErrors?.name?.message}
 						/>
-					) : null}
 
-					<Form
-						action="/registration"
-						id="registration"
-						title="Registration"
-						method="post"
-						className={styles.form}
+						<TextInput
+							id="email"
+							type="email"
+							name="email"
+							label="Email"
+							autoComplete="email"
+							inputMode="email"
+							isRequired={true}
+							isInvalid={Boolean(fieldErrors?.email)}
+							validationMessage={fieldErrors?.email?.message}
+						/>
+					</Fieldset>
+
+					<Fieldset
+						id="nrcpd-details"
+						title="NRCPD details"
+						bodyText="if you're NRCPD-registered, please provide your registration number here. If not, please choose 'Non-NRCPD, tell us who you're registered with, and provide a registration number."
 					>
-						<Fieldset id="your-details" title="Your details">
-							<TextInput
-								id="name"
-								name="name"
-								label="Full name"
-								autoComplete="name"
-								inputMode="text"
-								isRequired={true}
-								isInvalid={Boolean(fieldErrors?.name)}
-								validationMessage={fieldErrors?.name?.message}
-							/>
+						<InlineCheckbox
+							id="non-nrcpd"
+							name="nonNrcpd"
+							label="Non-NRCPD"
+							value="yes"
+							onClick={handleNonNrcpdClick}
+						/>
 
-							<TextInput
-								id="email"
-								type="email"
-								name="email"
-								label="Email"
-								autoComplete="email"
-								inputMode="email"
-								isRequired={true}
-								isInvalid={Boolean(fieldErrors?.email)}
-								validationMessage={fieldErrors?.email?.message}
-							/>
-						</Fieldset>
+						<TextInput
+							hidden={true}
+							id="registration-organisation"
+							name="registrationOrganisation"
+							label="Registration organisation"
+							autoComplete="text"
+							inputMode="text"
+							isRequired={true}
+							isInvalid={Boolean(
+								fieldErrors?.registrationOrganisation,
+							)}
+							ref={registrationOrganisationRef}
+							validationMessage={
+								fieldErrors?.registrationOrganisation?.message
+							}
+						/>
 
-						<Fieldset
-							id="nrcpd-details"
-							title="NRCPD details"
-							bodyText="if you're NRCPD-registered, please provide your registration number here. If not, please choose 'Non-NRCPD, tell us who you're registered with, and provide a registration number."
-						>
-							<InlineCheckbox
-								id="non-nrcpd"
-								name="nonNrcpd"
-								label="Non-NRCPD"
-								value="yes"
-								onClick={handleNonNrcpdClick}
-							/>
+						<TextInput
+							id="registration-number"
+							name="registrationNumber"
+							label="Registration number"
+							autoComplete="text"
+							inputMode="text"
+							isRequired={true}
+							isInvalid={Boolean(fieldErrors?.registrationNumber)}
+							validationMessage={
+								fieldErrors?.registrationNumber?.message
+							}
+						/>
+					</Fieldset>
 
-							<TextInput
-								hidden={true}
-								id="registration-organisation"
-								name="registrationOrganisation"
-								label="Registration organisation"
-								autoComplete="text"
-								inputMode="text"
-								isRequired={true}
-								isInvalid={Boolean(
-									fieldErrors?.registrationOrganisation,
-								)}
-								ref={registrationOrganisationRef}
-								validationMessage={
-									fieldErrors?.registrationOrganisation
-										?.message
-								}
-							/>
+					<Fieldset id="password-details" title="Password">
+						<PasswordInput
+							id="password"
+							label="Create a great password"
+							hint="Minimum of 8 characters"
+							isInvalid={Boolean(fieldErrors?.password)}
+							validationMessage={fieldErrors?.password?.message}
+						/>
+					</Fieldset>
 
-							<TextInput
-								id="registration-number"
-								name="registrationNumber"
-								label="Registration number"
-								autoComplete="text"
-								inputMode="text"
-								isRequired={true}
-								isInvalid={Boolean(
-									fieldErrors?.registrationNumber,
-								)}
-								validationMessage={
-									fieldErrors?.registrationNumber?.message
-								}
-							/>
-						</Fieldset>
+					<Fieldset
+						id="notification-settings"
+						title="Notification settings"
+						bodyText="Email me about new job listings:"
+					>
+						<InlineCheckbox
+							id="job-post-emails"
+							name="jobPostEmails"
+							label="As soon as a job goes live"
+							value="yes"
+						/>
 
-						<Fieldset id="password-details" title="Password">
-							<PasswordInput
-								id="password"
-								label="Create a great password"
-								hint="Minimum of 8 characters"
-								isInvalid={Boolean(fieldErrors?.password)}
-								validationMessage={
-									fieldErrors?.password?.message
-								}
-							/>
-						</Fieldset>
-
-						<Fieldset
-							id="notification-settings"
-							title="Notification settings"
-							bodyText="Email me about new job listings:"
-						>
-							<InlineCheckbox
-								id="job-post-emails"
-								name="jobPostEmails"
-								label="As soon as a job goes live"
-								value="yes"
-							/>
-
-							<InlineCheckbox
-								id="job-summary-emails"
-								name="jobSummaryEmails"
-								label="A daily summary"
-								value="yes"
-							/>
-						</Fieldset>
-					</Form>
-				</main>
-			</div>
-		</div>
+						<InlineCheckbox
+							id="job-summary-emails"
+							name="jobSummaryEmails"
+							label="A daily summary"
+							value="yes"
+						/>
+					</Fieldset>
+				</Form>
+			</main>
+		</>
 	);
 };
