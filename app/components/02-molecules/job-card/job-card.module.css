@@ -40,7 +40,6 @@
 			display: flex;
 			justify-content: space-between;
 			list-style: none;
-			padding-block-start: calc(var(--base-spacing) * 2);
 			transition: color var(--animation-duration-medium) linear;
 
 			&::marker,
