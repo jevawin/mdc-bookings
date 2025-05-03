@@ -7,6 +7,7 @@ import {
 import clsx from 'clsx';
 import { Text } from '~/components/01-atoms/text/text';
 import { LinkButton } from '~/components/02-molecules/link-button/link-button';
+import { Button, ButtonContent } from '~/components/02-molecules/button/button';
 
 export type TJobsDisplay = {
 	menu: TMenu;
@@ -27,19 +28,24 @@ export const JobsDisplay: React.FC<TJobsDisplay> = ({
 			data-e2e-id="jobs-display"
 		>
 			<Menu items={menu.items} />
-			<Text
-				size="100"
-				weight="100"
-				tag="p"
-				className={styles.updatedTime}
-			>
-				Last updated: {lastUpdated}.&nbsp;
-				<LinkButton
+			<div className={styles.lastUpdated}>
+				<Button
+					size="small"
+					variant="secondary"
 					onClick={() => location.reload()}
-					text="Refresh now"
-					icon="refresh"
-				/>
-			</Text>
+				>
+					<ButtonContent.Icon name="refresh" size={14} />
+					<ButtonContent.Text>Refresh</ButtonContent.Text>
+				</Button>
+				<Text
+					size="100"
+					weight="100"
+					tag="p"
+					className={styles.updatedTime}
+				>
+					Last updated: {lastUpdated}.&nbsp;
+				</Text>
+			</div>
 			<JobGrid data={jobs.data} />
 		</div>
 	);

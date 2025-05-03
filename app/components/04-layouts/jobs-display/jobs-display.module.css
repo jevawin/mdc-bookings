@@ -2,7 +2,10 @@
 	display: grid;
 	gap: calc(var(--base-spacing) * 2);
 
-	& .updatedTime {
+	& .lastUpdated {
+		align-items: center;
+		display: flex;
+		gap: calc(var(--base-spacing) * 1.5);
 		position: relative;
 	}
 }
