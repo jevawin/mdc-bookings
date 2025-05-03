@@ -64,6 +64,6 @@
 	rotate: var(--btn-icon-rotation);
 
 	@media (prefers-reduced-motion: no-preference) {
-		transition: transform var(--btn-transition) ease-in-out;
+		transition: rotate var(--btn-transition) ease-in-out;
 	}
 }
