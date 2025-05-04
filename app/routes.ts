@@ -14,4 +14,10 @@ export default [
 			route('verify', 'routes/registration/verify.tsx'),
 		]),
 	]),
+
+	...prefix('jobs', [
+		route('open', 'routes/jobs/open.tsx'),
+		route('applied', 'routes/jobs/applied.tsx'),
+		route('approved', 'routes/jobs/approved.tsx'),
+	]),
 ] satisfies RouteConfig;

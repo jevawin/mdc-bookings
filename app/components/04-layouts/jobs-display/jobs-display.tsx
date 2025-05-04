@@ -6,13 +6,18 @@ import {
 } from '~/components/03-organisms/job-grid/job-grid';
 import clsx from 'clsx';
 import { Text } from '~/components/01-atoms/text/text';
-import { Button, ButtonContent } from '~/components/02-molecules/button/button';
+import {
+	Button,
+	ButtonContent,
+	type TButtonVariant,
+} from '~/components/02-molecules/button/button';
 
 export type TJobsDisplay = {
 	menu: TMenu;
 	jobs: TJobGrid;
 	className?: string;
 	lastUpdated: string;
+	buttonVariant?: TButtonVariant;
 };
 
 export const JobsDisplay: React.FC<TJobsDisplay> = ({
@@ -20,6 +25,7 @@ export const JobsDisplay: React.FC<TJobsDisplay> = ({
 	jobs,
 	className,
 	lastUpdated,
+	buttonVariant,
 }) => {
 	return (
 		<div
@@ -45,7 +51,7 @@ export const JobsDisplay: React.FC<TJobsDisplay> = ({
 					Last updated: {lastUpdated}.&nbsp;
 				</Text>
 			</div>
-			<JobGrid data={jobs.data} />
+			<JobGrid data={jobs.data} buttonVariant={buttonVariant} />
 		</div>
 	);
 };

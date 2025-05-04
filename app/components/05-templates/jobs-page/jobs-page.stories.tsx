@@ -15,9 +15,9 @@ const meta: Meta<typeof JobsPageComponent> = {
 	},
 	decorators: [
 		(Story) => (
-			<MemoryRouter initialEntries={['/jobs']}>
+			<MemoryRouter initialEntries={['/jobs/open']}>
 				<Routes>
-					<Route path="/jobs" element={<Story />} />
+					<Route path="/jobs/open" element={<Story />} />
 				</Routes>
 			</MemoryRouter>
 		),
