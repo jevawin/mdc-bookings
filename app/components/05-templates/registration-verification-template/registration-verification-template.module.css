@@ -1,0 +1,4 @@
+.main {
+	display: grid;
+	gap: calc(var(--base-spacing) * 2);
+}

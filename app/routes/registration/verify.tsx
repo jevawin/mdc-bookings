@@ -1,10 +1,11 @@
 import type { Route } from './+types/verify';
 
 import { verifySignUp } from '~/services/supabase.ts';
+import { RegistrationVerificationTemplate } from '~/components/05-templates/registration-verification-template/registration-verification-template.tsx';
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: 'Registration verified' },
+		{ title: 'Registration verification' },
 		{ name: 'description', content: 'Welcome to React Router!' },
 	];
 }
@@ -25,11 +26,6 @@ export async function loader({ context, request }: Route.LoaderArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
 	const isSuccess = loaderData.success;
-	const successText = isSuccess ? 'succesful' : 'unsuccesful';
 
-	return (
-		<main>
-			<h1>{`Verification ${successText}`}</h1>
-		</main>
-	);
+	return <RegistrationVerificationTemplate success={isSuccess} />;
 }

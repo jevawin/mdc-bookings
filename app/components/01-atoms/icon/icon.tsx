@@ -1,5 +1,6 @@
 export type TIconName =
 	| 'calendar-plus'
+	| 'check-circle'
 	| 'chevron-down'
 	| 'clipboard-check'
 	| 'cross'
