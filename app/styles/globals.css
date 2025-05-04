@@ -15,6 +15,7 @@
 	/* Spacing */
 	--base-spacing: 8px;
 	--container-max: 124.8rem;
+	--container-padding: calc(var(--base-spacing) * 1.5);
 
 	/* Styling */
 	--border-radius: 0.4rem;

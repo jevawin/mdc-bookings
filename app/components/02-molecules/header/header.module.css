@@ -1,13 +1,22 @@
 .base {
 	--link-color: var(--color-core-brand);
 
-	align-items: center;
+	background-color: var(--color-core-background);
+	box-shadow: 0 5px 25px -20px rgb(0 0 0 / 25%);
 	color: var(--color-core-foreground);
+	inline-size: 100%;
+	margin-block-end: calc(var(--base-spacing) * 3);
+}
+
+.headerInner {
+	align-items: center;
 	display: flex;
 	inline-size: 100%;
 	justify-content: space-between;
-	padding: calc(var(--base-spacing) * 0.75) calc(var(--base-spacing) * 1.25)
-		calc(var(--base-spacing) * 3);
+	margin-inline: auto;
+	max-inline-size: var(--container-max);
+	padding-block: calc(var(--base-spacing) * 1.25);
+	padding-inline: var(--container-padding);
 }
 
 .title {
