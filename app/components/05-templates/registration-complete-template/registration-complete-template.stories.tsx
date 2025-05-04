@@ -5,15 +5,23 @@ import { mockRegistrationCompleteTemplateData } from './registration-complete-te
 import { RegistrationCompleteTemplate as RegistrationCompleteTemplateComponent } from './registration-complete-template.tsx';
 
 const meta: Meta<typeof RegistrationCompleteTemplateComponent> = {
-	title: '05-templates/Registration complete template',
+	title: '05-templates/Registration complete',
 	component: RegistrationCompleteTemplateComponent,
 	tags: ['autodocs'],
+	parameters: {
+		layout: 'fullscreen',
+	},
 	argTypes: {},
 };
 
 export default meta;
 type Story = StoryObj<typeof RegistrationCompleteTemplateComponent>;
 
-export const RegistrationCompleteTemplate: Story = {
+export const RegistrationComplete: Story = {
 	args: mockRegistrationCompleteTemplateData,
+	render: (args) => (
+		<div className="registrationForm">
+			<RegistrationCompleteTemplateComponent {...args} />
+		</div>
+	),
 };

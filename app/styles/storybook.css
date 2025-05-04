@@ -26,3 +26,10 @@
 .previewMode {
 	padding: calc(var(--base-spacing) * 2);
 }
+
+.registrationForm {
+	align-items: center;
+	display: grid;
+	margin-inline: auto;
+	max-inline-size: 45rem;
+}

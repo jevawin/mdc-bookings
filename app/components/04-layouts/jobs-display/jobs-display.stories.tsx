@@ -9,6 +9,9 @@ const meta: Meta<typeof JobsDisplayComponent> = {
 	title: '04-layouts/Jobs display',
 	component: JobsDisplayComponent,
 	tags: ['autodocs'],
+	parameters: {
+		layout: 'fullscreen',
+	},
 	argTypes: {},
 	decorators: [
 		(Story) => (
@@ -19,9 +22,6 @@ const meta: Meta<typeof JobsDisplayComponent> = {
 			</MemoryRouter>
 		),
 	],
-	parameters: {
-		layout: 'fullscreen',
-	},
 };
 
 export default meta;

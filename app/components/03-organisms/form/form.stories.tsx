@@ -12,6 +12,9 @@ const meta: Meta<typeof FormComponent> = {
 	title: '03-organisms/Form',
 	component: FormComponent,
 	tags: ['autodocs'],
+	parameters: {
+		layout: 'fullscreen',
+	},
 	argTypes: {},
 	decorators: [
 		(Story) => {
