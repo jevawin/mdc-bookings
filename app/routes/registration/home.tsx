@@ -1,11 +1,5 @@
 import type { Route } from './+types/home';
-import type {
-	Env,
-	TFormError,
-	TFormFieldErrors,
-	TFormSubmissionError,
-	TValidateFormData,
-} from '~/global-types.ts';
+import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect, useActionData } from 'react-router';
 import { registrationFormSchema } from '~/schemas/registration-form-schema';

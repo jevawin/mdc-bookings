@@ -2,12 +2,15 @@ import type { Route } from './+types/log-in';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect, useActionData } from 'react-router';
-import { LogInTemplate } from '~/components/05-templates/log-in-template/log-in-template.tsx';
+import { logInFormSchema } from '~/schemas/log-in-form-schema.ts';
+import { getUser, logInWithEmailPassword } from '~/services/supabase.ts';
+import { commitSession, getSession } from '~/sessions.server';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
-} from '~/utils/form-utils';
-import { logInFormSchema } from '~/schemas/log-in-form-schema';
+} from '~/utils/form-utils.ts';
+
+import { LogInTemplate } from '~/components/05-templates/log-in-template/log-in-template.tsx';
 
 const defaultFormError = {
 	fieldErrors: {},
@@ -35,47 +38,98 @@ const validateFormData = async (
 		const formData = await request.formData();
 		const formObject = convertFormDataToObject(formData);
 		const result = logInFormSchema.safeParse(formObject);
-		const isSuccess = result.success;
 
-		if (isSuccess) {
-			return {
-				status: 200,
-				data: result.data,
-			};
-		}
-
-		return buildFormFieldErrors(result.error.errors);
+		return result.success
+			? { status: 200, data: result.data }
+			: buildFormFieldErrors(result.error.errors);
 	} catch (error) {
 		console.error('Error validating log in form data:', error);
-
 		return defaultFormError;
 	}
 };
 
-export const action = async ({ request }: Route.ActionArgs): TLogInAction => {
-	if (request.method !== 'POST') return defaultFormError;
-
-	try {
-		const formData = await validateFormData(request);
-
-		if (formData.status !== 200 || !formData.data) {
-			return formData;
-		}
-
-		return redirect('/job-listings');
-	} catch (error) {
-		console.error('Error in log in action:', error);
-
-		return defaultFormError;
-	}
+const buildFormError = (error?: { msg?: string }): TFormError => {
+	return {
+		...defaultFormError,
+		error: {
+			title: error?.msg
+				? 'Oops! There was an error'
+				: defaultFormError.error.title,
+			bodyText: error?.msg ? error.msg : defaultFormError.error.bodyText,
+		},
+	};
 };
 
 type TLogInAction = Promise<Response | TFormError>;
 
+export const action = async ({
+	request,
+	context,
+}: Route.ActionArgs): TLogInAction => {
+	if (request.method !== 'POST') return defaultFormError;
+
+	const env = context.cloudflare.env;
+	const formValidation = await validateFormData(request);
+
+	if (formValidation.status !== 200 || !formValidation.data) {
+		return formValidation;
+	}
+
+	const loginResult = await logInWithEmailPassword(formValidation.data, env);
+
+	if (!loginResult.success) {
+		// const session = await getSession();
+		// const error = loginResult.error;
+		// const msg = error ? error.msg : 'Error logging in'
+
+		// session.flash('error', msg);
+
+		return buildFormError(loginResult.error);
+	}
+
+	const session = await getSession();
+
+	const access_token = loginResult.data.access_token;
+	const refresh_token = loginResult.data.refresh_token;
+	const expires_at = loginResult.data.expires_at;
+
+	session.set('access_token', access_token);
+	session.set('refresh_token', refresh_token);
+	session.set('expires_at', expires_at);
+
+	return redirect('/jobs/open', {
+		headers: {
+			'Set-Cookie': await commitSession(session),
+		},
+	});
+};
+
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
+	const env = context.cloudflare.env;
+	const cookieHeader = request.headers.get('Cookie');
+	const session = await getSession(cookieHeader);
+	const token = session.get('access_token');
+	const expiresAt = session.get('expires_at');
+	const now = Math.floor(Date.now() / 1000);
+
+	if ((!token || !expiresAt) && now > expiresAt) {
+		return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+	}
+
+	const user = await getUser(env, token);
+
+	if (user.success) return redirect('/jobs/open');
+
+	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+};
+
 export default function LogIn() {
 	const actionData = useActionData<typeof action>();
-	const fieldErrors = actionData?.fieldErrors;
-	const formError = actionData?.error;
 
-	return <LogInTemplate formError={formError} fieldErrors={fieldErrors} />;
+	return (
+		<LogInTemplate
+			formError={actionData?.error}
+			fieldErrors={actionData?.fieldErrors}
+		/>
+	);
 }

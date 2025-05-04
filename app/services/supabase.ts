@@ -3,6 +3,7 @@ import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
 import type {
 	TSupabaseDataSchema,
 	TSupabaseRootSchema,
+	TSupabaseSessionSchema,
 	TSupabaseUserSchema,
 	TSupabaseVerifySuccessSchema,
 } from '~/schemas/supabase-user-schema.ts';
@@ -12,10 +13,17 @@ import {
 	supabaseUserSchema,
 	supabaseVerifySuccessSchema,
 } from '~/schemas/supabase-user-schema.ts';
+import { parseSupabaseError } from '~/utils/supabase-utils';
+import { getSession } from '~/sessions.server';
+
+type TFoo = {
+	code: string;
+	msg: string;
+};
 
 type TSupabaseErrorResponse = {
 	success: false;
-	error?: TSupabaseErrorSchema;
+	error?: TSupabaseErrorSchema | TFoo;
 };
 
 type TSupabaseUserSuccessResponse = {
@@ -35,9 +43,6 @@ const getHeaders = (env: Env) => ({
 
 const parseSupabaseUserResponse = (data: unknown): TCreateNewUser => {
 	const parsed = supabaseUserSchema.safeParse(data);
-
-	console.log(data, 'parseSupabaseUserResponse - data');
-	console.log(parsed.error, 'parseSupabaseUserResponse - parsed');
 
 	if (parsed.success) {
 		return { success: true, data: parsed.data };
@@ -70,40 +75,50 @@ export const createNewUser = async (
 		});
 
 		if (!response.ok) {
-			const error = await response.text();
-
-			console.error('createNewUser - Supabase error:', error);
-
-			return { success: false };
+			return await parseSupabaseError(response);
 		}
 
 		const data = await response.json();
 		const parsed = parseSupabaseUserResponse(data);
 
+		if (!parsed.success && !parsed.error) {
+			return {
+				success: false,
+				error: {
+					code: 'invalid_response',
+					msg: 'Received an unexpected response from Supabase.',
+				},
+			};
+		}
+
 		return parsed;
 	} catch (error) {
 		console.error('createNewUser - Unexpected error:', error);
 
-		return { success: false };
+		return {
+			success: false,
+			error: {
+				code: 'network_error',
+				msg: 'Could not connect to Supabase.',
+			},
+		};
 	}
 };
 
 const parseSupabaseVerifyResponse = (data: unknown): TVerifySignUp => {
-	console.log(data, 'parseSupabaseVerifyResponse - data');
-
 	const parsed = supabaseVerifySuccessSchema.safeParse(data);
 
-	console.log(parsed.success, 'parseSupabaseVerifyResponse - success');
-
 	if (parsed.success) {
+		console.log(parsed.success, 'parseSupabaseVerifyResponse - success');
+
 		return { success: true, data: parsed.data };
 	}
 
 	const error = supabaseErrorSchema.safeParse(data);
 
-	console.log(error.success, 'parseSupabaseVerifyResponse - success');
-
 	if (error.success) {
+		console.log(error.success, 'parseSupabaseVerifyResponse - success');
+
 		return { success: false, error: error.data };
 	}
 
@@ -125,21 +140,11 @@ export const verifySignUp = async (
 		});
 
 		if (!response.ok) {
-			const error = await response.text();
-			console.error('verifySignUp - Supabase error:', error);
-			return { success: false };
+			return await parseSupabaseError(response);
 		}
 
 		const data = await response.json();
 		const parsed = parseSupabaseVerifyResponse(data);
-
-		if (parsed.success) {
-			console.log('verifySignUp - Success:', parsed.data);
-		} else if (parsed.error) {
-			console.error('verifySignUp - Supabase error:', parsed.error);
-		} else {
-			console.error('verifySignUp - Unknown response format:', data);
-		}
 
 		return parsed;
 	} catch (error) {
@@ -149,20 +154,24 @@ export const verifySignUp = async (
 	}
 };
 
-type TSignInData = {
+type TLogInBody = {
 	email: string;
 	password: string;
 };
 
-type TSigninWithEmailPassword = {
-	success: boolean;
-	data?: TSupabaseDataSchema;
+type TSupabaseLogInSuccessResponse = {
+	success: true;
+	data: TSupabaseSessionSchema;
 };
 
-export const signinWithEmailPassword = async (
-	body: TSignInData,
+type TLogInWithEmailPassword =
+	| TSupabaseLogInSuccessResponse
+	| TSupabaseErrorResponse;
+
+export const logInWithEmailPassword = async (
+	body: TLogInBody,
 	env: Env,
-): Promise<TSigninWithEmailPassword> => {
+): Promise<TLogInWithEmailPassword> => {
 	try {
 		const { email, password } = body;
 		const url = `${env.SUPABASE_URL}/auth/v1/token?grant_type=password`;
@@ -173,18 +182,51 @@ export const signinWithEmailPassword = async (
 		});
 
 		if (!response.ok) {
-			const error = await response.text();
+			const error = response.text();
 
-			console.error('signinWithEmailPassword - Supabase error:', error);
+			console.log(error, 'error');
 
+			return await parseSupabaseError(response);
+		}
+
+		const result = (await response.json()) satisfies TSupabaseSessionSchema;
+
+		console.log(result, 'result');
+
+		return { success: true, data: result };
+	} catch (error) {
+		console.error('verifySignUp - Unexpected error:', error);
+
+		return { success: false };
+	}
+};
+
+type TGetUser = {
+	success: boolean;
+	data?: TSupabaseUserSchema;
+};
+
+export const getUser = async (env: Env, token: string): Promise<TGetUser> => {
+	try {
+		const url = `${env.SUPABASE_URL}/auth/v1/user`;
+
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: {
+				apikey: env.SUPABASE_API_KEY,
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
 			return { success: false };
 		}
 
-		const result = (await response.json()) satisfies TSupabaseRootSchema;
+		const result = (await response.json()) satisfies TSupabaseUserSchema;
 
-		return { success: true, data: result.data };
+		return { success: true, data: result };
 	} catch (error) {
-		console.error('verifySignUp - Unexpected error:', error);
+		console.error('getUser - Unexpected error:', error);
 
 		return { success: false };
 	}

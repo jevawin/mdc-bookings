@@ -28,6 +28,8 @@ export const supabaseUserSchema = z.object({
 	is_anonymous: z.boolean(),
 });
 
+export type TSupabaseSessionSchema = z.infer<typeof supabaseSessionSchema>;
+
 export const supabaseSessionSchema = z.object({
 	access_token: z.string(),
 	token_type: z.literal('bearer'),
