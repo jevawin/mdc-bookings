@@ -25,7 +25,7 @@ export const Button: React.FC<TButtonProps> = ({
 }) => (
 	<button
 		type="button"
-		className={clsx(styles.base, styles[variant], styles[size])}
+		className={clsx(styles.base, styles[variant], styles[size], className)}
 		data-e2e-id="button"
 		{...rest}
 	>

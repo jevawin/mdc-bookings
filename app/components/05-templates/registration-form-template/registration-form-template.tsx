@@ -12,6 +12,7 @@ import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 import { Form } from '~/components/03-organisms/form/form.tsx';
 
 import styles from './registration-form-template.module.css';
+import { TextLink } from '~/components/01-atoms/text-link/text-link';
 
 export type TRegistrationFormTemplate = {
 	formError?: TFormSubmissionError;
@@ -184,6 +185,14 @@ export const RegistrationFormTemplate: React.FC<TRegistrationFormTemplate> = ({
 					</Fieldset>
 				</Form>
 			</main>
+
+			<footer className={styles.footer}>
+				<Text tag="h2" size="100" weight="200">
+					Already have an account?
+				</Text>
+
+				<TextLink to="/log-in" linkText="Log in" />
+			</footer>
 		</>
 	);
 };

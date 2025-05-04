@@ -17,3 +17,12 @@
 	display: grid;
 	gap: calc(var(--base-spacing) * 2);
 }
+
+.footer {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--base-spacing) * 2);
+	justify-content: space-between;
+	padding-block: calc(var(--base-spacing) * 1.5);
+}
