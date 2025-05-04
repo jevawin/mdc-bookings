@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "cross-env NODE_ENV=production build-storybook && react-router build",
 		"dev": "cross-env NODE_ENV=development react-router dev",
-		"deploy": "npm run build && wrangler deploy",
+		"deploy": "wrangler deploy",
 		"preview": "npm run build && vite preview",
 		"typecheck": "npm run cf-typegen && react-router typegen && tsc -b",
 		"lint:css": "stylelint \"./**/*.{css,scss}\" --fix",
