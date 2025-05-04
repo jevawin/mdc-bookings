@@ -1,6 +1,8 @@
 import type { Env } from '~/global-types.ts';
 import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
 import type {
+	TSupabaseDataSchema,
+	TSupabaseRootSchema,
 	TSupabaseUserSchema,
 	TSupabaseVerifySuccessSchema,
 } from '~/schemas/supabase-user-schema.ts';
@@ -140,6 +142,47 @@ export const verifySignUp = async (
 		}
 
 		return parsed;
+	} catch (error) {
+		console.error('verifySignUp - Unexpected error:', error);
+
+		return { success: false };
+	}
+};
+
+type TSignInData = {
+	email: string;
+	password: string;
+};
+
+type TSigninWithEmailPassword = {
+	success: boolean;
+	data?: TSupabaseDataSchema;
+};
+
+export const signinWithEmailPassword = async (
+	body: TSignInData,
+	env: Env,
+): Promise<TSigninWithEmailPassword> => {
+	try {
+		const { email, password } = body;
+		const url = `${env.SUPABASE_URL}/auth/v1/token?grant_type=password`;
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: getHeaders(env),
+			body: JSON.stringify({ email, password }),
+		});
+
+		if (!response.ok) {
+			const error = await response.text();
+
+			console.error('signinWithEmailPassword - Supabase error:', error);
+
+			return { success: false };
+		}
+
+		const result = (await response.json()) satisfies TSupabaseRootSchema;
+
+		return { success: true, data: result.data };
 	} catch (error) {
 		console.error('verifySignUp - Unexpected error:', error);
 

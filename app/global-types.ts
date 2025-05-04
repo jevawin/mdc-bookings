@@ -10,6 +10,12 @@ export type TFormSubmissionError = {
 	bodyText: string;
 };
 
+export type TFormError = {
+	status: number;
+	error?: TFormSubmissionError;
+	fieldErrors?: TFormFieldErrors;
+};
+
 export type TFieldError = {
 	name: string;
 	id: string;

@@ -13,7 +13,7 @@ export const registrationFormSchema = z
 		registrationNumber: z
 			.string()
 			.min(1, { message: 'Enter your registration number' }),
-		password: z.string().min(6, { message: 'Enter a strong password' }),
+		password: z.string().min(8, { message: 'Enter a strong password' }),
 		jobPostEmails: z.union([z.undefined(), z.literal('yes')], {
 			errorMap: () => ({
 				message: 'Invalid value',

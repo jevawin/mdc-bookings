@@ -1,6 +1,7 @@
 import type { Route } from './+types/home';
 import type {
 	Env,
+	TFormError,
 	TFormFieldErrors,
 	TFormSubmissionError,
 	TValidateFormData,
@@ -31,12 +32,6 @@ type TFormDataResult = {
 type TValidateRegistrationForm = {
 	data?: TFormDataResult;
 } & TValidateFormData;
-
-type TFormError = {
-	status: number;
-	error?: TFormSubmissionError;
-	fieldErrors?: TFormFieldErrors;
-};
 
 type TRegistrationAction = Promise<Response | TFormError>;
 

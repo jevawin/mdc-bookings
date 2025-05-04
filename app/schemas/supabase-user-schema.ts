@@ -28,6 +28,29 @@ export const supabaseUserSchema = z.object({
 	is_anonymous: z.boolean(),
 });
 
+export const supabaseSessionSchema = z.object({
+	access_token: z.string(),
+	token_type: z.literal('bearer'),
+	expires_in: z.number(),
+	expires_at: z.number(),
+	refresh_token: z.string(),
+	user: supabaseUserSchema,
+});
+
+export type TSupabaseDataSchema = z.infer<typeof supabaseDataSchema>;
+
+export const supabaseDataSchema = z.object({
+	user: supabaseUserSchema,
+	session: supabaseSessionSchema,
+});
+
+export type TSupabaseRootSchema = z.infer<typeof supabaseRootSchema>;
+
+export const supabaseRootSchema = z.object({
+	data: supabaseDataSchema,
+	error: z.string().nullish(),
+});
+
 export type TSupabaseVerifySuccessSchema = z.infer<
 	typeof supabaseVerifySuccessSchema
 >;
