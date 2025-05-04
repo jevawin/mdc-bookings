@@ -5,18 +5,17 @@ export const mockMenuData: TMenu = {
 		{
 			icon: 'list',
 			label: 'Open',
-			href: '#',
-			selected: true,
+			href: '/jobs/open',
 		},
 		{
 			icon: 'clipboard-check',
 			label: 'Applied',
-			href: '#',
+			href: '/jobs/applied',
 		},
 		{
 			icon: 'calendar-plus',
 			label: 'Approved',
-			href: '#',
+			href: '/jobs/approved',
 		},
 	],
 };

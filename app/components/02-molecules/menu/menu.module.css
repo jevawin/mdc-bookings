@@ -13,7 +13,7 @@
 	padding-block-end: calc(var(--base-spacing) * 0.5);
 }
 
-.listItem.selected {
+.listItem:has([aria-current='page']) {
 	border-block-end: calc(var(--base-spacing) * 0.5) solid
 		var(--color-core-brand);
 
