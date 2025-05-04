@@ -10,7 +10,8 @@ export type TIconName =
 	| 'pencil'
 	| 'list'
 	| 'refresh'
-	| 'warning';
+	| 'warning'
+	| 'user';
 
 export type TIcon = {
 	name: TIconName;
