@@ -5,6 +5,7 @@
 
 # production
 /build/
+/public/storybook
 
 # React Router
 /.react-router/
