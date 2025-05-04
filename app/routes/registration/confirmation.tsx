@@ -1,5 +1,7 @@
 import type { Route } from './+types/confirmation';
 
+import { RegistrationCompleteTemplate } from '~/components/05-templates/registration-complete-template/registration-complete-template.tsx';
+
 export function meta({}: Route.MetaArgs) {
 	return [
 		{ title: 'Confirmation' },
@@ -14,9 +16,5 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
 	console.log(loaderData, 'loaderData');
 
-	return (
-		<main>
-			<h1>You have registered!!!</h1>
-		</main>
-	);
+	return <RegistrationCompleteTemplate />;
 }

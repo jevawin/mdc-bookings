@@ -3,6 +3,7 @@ export type TIconName =
 	| 'chevron-down'
 	| 'clipboard-check'
 	| 'cross'
+	| 'email-in'
 	| 'eye-closed'
 	| 'eye-open'
 	| 'pencil'

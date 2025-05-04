@@ -1,5 +1,7 @@
 .container {
+	align-items: center;
 	background-color: var(--color-core-neutral);
+	display: grid;
 	min-block-size: 100svh;
 	padding-block: calc(var(--base-spacing) * 5);
 }

@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { pluraliseText } from '~/utils/string-utils.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
+import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { InlineCheckbox } from '~/components/02-molecules/inline-checkbox/inline-checkbox.tsx';
@@ -12,7 +13,6 @@ import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 import { Form } from '~/components/03-organisms/form/form.tsx';
 
 import styles from './registration-form-template.module.css';
-import { TextLink } from '~/components/01-atoms/text-link/text-link';
 
 export type TRegistrationFormTemplate = {
 	formError?: TFormSubmissionError;
