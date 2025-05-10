@@ -29,7 +29,8 @@ const getAvailableJobsFromAirtable = async (
 						{Airtable: applications},
 						","
 					)
-				) > 0
+				) > 0,
+				{Appointment: date} > NOW()
 			)`,
 		);
 
