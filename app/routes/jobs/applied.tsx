@@ -63,7 +63,8 @@ export const meta: Route.MetaFunction = () => {
 		{ title: 'Applied Interpreter Jobs' },
 		{
 			name: 'description',
-			content: 'Applied interpreter jobs at Manchester Deaf Centre.',
+			content:
+				'Your applied jobs, pending approval by Manchester Deaf Centre.',
 		},
 	];
 };
