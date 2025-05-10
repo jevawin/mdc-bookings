@@ -79,6 +79,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
 	const user = await getUser(env, token);
+	const lastUpdated = new Date().toLocaleString('en-GB');
 
 	// Redirect to login if not logged in
 	if (!user.success) return redirect('/log-in');
@@ -87,13 +88,13 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const userID = user?.data?.id;
 	if (!userID) {
 		console.error('No ID found for user');
-		return { error: 'No ID found for user', jobs: [] };
+		return { error: 'No ID found for user', jobs: [], lastUpdated };
 	}
 
 	const email = user?.data?.email;
 	if (!email) {
 		console.error('No email found for user');
-		return { error: 'No email found for user', jobs: [] };
+		return { error: 'No email found for user', jobs: [], lastUpdated };
 	}
 
 	// Get user name from Airtable
@@ -106,7 +107,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	if (!airtableResponse || !airtableResponse.records) {
 		console.error('Interpreter ID not found in Airtable');
-		return { error: 'Interpreter ID not found', jobs: [] };
+		return { error: 'Interpreter ID not found', jobs: [], lastUpdated };
 	}
 
 	const interpreterName = airtableResponse?.records[0]?.fields['Name'] || '';
@@ -119,13 +120,17 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 		);
 
 		if (availableJobs.error) {
-			return { error: availableJobs.error, jobs: [] };
+			return { error: availableJobs.error, jobs: [], lastUpdated };
 		}
 
-		return { jobs: availableJobs.jobs, name: interpreterName };
+		return {
+			jobs: availableJobs.jobs,
+			name: interpreterName,
+			lastUpdated,
+		};
 	} catch (error) {
 		console.error(error);
-		return { error, jobs: [] };
+		return { error, jobs: [], lastUpdated };
 	}
 }
 
@@ -147,7 +152,7 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 		<JobsPage
 			userName={loaderData.name}
 			jobs={loaderData.jobs}
-			lastUpdated={new Date().toLocaleString('en-GB')}
+			lastUpdated={loaderData.lastUpdated}
 			type="open"
 		/>
 	);

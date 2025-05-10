@@ -142,15 +142,24 @@ export const JobsPage: React.FC<TJobsPage> = ({
 							<ButtonContent.Icon name="refresh" size={14} />
 							<ButtonContent.Text>Refresh</ButtonContent.Text>
 						</Button>
-
-						<Text
-							size="100"
-							weight="100"
-							tag="p"
-							className={styles.updatedTime}
-						>
-							Last updated: {lastUpdated}.&nbsp;
-						</Text>
+						<div>
+							<Text
+								size="100"
+								weight="300"
+								tag="p"
+								className={styles.updatedTime}
+							>
+								Last updated:
+							</Text>
+							<Text
+								size="100"
+								weight="100"
+								tag="p"
+								className={styles.updatedTime}
+							>
+								{lastUpdated}
+							</Text>
+						</div>
 					</div>
 
 					<ul className={styles.jobs}>
