@@ -4,7 +4,20 @@ type TAirtableBody = Record<string, any>;
 type TCreateAirtableRecord = {
 	success: boolean;
 };
+type TAirtableFields = Array<string>;
+type TAirtableParams = Record<string, any>;
+type TAirtableFilters = String;
+type TAirtableRecord = {
+	id: string;
+	fields: Record<string, any>;
+	createdTime: string;
+};
+type TAirtableResponse = {
+	success: boolean;
+	records?: Array<TAirtableRecord> | null;
+};
 
+const AIRTABLE_URL = 'https://api.airtable.com/v0';
 const AIRTABLE_BASE_ID = 'appVvBBcXMR0P1Lo6';
 
 export const createAirtableRecord = async (
@@ -13,7 +26,7 @@ export const createAirtableRecord = async (
 	env: Env,
 ): Promise<TCreateAirtableRecord> => {
 	try {
-		const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${table}`;
+		const url = `${AIRTABLE_URL}/${AIRTABLE_BASE_ID}/${table}`;
 		const payload = {
 			records: [
 				{
@@ -42,6 +55,55 @@ export const createAirtableRecord = async (
 		return { success: true };
 	} catch (error) {
 		console.error('Error sending user to Airtable (raw fetch):', error);
+
+		return {
+			success: false,
+		};
+	}
+};
+
+export const getAirtableRecords = async (
+	table: string,
+	env: Env,
+	fields?: TAirtableFields,
+	filters?: TAirtableFilters,
+): Promise<TAirtableResponse> => {
+	try {
+		const url = `${AIRTABLE_URL}/${AIRTABLE_BASE_ID}/${table}`;
+		const params: TAirtableParams = new URLSearchParams();
+
+		// Add fields to the params
+		fields?.map((field) => {
+			params.append('fields[]', field);
+		});
+
+		// Add filters to the params
+		if (filters) {
+			params.append('filterByFormula', filters);
+		}
+
+		const urlWithParams = `${url}?${params.toString()}`;
+		const response = await fetch(urlWithParams, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${env.AIRTABLE_API_KEY}`,
+			},
+		});
+
+		if (!response.ok) {
+			console.error('Airtable error:', await response.text());
+
+			return {
+				success: false,
+			};
+		}
+
+		const responseJSON: TAirtableResponse = await response.json();
+		const records = responseJSON.records;
+
+		return { success: true, records: records ? records : null };
+	} catch (error) {
+		console.error('Error fetching data from Airtable (raw fetch):', error);
 
 		return {
 			success: false,
