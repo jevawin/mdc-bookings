@@ -73,5 +73,5 @@
 	color: inherit;
 	display: grid;
 	gap: calc(var(--base-spacing) * 3);
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 31rem), 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 31rem), 1fr));
 }
