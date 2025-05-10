@@ -1,7 +1,7 @@
 import type { TButtonVariant } from '~/components/02-molecules/button/button.tsx';
 import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TJobCard } from '~/components/02-molecules/job-card/job-card.tsx';
-import type { TMenu } from '~/components/02-molecules/menu/menu.tsx';
+import type { TMenuItem } from '~/components/02-molecules/menu/menu.tsx';
 
 import { NavLink } from 'react-router';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
@@ -16,6 +16,24 @@ import { Container } from '~/components/04-layouts/container/container.tsx';
 
 import styles from './jobs-page.module.css';
 
+const menuItems: TMenuItem[] = [
+	{
+		icon: 'list',
+		label: 'Open',
+		href: '/jobs/open',
+	},
+	{
+		icon: 'clipboard-check',
+		label: 'Applied',
+		href: '/jobs/applied',
+	},
+	{
+		icon: 'calendar-plus',
+		label: 'Approved',
+		href: '/jobs/approved',
+	},
+];
+
 type TJobsPageCta = {
 	variant?: TButtonVariant;
 	icon: TIconName;
@@ -27,7 +45,6 @@ export type TJobsPage = {
 	userName: string;
 	jobs: TJobCard[];
 	lastUpdated: string;
-	menu: TMenu;
 };
 
 export const JobsPage: React.FC<TJobsPage> = ({
@@ -35,7 +52,6 @@ export const JobsPage: React.FC<TJobsPage> = ({
 	userName,
 	jobs,
 	lastUpdated,
-	menu,
 }) => {
 	const isApproved = type === 'approved';
 	const isOpen = type === 'open';
@@ -115,7 +131,7 @@ export const JobsPage: React.FC<TJobsPage> = ({
 
 			<main id="main" className={styles.main}>
 				<Container className={styles.mainContainer}>
-					<Menu items={menu.items} />
+					<Menu items={menuItems} />
 
 					<div className={styles.lastUpdated}>
 						<Button

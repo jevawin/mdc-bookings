@@ -35,5 +35,4 @@ export const mockJobsPageData: TJobsPage = {
 		},
 	],
 	lastUpdated: '21st April, 2025 at 12:43 PM',
-	menu: mockMenuData,
 };

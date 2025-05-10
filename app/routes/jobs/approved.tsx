@@ -23,7 +23,6 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 			jobs={mockJobsPageData.jobs}
 			lastUpdated={mockJobsPageData.lastUpdated}
 			userName={mockJobsPageData.userName}
-			menu={mockJobsPageData.menu}
 		/>
 	);
 }
