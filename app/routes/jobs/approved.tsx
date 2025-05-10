@@ -19,6 +19,7 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 
 	return (
 		<JobsPage
+			type="approved"
 			jobs={mockJobsPageData.jobs}
 			lastUpdated={mockJobsPageData.lastUpdated}
 			userName={mockJobsPageData.userName}

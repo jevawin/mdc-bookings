@@ -1,13 +1,14 @@
 import type { Route } from './+types/open';
+import type { Env } from '~/global-types.ts';
 
-import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
-import { mockJobsPageData } from '~/components/05-templates/jobs-page/jobs-page.mock';
-import { getAirtableRecords } from '~/services/airtable';
-import type { Env } from '~/global-types';
-import { Text } from '~/components/01-atoms/text/text';
-import { getSession } from '~/sessions.server';
-import { getUser } from '~/services/supabase';
 import { redirect } from 'react-router';
+import { getAirtableRecords } from '~/services/airtable.ts';
+import { getSession } from '~/sessions.server.ts';
+import { getUser } from '~/services/supabase.ts';
+import { mockJobsPageData } from '~/components/05-templates/jobs-page/jobs-page.mock.ts';
+
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
 
 type TJobs = {
 	jobs: any[];
@@ -123,6 +124,8 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 }
 
 export default function Jobs({ loaderData }: Route.ComponentProps) {
+	console.log(loaderData, 'loaderData');
+
 	if (loaderData.error) {
 		return (
 			<main>
@@ -134,8 +137,15 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 				</Text>
 			</main>
 		);
-	} else {
-		console.log(`loaderData jobs: ${loaderData.jobs}`);
-		return <main>{JSON.stringify(loaderData.jobs)}</main>;
 	}
+
+	return (
+		<JobsPage
+			type="open"
+			jobs={mockJobsPageData.jobs}
+			lastUpdated={mockJobsPageData.lastUpdated}
+			userName={mockJobsPageData.userName}
+			menu={mockJobsPageData.menu}
+		/>
+	);
 }

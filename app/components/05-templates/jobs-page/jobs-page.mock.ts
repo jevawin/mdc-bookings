@@ -3,6 +3,7 @@ import type { TJobsPage } from './jobs-page.tsx';
 import { mockMenuData } from '~/components/02-molecules/menu/menu.mock.ts';
 
 export const mockJobsPageData: TJobsPage = {
+	type: 'open',
 	userName: 'John Doe',
 	jobs: [
 		{

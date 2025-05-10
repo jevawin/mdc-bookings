@@ -3,7 +3,13 @@ import { Button, ButtonContent, type TButtonVariant } from '../button/button';
 import { JobFieldGroup } from './components/job-field-group';
 import clsx from 'clsx';
 import { Text } from '~/components/01-atoms/text/text';
-import { Icon } from '~/components/01-atoms/icon/icon';
+import { Icon, type TIconName } from '~/components/01-atoms/icon/icon';
+
+type TJobCardCta = {
+	variant?: TButtonVariant;
+	icon: TIconName;
+	text: string;
+};
 
 export type TJobCard = {
 	id: string;
@@ -12,8 +18,7 @@ export type TJobCard = {
 	dateTime: string;
 	location: string;
 	description: string;
-	buttonText?: string;
-	buttonVariant?: TButtonVariant;
+	cta?: TJobCardCta;
 	className?: string;
 };
 
@@ -24,8 +29,7 @@ export const JobCard: React.FC<TJobCard> = ({
 	dateTime,
 	location,
 	description,
-	buttonText = 'Apply',
-	buttonVariant = 'apply',
+	cta,
 	className,
 }) => {
 	// date time sent as ISO string
@@ -51,10 +55,12 @@ export const JobCard: React.FC<TJobCard> = ({
 		>
 			<JobFieldGroup header="Job #" content={id} />
 
-			<Button variant={buttonVariant}>
-				<ButtonContent.Icon name="pencil" />
-				<ButtonContent.Text>{buttonText}</ButtonContent.Text>
-			</Button>
+			{cta ? (
+				<Button variant={cta?.variant}>
+					<ButtonContent.Icon name={cta.icon} />
+					<ButtonContent.Text>{cta.text}</ButtonContent.Text>
+				</Button>
+			) : null}
 
 			<JobFieldGroup header="Service" content={service} />
 			<JobFieldGroup header="Specialism" content={specialism} />

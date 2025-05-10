@@ -1,4 +1,5 @@
 import type { TButtonVariant } from '~/components/02-molecules/button/button.tsx';
+import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TJobCard } from '~/components/02-molecules/job-card/job-card.tsx';
 import type { TMenu } from '~/components/02-molecules/menu/menu.tsx';
 
@@ -15,21 +16,35 @@ import { Container } from '~/components/04-layouts/container/container.tsx';
 
 import styles from './jobs-page.module.css';
 
+type TJobsPageCta = {
+	variant?: TButtonVariant;
+	icon: TIconName;
+	text: string;
+};
+
 export type TJobsPage = {
+	type: 'applied' | 'approved' | 'open';
 	userName: string;
 	jobs: TJobCard[];
 	lastUpdated: string;
 	menu: TMenu;
-	buttonVariant?: TButtonVariant;
 };
 
 export const JobsPage: React.FC<TJobsPage> = ({
+	type,
 	userName,
 	jobs,
 	lastUpdated,
 	menu,
-	buttonVariant = 'apply',
 }) => {
+	const isApproved = type === 'approved';
+	const isOpen = type === 'open';
+	const cta: TJobsPageCta = {
+		icon: isOpen ? 'pencil' : 'cross',
+		text: isOpen ? 'Apply' : 'Revoke',
+		variant: isOpen ? 'apply' : 'revoke',
+	};
+
 	return (
 		<>
 			<header className={styles.header}>
@@ -132,7 +147,7 @@ export const JobsPage: React.FC<TJobsPage> = ({
 									dateTime={job.dateTime}
 									location={job.location}
 									description={job.description}
-									buttonVariant={buttonVariant}
+									cta={!isApproved ? cta : undefined}
 								/>
 							</li>
 						))}
