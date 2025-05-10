@@ -1,24 +1,21 @@
 import type { Route } from './+types/open';
 import type { Env } from '~/global-types.ts';
 
-import { redirect } from 'react-router';
-import { getAirtableRecords } from '~/services/airtable.ts';
-import { getSession } from '~/sessions.server.ts';
-import { getUser } from '~/services/supabase.ts';
-import { mockJobsPageData } from '~/components/05-templates/jobs-page/jobs-page.mock.ts';
-
-import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
-
-type TJobs = {
-	jobs: any[];
-	error?: string;
-};
+import { getAirtableRecords } from '~/services/airtable';
+import { Text } from '~/components/01-atoms/text/text';
+import { getSession } from '~/sessions.server';
+import { getUser } from '~/services/supabase';
+import { redirect } from 'react-router';
+import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
 
 const getAvailableJobsFromAirtable = async (
 	interpreterEmail: string,
 	env: Env,
-): Promise<TJobs> => {
+): Promise<{
+	jobs: TJobCard[];
+	error?: string;
+}> => {
 	try {
 		const airtableResponse = await getAirtableRecords(
 			'Jobs',
@@ -47,7 +44,16 @@ const getAvailableJobsFromAirtable = async (
 			return { error: 'No jobs found', jobs: [] };
 		}
 
-		const availableJobs = airtableResponse.records;
+		const availableJobs = airtableResponse.records.map((job) => {
+			return {
+				id: job.id,
+				service: job.fields['Appointment: service'],
+				specialism: job.fields['Appointment: specialism'],
+				dateTime: job.fields['Appointment: date'],
+				location: job.fields['Appointment: location'],
+				description: job.fields['Appointment: description'],
+			};
+		});
 
 		return { jobs: availableJobs };
 	} catch (error) {
@@ -100,7 +106,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	if (!airtableResponse || !airtableResponse.records) {
 		console.error('Interpreter ID not found in Airtable');
-		return { error: 'Interpreter ID not found' };
+		return { error: 'Interpreter ID not found', jobs: [] };
 	}
 
 	const interpreterName = airtableResponse?.records[0]?.fields['Name'] || '';
@@ -124,8 +130,6 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 }
 
 export default function Jobs({ loaderData }: Route.ComponentProps) {
-	console.log(loaderData, 'loaderData');
-
 	if (loaderData.error) {
 		return (
 			<main>
@@ -141,10 +145,10 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 
 	return (
 		<JobsPage
+			userName={loaderData.name}
+			jobs={loaderData.jobs}
+			lastUpdated={new Date().toLocaleString('en-GB')}
 			type="open"
-			jobs={mockJobsPageData.jobs}
-			lastUpdated={mockJobsPageData.lastUpdated}
-			userName={mockJobsPageData.userName}
 		/>
 	);
 }
