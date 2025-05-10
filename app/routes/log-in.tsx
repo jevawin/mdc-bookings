@@ -39,11 +39,14 @@ const validateFormData = async (
 		const formObject = convertFormDataToObject(formData);
 		const result = logInFormSchema.safeParse(formObject);
 
-		return result.success
-			? { status: 200, data: result.data }
-			: buildFormFieldErrors(result.error.errors);
+		if (result.success) {
+			return { status: 200, data: result.data };
+		}
+
+		return buildFormFieldErrors(result.error.errors);
 	} catch (error) {
 		console.error('Error validating log in form data:', error);
+
 		return defaultFormError;
 	}
 };
@@ -78,12 +81,6 @@ export const action = async ({
 	const loginResult = await logInWithEmailPassword(formValidation.data, env);
 
 	if (!loginResult.success) {
-		// const session = await getSession();
-		// const error = loginResult.error;
-		// const msg = error ? error.msg : 'Error logging in'
-
-		// session.flash('error', msg);
-
 		return buildFormError(loginResult.error);
 	}
 

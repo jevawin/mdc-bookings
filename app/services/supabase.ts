@@ -182,7 +182,7 @@ export const logInWithEmailPassword = async (
 		});
 
 		if (!response.ok) {
-			const error = response.text();
+			const error = await response.text();
 
 			console.log(error, 'error');
 
@@ -195,7 +195,7 @@ export const logInWithEmailPassword = async (
 
 		return { success: true, data: result };
 	} catch (error) {
-		console.error('verifySignUp - Unexpected error:', error);
+		console.error('logInWithEmailPassword - Unexpected error:', error);
 
 		return { success: false };
 	}
