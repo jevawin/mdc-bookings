@@ -1,8 +1,6 @@
 import type { Env } from '~/global-types.ts';
 import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
 import type {
-	TSupabaseDataSchema,
-	TSupabaseRootSchema,
 	TSupabaseSessionSchema,
 	TSupabaseUserSchema,
 	TSupabaseVerifySuccessSchema,
@@ -14,16 +12,15 @@ import {
 	supabaseVerifySuccessSchema,
 } from '~/schemas/supabase-user-schema.ts';
 import { parseSupabaseError } from '~/utils/supabase-utils';
-import { getSession } from '~/sessions.server';
 
-type TFoo = {
+type TSupabaseError = {
 	code: string;
 	msg: string;
 };
 
 type TSupabaseErrorResponse = {
 	success: false;
-	error?: TSupabaseErrorSchema | TFoo;
+	error?: TSupabaseErrorSchema | TSupabaseError;
 };
 
 type TSupabaseUserSuccessResponse = {
