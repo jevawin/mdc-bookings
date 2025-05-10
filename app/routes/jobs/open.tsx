@@ -46,12 +46,12 @@ const getAvailableJobsFromAirtable = async (
 
 		const availableJobs = airtableResponse.records.map((job) => {
 			return {
-				id: job.id,
+				id: job.fields['Request ID'],
 				service: job.fields['Appointment: service'],
 				specialism: job.fields['Appointment: specialism'],
 				dateTime: job.fields['Appointment: date'],
-				location: job.fields['Appointment: location'],
-				description: job.fields['Appointment: description'],
+				location: job.fields['Airtable: friendly address'],
+				description: job.fields['Appointment: details'],
 			};
 		});
 
