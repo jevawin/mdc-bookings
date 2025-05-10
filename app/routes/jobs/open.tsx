@@ -134,7 +134,7 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 		return (
 			<main>
 				<Text size="100" weight="100" tag="h3" role="alert">
-					Error finding interpreter ID. Please contact MDC.
+					Error loading jobs. Please contact MDC.
 				</Text>
 				<Text size="100" weight="100" tag="p">
 					Error details: {loaderData.error}
