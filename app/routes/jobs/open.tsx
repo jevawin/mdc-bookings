@@ -65,7 +65,7 @@ const getAvailableJobsFromAirtable = async (
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: 'Interpreter Jobs' },
+		{ title: '📋 Open Interpreter Jobs' },
 		{
 			name: 'description',
 			content: 'Open interpreter jobs at Manchester Deaf Centre.',
