@@ -129,10 +129,10 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 	if (loaderData.error) {
 		return (
 			<main>
-				<Text size="100" weight="100" tag="h3" role="alert">
+				<Text size="300" weight="300" tag="h3" role="alert">
 					Error loading jobs. Please contact MDC.
 				</Text>
-				<Text size="100" weight="100" tag="p">
+				<Text size="200" weight="100" tag="p">
 					Error details: {loaderData.error}
 				</Text>
 			</main>
