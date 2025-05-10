@@ -5,37 +5,19 @@ import { mockJobsPageData } from '~/components/05-templates/jobs-page/jobs-page.
 import { getAirtableRecords } from '~/services/airtable';
 import type { Env } from '~/global-types';
 import { Text } from '~/components/01-atoms/text/text';
+import { getSession } from '~/sessions.server';
+import { getUser } from '~/services/supabase';
+import { redirect } from 'react-router';
 
-const getInterpreterEmailFromAirtable = async (
-	userID: string,
-	env: Env,
-): Promise<string | Error> => {
-	try {
-		const airtableResponse = await getAirtableRecords(
-			'Interpreters',
-			env,
-			['Email'],
-			`{User ID}="${userID}"`,
-		);
-
-		if (!airtableResponse || !airtableResponse.records) {
-			console.error('Interpreter ID not found in Airtable');
-			return new Error('Interpreter ID not found');
-		}
-
-		const interpreterEmail = airtableResponse.records[0].id;
-
-		return interpreterEmail;
-	} catch (error) {
-		console.error('Error fetching interpreter ID:', error);
-		return error as Error;
-	}
+type TJobs = {
+	jobs: any[];
+	error?: string;
 };
 
 const getAvailableJobsFromAirtable = async (
 	interpreterEmail: string,
 	env: Env,
-): Promise<Array<any> | Error> => {
+): Promise<TJobs> => {
 	try {
 		const airtableResponse = await getAirtableRecords(
 			'Jobs',
@@ -61,15 +43,16 @@ const getAvailableJobsFromAirtable = async (
 
 		if (!airtableResponse || !airtableResponse.records) {
 			console.error('No jobs found in Airtable');
-			return new Error('No jobs found');
+			return { error: 'No jobs found', jobs: [] };
 		}
 
 		const availableJobs = airtableResponse.records;
 
-		return availableJobs;
+		return { jobs: availableJobs };
 	} catch (error) {
 		console.error('Error fetching jobs:', error);
-		return error as Error;
+
+		return { error: `Error fetching jobs: ${error}`, jobs: [] };
 	}
 };
 
@@ -83,43 +66,76 @@ export function meta({}: Route.MetaArgs) {
 	];
 }
 
-export async function loader({ context }: Route.LoaderArgs) {
-	// Get interpreter email from Airtable
-	const email = await getInterpreterEmailFromAirtable(
-		'52572c44-9d1f-4c66-a9f0-a676ef65e641',
-		context.cloudflare.env,
+export async function loader({ request, context }: Route.LoaderArgs) {
+	const env = context.cloudflare.env;
+	const cookieHeader = request.headers.get('Cookie');
+	const session = await getSession(cookieHeader);
+	const token = session.get('access_token');
+	const user = await getUser(env, token);
+
+	// Redirect to login if not logged in
+	if (!user.success) return redirect('/log-in');
+
+	// Get interpreter ID and email from Supabase
+	const userID = user?.data?.id;
+	if (!userID) {
+		console.error('No ID found for user');
+		return { error: 'No ID found for user', jobs: [] };
+	}
+
+	const email = user?.data?.email;
+	if (!email) {
+		console.error('No email found for user');
+		return { error: 'No email found for user', jobs: [] };
+	}
+
+	// Get user name from Airtable
+	const airtableResponse = await getAirtableRecords(
+		'Interpreters',
+		env,
+		['Name'],
+		`{User ID}="${userID}"`,
 	);
+
+	if (!airtableResponse || !airtableResponse.records) {
+		console.error('Interpreter ID not found in Airtable');
+		return { error: 'Interpreter ID not found' };
+	}
+
+	const interpreterName = airtableResponse?.records[0]?.fields['Name'] || '';
 
 	// Query available jobs for the interpreter to apply for
-	const availableJobs = await getAvailableJobsFromAirtable(
-		email as string,
-		context.cloudflare.env,
-	);
+	try {
+		const availableJobs = await getAvailableJobsFromAirtable(
+			email as string,
+			env,
+		);
 
-	return { availableJobs };
+		if (availableJobs.error) {
+			return { error: availableJobs.error, jobs: [] };
+		}
+
+		return { jobs: availableJobs.jobs, name: interpreterName };
+	} catch (error) {
+		console.error(error);
+		return { error, jobs: [] };
+	}
 }
 
 export default function Jobs({ loaderData }: Route.ComponentProps) {
-	console.log(loaderData, 'loaderData');
-
-	if (loaderData instanceof Error) {
+	if (loaderData.error) {
 		return (
 			<main>
 				<Text size="100" weight="100" tag="h3" role="alert">
 					Error finding interpreter ID. Please contact MDC.
 				</Text>
 				<Text size="100" weight="100" tag="p">
-					Error details: {loaderData.toString()}
+					Error details: {loaderData.error}
 				</Text>
 			</main>
 		);
 	} else {
-		return (
-			<main>
-				<Text size="100" weight="100" tag="h3" role="alert">
-					Interpreter ID: {loaderData.toString()}
-				</Text>
-			</main>
-		);
+		console.log(`loaderData jobs: ${loaderData.jobs}`);
+		return <main>{JSON.stringify(loaderData.jobs)}</main>;
 	}
 }

@@ -17,16 +17,13 @@ type TAirtableResponse = {
 	records?: Array<TAirtableRecord> | null;
 };
 
-const AIRTABLE_URL = 'https://api.airtable.com/v0';
-const AIRTABLE_BASE_ID = 'appVvBBcXMR0P1Lo6';
-
 export const createAirtableRecord = async (
 	body: TAirtableBody,
 	table: string,
 	env: Env,
 ): Promise<TCreateAirtableRecord> => {
 	try {
-		const url = `${AIRTABLE_URL}/${AIRTABLE_BASE_ID}/${table}`;
+		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const payload = {
 			records: [
 				{
@@ -69,7 +66,7 @@ export const getAirtableRecords = async (
 	filters?: TAirtableFilters,
 ): Promise<TAirtableResponse> => {
 	try {
-		const url = `${AIRTABLE_URL}/${AIRTABLE_BASE_ID}/${table}`;
+		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const params: TAirtableParams = new URLSearchParams();
 
 		// Add fields to the params

@@ -106,7 +106,7 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 						</Text>
 
 						<TextLink
-							to="/regaistration"
+							to="/registration"
 							linkText="Create an account"
 						/>
 					</footer>
