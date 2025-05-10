@@ -14,8 +14,12 @@
 
 	/* Spacing */
 	--base-spacing: 8px;
+
+	/* Container */
 	--container-max: 124.8rem;
+	--container-min: 96rem;
 	--container-padding: calc(var(--base-spacing) * 1.5);
+	--max-page-width: 192rem;
 
 	/* Styling */
 	--border-radius: 0.4rem;

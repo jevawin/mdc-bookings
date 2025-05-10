@@ -1,5 +1,6 @@
-import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page';
 import type { Route } from './+types/open';
+
+import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
 import { mockJobsPageData } from '~/components/05-templates/jobs-page/jobs-page.mock';
 
 export function meta({}: Route.MetaArgs) {

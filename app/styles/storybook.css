@@ -34,3 +34,17 @@
 	margin-inline: auto;
 	max-inline-size: 45rem;
 }
+
+.container {
+	align-items: center;
+	block-size: 100%;
+	display: grid;
+}
+
+.containerInner {
+	border: 2px solid #222;
+	border-radius: 0.4rem;
+	display: grid;
+	padding: 10rem 3rem;
+	place-items: center;
+}

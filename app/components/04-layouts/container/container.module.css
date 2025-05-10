@@ -1,0 +1,15 @@
+@value containers: '../../../styles/modules/container.module.css';
+
+.container {
+	--container: var(--container-size);
+
+	composes: container from containers;
+}
+
+.minContainer {
+	--container-size: var(--container-min);
+}
+
+.maxContainer {
+	--container-size: var(--container-max);
+}

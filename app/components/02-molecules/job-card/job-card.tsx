@@ -12,6 +12,7 @@ export type TJobCard = {
 	dateTime: string;
 	location: string;
 	description: string;
+	buttonText?: string;
 	buttonVariant?: TButtonVariant;
 	className?: string;
 };
@@ -23,6 +24,7 @@ export const JobCard: React.FC<TJobCard> = ({
 	dateTime,
 	location,
 	description,
+	buttonText = 'Apply',
 	buttonVariant = 'apply',
 	className,
 }) => {
@@ -43,16 +45,22 @@ export const JobCard: React.FC<TJobCard> = ({
 	});
 
 	return (
-		<div className={clsx(styles.base, className)} data-e2e-id="jobs-table">
+		<article
+			className={clsx(styles.base, className)}
+			data-e2e-id="jobs-table"
+		>
 			<JobFieldGroup header="Job #" content={id} />
+
 			<Button variant={buttonVariant}>
 				<ButtonContent.Icon name="pencil" />
-				<ButtonContent.Text>Apply</ButtonContent.Text>
+				<ButtonContent.Text>{buttonText}</ButtonContent.Text>
 			</Button>
+
 			<JobFieldGroup header="Service" content={service} />
 			<JobFieldGroup header="Specialism" content={specialism} />
 			<JobFieldGroup header="Date" content={date} />
 			<JobFieldGroup header="Time" content={time} />
+
 			<details className={styles.dataFullWidthSection}>
 				<summary>
 					<Text
@@ -69,11 +77,12 @@ export const JobCard: React.FC<TJobCard> = ({
 						size={28}
 					/>
 				</summary>
+
 				<div className={styles.detailsContent}>
 					<JobFieldGroup header="Location" content={location} />
 					<JobFieldGroup header="Description" content={description} />
 				</div>
 			</details>
-		</div>
+		</article>
 	);
 };
