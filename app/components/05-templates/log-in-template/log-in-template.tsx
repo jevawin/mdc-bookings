@@ -89,8 +89,7 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 
 								<PasswordInput
 									id="password"
-									label="Create a great password"
-									hint="Minimum of 8 characters"
+									label="Password"
 									isInvalid={Boolean(fieldErrors?.password)}
 									validationMessage={
 										fieldErrors?.password?.message
