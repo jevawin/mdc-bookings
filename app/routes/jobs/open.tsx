@@ -1,5 +1,4 @@
 import type { Route } from './+types/open';
-import type { Env } from '~/global-types.ts';
 
 import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
 import {
