@@ -175,14 +175,14 @@ export default function JobsLayout() {
 							<ButtonContent.Text>Refresh</ButtonContent.Text>
 						</Button>
 
-						<Text
-							size="100"
-							weight="100"
-							tag="p"
-							className={styles.updatedTime}
-						>
-							Last updated: {loaderData.lastUpdated}.
-						</Text>
+						<div>
+							<Text size="100" weight="200" tag="p">
+								Last updated:
+							</Text>
+							<Text size="100" weight="100" tag="p">
+								{loaderData.lastUpdated}
+							</Text>
+						</div>
 					</div>
 
 					{isNavigating ? (
