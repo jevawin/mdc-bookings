@@ -30,9 +30,8 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 	const pluralCount = pluraliseText(fieldErrorsCount, 'field');
 	const verb = hasMultipleErrors ? 'are' : 'is';
 
-	const altErrorTitle =
-		'We need some more information to complete your registration.';
-	const altErrorBodyText = `Failed to submit because ${pluralCount} ${verb} invalid:`;
+	const altErrorTitle = "We couldn't log you in 😭";
+	const altErrorBodyText = `${pluralCount} ${verb} invalid:`;
 
 	const errorTitle = formError?.title ?? altErrorTitle;
 	const bodyText = formError?.bodyText ?? altErrorBodyText;
