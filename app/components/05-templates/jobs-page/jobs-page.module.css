@@ -2,6 +2,7 @@
 	--link-color: var(--color-core-brand);
 
 	background-color: var(--color-core-background);
+	border-block-end: 1px solid rgb(0 0 0 / 10%);
 	box-shadow: 0 5px 25px -20px rgb(0 0 0 / 25%);
 	color: var(--color-core-foreground);
 	inline-size: 100%;
@@ -15,7 +16,7 @@
 	justify-content: space-between;
 	margin-inline: auto;
 	max-inline-size: var(--container-max);
-	padding-block: calc(var(--base-spacing) * 1.25);
+	padding-block: calc(var(--base-spacing) * 1.75);
 	padding-inline: var(--container-padding);
 }
 
@@ -45,7 +46,7 @@
 .navLink {
 	border-block-end: 1px solid var(--link-color);
 	color: var(--link-color);
-	padding-block-end: calc(var(--base-spacing) * 0.5);
+	padding-block-end: calc(var(--base-spacing) * 0.25);
 	text-decoration: none;
 
 	&[aria-current='page'] {
