@@ -85,14 +85,13 @@ export const JobsPage: React.FC<TJobsPage> = ({
 						tag="p"
 						size="200"
 						weight="100"
-						className={styles.userName}
+						className={styles.centerAlignedText}
 					>
 						<Icon
 							name="user"
-							size={19}
+							size={17}
 							className={styles.userIcon}
 						/>
-
 						{userName}
 					</Text>
 
@@ -164,9 +163,14 @@ export const JobsPage: React.FC<TJobsPage> = ({
 						</div>
 					</div>
 
-					<Text size="300" tag="h3" weight="300">
+					<Text
+						size="300"
+						tag="h3"
+						weight="300"
+						className={styles.centerAlignedText}
+					>
 						<Icon name="clock-rotate" size={19} />
-						&nbsp;Upcoming jobs:
+						Upcoming jobs:
 					</Text>
 					{currentJobs.length > 0 ? (
 						<ul className={styles.jobs}>
@@ -199,9 +203,14 @@ export const JobsPage: React.FC<TJobsPage> = ({
 					)}
 					{isApproved && pastJobs.length > 0 ? (
 						<>
-							<Text size="300" tag="h3" weight="300">
+							<Text
+								size="300"
+								tag="h3"
+								weight="300"
+								className={styles.centerAlignedText}
+							>
 								<Icon name="calendar-check" size={19} />
-								&nbsp;Past jobs:
+								Past jobs:
 							</Text>
 							<ul className={styles.jobs}>
 								{pastJobs.map((job) => (
@@ -225,9 +234,14 @@ export const JobsPage: React.FC<TJobsPage> = ({
 						</>
 					) : isApproved && pastJobs.length === 0 ? (
 						<>
-							<Text size="300" tag="h3" weight="300">
+							<Text
+								size="300"
+								tag="h3"
+								weight="300"
+								className={styles.centerAlignedText}
+							>
 								<Icon name="calendar-check" size={19} />
-								&nbsp;Past jobs:
+								Past jobs:
 							</Text>
 							<Text size="200" weight="200" tag="p">
 								No past jobs.
