@@ -2,66 +2,14 @@ import type { Route } from './+types/open';
 import type { Env } from '~/global-types.ts';
 
 import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
-import { getAirtableRecords } from '~/services/airtable';
+import {
+	getAirtableRecords,
+	getAvailableJobsFromAirtable,
+} from '~/services/airtable';
 import { Text } from '~/components/01-atoms/text/text';
 import { getSession } from '~/sessions.server';
 import { getUser } from '~/services/supabase';
 import { redirect } from 'react-router';
-import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
-
-const getAvailableJobsFromAirtable = async (
-	interpreterEmail: string,
-	env: Env,
-): Promise<{
-	jobs: TJobCard[];
-	error?: string;
-}> => {
-	try {
-		const airtableResponse = await getAirtableRecords(
-			'Jobs',
-			env,
-			[],
-			`AND(
-				OR(
-					{Status} = 'Booking posted',
-					AND(
-						{Status} = 'Applications received',
-						FIND(
-							"${interpreterEmail}",
-							ARRAYJOIN(
-								{Airtable: applications},
-								","
-							)
-						) = 0
-					)
-				),
-				{Appointment: date} > NOW()
-			)`,
-		);
-
-		if (!airtableResponse || !airtableResponse.records) {
-			console.error('No jobs found in Airtable');
-			return { error: 'No jobs found', jobs: [] };
-		}
-
-		const availableJobs = airtableResponse.records.map((job) => {
-			return {
-				id: job.fields['Request ID'],
-				service: job.fields['Appointment: service'],
-				specialism: job.fields['Appointment: specialism'],
-				dateTime: job.fields['Appointment: date'],
-				location: job.fields['Airtable: friendly address'],
-				description: job.fields['Appointment: details'],
-			};
-		});
-
-		return { jobs: availableJobs };
-	} catch (error) {
-		console.error('Error fetching jobs:', error);
-
-		return { error: `Error fetching jobs: ${error}`, jobs: [] };
-	}
-};
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -113,25 +61,35 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	const interpreterName = airtableResponse?.records[0]?.fields['Name'] || '';
 
 	// Query available jobs for the interpreter to apply for
-	try {
-		const availableJobs = await getAvailableJobsFromAirtable(
-			email as string,
-			env,
-		);
+	const availableJobs = await getAvailableJobsFromAirtable(
+		`AND(
+				OR(
+					{Status} = 'Booking posted',
+					AND(
+						{Status} = 'Applications received',
+						FIND(
+							"${email}",
+							ARRAYJOIN(
+								{Airtable: applications},
+								","
+							)
+						) = 0
+					)
+				),
+				{Appointment: date} > NOW()
+			)`,
+		env,
+	);
 
-		if (availableJobs.error) {
-			return { error: availableJobs.error, jobs: [], lastUpdated };
-		}
-
-		return {
-			jobs: availableJobs.jobs,
-			name: interpreterName,
-			lastUpdated,
-		};
-	} catch (error) {
-		console.error(error);
-		return { error, jobs: [], lastUpdated };
+	if (availableJobs.error) {
+		return { error: availableJobs.error, jobs: [], lastUpdated };
 	}
+
+	return {
+		jobs: availableJobs.jobs,
+		name: interpreterName,
+		lastUpdated,
+	};
 }
 
 export default function Jobs({ loaderData }: Route.ComponentProps) {

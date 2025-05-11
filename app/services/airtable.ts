@@ -1,3 +1,4 @@
+import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
 import type { Env } from '~/global-types.ts';
 
 type TAirtableBody = Record<string, any>;
@@ -105,5 +106,56 @@ export const getAirtableRecords = async (
 		return {
 			success: false,
 		};
+	}
+};
+
+export const getAvailableJobsFromAirtable = async (
+	filters: TAirtableFilters,
+	env: Env,
+): Promise<{
+	jobs: TJobCard[];
+	error?: string;
+}> => {
+	try {
+		const airtableResponse = await getAirtableRecords(
+			'Jobs',
+			env,
+			[
+				'Request ID',
+				'Appointment: service',
+				'Appointment: specialism',
+				'Appointment: date',
+				'Airtable: friendly address',
+				'Appointment: details',
+			],
+			filters,
+		);
+
+		if (!airtableResponse || !airtableResponse.records) {
+			console.error('No jobs found in Airtable');
+			return { error: 'No jobs found', jobs: [] };
+		}
+
+		const availableJobs = airtableResponse.records.map((job) => {
+			// Mark past jobs
+			const dateTimeD = new Date(job.fields['Appointment: date']);
+			const isPast = dateTimeD < new Date() ? true : false;
+
+			return {
+				id: job.fields['Request ID'],
+				service: job.fields['Appointment: service'],
+				specialism: job.fields['Appointment: specialism'],
+				dateTime: job.fields['Appointment: date'],
+				location: job.fields['Airtable: friendly address'],
+				description: job.fields['Appointment: details'],
+				isPast,
+			} as TJobCard;
+		});
+
+		return { jobs: availableJobs };
+	} catch (error) {
+		console.error('Error fetching jobs:', error);
+
+		return { error: `Error fetching jobs: ${error}`, jobs: [] };
 	}
 };
