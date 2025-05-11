@@ -1,32 +1,4 @@
-.container {
-	align-items: center;
-	background-color: var(--color-core-neutral);
-	display: grid;
-	min-block-size: 100svh;
-	padding-block: calc(var(--base-spacing) * 5);
-}
-
-.inner {
-	background-color: var(--color-core-background);
-	border-radius: calc(var(--border-radius) * 2);
-	display: grid;
-	gap: calc(var(--base-spacing) * 2);
-	inline-size: 100%;
-	margin-inline: auto;
-	max-inline-size: 45rem;
-	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2.5);
-}
-
 .main {
 	display: grid;
 	gap: calc(var(--base-spacing) * 2);
-}
-
-.footer {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	gap: calc(var(--base-spacing) * 2);
-	justify-content: space-between;
-	padding-block: calc(var(--base-spacing) * 1.5);
 }
