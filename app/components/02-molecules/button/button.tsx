@@ -6,7 +6,12 @@ import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './button.module.css';
 
-export type TButtonVariant = 'primary' | 'secondary' | 'apply' | 'revoke';
+export type TButtonVariant =
+	| 'primary'
+	| 'secondary'
+	| 'apply'
+	| 'revoke'
+	| 'inactive';
 
 export type TButton = {
 	children: React.ReactNode;
@@ -25,6 +30,7 @@ export const Button: React.FC<TButtonProps> = ({
 }) => (
 	<button
 		type="button"
+		aria-disabled={variant === 'inactive' ? 'true' : undefined}
 		className={clsx(styles.base, styles[variant], styles[size], className)}
 		data-e2e-id="button"
 		{...rest}

@@ -11,6 +11,8 @@ export type TIconName =
 	| 'list'
 	| 'refresh'
 	| 'warning'
+	| 'clock-rotate'
+	| 'calendar-check'
 	| 'user';
 
 export type TIcon = {

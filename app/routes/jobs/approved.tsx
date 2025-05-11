@@ -30,7 +30,7 @@ const getAvailableJobsFromAirtable = async (
 						","
 					)
 				) > 0,
-				{Appointment: date} > NOW()
+				DATETIME_DIFF({Appointment: date}, TODAY(), "days") > -90
 			)`,
 		);
 
@@ -40,6 +40,10 @@ const getAvailableJobsFromAirtable = async (
 		}
 
 		const availableJobs = airtableResponse.records.map((job) => {
+			// Mark past jobs
+			const dateTimeD = new Date(job.fields['Appointment: date']);
+			const isPast = dateTimeD < new Date() ? true : false;
+
 			return {
 				id: job.fields['Request ID'],
 				service: job.fields['Appointment: service'],
@@ -47,7 +51,8 @@ const getAvailableJobsFromAirtable = async (
 				dateTime: job.fields['Appointment: date'],
 				location: job.fields['Airtable: friendly address'],
 				description: job.fields['Appointment: details'],
-			};
+				isPast,
+			} as TJobCard;
 		});
 
 		return { jobs: availableJobs };
@@ -144,7 +149,7 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 			userName={loaderData.name}
 			jobs={loaderData.jobs}
 			lastUpdated={loaderData.lastUpdated}
-			type="applied"
+			type="approved"
 		/>
 	);
 }

@@ -20,6 +20,7 @@ export type TJobCard = {
 	description: string;
 	cta?: TJobCardCta;
 	className?: string;
+	isPast?: boolean;
 };
 
 export const JobCard: React.FC<TJobCard> = ({

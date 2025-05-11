@@ -55,11 +55,13 @@ export const JobsPage: React.FC<TJobsPage> = ({
 }) => {
 	const isApproved = type === 'approved';
 	const isOpen = type === 'open';
-	const cta: TJobsPageCta = {
+	const currentJobsCTA: TJobsPageCta = {
 		icon: isOpen ? 'pencil' : 'cross',
 		text: isOpen ? 'Apply' : 'Revoke',
 		variant: isOpen ? 'apply' : 'revoke',
 	};
+	const pastJobs = jobs.filter((job) => job.isPast);
+	const currentJobs = jobs.filter((job) => !job.isPast);
 
 	return (
 		<>
@@ -162,21 +164,76 @@ export const JobsPage: React.FC<TJobsPage> = ({
 						</div>
 					</div>
 
-					<ul className={styles.jobs}>
-						{jobs.map((job) => (
-							<li key={job.id}>
-								<JobCard
-									id={job.id}
-									service={job.service}
-									specialism={job.specialism}
-									dateTime={job.dateTime}
-									location={job.location}
-									description={job.description}
-									cta={!isApproved ? cta : undefined}
-								/>
-							</li>
-						))}
-					</ul>
+					<Text size="300" tag="h3" weight="300">
+						<Icon name="clock-rotate" size={19} />
+						&nbsp;Upcoming jobs:
+					</Text>
+					{currentJobs.length > 0 ? (
+						<ul className={styles.jobs}>
+							{currentJobs.map((job) => (
+								<li key={job.id}>
+									<JobCard
+										id={job.id}
+										service={job.service}
+										specialism={job.specialism}
+										dateTime={job.dateTime}
+										location={job.location}
+										description={job.description}
+										cta={
+											!isApproved
+												? currentJobsCTA
+												: {
+														icon: 'calendar-plus',
+														text: 'Add to calendar',
+														variant: 'primary',
+													}
+										}
+									/>
+								</li>
+							))}
+						</ul>
+					) : (
+						<Text size="200" weight="200" tag="p">
+							No upcoming jobs.
+						</Text>
+					)}
+					{isApproved && pastJobs.length > 0 ? (
+						<>
+							<Text size="300" tag="h3" weight="300">
+								<Icon name="calendar-check" size={19} />
+								&nbsp;Past jobs:
+							</Text>
+							<ul className={styles.jobs}>
+								{pastJobs.map((job) => (
+									<li key={job.id}>
+										<JobCard
+											id={job.id}
+											service={job.service}
+											specialism={job.specialism}
+											dateTime={job.dateTime}
+											location={job.location}
+											description={job.description}
+											cta={{
+												icon: 'calendar-plus',
+												text: 'Add to calendar',
+												variant: 'inactive',
+											}}
+										/>
+									</li>
+								))}
+							</ul>
+						</>
+					) : isApproved && pastJobs.length === 0 ? (
+						<>
+							<Text size="300" tag="h3" weight="300">
+								<Icon name="calendar-check" size={19} />
+								&nbsp;Past jobs:
+							</Text>
+							<Text size="200" weight="200" tag="p">
+								No past jobs.
+							</Text>
+						</>
+					) : null}
 				</Container>
 			</main>
 		</>

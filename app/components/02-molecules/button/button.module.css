@@ -39,7 +39,7 @@
 	}
 
 	@media (hover: hover) {
-		&:hover {
+		&:not([aria-disabled='true']):hover {
 			--btn-icon-rotation: 30deg;
 
 			background-color: var(--btn-bg-color-hover);
@@ -79,6 +79,13 @@
 	--btn-bg-color: var(--color-core-negative);
 	--btn-bg-color-hover: color-mix(in srgb, var(--btn-bg-color), #000 10%);
 	--btn-outline-color: var(--color-core-negative);
+}
+
+.inactive {
+	--btn-fg-color: color-mix(in srgb, var(--btn-bg-color), #000 50%);
+	--btn-bg-color: var(--color-core-inactive);
+	--btn-bg-color-hover: var(--color-core-inactive);
+	--btn-outline-color: var(--color-core-inactive);
 }
 
 .icon {
