@@ -4,13 +4,8 @@ import styles from './registration.module.css';
 
 export default function RegistrationLayout() {
 	return (
-		<div
-			className={styles.container}
-			data-e2e-id="registration-form-template"
-		>
-			<div className={styles.inner}>
-				<Outlet />
-			</div>
-		</div>
+		<main id="main" className={styles.main}>
+			<Outlet />
+		</main>
 	);
 }

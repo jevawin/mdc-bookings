@@ -31,11 +31,8 @@ type TValidateLogInForm = {
 	data?: TFormDataResult;
 } & TValidateFormData;
 
-const validateFormData = async (
-	request: Request,
-): Promise<TValidateLogInForm> => {
+const validateFormData = (formData: FormData): TValidateLogInForm => {
 	try {
-		const formData = await request.formData();
 		const formObject = convertFormDataToObject(formData);
 		const result = logInFormSchema.safeParse(formObject);
 
@@ -69,36 +66,45 @@ export const action = async ({
 	request,
 	context,
 }: Route.ActionArgs): TLogInAction => {
-	if (request.method !== 'POST') return defaultFormError;
-
 	const env = context.cloudflare.env;
-	const formValidation = await validateFormData(request);
 
-	if (formValidation.status !== 200 || !formValidation.data) {
-		return formValidation;
+	try {
+		const form = await request.formData();
+		const formValidation = await validateFormData(form);
+
+		if (formValidation.status !== 200 || !formValidation.data) {
+			return formValidation;
+		}
+
+		const loginResult = await logInWithEmailPassword(
+			formValidation.data,
+			env,
+		);
+
+		if (!loginResult.success) {
+			return buildFormError(loginResult.error);
+		}
+
+		const session = await getSession();
+
+		const access_token = loginResult.data.access_token;
+		const refresh_token = loginResult.data.refresh_token;
+		const expires_at = loginResult.data.expires_at;
+
+		session.set('access_token', access_token);
+		session.set('refresh_token', refresh_token);
+		session.set('expires_at', expires_at);
+
+		return redirect('/jobs/open', {
+			headers: {
+				'Set-Cookie': await commitSession(session),
+			},
+		});
+	} catch (error) {
+		console.error('Error in login form data:', error);
+
+		return defaultFormError;
 	}
-
-	const loginResult = await logInWithEmailPassword(formValidation.data, env);
-
-	if (!loginResult.success) {
-		return buildFormError(loginResult.error);
-	}
-
-	const session = await getSession();
-
-	const access_token = loginResult.data.access_token;
-	const refresh_token = loginResult.data.refresh_token;
-	const expires_at = loginResult.data.expires_at;
-
-	session.set('access_token', access_token);
-	session.set('refresh_token', refresh_token);
-	session.set('expires_at', expires_at);
-
-	return redirect('/jobs/open', {
-		headers: {
-			'Set-Cookie': await commitSession(session),
-		},
-	});
 };
 
 export const loader = async ({ request, context }: Route.LoaderArgs) => {
@@ -120,9 +126,7 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
 };
 
-export default function LogIn() {
-	const actionData = useActionData<typeof action>();
-
+export default function LogIn({ actionData }: Route.ComponentProps) {
 	return (
 		<LogInTemplate
 			formError={actionData?.error}

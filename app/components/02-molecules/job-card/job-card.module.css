@@ -7,16 +7,12 @@
 	border-radius: var(--border-radius);
 	border-style: solid;
 	border-width: 0.2rem;
-	box-shadow:
-		15px 15px 53px #f1f1f1,
-		-15px -15px 53px #fff;
 	color: inherit;
 	display: grid;
 	gap: calc(var(--base-spacing) * 3);
 	grid-template-columns: 1fr auto;
 	padding: 2rem;
 	position: relative;
-	z-index: -1;
 
 	@media (width >= 650px) {
 		grid-template-rows: 1fr 1.5fr 1fr auto;

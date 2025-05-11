@@ -1,14 +1,15 @@
 import type { Route } from './+types/open';
 
-import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
+import { redirect } from 'react-router';
 import {
 	getAirtableRecords,
 	getAvailableJobsFromAirtable,
-} from '~/services/airtable';
-import { Text } from '~/components/01-atoms/text/text';
-import { getSession } from '~/sessions.server';
-import { getUser } from '~/services/supabase';
-import { redirect } from 'react-router';
+} from '~/services/airtable.ts';
+import { getUser } from '~/services/supabase.ts';
+import { getSession } from '~/sessions.server.ts';
+
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
 
 export const meta: Route.MetaFunction = () => {
 	return [
@@ -91,10 +92,11 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 export default function Jobs({ loaderData }: Route.ComponentProps) {
 	if (loaderData.error) {
 		return (
-			<main>
+			<main id="main">
 				<Text size="300" weight="300" tag="h3" role="alert">
 					Error loading jobs. Please contact MDC.
 				</Text>
+
 				<Text size="200" weight="100" tag="p">
 					Error details: {loaderData.error}
 				</Text>
@@ -102,12 +104,5 @@ export default function Jobs({ loaderData }: Route.ComponentProps) {
 		);
 	}
 
-	return (
-		<JobsPage
-			userName={loaderData.name}
-			jobs={loaderData.jobs}
-			lastUpdated={loaderData.lastUpdated}
-			type="applied"
-		/>
-	);
+	return <JobsPage type="applied" jobs={loaderData.jobs} />;
 }

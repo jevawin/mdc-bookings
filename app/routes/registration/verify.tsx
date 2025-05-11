@@ -1,7 +1,9 @@
 import type { Route } from './+types/verify';
 
 import { verifySignUp } from '~/services/supabase.ts';
-import { RegistrationVerificationTemplate } from '~/components/05-templates/registration-verification-template/registration-verification-template.tsx';
+
+import { Authentication } from '~/components/04-layouts/authentication/authentication.tsx';
+import { RegistrationTemplate } from '~/components/05-templates/registration-template/registration-template.tsx';
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -26,6 +28,15 @@ export async function loader({ context, request }: Route.LoaderArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
 	const isSuccess = loaderData.success;
+	const successTitle = isSuccess ? 'succesful' : 'unsuccesful';
 
-	return <RegistrationVerificationTemplate success={isSuccess} />;
+	return (
+		<>
+			<Authentication.Header
+				title={`Email verification ${successTitle}`}
+			/>
+
+			<RegistrationTemplate.Verification isSuccess={isSuccess} />
+		</>
+	);
 }

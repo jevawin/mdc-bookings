@@ -1,7 +1,7 @@
 import type { ZodIssue } from 'zod';
 import type { TFormFieldErrors, TValidateFormData } from '~/global-types.ts';
 
-import { camelToKebabCase } from './string-utils.ts';
+import { camelToKebabCase, pluraliseText } from './string-utils.ts';
 
 export const buildFormFieldErrors = (errors: ZodIssue[]): TValidateFormData => {
 	const fieldErrors: TFormFieldErrors = {};
@@ -17,7 +17,16 @@ export const buildFormFieldErrors = (errors: ZodIssue[]): TValidateFormData => {
 		fieldErrors[name] = errorObj;
 	}
 
+	const fieldErrorsCount = Object.keys(fieldErrors ?? {}).length;
+	const hasMultipleErrors = fieldErrorsCount > 1;
+	const pluralCount = pluraliseText(fieldErrorsCount, 'field');
+	const verb = hasMultipleErrors ? 'are' : 'is';
+
 	return {
+		error: {
+			title: 'There is a problem',
+			bodyText: `Failed to submit because ${pluralCount} ${verb} invalid:`,
+		},
 		fieldErrors,
 		status: 400,
 	};

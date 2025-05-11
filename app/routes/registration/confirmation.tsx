@@ -1,6 +1,7 @@
 import type { Route } from './+types/confirmation';
 
-import { RegistrationCompleteTemplate } from '~/components/05-templates/registration-complete-template/registration-complete-template.tsx';
+import { Authentication } from '~/components/04-layouts/authentication/authentication';
+import { RegistrationTemplate } from '~/components/05-templates/registration-template/registration-template';
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -16,5 +17,11 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
 	console.log(loaderData, 'loaderData');
 
-	return <RegistrationCompleteTemplate />;
+	return (
+		<>
+			<Authentication.Header title="Thank you for your registration" />
+
+			<RegistrationTemplate.Complete />
+		</>
+	);
 }

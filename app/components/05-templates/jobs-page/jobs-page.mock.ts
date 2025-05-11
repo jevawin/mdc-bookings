@@ -1,10 +1,7 @@
 import type { TJobsPage } from './jobs-page.tsx';
 
-import { mockMenuData } from '~/components/02-molecules/menu/menu.mock.ts';
-
 export const mockJobsPageData: TJobsPage = {
 	type: 'open',
-	userName: 'John Doe',
 	jobs: [
 		{
 			id: 'SIU79',
@@ -34,5 +31,4 @@ export const mockJobsPageData: TJobsPage = {
 				"Persephone is mint. She's the life of the party and will make you dance like no one is watching. She's also a great cook and loves to make waffles for her friends. If you ever need a waffle buddy, Persephone is the one.",
 		},
 	],
-	lastUpdated: '21st April, 2025 at 12:43 PM',
 };

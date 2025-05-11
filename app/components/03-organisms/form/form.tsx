@@ -8,6 +8,7 @@ import {
 } from '~/components/02-molecules/button/button.tsx';
 
 import styles from './form.module.css';
+import { Loader } from '~/components/01-atoms/loader/loader';
 
 export type TForm = React.PropsWithChildren<{
 	id: string;
@@ -44,12 +45,17 @@ export const Form: React.FC<TFormProps> = ({
 			<Button
 				type="submit"
 				variant="primary"
-				className={styles.button}
 				aria-disabled={isSubmitting}
+				className={clsx(
+					styles.button,
+					isSubmitting ? styles.submitting : undefined,
+				)}
 			>
 				<ButtonContent.Text>
 					{submitButtonText ?? 'Submit'}
 				</ButtonContent.Text>
+
+				{isSubmitting ? <Loader className={styles.loader} /> : null}
 			</Button>
 
 			{isSubmitting ? (

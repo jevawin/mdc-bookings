@@ -10,7 +10,8 @@ import {
 	convertFormDataToObject,
 } from '~/utils/form-utils.ts';
 
-import { RegistrationFormTemplate } from '~/components/05-templates/registration-form-template/registration-form-template';
+import { Authentication } from '~/components/04-layouts/authentication/authentication';
+import { RegistrationTemplate } from '~/components/05-templates/registration-template/registration-template';
 
 type TFormDataResult = {
 	name: string;
@@ -183,9 +184,18 @@ export default function Registration() {
 	const formError = actionData?.error;
 
 	return (
-		<RegistrationFormTemplate
-			formError={formError}
-			fieldErrors={fieldErrors}
-		/>
+		<>
+			<Authentication.Header title="Become an interpreter" />
+
+			<RegistrationTemplate.Form
+				formError={formError}
+				fieldErrors={fieldErrors}
+			/>
+
+			<Authentication.Footer
+				title="Already have an account?"
+				cta={{ linkText: 'Log in', to: '/log-in' }}
+			/>
+		</>
 	);
 }

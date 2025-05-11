@@ -6,4 +6,19 @@
 
 .button {
 	justify-self: start;
+	position: relative;
+
+	&[aria-disabled='true'] {
+		pointer-events: none;
+	}
+}
+
+.submitting span {
+	opacity: 0;
+}
+
+.loader {
+	inset-block-start: calc(50% - 1rem);
+	inset-inline-start: calc(50% - 1rem);
+	position: absolute;
 }

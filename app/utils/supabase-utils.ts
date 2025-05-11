@@ -1,28 +1,34 @@
 import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+
 import { supabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
 
-type TFoo = {
+type TGenericError = {
 	code: string;
 	msg: string;
 };
 
 type TSupabaseErrorResponse = {
 	success: false;
-	error: TSupabaseErrorSchema | TFoo;
+	error: TSupabaseErrorSchema | TGenericError;
 };
 
-export const parseSupabaseError = async (
-	response: Response,
-): Promise<TSupabaseErrorResponse> => {
+export const parseSupabaseError = (data: unknown): TSupabaseErrorResponse => {
 	try {
-		const result = await response.json();
-		const parsed = supabaseErrorSchema.safeParse(result);
+		const parsed = supabaseErrorSchema.safeParse(data);
 
 		if (parsed.success) {
 			return { success: false, error: parsed.data };
 		}
 	} catch (error) {
 		console.error('Failed to parse Supabase error response:', error);
+
+		return {
+			success: false,
+			error: {
+				code: 'unknown_error',
+				msg: 'An unexpected error occurred.',
+			},
+		};
 	}
 
 	return {

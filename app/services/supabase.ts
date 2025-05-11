@@ -179,11 +179,11 @@ export const logInWithEmailPassword = async (
 		});
 
 		if (!response.ok) {
-			const error = await response.text();
+			const result = await response.json();
 
-			console.log(error, 'error');
+			console.log(result, 'error');
 
-			return await parseSupabaseError(response);
+			return parseSupabaseError(result);
 		}
 
 		const result = (await response.json()) satisfies TSupabaseSessionSchema;

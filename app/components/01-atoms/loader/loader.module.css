@@ -1,0 +1,15 @@
+@keyframes loader {
+	0% {
+		stroke-dashoffset: 374px;
+	}
+
+	100% {
+		stroke-dashoffset: -374px;
+	}
+}
+
+:where(.loader) {
+	& path {
+		animation: loader 1s linear infinite;
+	}
+}
