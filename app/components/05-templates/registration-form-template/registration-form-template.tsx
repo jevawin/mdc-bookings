@@ -42,7 +42,6 @@ export const RegistrationFormTemplate: React.FC<TRegistrationFormTemplate> = ({
 
 	const fieldErrorsCount = Object.keys(fieldErrors ?? {}).length;
 	const hasFieldsErrors = fieldErrorsCount >= 1;
-	const hasMultipleErrors = fieldErrorsCount > 1;
 	const pluralCount = pluraliseText(fieldErrorsCount, 'field');
 
 	const altErrorTitle = "We couldn't register you 😭";
