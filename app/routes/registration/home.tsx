@@ -3,7 +3,10 @@ import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect, useActionData } from 'react-router';
 import { registrationFormSchema } from '~/schemas/registration-form-schema';
-import { createAirtableRecord } from '~/services/airtable.ts';
+import {
+	createAirtableRecord,
+	type TAirtableFields,
+} from '~/services/airtable.ts';
 import { createNewUser } from '~/services/supabase.ts';
 import {
 	buildFormFieldErrors,
@@ -106,7 +109,7 @@ const sendUserToAirtable = async (
 		const isJobSummaryEmails = formData.jobSummaryEmails === 'yes';
 		const isRegOrgEmpty = regOrg === '' || !regOrg;
 
-		const payload = {
+		const payload: TAirtableFields = {
 			'User ID': userId,
 			'Email': formData.email,
 			'Name': formData.name,

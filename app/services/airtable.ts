@@ -1,34 +1,80 @@
 import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
 import type { Env } from '~/global-types.ts';
 
-type TAirtableBody = Record<string, any>;
+type TAirtableBody = {
+	records: TAirtableRecord[];
+};
 type TCreateAirtableRecord = {
 	success: boolean;
 };
-type TAirtableFields = Array<string>;
 type TAirtableParams = Record<string, any>;
 type TAirtableFilters = String;
+export type TAirtableFields = {
+	/* Jobs */
+	'Request ID'?: string;
+	'Status'?: string;
+	'Booker: name'?: string;
+	'Appointment: service'?: string;
+	'Appointment: specialism'?: string;
+	'Appointment: organisation'?: string;
+	'Appointment: details'?: string;
+	'Appointment: client name'?: string;
+	'Appointment: contact name'?: string;
+	'Appointment: contact number'?: string;
+	'Appointment: access to work'?: string;
+	'Appointment: interpreter gender'?: string;
+	'Appointment: date'?: string;
+	'Appointment: duration'?: string;
+	'Appointment: address 1'?: string;
+	'Appointment: address 2'?: string;
+	'Appointment: city'?: string;
+	'Appointment: post code'?: string;
+	'Booker: number'?: string;
+	'Booker: email'?: string;
+	'Airtable: request last updated'?: string;
+	'Airtable: request number'?: number;
+	'Airtable: name and ID'?: string;
+	'Airtable: request received'?: string;
+	'Airtable: appointment start'?: string;
+	'Airtable: appointment end'?: string;
+	'Finance: department'?: string;
+	'Airtable: post email sent'?: boolean;
+	'Airtable: friendly address'?: string;
+	'Airtable: Google Maps link'?: string;
+	/* Interpreters */
+	'Email'?: string;
+	'Name'?: string;
+	'Registration number'?: string;
+	'Job post emails'?: boolean;
+	'Job summary emails'?: boolean;
+	'Registration organisation'?: string;
+	'Registration lookup'?: string;
+	'Registration details'?: string;
+	'User ID'?: string;
+};
 type TAirtableRecord = {
-	id: string;
-	fields: Record<string, any>;
-	createdTime: string;
+	id?: string;
+	fields: TAirtableFields;
+	createdTime?: string;
 };
 type TAirtableResponse = {
 	success: boolean;
 	records?: Array<TAirtableRecord> | null;
 };
 
+/* UNOPINIONATED */
+
 export const createAirtableRecord = async (
-	body: TAirtableBody,
+	fields: TAirtableFields,
 	table: string,
 	env: Env,
 ): Promise<TCreateAirtableRecord> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
-		const payload = {
+		const body = {
 			records: [
 				{
-					fields: body,
+					fields,
 				},
 			],
 		};
@@ -39,7 +85,7 @@ export const createAirtableRecord = async (
 				'Authorization': `Bearer ${env.AIRTABLE_API_KEY}`,
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(payload),
+			body: JSON.stringify(body),
 		});
 
 		if (!response.ok) {
@@ -63,7 +109,7 @@ export const createAirtableRecord = async (
 export const getAirtableRecords = async (
 	table: string,
 	env: Env,
-	fields?: TAirtableFields,
+	fields?: Array<keyof TAirtableFields>,
 	filters?: TAirtableFilters,
 ): Promise<TAirtableResponse> => {
 	try {
@@ -109,6 +155,41 @@ export const getAirtableRecords = async (
 	}
 };
 
+export const updateAirtableRecords = async (
+	table: string,
+	env: Env,
+	records: TAirtableRecord[],
+): Promise<object> => {
+	try {
+		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
+		const response = await fetch(url, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${env.AIRTABLE_API_KEY}`,
+			},
+			body: JSON.stringify({ records } as TAirtableBody),
+		});
+
+		if (!response.ok) {
+			console.error('Airtable error:', await response.text());
+
+			return {
+				success: false,
+			};
+		}
+
+		return { success: true };
+	} catch (error) {
+		console.error('Error updating Airtable record:', error);
+
+		return {
+			success: false,
+		};
+	}
+};
+
+/* OPINIONATED */
+
 export const getAvailableJobsFromAirtable = async (
 	filters: TAirtableFilters,
 	env: Env,
@@ -138,8 +219,14 @@ export const getAvailableJobsFromAirtable = async (
 
 		const availableJobs = airtableResponse.records.map((job) => {
 			// Mark past jobs
-			const dateTimeD = new Date(job.fields['Appointment: date']);
-			const isPast = dateTimeD < new Date() ? true : false;
+			const dateTimeD = job.fields['Appointment: date']
+				? new Date(job.fields['Appointment: date'])
+				: null;
+			const isPast = dateTimeD
+				? dateTimeD < new Date()
+					? true
+					: false
+				: null;
 
 			return {
 				id: job.fields['Request ID'],
