@@ -1,3 +1,4 @@
+import { record } from 'zod';
 import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
 import type { Env } from '~/global-types.ts';
 
@@ -31,6 +32,7 @@ export type TAirtableFields = {
 	'Appointment: post code'?: string;
 	'Booker: number'?: string;
 	'Booker: email'?: string;
+	'Airtable: applications'?: Array<string>;
 	'Airtable: request last updated'?: string;
 	'Airtable: request number'?: number;
 	'Airtable: name and ID'?: string;
@@ -43,6 +45,7 @@ export type TAirtableFields = {
 	'Airtable: Google Maps link'?: string;
 	/* Interpreters */
 	'Email'?: string;
+	'Posted listings'?: Array<string>;
 	'Name'?: string;
 	'Registration number'?: string;
 	'Job post emails'?: boolean;
@@ -60,6 +63,7 @@ type TAirtableRecord = {
 type TAirtableResponse = {
 	success: boolean;
 	records?: Array<TAirtableRecord> | null;
+	record?: TAirtableRecord | null;
 };
 
 /* UNOPINIONATED */
@@ -99,6 +103,41 @@ export const createAirtableRecord = async (
 		return { success: true };
 	} catch (error) {
 		console.error('Error sending user to Airtable (raw fetch):', error);
+
+		return {
+			success: false,
+		};
+	}
+};
+
+export const getAirtableRecord = async (
+	table: string,
+	env: Env,
+	recordID: string,
+): Promise<TAirtableResponse> => {
+	try {
+		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}/${recordID}`;
+
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${env.AIRTABLE_API_KEY}`,
+			},
+		});
+
+		if (!response.ok) {
+			console.error('Airtable error:', await response.text());
+
+			return {
+				success: false,
+			};
+		}
+
+		const record: TAirtableRecord = await response.json();
+
+		return { success: true, record: record ? record : null };
+	} catch (error) {
+		console.error('Error fetching data from Airtable (raw fetch):', error);
 
 		return {
 			success: false,
@@ -159,15 +198,19 @@ export const updateAirtableRecords = async (
 	table: string,
 	env: Env,
 	records: TAirtableRecord[],
-): Promise<object> => {
+): Promise<{ success: boolean; response?: TAirtableResponse }> => {
 	try {
+		const body: TAirtableBody = { records };
+		const bodyJSON = JSON.stringify(body);
+
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const response = await fetch(url, {
 			method: 'PATCH',
 			headers: {
-				Authorization: `Bearer ${env.AIRTABLE_API_KEY}`,
+				'Authorization': `Bearer ${env.AIRTABLE_API_KEY}`,
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ records } as TAirtableBody),
+			body: bodyJSON,
 		});
 
 		if (!response.ok) {
@@ -178,7 +221,7 @@ export const updateAirtableRecords = async (
 			};
 		}
 
-		return { success: true };
+		return { success: true, response: await response.json() };
 	} catch (error) {
 		console.error('Error updating Airtable record:', error);
 

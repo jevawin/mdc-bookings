@@ -4,6 +4,8 @@ import { JobFieldGroup } from './components/job-field-group';
 import clsx from 'clsx';
 import { Text } from '~/components/01-atoms/text/text';
 import { Icon, type TIconName } from '~/components/01-atoms/icon/icon';
+import { useState } from 'react';
+import { Loader } from '~/components/01-atoms/loader/loader';
 
 type TJobCardCta = {
 	variant?: TButtonVariant;
@@ -35,6 +37,8 @@ export const JobCard: React.FC<TJobCard> = ({
 	cta,
 	className,
 }) => {
+	const [isLoading, setIsLoading] = useState(false);
+
 	// date time sent as ISO string
 	const dateTimeD = new Date(dateTime);
 
@@ -52,8 +56,14 @@ export const JobCard: React.FC<TJobCard> = ({
 	});
 
 	const handleClick = async () => {
+		setIsLoading(true);
+
 		try {
-			console.log(`Request: ${record}`);
+			type TApplyResponse = {
+				success: boolean;
+				error?: string;
+			};
+
 			const response = await fetch('/api/apply', {
 				method: 'POST',
 				body: JSON.stringify({ record }),
@@ -63,10 +73,13 @@ export const JobCard: React.FC<TJobCard> = ({
 			});
 
 			if (!response.ok) {
-				throw new Error(`Response status: ${response.status}`);
+				const parsed: TApplyResponse = await response.json();
+				throw new Error(`Response status: ${parsed.error}`);
 			}
 
-			console.log(await response.json());
+			// Successful apply so reload for now
+			setIsLoading(false);
+			window.location.reload();
 		} catch (error) {
 			console.error(error);
 		}
@@ -80,8 +93,16 @@ export const JobCard: React.FC<TJobCard> = ({
 			<JobFieldGroup header="Job #" content={id} />
 
 			{cta ? (
-				<Button variant={cta?.variant} onClick={handleClick}>
-					<ButtonContent.Icon name={cta.icon} />
+				<Button
+					aria-disabled={isLoading}
+					variant={cta?.variant}
+					onClick={handleClick}
+				>
+					{isLoading ? (
+						<Loader className={styles.loader} />
+					) : (
+						<ButtonContent.Icon name={cta.icon} />
+					)}
 					<ButtonContent.Text>{cta.text}</ButtonContent.Text>
 				</Button>
 			) : null}

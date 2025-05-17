@@ -10,7 +10,7 @@ type TLoaderProps = {
 	className?: string;
 } & TLoader;
 
-export const Loader: React.FC<TLoaderProps> = ({ size = 24, className }) => (
+export const Loader: React.FC<TLoaderProps> = ({ size = 20, className }) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={size}
