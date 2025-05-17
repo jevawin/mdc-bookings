@@ -89,7 +89,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	}
 }
 
-export default function Jobs({ loaderData }: Route.ComponentProps) {
+export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 	if (loaderData.error) {
 		return (
 			<main id="main">

@@ -1,12 +1,10 @@
 import type { Route } from './+types/home';
 import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
+import type { TAirtableFields } from '~/services/airtable.ts';
 
-import { redirect, useActionData } from 'react-router';
+import { redirect } from 'react-router';
 import { registrationFormSchema } from '~/schemas/registration-form-schema';
-import {
-	createAirtableRecord,
-	type TAirtableFields,
-} from '~/services/airtable.ts';
+import { createAirtableRecord } from '~/services/airtable.ts';
 import { createNewUser } from '~/services/supabase.ts';
 import {
 	buildFormFieldErrors,
@@ -181,8 +179,7 @@ export const action = async ({
 	}
 };
 
-export default function Registration() {
-	const actionData = useActionData<typeof action>();
+export default function Registration({ actionData }: Route.ComponentProps) {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 

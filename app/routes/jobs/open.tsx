@@ -94,7 +94,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	};
 }
 
-export default function Jobs({ loaderData }: Route.ComponentProps) {
+export default function OpenJobs({ loaderData }: Route.ComponentProps) {
 	if (loaderData.error) {
 		return (
 			<main id="main">
