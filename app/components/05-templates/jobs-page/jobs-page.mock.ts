@@ -4,6 +4,7 @@ export const mockJobsPageData: TJobsPage = {
 	type: 'open',
 	jobs: [
 		{
+			record: 'recj73J9RvM2rvdyD',
 			id: 'SIU79',
 			service: 'Deaf intermediary interpreter',
 			specialism: 'Medical',
@@ -13,6 +14,7 @@ export const mockJobsPageData: TJobsPage = {
 				'Janet is a lovely person but watch out for her waffle-eating habits. She loves to eat waffles and will often ask you to join her for a waffle party. Janet is also a great cook and loves to make waffles for her friends. If you ever need a waffle buddy, Janet is the one.',
 		},
 		{
+			record: 'recj73J9RvM2rvdyD',
 			id: 'SIU80',
 			service: 'BSL to English interpreter',
 			specialism: 'General',
@@ -22,6 +24,7 @@ export const mockJobsPageData: TJobsPage = {
 				'Mark is a great person to work with. He is very friendly and always has a smile on his face. He loves to help people and is always willing to go the extra mile. Mark is also a great cook and loves to make waffles for his friends. If you ever need a waffle buddy, Mark is the one.',
 		},
 		{
+			record: 'recj73J9RvM2rvdyD',
 			id: 'MDC81',
 			service: 'Lipspeaker',
 			specialism: 'Specialist',

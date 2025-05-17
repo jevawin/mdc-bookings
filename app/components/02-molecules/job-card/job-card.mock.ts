@@ -1,6 +1,7 @@
 import type { TJobCard } from './job-card.tsx';
 
 export const mockJobCardData: TJobCard = {
+	record: 'recj73J9RvM2rvdyD',
 	id: 'SIU79',
 	service: 'Deafblind interpreter',
 	specialism: 'Medical',

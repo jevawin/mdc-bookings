@@ -22,4 +22,6 @@ export default [
 			route('approved', 'routes/jobs/approved.tsx'),
 		]),
 	]),
+
+	...prefix('api', [route('apply', 'routes/api/apply.tsx')]),
 ] satisfies RouteConfig;

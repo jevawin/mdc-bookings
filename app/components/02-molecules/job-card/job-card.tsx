@@ -12,6 +12,7 @@ type TJobCardCta = {
 };
 
 export type TJobCard = {
+	record: string;
 	id: string;
 	service: string;
 	specialism: string;
@@ -24,6 +25,7 @@ export type TJobCard = {
 };
 
 export const JobCard: React.FC<TJobCard> = ({
+	record,
 	id,
 	service,
 	specialism,
@@ -49,6 +51,27 @@ export const JobCard: React.FC<TJobCard> = ({
 		minute: '2-digit',
 	});
 
+	const handleClick = async () => {
+		try {
+			console.log(`Request: ${record}`);
+			const response = await fetch('/api/apply', {
+				method: 'POST',
+				body: JSON.stringify({ record }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Response status: ${response.status}`);
+			}
+
+			console.log(await response.json());
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<article
 			className={clsx(styles.base, className)}
@@ -57,7 +80,7 @@ export const JobCard: React.FC<TJobCard> = ({
 			<JobFieldGroup header="Job #" content={id} />
 
 			{cta ? (
-				<Button variant={cta?.variant}>
+				<Button variant={cta?.variant} onClick={handleClick}>
 					<ButtonContent.Icon name={cta.icon} />
 					<ButtonContent.Text>{cta.text}</ButtonContent.Text>
 				</Button>

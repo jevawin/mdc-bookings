@@ -229,6 +229,7 @@ export const getAvailableJobsFromAirtable = async (
 				: null;
 
 			return {
+				record: job.id,
 				id: job.fields['Request ID'],
 				service: job.fields['Appointment: service'],
 				specialism: job.fields['Appointment: specialism'],

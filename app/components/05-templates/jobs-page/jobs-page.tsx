@@ -48,6 +48,7 @@ export const JobsPage: React.FC<TJobsPage> = ({ type, jobs }) => {
 					{currentJobs.map((job) => (
 						<li key={job.id}>
 							<JobCard
+								record={job.record}
 								id={job.id}
 								service={job.service}
 								specialism={job.specialism}
@@ -89,6 +90,7 @@ export const JobsPage: React.FC<TJobsPage> = ({ type, jobs }) => {
 						{pastJobs.map((job) => (
 							<li key={job.id}>
 								<JobCard
+									record={job.record}
 									id={job.id}
 									service={job.service}
 									specialism={job.specialism}
