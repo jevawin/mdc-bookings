@@ -1,7 +1,5 @@
 import type { Env, Prettify, TJob } from '~/global-types.ts';
 
-import { record } from 'zod';
-
 export type TAirtableFields = {
 	/* Jobs */
 	'Request ID'?: string;
@@ -24,7 +22,7 @@ export type TAirtableFields = {
 	'Appointment: post code'?: string;
 	'Booker: number'?: string;
 	'Booker: email'?: string;
-	'Airtable: applications'?: Array<string>;
+	'Airtable: applications'?: string[];
 	'Airtable: request last updated'?: string;
 	'Airtable: request number'?: number;
 	'Airtable: name and ID'?: string;
@@ -37,7 +35,7 @@ export type TAirtableFields = {
 	'Airtable: Google Maps link'?: string;
 	/* Interpreters */
 	'Email'?: string;
-	'Posted listings'?: Array<string>;
+	'Posted listings'?: string[];
 	'Name'?: string;
 	'Registration number'?: string;
 	'Job post emails'?: boolean;
@@ -55,9 +53,7 @@ type TAirtableRecord<K extends keyof TAirtableFields> = {
 } & {};
 
 type TAirtableResponse<K extends keyof TAirtableFields> = {
-	success: boolean;
 	records: TAirtableRecord<K>[];
-	record?: TAirtableRecord<K>;
 } & {};
 
 /* UNOPINIONATED */
@@ -108,11 +104,16 @@ export const createAirtableRecord = async (
 	}
 };
 
+type TGetAirtableRecord<K extends keyof TAirtableFields> = {
+	success: boolean;
+	data?: TAirtableRecord<K>;
+};
+
 export const getAirtableRecord = async <K extends keyof TAirtableFields>(
 	table: string,
 	env: Env,
 	recordID: string,
-): Promise<TAirtableResponse<K>> => {
+): Promise<TGetAirtableRecord<K>> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}/${recordID}`;
 
@@ -128,29 +129,32 @@ export const getAirtableRecord = async <K extends keyof TAirtableFields>(
 
 			return {
 				success: false,
-				records: [],
 			};
 		}
 
-		const record: TAirtableRecord<K> = await response.json();
+		const data = (await response.json()) satisfies TAirtableRecord<K>;
 
-		return { success: true, records: [], record: record ?? undefined };
+		return { success: true, data: data ?? undefined };
 	} catch (error) {
 		console.error('Error fetching data from Airtable (raw fetch):', error);
 
 		return {
 			success: false,
-			records: [],
 		};
 	}
 };
+
+type TGetAirtableRecords<K extends keyof TAirtableFields> = {
+	success: boolean;
+	records: TAirtableRecord<K>[];
+} & {};
 
 export const getAirtableRecords = async <K extends keyof TAirtableFields>(
 	table: string,
 	env: Env,
 	fields?: K[],
 	filters?: string,
-): Promise<TAirtableResponse<K>> => {
+): Promise<TGetAirtableRecords<K>> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const params = new URLSearchParams();
@@ -198,7 +202,6 @@ export const getAirtableRecords = async <K extends keyof TAirtableFields>(
 
 type TUpdateAirtableRecords<T extends keyof TAirtableFields> = {
 	success: boolean;
-	response?: TAirtableResponse<T>;
 };
 
 export const updateAirtableRecords = async <K extends keyof TAirtableFields>(
@@ -225,7 +228,9 @@ export const updateAirtableRecords = async <K extends keyof TAirtableFields>(
 			};
 		}
 
-		return { success: true, response: await response.json() };
+		const data = (await response.json()) satisfies TAirtableResponse<K>;
+
+		return { success: true };
 	} catch (error) {
 		console.error('Error updating Airtable record:', error);
 

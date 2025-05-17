@@ -1,17 +1,19 @@
-import { redirect, type ActionFunctionArgs } from 'react-router';
-import { applyApiSchema } from '~/schemas/api-schema';
+import type { ActionFunctionArgs } from 'react-router';
+
+import { redirect } from 'react-router';
 import {
 	getAirtableRecord,
 	getAirtableRecords,
 	updateAirtableRecords,
 } from '~/services/airtable';
+import { applyApiSchema } from '~/schemas/api-schema';
 import { getUser } from '~/services/supabase';
 import { getSession } from '~/sessions.server';
 
 export const action = async ({
 	request,
 	context,
-}: ActionFunctionArgs): Promise<any> => {
+}: ActionFunctionArgs): Promise<Response> => {
 	try {
 		const env = context.cloudflare.env;
 		const cookieHeader = request.headers.get('Cookie');
@@ -83,10 +85,8 @@ export const action = async ({
 		}
 
 		// Check if interpreter has already applied
-		const alreadyApplied =
-			interpreterRecord.records[0].fields['Posted listings']?.includes(
-				recordID,
-			);
+		const listings = interpreterRecord.records[0].fields['Posted listings'];
+		const alreadyApplied = listings?.includes(recordID);
 
 		// Get interpreter's Airtable record ID
 		const interpreterID = interpreterRecord.records[0].id;
@@ -94,21 +94,16 @@ export const action = async ({
 		// If not already applied, apply
 		if (!alreadyApplied && interpreterID) {
 			// Get record to apply interpreter to
-			const recordToApply = await getAirtableRecord(
-				'Jobs',
-				env,
-				recordID,
-			);
+			const record = await getAirtableRecord('Jobs', env, recordID);
 
 			// Get existing applications, if null set as empty array
-			const applications =
-				recordToApply.record?.fields['Airtable: applications'] ?? [];
-
-			// Add current interpreter to applications
-			applications.push(interpreterID);
+			const applications = [
+				...(record.data?.fields['Airtable: applications'] ?? []),
+				interpreterID,
+			];
 
 			// Append Airtable
-			let updated = await updateAirtableRecords('Jobs', env, [
+			const updated = await updateAirtableRecords('Jobs', env, [
 				{
 					id: recordID,
 					fields: {
