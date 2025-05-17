@@ -49,7 +49,7 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 	}, [fieldErrors]);
 
 	return (
-		<>
+		<main id="main" className={styles.main}>
 			{errorTitle && errorBodyText ? (
 				<ErrorSummary
 					title={errorTitle}
@@ -164,6 +164,6 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 					/>
 				</Fieldset>
 			</Form>
-		</>
+		</main>
 	);
 };

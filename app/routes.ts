@@ -9,11 +9,9 @@ export default [
 		route('log-in', 'routes/log-in.tsx'),
 
 		...prefix('registration', [
-			layout('components/04-layouts/registration/registration.tsx', [
-				index('routes/registration/home.tsx'),
-				route('confirmation', 'routes/registration/confirmation.tsx'),
-				route('verify', 'routes/registration/verify.tsx'),
-			]),
+			index('routes/registration/home.tsx'),
+			route('confirmation', 'routes/registration/confirmation.tsx'),
+			route('verify', 'routes/registration/verify.tsx'),
 		]),
 	]),
 

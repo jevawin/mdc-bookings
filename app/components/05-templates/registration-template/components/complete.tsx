@@ -6,7 +6,7 @@ import styles from '../registration-template.module.css';
 export type TRegistrationComplete = React.PropsWithChildren;
 
 export const RegistrationComplete: React.FC = () => (
-	<>
+	<main id="main" className={styles.main}>
 		<Icon name="email-in" size={50} className={styles.icon} />
 
 		<Text tag="h2" size="200" weight="300">
@@ -17,5 +17,5 @@ export const RegistrationComplete: React.FC = () => (
 			Account verification required. Please check your email to find your
 			unique verification link.
 		</Text>
-	</>
+	</main>
 );

@@ -16,7 +16,7 @@ export const RegistrationVerification: React.FC<TRegistrationVerification> = ({
 		: 'There was an error trying to verify your email.';
 
 	return (
-		<>
+		<main id="main" className={styles.main}>
 			<Icon
 				name={isSuccess ? 'check-circle' : 'warning'}
 				size={50}
@@ -28,6 +28,6 @@ export const RegistrationVerification: React.FC<TRegistrationVerification> = ({
 			</Text>
 
 			{isSuccess ? <TextLink to="/log-in" linkText="Log in" /> : null}
-		</>
+		</main>
 	);
 };
