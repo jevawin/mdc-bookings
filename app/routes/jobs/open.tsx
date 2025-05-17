@@ -1,4 +1,5 @@
 import type { Route } from './+types/open';
+import type { TJobCard } from '~/components/02-molecules/job-card/job-card.tsx';
 
 import { redirect } from 'react-router';
 import {
@@ -109,5 +110,5 @@ export default function OpenJobs({ loaderData }: Route.ComponentProps) {
 		);
 	}
 
-	return <JobsPage jobs={loaderData.jobs} type="open" />;
+	return <JobsPage jobs={loaderData.jobs as TJobCard[]} type="open" />;
 }

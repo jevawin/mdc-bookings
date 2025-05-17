@@ -1,4 +1,4 @@
-import type { Route } from './+types/open';
+import type { Route } from './+types/applied';
 
 import { redirect } from 'react-router';
 import {
@@ -10,6 +10,15 @@ import { getSession } from '~/sessions.server.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
+import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
+
+const getDefaultError = (error: string, lastUpdated: string) => ({
+	error,
+	jobs: [],
+	currentJobs: [],
+	pastJobs: [],
+	lastUpdated,
+});
 
 export const meta: Route.MetaFunction = () => {
 	return [
@@ -35,15 +44,19 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	// Get interpreter ID and email from Supabase
 	const userID = user?.data?.id;
+
 	if (!userID) {
 		console.error('No ID found for user');
-		return { error: 'No ID found for user', jobs: [], lastUpdated };
+
+		return getDefaultError('No ID found for user', lastUpdated);
 	}
 
 	const email = user?.data?.email;
+
 	if (!email) {
 		console.error('No email found for user');
-		return { error: 'No email found for user', jobs: [], lastUpdated };
+
+		return getDefaultError('No email found for user', lastUpdated);
 	}
 
 	// Get user name from Airtable
@@ -56,14 +69,16 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	if (!airtableResponse || !airtableResponse.records) {
 		console.error('Interpreter ID not found in Airtable');
-		return { error: 'Interpreter ID not found', jobs: [], lastUpdated };
-	}
 
-	const interpreterName = airtableResponse?.records[0]?.fields['Name'] || '';
+		return getDefaultError(
+			'Interpreter ID not found in Airtable',
+			lastUpdated,
+		);
+	}
 
 	// Query available jobs for the interpreter to apply for
 	try {
-		const availableJobs = await getAvailableJobsFromAirtable(
+		const data = await getAvailableJobsFromAirtable(
 			`AND(
 				{Status} = 'Applications received',
 				FIND(
@@ -78,14 +93,19 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 			env,
 		);
 
-		if (availableJobs.error) {
-			return { error: availableJobs.error, jobs: [], lastUpdated };
+		if (data.error) {
+			return getDefaultError(data.error, lastUpdated);
 		}
 
-		return { jobs: availableJobs.jobs, name: interpreterName, lastUpdated };
+		const name = airtableResponse?.records[0]?.fields['Name'] || '';
+		const currentJobs = data.jobs.filter((job) => !job.isPast);
+		const pastJobs = data.jobs.filter((job) => job.isPast);
+
+		return { currentJobs, pastJobs, lastUpdated, name, jobs: data.jobs };
 	} catch (error) {
 		console.error(error);
-		return { error, jobs: [], lastUpdated };
+
+		return { error, currentJobs: [], pastJobs: [], jobs: [], lastUpdated };
 	}
 }
 
@@ -104,5 +124,19 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 		);
 	}
 
-	return <JobsPage type="applied" jobs={loaderData.jobs} />;
+	return (
+		<main id="main">
+			<JobsDisplay
+				id="upcoming-jobs"
+				title="Upcoming jobs"
+				jobs={loaderData.currentJobs}
+			/>
+
+			<JobsDisplay
+				id="past-jobs"
+				title="Past jobs"
+				jobs={loaderData.pastJobs}
+			/>
+		</main>
+	);
 }

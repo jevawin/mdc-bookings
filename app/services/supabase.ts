@@ -1,4 +1,4 @@
-import type { Env } from '~/global-types.ts';
+import type { Env, Prettify } from '~/global-types.ts';
 import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
 import type {
 	TSupabaseSessionSchema,
@@ -33,6 +33,10 @@ type TSupabaseVerifySuccessResponse = {
 	data: TSupabaseVerifySuccessSchema;
 };
 
+type TCreateNewUser = Prettify<
+	TSupabaseUserSuccessResponse | TSupabaseErrorResponse
+>;
+
 const getHeaders = (env: Env) => ({
 	'apikey': env.SUPABASE_API_KEY,
 	'Content-Type': 'application/json',
@@ -54,7 +58,6 @@ const parseSupabaseUserResponse = (data: unknown): TCreateNewUser => {
 	return { success: false };
 };
 
-type TCreateNewUser = TSupabaseUserSuccessResponse | TSupabaseErrorResponse;
 type TCreateNewUserBody = {
 	email: string;
 	password: string;
@@ -72,7 +75,7 @@ export const createNewUser = async (
 		});
 
 		if (!response.ok) {
-			return await parseSupabaseError(response);
+			return parseSupabaseError(response);
 		}
 
 		const data = await response.json();
@@ -122,7 +125,9 @@ const parseSupabaseVerifyResponse = (data: unknown): TVerifySignUp => {
 	return { success: false };
 };
 
-type TVerifySignUp = TSupabaseVerifySuccessResponse | TSupabaseErrorResponse;
+type TVerifySignUp = Prettify<
+	TSupabaseVerifySuccessResponse | TSupabaseErrorResponse
+>;
 
 export const verifySignUp = async (
 	token_hash: string,
@@ -161,9 +166,9 @@ type TSupabaseLogInSuccessResponse = {
 	data: TSupabaseSessionSchema;
 };
 
-type TLogInWithEmailPassword =
-	| TSupabaseLogInSuccessResponse
-	| TSupabaseErrorResponse;
+type TLogInWithEmailPassword = Prettify<
+	TSupabaseLogInSuccessResponse | TSupabaseErrorResponse
+>;
 
 export const logInWithEmailPassword = async (
 	body: TLogInBody,

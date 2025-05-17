@@ -7,6 +7,10 @@ export type Env = {
 	VALUE_FROM_CLOUDFLARE: string;
 };
 
+export type Prettify<T> = {
+	[K in keyof T]: T[K];
+} & {};
+
 export type TFormSubmissionError = {
 	title: string;
 	bodyText: string;
@@ -30,4 +34,14 @@ export type TValidateFormData = {
 	error?: TFormSubmissionError;
 	fieldErrors?: TFormFieldErrors;
 	status: number;
+};
+
+export type TJob = {
+	id: string;
+	service: string;
+	specialism: string;
+	dateTime: string;
+	location: string;
+	description: string;
+	isPast: boolean;
 };

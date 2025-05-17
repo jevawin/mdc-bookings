@@ -1,15 +1,7 @@
-import { record } from 'zod';
-import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
-import type { Env } from '~/global-types.ts';
+import type { Env, Prettify, TJob } from '~/global-types.ts';
 
-type TAirtableBody = {
-	records: TAirtableRecord[];
-};
-type TCreateAirtableRecord = {
-	success: boolean;
-};
-type TAirtableParams = Record<string, any>;
-type TAirtableFilters = String;
+import { record } from 'zod';
+
 export type TAirtableFields = {
 	/* Jobs */
 	'Request ID'?: string;
@@ -55,18 +47,24 @@ export type TAirtableFields = {
 	'Registration details'?: string;
 	'User ID'?: string;
 };
-type TAirtableRecord = {
+
+type TAirtableRecord<K extends keyof TAirtableFields> = {
+	fields: Prettify<Pick<Required<TAirtableFields>, K>>;
 	id?: string;
-	fields: TAirtableFields;
 	createdTime?: string;
-};
-type TAirtableResponse = {
+} & {};
+
+type TAirtableResponse<K extends keyof TAirtableFields> = {
 	success: boolean;
-	records?: Array<TAirtableRecord> | null;
-	record?: TAirtableRecord | null;
-};
+	records: TAirtableRecord<K>[];
+	record?: TAirtableRecord<K>;
+} & {};
 
 /* UNOPINIONATED */
+
+type TCreateAirtableRecord = {
+	success: boolean;
+};
 
 export const createAirtableRecord = async (
 	fields: TAirtableFields,
@@ -110,11 +108,11 @@ export const createAirtableRecord = async (
 	}
 };
 
-export const getAirtableRecord = async (
+export const getAirtableRecord = async <K extends keyof TAirtableFields>(
 	table: string,
 	env: Env,
 	recordID: string,
-): Promise<TAirtableResponse> => {
+): Promise<TAirtableResponse<K>> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}/${recordID}`;
 
@@ -130,30 +128,32 @@ export const getAirtableRecord = async (
 
 			return {
 				success: false,
+				records: [],
 			};
 		}
 
-		const record: TAirtableRecord = await response.json();
+		const record: TAirtableRecord<K> = await response.json();
 
-		return { success: true, record: record ? record : null };
+		return { success: true, records: [], record: record ?? undefined };
 	} catch (error) {
 		console.error('Error fetching data from Airtable (raw fetch):', error);
 
 		return {
 			success: false,
+			records: [],
 		};
 	}
 };
 
-export const getAirtableRecords = async (
+export const getAirtableRecords = async <K extends keyof TAirtableFields>(
 	table: string,
 	env: Env,
-	fields?: Array<keyof TAirtableFields>,
-	filters?: TAirtableFilters,
-): Promise<TAirtableResponse> => {
+	fields?: K[],
+	filters?: string,
+): Promise<TAirtableResponse<K>> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
-		const params: TAirtableParams = new URLSearchParams();
+		const params = new URLSearchParams();
 
 		// Add fields to the params
 		fields?.map((field) => {
@@ -178,31 +178,35 @@ export const getAirtableRecords = async (
 
 			return {
 				success: false,
+				records: [],
 			};
 		}
 
-		const responseJSON: TAirtableResponse = await response.json();
-		const records = responseJSON.records;
+		const data = (await response.json()) satisfies TAirtableResponse<K>;
+		const records = data.records;
 
-		return { success: true, records: records ? records : null };
+		return { success: true, records: records ?? [] };
 	} catch (error) {
 		console.error('Error fetching data from Airtable (raw fetch):', error);
 
 		return {
 			success: false,
+			records: [],
 		};
 	}
 };
 
-export const updateAirtableRecords = async (
+type TUpdateAirtableRecords<T extends keyof TAirtableFields> = {
+	success: boolean;
+	response?: TAirtableResponse<T>;
+};
+
+export const updateAirtableRecords = async <K extends keyof TAirtableFields>(
 	table: string,
 	env: Env,
-	records: TAirtableRecord[],
-): Promise<{ success: boolean; response?: TAirtableResponse }> => {
+	records: TAirtableRecord<K>[],
+): Promise<TUpdateAirtableRecords<K>> => {
 	try {
-		const body: TAirtableBody = { records };
-		const bodyJSON = JSON.stringify(body);
-
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const response = await fetch(url, {
 			method: 'PATCH',
@@ -210,7 +214,7 @@ export const updateAirtableRecords = async (
 				'Authorization': `Bearer ${env.AIRTABLE_API_KEY}`,
 				'Content-Type': 'application/json',
 			},
-			body: bodyJSON,
+			body: JSON.stringify({ records }),
 		});
 
 		if (!response.ok) {
@@ -233,13 +237,15 @@ export const updateAirtableRecords = async (
 
 /* OPINIONATED */
 
-export const getAvailableJobsFromAirtable = async (
-	filters: TAirtableFilters,
-	env: Env,
-): Promise<{
-	jobs: TJobCard[];
+type TGetAvailableJobsFromAirtable = {
+	jobs: TJob[];
 	error?: string;
-}> => {
+};
+
+export const getAvailableJobsFromAirtable = async (
+	filters: string,
+	env: Env,
+): Promise<TGetAvailableJobsFromAirtable> => {
 	try {
 		const airtableResponse = await getAirtableRecords(
 			'Jobs',
@@ -257,19 +263,14 @@ export const getAvailableJobsFromAirtable = async (
 
 		if (!airtableResponse || !airtableResponse.records) {
 			console.error('No jobs found in Airtable');
+
 			return { error: 'No jobs found', jobs: [] };
 		}
 
-		const availableJobs = airtableResponse.records.map((job) => {
-			// Mark past jobs
-			const dateTimeD = job.fields['Appointment: date']
-				? new Date(job.fields['Appointment: date'])
-				: null;
-			const isPast = dateTimeD
-				? dateTimeD < new Date()
-					? true
-					: false
-				: null;
+		const availableJobs = airtableResponse?.records.map((job) => {
+			const date = job.fields['Appointment: date'];
+			const dateTimeD = date ? new Date(date) : null;
+			const isPast = dateTimeD ? dateTimeD < new Date() : false;
 
 			return {
 				record: job.id,
@@ -280,7 +281,7 @@ export const getAvailableJobsFromAirtable = async (
 				location: job.fields['Airtable: friendly address'],
 				description: job.fields['Appointment: details'],
 				isPast,
-			} as TJobCard;
+			};
 		});
 
 		return { jobs: availableJobs };
