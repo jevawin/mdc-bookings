@@ -1,9 +1,14 @@
+import { useOutletContext } from 'react-router';
 import type { Route } from './+types/account';
 
-export const loader = async (data: Route.LoaderArgs) => {
-	return data;
-};
+type LayoutLoaderData = { name: string };
 
 export default function Account(data: Route.ComponentProps) {
-	return <></>;
+	const { name } = useOutletContext<LayoutLoaderData>();
+
+	return (
+		<>
+			<p>{name}</p>
+		</>
+	);
 }

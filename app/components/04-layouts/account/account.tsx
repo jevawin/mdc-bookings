@@ -94,7 +94,10 @@ export default function AccountLayout() {
 					<nav className={styles.nav} aria-label="Main">
 						<ul className={styles.list}>
 							<li className={styles.listItem}>
-								<NavLink to="/jobs" className={styles.navLink}>
+								<NavLink
+									to="/jobs/open"
+									className={styles.navLink}
+								>
 									<Text
 										tag="span"
 										size="200"
@@ -128,7 +131,7 @@ export default function AccountLayout() {
 
 			<main id="main" className={styles.main}>
 				<Container className={styles.mainContainer}>
-					<Outlet />
+					<Outlet context={loaderData} />
 				</Container>
 			</main>
 		</>
