@@ -4,7 +4,7 @@ import { JobFieldGroup } from './components/job-field-group';
 import clsx from 'clsx';
 import { Text } from '~/components/01-atoms/text/text';
 import { Icon, type TIconName } from '~/components/01-atoms/icon/icon';
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { Loader } from '~/components/01-atoms/loader/loader';
 
 type TJobCardCta = {
@@ -24,6 +24,7 @@ export type TJobCard = {
 	cta?: TJobCardCta;
 	className?: string;
 	isPast?: boolean;
+	onClick: () => Promise<void>;
 };
 
 export const JobCard: React.FC<TJobCard> = ({
@@ -36,6 +37,7 @@ export const JobCard: React.FC<TJobCard> = ({
 	description,
 	cta,
 	className,
+	onClick,
 }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -56,33 +58,14 @@ export const JobCard: React.FC<TJobCard> = ({
 	});
 
 	const handleClick = async () => {
+		// Set loading SVG
 		setIsLoading(true);
 
-		try {
-			type TApplyResponse = {
-				success: boolean;
-				error?: string;
-			};
+		// Run onclick function
+		await onClick();
 
-			const response = await fetch('/api/apply', {
-				method: 'POST',
-				body: JSON.stringify({ record }),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-
-			if (!response.ok) {
-				const parsed: TApplyResponse = await response.json();
-				throw new Error(`Response status: ${parsed.error}`);
-			}
-
-			// Successful apply so reload for now
-			setIsLoading(false);
-			window.location.reload();
-		} catch (error) {
-			console.error(error);
-		}
+		// Successful apply so reload for now
+		setIsLoading(false);
 	};
 
 	return (

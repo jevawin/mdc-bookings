@@ -10,7 +10,7 @@ import { getSession } from '~/sessions.server.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
-import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
+import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
 
 const getDefaultError = (error: string, lastUpdated: string) => ({
 	error,
@@ -124,19 +124,5 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 		);
 	}
 
-	return (
-		<main id="main">
-			<JobsDisplay
-				id="upcoming-jobs"
-				title="Upcoming jobs"
-				jobs={loaderData.currentJobs}
-			/>
-
-			<JobsDisplay
-				id="past-jobs"
-				title="Past jobs"
-				jobs={loaderData.pastJobs}
-			/>
-		</main>
-	);
+	return <JobsPage jobs={loaderData.jobs as TJobCard[]} type="applied" />;
 }

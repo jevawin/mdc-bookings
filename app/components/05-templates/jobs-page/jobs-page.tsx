@@ -7,6 +7,7 @@ import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { JobCard } from '~/components/02-molecules/job-card/job-card.tsx';
 
 import styles from './jobs-page.module.css';
+import type { TAPIResponse } from '~/routes/api/apply';
 
 type TJobsPageCta = {
 	variant?: TButtonVariant;
@@ -17,6 +18,32 @@ type TJobsPageCta = {
 export type TJobsPage = {
 	type: 'applied' | 'approved' | 'open';
 	jobs: TJobCard[];
+};
+
+const handleClick = async (type: string, record: string) => {
+	// Set apply or revoke based on type
+	const apiMethod = type === 'open' ? 'apply' : 'revoke';
+
+	const response = await fetch(`/api/${apiMethod}`, {
+		method: 'POST',
+		body: JSON.stringify({ record }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	// Parse response
+	const parsed: TAPIResponse = await response.json();
+
+	// API has instructed redirect (e.g. user os logged out)
+	if (parsed.redirect) window.location.pathname = parsed.redirect;
+
+	// Errors return 400
+	if (!response.ok) alert('Error applying for job, please contact MDC');
+
+	// Otherwise applied okay
+	setTimeout(() => window.location.reload(), 1000);
+	return;
 };
 
 export const JobsPage: React.FC<TJobsPage> = ({ type, jobs }) => {
@@ -48,6 +75,9 @@ export const JobsPage: React.FC<TJobsPage> = ({ type, jobs }) => {
 					{currentJobs.map((job) => (
 						<li key={job.id}>
 							<JobCard
+								onClick={async () =>
+									await handleClick(type, job.record)
+								}
 								record={job.record}
 								id={job.id}
 								service={job.service}
@@ -90,6 +120,9 @@ export const JobsPage: React.FC<TJobsPage> = ({ type, jobs }) => {
 						{pastJobs.map((job) => (
 							<li key={job.id}>
 								<JobCard
+									onClick={async () =>
+										await handleClick(type, job.record)
+									}
 									record={job.record}
 									id={job.id}
 									service={job.service}

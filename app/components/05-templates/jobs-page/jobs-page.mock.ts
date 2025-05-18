@@ -12,6 +12,7 @@ export const mockJobsPageData: TJobsPage = {
 			location: 'Manchester',
 			description:
 				'Janet is a lovely person but watch out for her waffle-eating habits. She loves to eat waffles and will often ask you to join her for a waffle party. Janet is also a great cook and loves to make waffles for her friends. If you ever need a waffle buddy, Janet is the one.',
+			onClick: async () => alert('Button clicked'),
 		},
 		{
 			record: 'recj73J9RvM2rvdyD',
@@ -22,6 +23,7 @@ export const mockJobsPageData: TJobsPage = {
 			location: 'Stockport',
 			description:
 				'Mark is a great person to work with. He is very friendly and always has a smile on his face. He loves to help people and is always willing to go the extra mile. Mark is also a great cook and loves to make waffles for his friends. If you ever need a waffle buddy, Mark is the one.',
+			onClick: async () => alert('Button clicked'),
 		},
 		{
 			record: 'recj73J9RvM2rvdyD',
@@ -32,6 +34,7 @@ export const mockJobsPageData: TJobsPage = {
 			location: 'Wigan',
 			description:
 				"Persephone is mint. She's the life of the party and will make you dance like no one is watching. She's also a great cook and loves to make waffles for her friends. If you ever need a waffle buddy, Persephone is the one.",
+			onClick: async () => alert('Button clicked'),
 		},
 	],
 };

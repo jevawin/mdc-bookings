@@ -10,4 +10,5 @@ export const mockJobCardData: TJobCard = {
 	description:
 		'Janet is a lovely person but watch out for her waffle-eating habits. She loves to eat waffles and will often ask you to join her for a waffle party. Janet is also a great cook and loves to make waffles for her friends. If you ever need a waffle buddy, Janet is the one.',
 	className: 'jobCard',
+	onClick: async () => alert('Button clicked'),
 };

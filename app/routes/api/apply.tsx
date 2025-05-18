@@ -10,6 +10,19 @@ import { applyApiSchema } from '~/schemas/api-schema';
 import { getUser } from '~/services/supabase';
 import { getSession } from '~/sessions.server';
 
+export type TAPIResponse = {
+	success: boolean;
+	error?: string;
+	redirect?: string;
+};
+const respond = (data: TAPIResponse, status: number): Response => {
+	if (data.error) console.error(data.error);
+	return new Response(JSON.stringify(data), {
+		status,
+		headers: { 'Content-Type': 'application/json' },
+	});
+};
+
 export const action = async ({
 	request,
 	context,
@@ -22,22 +35,21 @@ export const action = async ({
 		const user = await getUser(env, token);
 
 		// Redirect to login if not logged in
-		if (!user.success) return redirect('/log-in');
+		if (!user.success)
+			return respond(
+				{
+					success: false,
+					error: 'User is not logged in',
+					redirect: '/log-in',
+				},
+				400,
+			);
 
 		const email = user?.data?.email;
 
 		// Send error if no email
-		if (!email) {
-			console.error('No email found for user');
-
-			return new Response(
-				JSON.stringify({ success: false, error: 'No email found' }),
-				{
-					status: 400,
-					headers: { 'Content-Type': 'application/json' },
-				},
-			);
-		}
+		if (!email)
+			return respond({ success: false, error: 'No email found' }, 400);
 
 		// Get record recordID
 		const data = await request.json();
@@ -45,20 +57,14 @@ export const action = async ({
 		const recordID = parsed?.data?.record;
 
 		// Send error if no recordID
-		if (!recordID) {
-			console.error('No record recordID found');
-
-			return new Response(
-				JSON.stringify({
+		if (!recordID)
+			return respond(
+				{
 					success: false,
 					error: 'No record recordID found',
-				}),
-				{
-					status: 400,
-					headers: { 'Content-Type': 'application/json' },
 				},
+				400,
 			);
-		}
 
 		// Get intpreter recordID from Airtable
 		const interpreterRecord = await getAirtableRecords(
@@ -69,20 +75,14 @@ export const action = async ({
 		);
 
 		// Send error if interpreter not found
-		if (!interpreterRecord || !interpreterRecord.records) {
-			console.error('Interpreter not found in Airtable');
-
-			return new Response(
-				JSON.stringify({
+		if (!interpreterRecord || !interpreterRecord.records)
+			return respond(
+				{
 					success: false,
 					error: 'Interpreter not found in Airtable',
-				}),
-				{
-					status: 400,
-					headers: { 'Content-Type': 'application/json' },
 				},
+				400,
 			);
-		}
 
 		// Check if interpreter has already applied
 		const listings = interpreterRecord.records[0].fields['Posted listings'];
@@ -113,27 +113,18 @@ export const action = async ({
 				},
 			]);
 
-			if (!updated.success) {
-				console.error('Error updating Airtable with new record');
-
-				return new Response(
-					JSON.stringify({
+			if (!updated.success)
+				return respond(
+					{
 						success: false,
 						error: 'Error updating Airtable with new record',
-					}),
-					{
-						status: 400,
-						headers: { 'Content-Type': 'application/json' },
 					},
+					400,
 				);
-			}
 		}
 
-		return new Response(JSON.stringify({ success: true }), {
-			status: 200,
-			headers: { 'Content-Type': 'application/json' },
-		});
+		return respond({ success: true }, 200);
 	} catch (error) {
-		return new Response(JSON.stringify({ success: false, error }));
+		return respond({ success: false, error: `${error}` }, 400);
 	}
 };
