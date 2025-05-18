@@ -11,7 +11,9 @@ import styles from './jobs-display.module.css';
 export type TJobsDisplay = {
 	id: string;
 	title: string;
-	jobs: TJob[];
+	type: TJobsDisplayType;
+	isPast: boolean;
+	cards: TJob[];
 };
 
 export type TJobsDisplayRoot = {

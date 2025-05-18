@@ -1,5 +1,4 @@
 import type { Route } from './+types/approved';
-import type { TJobCard } from '~/components/02-molecules/job-card/job-card.tsx';
 
 import { redirect } from 'react-router';
 import {
@@ -10,8 +9,7 @@ import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
-import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
-import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display';
+import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
 
 const getDefaultError = (error: string, lastUpdated: string) => ({
 	error,
