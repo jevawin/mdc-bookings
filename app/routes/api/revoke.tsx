@@ -90,8 +90,8 @@ export const action = async ({
 		// Get interpreter's Airtable record ID
 		const interpreterID = interpreterRecord.records[0].id;
 
-		// If not already applied, apply
-		if (!alreadyApplied && interpreterID) {
+		// If applied, revoke
+		if (alreadyApplied && interpreterID) {
 			// Get record to apply interpreter to
 			const record = await getAirtableRecord('Jobs', env, recordID);
 
@@ -102,18 +102,23 @@ export const action = async ({
 					400,
 				);
 
-			// Get existing applications, if null set as empty array
-			const applications = [
-				...(record.data?.fields['Airtable: applications'] ?? []),
-				interpreterID,
-			];
+			// Get existing applications (should not be null)
+			const applications = record.data?.fields[
+				'Airtable: applications'
+			].filter((application) => application !== interpreterID);
+
+			// Set status
+			const status =
+				applications?.length === 0
+					? 'Booking posted'
+					: 'Applications received';
 
 			// Append Airtable
 			const updated = await updateAirtableRecords('Jobs', env, [
 				{
 					id: recordID,
 					fields: {
-						'Status': 'Applications received',
+						'Status': status,
 						'Airtable: applications': applications,
 					},
 				},

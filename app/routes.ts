@@ -23,5 +23,8 @@ export default [
 		]),
 	]),
 
-	...prefix('api', [route('apply', 'routes/api/apply.tsx')]),
+	...prefix('api', [
+		route('apply', 'routes/api/apply.tsx'),
+		route('revoke', 'routes/api/revoke.tsx'),
+	]),
 ] satisfies RouteConfig;
