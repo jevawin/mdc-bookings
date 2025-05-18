@@ -1,3 +1,10 @@
+import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
+import {
+	Button,
+	ButtonContent,
+	type TButtonVariant,
+} from '../button/button.tsx';
+
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './card.module.css';
@@ -38,7 +45,27 @@ const CardHeader: React.FC<TCardHeader> = ({ title, bodyText }) => (
 	</header>
 );
 
+type TCardButton = {
+	text: string;
+	icon: TIconName;
+	variant: TButtonVariant;
+	onClick?: () => void;
+};
+
+const CardButton: React.FC<TCardButton> = ({
+	text,
+	icon,
+	variant,
+	onClick,
+}) => (
+	<Button variant={variant} onClick={onClick}>
+		<ButtonContent.Icon name={icon} />
+		<ButtonContent.Text>{text}</ButtonContent.Text>
+	</Button>
+);
+
 export const Card = {
 	Root: CardRoot,
 	Header: CardHeader,
+	Button: CardButton,
 };

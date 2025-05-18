@@ -9,14 +9,11 @@ import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
-import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
-import type { TJobCard } from '~/components/02-molecules/job-card/job-card';
+import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
 
 const getDefaultError = (error: string, lastUpdated: string) => ({
 	error,
 	jobs: [],
-	currentJobs: [],
-	pastJobs: [],
 	lastUpdated,
 });
 
@@ -43,20 +40,15 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	if (!user.success) return redirect('/log-in');
 
 	// Get interpreter ID and email from Supabase
-	const userID = user?.data?.id;
+	const userID = user.data?.id;
+	const email = user.data?.email;
 
-	if (!userID) {
-		console.error('No ID found for user');
+	if (!userID || !email) {
+		const errorType = !userID ? 'ID' : 'email';
 
-		return getDefaultError('No ID found for user', lastUpdated);
-	}
+		console.error(`No ${errorType} found for user`);
 
-	const email = user?.data?.email;
-
-	if (!email) {
-		console.error('No email found for user');
-
-		return getDefaultError('No email found for user', lastUpdated);
+		return getDefaultError(`No ${errorType} found for user`, lastUpdated);
 	}
 
 	// Get user name from Airtable
@@ -98,19 +90,28 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 		}
 
 		const name = airtableResponse?.records[0]?.fields['Name'] || '';
-		const currentJobs = data.jobs.filter((job) => !job.isPast);
-		const pastJobs = data.jobs.filter((job) => job.isPast);
 
-		return { currentJobs, pastJobs, lastUpdated, name, jobs: data.jobs };
+		return {
+			name,
+			jobs: data.jobs,
+			lastUpdated,
+		};
 	} catch (error) {
 		console.error(error);
 
-		return { error, currentJobs: [], pastJobs: [], jobs: [], lastUpdated };
+		return {
+			error,
+			jobs: [],
+			lastUpdated,
+		};
 	}
 }
 
 export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
-	if (loaderData.error) {
+	const error = loaderData.error;
+	const jobs = loaderData.jobs;
+
+	if (error) {
 		return (
 			<main id="main">
 				<Text size="300" weight="300" tag="h3" role="alert">
@@ -118,11 +119,19 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 				</Text>
 
 				<Text size="200" weight="100" tag="p">
-					Error details: {loaderData.error}
+					Error details: {error}
 				</Text>
 			</main>
 		);
 	}
 
-	return <JobsPage jobs={loaderData.jobs as TJobCard[]} type="applied" />;
+	return (
+		<main id="main">
+			<JobsDisplay.Root id="upcoming-jobs">
+				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
+
+				<JobsDisplay.Cards cards={jobs} type="applied" isPast={false} />
+			</JobsDisplay.Root>
+		</main>
+	);
 }

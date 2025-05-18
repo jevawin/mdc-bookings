@@ -1,5 +1,4 @@
 import type { Route } from './+types/open';
-import type { TJobCard } from '~/components/02-molecules/job-card/job-card.tsx';
 
 import { redirect } from 'react-router';
 import {
@@ -10,7 +9,40 @@ import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
-import { JobsPage } from '~/components/05-templates/jobs-page/jobs-page.tsx';
+import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
+
+type TApplyResponse = {
+	success: boolean;
+	error?: string;
+};
+
+const getDefaultError = (error: string, lastUpdated: string) => ({
+	error,
+	jobs: [],
+	lastUpdated,
+});
+
+const handleClick = async (record: string) => {
+	try {
+		const response = await fetch('/api/apply', {
+			method: 'POST',
+			body: JSON.stringify({ record }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		if (!response.ok) {
+			const data = (await response.json()) satisfies TApplyResponse;
+
+			throw new Error(`Response status: ${data.error}`);
+		}
+
+		window.location.reload();
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -34,18 +66,15 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	if (!user.success) return redirect('/log-in');
 
 	// Get interpreter ID and email from Supabase
-	const userID = user?.data?.id;
+	const userID = user.data?.id;
+	const email = user.data?.email;
 
-	if (!userID) {
-		console.error('No ID found for user');
-		return { error: 'No ID found for user', jobs: [], lastUpdated };
-	}
+	if (!userID || !email) {
+		const errorType = !userID ? 'ID' : 'email';
 
-	const email = user?.data?.email;
+		console.error(`No ${errorType} found for user`);
 
-	if (!email) {
-		console.error('No email found for user');
-		return { error: 'No email found for user', jobs: [], lastUpdated };
+		return getDefaultError(`No ${errorType} found for user`, lastUpdated);
 	}
 
 	// Get user name from Airtable
@@ -58,14 +87,17 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	if (!airtableResponse || !airtableResponse.records) {
 		console.error('Interpreter ID not found in Airtable');
-		return { error: 'Interpreter ID not found', jobs: [], lastUpdated };
+
+		return getDefaultError(
+			'Interpreter ID not found in Airtable',
+			lastUpdated,
+		);
 	}
 
-	const interpreterName = airtableResponse?.records[0]?.fields['Name'] || '';
-
 	// Query available jobs for the interpreter to apply for
-	const availableJobs = await getAvailableJobsFromAirtable(
-		`AND(
+	try {
+		const data = await getAvailableJobsFromAirtable(
+			`AND(
 				OR(
 					{Status} = 'Booking posted',
 					AND(
@@ -81,22 +113,36 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 				),
 				{Appointment: date} > NOW()
 			)`,
-		env,
-	);
+			env,
+		);
 
-	if (availableJobs.error) {
-		return { error: availableJobs.error, jobs: [], lastUpdated };
+		if (data.error) {
+			return getDefaultError(data.error, lastUpdated);
+		}
+
+		const name = airtableResponse?.records[0]?.fields['Name'] || '';
+
+		return {
+			name,
+			jobs: data.jobs,
+			lastUpdated,
+		};
+	} catch (error) {
+		console.error(error);
+
+		return {
+			error,
+			jobs: [],
+			lastUpdated,
+		};
 	}
-
-	return {
-		jobs: availableJobs.jobs,
-		name: interpreterName,
-		lastUpdated,
-	};
 }
 
 export default function OpenJobs({ loaderData }: Route.ComponentProps) {
-	if (loaderData.error) {
+	const error = loaderData.error;
+	const jobs = loaderData.jobs;
+
+	if (error) {
 		return (
 			<main id="main">
 				<Text size="300" weight="300" tag="h3" role="alert">
@@ -104,11 +150,24 @@ export default function OpenJobs({ loaderData }: Route.ComponentProps) {
 				</Text>
 
 				<Text size="200" weight="100" tag="p">
-					Error details: {loaderData.error}
+					Error details: {error}
 				</Text>
 			</main>
 		);
 	}
 
-	return <JobsPage jobs={loaderData.jobs as TJobCard[]} type="open" />;
+	return (
+		<main id="main">
+			<JobsDisplay.Root id="upcoming-jobs">
+				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
+
+				<JobsDisplay.Cards
+					cards={jobs}
+					type="open"
+					isPast={false}
+					handleClick={handleClick}
+				/>
+			</JobsDisplay.Root>
+		</main>
+	);
 }

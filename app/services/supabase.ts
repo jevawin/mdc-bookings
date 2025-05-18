@@ -142,7 +142,7 @@ export const verifySignUp = async (
 		});
 
 		if (!response.ok) {
-			return await parseSupabaseError(response);
+			return parseSupabaseError(response);
 		}
 
 		const data = await response.json();
@@ -192,8 +192,6 @@ export const logInWithEmailPassword = async (
 		}
 
 		const result = (await response.json()) satisfies TSupabaseSessionSchema;
-
-		console.log(result, 'result');
 
 		return { success: true, data: result };
 	} catch (error) {

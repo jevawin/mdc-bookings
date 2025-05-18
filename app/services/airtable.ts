@@ -60,13 +60,13 @@ type TAirtableFieldsMap<T extends TAirtableTable> = TableFieldMap[T];
 
 type TAirtableRecordAll<T extends TAirtableTable> = {
 	fields: Prettify<Required<TAirtableFieldsMap<T>>>;
-	id?: string;
-	createdTime?: string;
+	id: string;
+	createdTime: string;
 } & {};
 
 type TAirtableRecordPartial<T extends TAirtableTable> = {
 	fields: Prettify<TAirtableFieldsMap<T>>;
-	id?: string;
+	id: string;
 	createdTime?: string;
 } & {};
 
@@ -288,7 +288,7 @@ export const getAvailableJobsFromAirtable = async (
 			return { error: 'No jobs found', jobs: [] };
 		}
 
-		const availableJobs = airtableResponse?.records.map((job) => {
+		const availableJobs: TJob[] = airtableResponse?.records.map((job) => {
 			const date = job.fields['Appointment: date'];
 			const dateTimeD = date ? new Date(date) : null;
 			const isPast = dateTimeD ? dateTimeD < new Date() : false;

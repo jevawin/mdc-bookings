@@ -38,6 +38,7 @@ export type TValidateFormData = {
 
 export type TJob = {
 	id: string;
+	record: string;
 	service: string;
 	specialism: string;
 	dateTime: string;
