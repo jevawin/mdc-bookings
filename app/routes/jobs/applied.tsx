@@ -1,16 +1,13 @@
 import type { Route } from './+types/applied';
 
 import { redirect } from 'react-router';
-import {
-	getAirtableRecords,
-	getAvailableAirtableJobs,
-} from '~/services/airtable.ts';
+import { getAvailableAirtableJobs } from '~/services/airtable.ts';
 import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
+import { useState } from 'react';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
-import { useState } from 'react';
 
 type TRevokeResponse = {
 	success: boolean;
@@ -68,32 +65,12 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	if (!user.success) return redirect('/log-in');
 
 	// Get interpreter ID and email from Supabase
-	const userID = user.data?.id;
 	const email = user.data?.email;
 
-	if (!userID || !email) {
-		const errorType = !userID ? 'ID' : 'email';
+	if (!email) {
+		console.error(`No email found for user`);
 
-		console.error(`No ${errorType} found for user`);
-
-		return getDefaultError(`No ${errorType} found for user`, lastUpdated);
-	}
-
-	// Get user name from Airtable
-	const airtableResponse = await getAirtableRecords(
-		'Interpreters',
-		env,
-		['Name'],
-		`{User ID}="${userID}"`,
-	);
-
-	if (!airtableResponse || !airtableResponse.records) {
-		console.error('Interpreter ID not found in Airtable');
-
-		return getDefaultError(
-			'Interpreter ID not found in Airtable',
-			lastUpdated,
-		);
+		return getDefaultError(`No email found for user`, lastUpdated);
 	}
 
 	// Query available jobs for the interpreter to apply for
@@ -117,10 +94,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 			return getDefaultError(data.error, lastUpdated);
 		}
 
-		const name = airtableResponse?.records[0]?.fields['Name'] || '';
-
 		return {
-			name,
 			jobs: data.jobs,
 			lastUpdated,
 		};
