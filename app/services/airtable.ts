@@ -152,8 +152,6 @@ export const getAirtableRecord = async <T extends TAirtableTable>(
 
 		const data = (await response.json()) satisfies TAirtableRecordAll<T>;
 
-		console.log(data, 'getAirtableRecord - data');
-
 		return { success: true, data: data ?? undefined };
 	} catch (error) {
 		console.error('Error fetching data from Airtable (raw fetch):', error);
