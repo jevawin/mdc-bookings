@@ -11,11 +11,38 @@ import { getSession } from '~/sessions.server.ts';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
 
+type TRevokeResponse = {
+	success: boolean;
+	error?: string;
+};
+
 const getDefaultError = (error: string, lastUpdated: string) => ({
 	error,
 	jobs: [],
 	lastUpdated,
 });
+
+const handleClick = async (record: string) => {
+	try {
+		const response = await fetch('/api/revoke', {
+			method: 'POST',
+			body: JSON.stringify({ record }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		if (!response.ok) {
+			const data = (await response.json()) satisfies TRevokeResponse;
+
+			throw new Error(`Response status: ${data.error}`);
+		}
+
+		window.location.reload();
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 export const meta: Route.MetaFunction = () => {
 	return [
@@ -130,7 +157,12 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 			<JobsDisplay.Root id="upcoming-jobs">
 				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
 
-				<JobsDisplay.Cards cards={jobs} type="applied" isPast={false} />
+				<JobsDisplay.Cards
+					cards={jobs}
+					type="applied"
+					isPast={false}
+					handleClick={handleClick}
+				/>
 			</JobsDisplay.Root>
 		</main>
 	);
