@@ -290,15 +290,28 @@ export const getAvailableJobsFromAirtable = async (
 
 		const availableJobs: TJob[] = airtableResponse?.records.map((job) => {
 			const date = job.fields['Appointment: date'];
-			const dateTimeD = date ? new Date(date) : null;
-			const isPast = dateTimeD ? dateTimeD < new Date() : false;
+			const dateTime = new Date(date);
+			const isPast = dateTime ? dateTime < new Date() : false;
+
+			const displayDate = dateTime.toLocaleDateString('en-GB', {
+				day: '2-digit',
+				month: '2-digit',
+				year: 'numeric',
+			});
+
+			const displayTime = dateTime.toLocaleTimeString('en-GB', {
+				hour: '2-digit',
+				minute: '2-digit',
+			});
 
 			return {
 				record: job.id,
 				id: job.fields['Request ID'],
 				service: job.fields['Appointment: service'],
 				specialism: job.fields['Appointment: specialism'],
-				dateTime: job.fields['Appointment: date'],
+				dateTime,
+				displayDate,
+				displayTime,
 				location: job.fields['Airtable: friendly address'],
 				description: job.fields['Appointment: details'],
 				isPast,

@@ -58,41 +58,80 @@ type TJobsDisplayCards = {
 	handleClick?: (record: string) => void;
 };
 
+const getButtonData = (
+	isPast: boolean,
+): Record<TJobsDisplayType, TJobsDisplayCardsButtonMap> => ({
+	applied: {
+		text: 'Revoke',
+		icon: 'cross',
+		varaint: 'revoke',
+	},
+	approved: {
+		text: 'Add to calendar',
+		icon: 'calendar-plus',
+		varaint: isPast ? 'inactive' : 'primary',
+	},
+	open: {
+		text: 'Apply',
+		icon: 'pencil',
+		varaint: 'apply',
+	},
+});
+
 const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 	type,
 	isPast,
 	cards,
 	handleClick,
 }) => {
-	const buttonMap: Record<TJobsDisplayType, TJobsDisplayCardsButtonMap> = {
-		applied: {
-			text: 'Revoke',
-			icon: 'cross',
-			varaint: 'revoke',
-		},
-		approved: {
-			text: 'Add to calendar',
-			icon: 'calendar-plus',
-			varaint: isPast ? 'inactive' : 'primary',
-		},
-		open: {
-			text: 'Apply',
-			icon: 'pencil',
-			varaint: 'apply',
-		},
-	};
+	const buttonData = getButtonData(isPast);
+	const button = buttonData[type];
 
 	return (
 		<ul className={styles.list}>
 			{cards.map((card) => (
 				<li key={card.id}>
 					<Card.Root id={card.id}>
-						<Card.Header title="Job number" bodyText={card.id} />
+						<Card.Content>
+							<Card.Header
+								title="Job number"
+								bodyText={card.id}
+							/>
+
+							<Card.DescriptionList
+								items={[
+									{
+										title: 'Service',
+										description: card.service,
+									},
+									{
+										title: 'Specialism',
+										description: card.specialism,
+									},
+									{
+										title: 'Date',
+										description: card.displayDate,
+									},
+									{
+										title: 'Time',
+										description: card.displayTime,
+									},
+									{
+										title: 'Location',
+										description: card.location,
+									},
+									// {
+									// 	title: 'Description',
+									// 	description: card.description,
+									// },
+								]}
+							/>
+						</Card.Content>
 
 						<Card.Button
-							text={buttonMap[type].text}
-							icon={buttonMap[type].icon}
-							variant={buttonMap[type].varaint}
+							text={button.text}
+							icon={button.icon}
+							variant={button.varaint}
 							onClick={
 								handleClick
 									? () => handleClick(card.record)

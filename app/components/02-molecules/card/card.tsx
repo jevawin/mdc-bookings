@@ -1,9 +1,7 @@
 import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
-import {
-	Button,
-	ButtonContent,
-	type TButtonVariant,
-} from '../button/button.tsx';
+import type { TButtonVariant } from '../button/button.tsx';
+
+import { Button, ButtonContent } from '../button/button.tsx';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
@@ -26,6 +24,14 @@ const CardRoot: React.FC<TCardRoot> = ({ id, children }) => (
 	</article>
 );
 
+type TCardContent = {
+	children: React.ReactNode;
+};
+
+const CardContent: React.FC<TCardContent> = ({ children }) => (
+	<div className={styles.content}>{children}</div>
+);
+
 type TCardHeader = {
 	title: string;
 	bodyText?: string;
@@ -33,7 +39,7 @@ type TCardHeader = {
 
 const CardHeader: React.FC<TCardHeader> = ({ title, bodyText }) => (
 	<header className={styles.header}>
-		<Text tag="h2" size="100" weight="300">
+		<Text tag="h2" size="200" weight="300">
 			{title}
 		</Text>
 
@@ -43,6 +49,35 @@ const CardHeader: React.FC<TCardHeader> = ({ title, bodyText }) => (
 			</Text>
 		) : null}
 	</header>
+);
+
+type TCardDescriptionListItem = {
+	title: string;
+	description: string;
+};
+
+type TCardDescriptionList = {
+	items: TCardDescriptionListItem[];
+};
+
+const CardDescriptionList: React.FC<TCardDescriptionList> = ({ items }) => (
+	<dl className={styles.list}>
+		{items.map((item) => (
+			<div key={item.title} className={styles.item}>
+				<dt>
+					<Text size="100" weight="200" role="presentation">
+						{item.title}
+					</Text>
+				</dt>
+
+				<dd className={styles.dd}>
+					<Text size="100" weight="100">
+						{item.description}
+					</Text>
+				</dd>
+			</div>
+		))}
+	</dl>
 );
 
 type TCardButton = {
@@ -58,14 +93,16 @@ const CardButton: React.FC<TCardButton> = ({
 	variant,
 	onClick,
 }) => (
-	<Button variant={variant} onClick={onClick}>
-		<ButtonContent.Icon name={icon} />
+	<Button variant={variant} onClick={onClick} className={styles.button}>
+		<ButtonContent.Icon name={icon} size={18} />
 		<ButtonContent.Text>{text}</ButtonContent.Text>
 	</Button>
 );
 
 export const Card = {
 	Root: CardRoot,
+	Content: CardContent,
 	Header: CardHeader,
+	DescriptionList: CardDescriptionList,
 	Button: CardButton,
 };

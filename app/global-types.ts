@@ -41,7 +41,9 @@ export type TJob = {
 	record: string;
 	service: string;
 	specialism: string;
-	dateTime: string;
+	dateTime: Date;
+	displayDate: string;
+	displayTime: string;
 	location: string;
 	description: string;
 	isPast: boolean;

@@ -1,3 +1,36 @@
-.base {
-	color: inherit;
+.card {
+	--card-radius: calc(var(--border-radius) * 2);
+
+	block-size: 100%;
+	border: 2px solid var(--color-core-neutral);
+	border-radius: var(--card-radius);
+	display: grid;
+	gap: calc(var(--base-spacing) * 4);
+	padding: calc(var(--base-spacing) * 2);
+}
+
+.content {
+	align-content: start;
+	border-radius: var(--card-radius);
+	display: grid;
+	gap: calc(var(--base-spacing) * 2);
+}
+
+.list {
+	display: grid;
+	gap: calc(var(--base-spacing) * 2) calc(var(--base-spacing) * 3);
+	grid-template-columns: auto 1fr;
+}
+
+.item {
+	display: contents;
+}
+
+.dd {
+	margin: 0;
+	text-align: end;
+}
+
+.button {
+	align-self: end;
 }

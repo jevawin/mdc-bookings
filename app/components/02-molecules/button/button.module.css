@@ -21,6 +21,7 @@
 	color: var(--btn-fg-color);
 	display: flex;
 	gap: var(--base-spacing);
+	justify-content: center;
 	padding: calc(var(--base-spacing) * var(--base-size-multiplier) * 1.5)
 		calc(var(--base-spacing) * var(--base-size-multiplier) * 2);
 	white-space: nowrap;
