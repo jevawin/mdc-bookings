@@ -27,4 +27,8 @@ export default [
 		route('apply', 'routes/api/apply.tsx'),
 		route('revoke', 'routes/api/revoke.tsx'),
 	]),
+
+	layout('components/04-layouts/account/account.tsx', [
+		route('account', 'routes/account.tsx'),
+	]),
 ] satisfies RouteConfig;
