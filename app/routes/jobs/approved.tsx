@@ -115,7 +115,7 @@ export default function ApprovedJobs({ loaderData }: Route.ComponentProps) {
 
 	if (error) {
 		return (
-			<main id="main">
+			<>
 				<Text size="300" weight="300" tag="h3" role="alert">
 					Error loading jobs. Please contact MDC.
 				</Text>
@@ -123,12 +123,12 @@ export default function ApprovedJobs({ loaderData }: Route.ComponentProps) {
 				<Text size="200" weight="100" tag="p">
 					Error details: {error}
 				</Text>
-			</main>
+			</>
 		);
 	}
 
 	return (
-		<main id="main">
+		<>
 			<JobsDisplay.Root id="upcoming-jobs">
 				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
 
@@ -148,6 +148,6 @@ export default function ApprovedJobs({ loaderData }: Route.ComponentProps) {
 					isPast={true}
 				/>
 			</JobsDisplay.Root>
-		</main>
+		</>
 	);
 }
