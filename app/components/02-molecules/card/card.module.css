@@ -31,6 +31,55 @@
 	text-align: end;
 }
 
+.details {
+	--chevron-rotation: 0deg;
+
+	&[open] {
+		--chevron-rotation: 180deg;
+
+		@media (hover: hover) {
+			& .summary:hover {
+				--chevron-rotation: 120deg;
+			}
+		}
+	}
+
+	@media (hover: hover) {
+		& .summary:hover {
+			--chevron-rotation: 30deg;
+		}
+	}
+}
+
+.summary {
+	align-items: center;
+	border-radius: calc(var(--border-radius) / 2);
+	display: flex;
+	justify-content: space-between;
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+
+	&::marker,
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
+.summaryContent {
+	margin-block-start: var(--base-spacing);
+}
+
+.chevron {
+	rotate: var(--chevron-rotation);
+
+	@media (prefers-reduced-motion: no-preference) {
+		transition: rotate var(--animation-duration-medium) ease-in-out;
+	}
+}
+
 .button {
 	align-self: end;
 }

@@ -1,4 +1,4 @@
-import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
+import { Icon, type TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TButtonVariant } from '../button/button.tsx';
 
 import { Button, ButtonContent } from '../button/button.tsx';
@@ -89,6 +89,27 @@ type TCardButton = {
 	onClick?: () => void;
 };
 
+type TCardDescription = {
+	title: string;
+	bodyText: string;
+};
+
+const CardDescription: React.FC<TCardDescription> = ({ title, bodyText }) => (
+	<details className={styles.details}>
+		<summary className={styles.summary}>
+			<Text size="100" weight="200" role="presentation">
+				{title}
+			</Text>
+
+			<Icon name="chevron-down" size={28} className={styles.chevron} />
+		</summary>
+
+		<Text tag="p" size="100" weight="100" className={styles.summaryContent}>
+			{bodyText}
+		</Text>
+	</details>
+);
+
 const CardButton: React.FC<TCardButton> = ({
 	text,
 	icon,
@@ -108,5 +129,6 @@ export const Card = {
 	Content: CardContent,
 	Header: CardHeader,
 	DescriptionList: CardDescriptionList,
+	Description: CardDescription,
 	Button: CardButton,
 };

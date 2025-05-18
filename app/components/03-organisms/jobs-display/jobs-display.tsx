@@ -128,11 +128,12 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 										title: 'Location',
 										description: card.location,
 									},
-									// {
-									// 	title: 'Description',
-									// 	description: card.description,
-									// },
 								]}
+							/>
+
+							<Card.Description
+								title="Description"
+								bodyText={card.description}
 							/>
 						</Card.Content>
 
