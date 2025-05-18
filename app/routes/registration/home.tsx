@@ -1,6 +1,6 @@
 import type { Route } from './+types/home';
 import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
-import type { TAirtableFields } from '~/services/airtable.ts';
+import type { TAirtableInterpreterFields } from '~/services/airtable.ts';
 
 import { redirect } from 'react-router';
 import { registrationFormSchema } from '~/schemas/registration-form-schema';
@@ -107,7 +107,7 @@ const sendUserToAirtable = async (
 		const isJobSummaryEmails = formData.jobSummaryEmails === 'yes';
 		const isRegOrgEmpty = regOrg === '' || !regOrg;
 
-		const payload: TAirtableFields = {
+		const payload: TAirtableInterpreterFields = {
 			'User ID': userId,
 			'Email': formData.email,
 			'Name': formData.name,

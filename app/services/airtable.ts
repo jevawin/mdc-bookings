@@ -1,7 +1,19 @@
 import type { Env, Prettify, TJob } from '~/global-types.ts';
 
-export type TAirtableFields = {
-	/* Jobs */
+export type TAirtableInterpreterFields = {
+	'Email'?: string;
+	'Posted listings'?: string[];
+	'Name'?: string;
+	'Registration number'?: string;
+	'Job post emails'?: boolean;
+	'Job summary emails'?: boolean;
+	'Registration organisation'?: string;
+	'Registration lookup'?: string;
+	'Registration details'?: string;
+	'User ID'?: string;
+};
+
+export type TAirtableJobFields = {
 	'Request ID'?: string;
 	'Status'?: string;
 	'Booker: name'?: string;
@@ -33,27 +45,33 @@ export type TAirtableFields = {
 	'Airtable: post email sent'?: boolean;
 	'Airtable: friendly address'?: string;
 	'Airtable: Google Maps link'?: string;
-	/* Interpreters */
-	'Email'?: string;
-	'Posted listings'?: string[];
-	'Name'?: string;
-	'Registration number'?: string;
-	'Job post emails'?: boolean;
-	'Job summary emails'?: boolean;
-	'Registration organisation'?: string;
-	'Registration lookup'?: string;
-	'Registration details'?: string;
-	'User ID'?: string;
 };
 
-type TAirtableRecord<K extends keyof TAirtableFields> = {
-	fields: Prettify<Pick<Required<TAirtableFields>, K>>;
+type TAirtableFields = TAirtableInterpreterFields & TAirtableJobFields;
+
+type TAirtableTable = 'Interpreters' | 'Jobs';
+
+type TableFieldMap = {
+	Jobs: TAirtableJobFields;
+	Interpreters: TAirtableInterpreterFields;
+};
+
+type TAirtableFieldsMap<T extends TAirtableTable> = TableFieldMap[T];
+
+type TAirtableRecordAll<T extends TAirtableTable> = {
+	fields: Prettify<Required<TAirtableFieldsMap<T>>>;
 	id?: string;
 	createdTime?: string;
 } & {};
 
-type TAirtableResponse<K extends keyof TAirtableFields> = {
-	records: TAirtableRecord<K>[];
+type TAirtableRecordPartial<T extends TAirtableTable> = {
+	fields: Prettify<TAirtableFieldsMap<T>>;
+	id?: string;
+	createdTime?: string;
+} & {};
+
+type TAirtableResponse<T extends TAirtableTable> = {
+	records: TAirtableRecordAll<T>[];
 } & {};
 
 /* UNOPINIONATED */
@@ -64,7 +82,7 @@ type TCreateAirtableRecord = {
 
 export const createAirtableRecord = async (
 	fields: TAirtableFields,
-	table: string,
+	table: TAirtableTable,
 	env: Env,
 ): Promise<TCreateAirtableRecord> => {
 	try {
@@ -104,16 +122,16 @@ export const createAirtableRecord = async (
 	}
 };
 
-type TGetAirtableRecord<K extends keyof TAirtableFields> = {
+type TGetAirtableRecord<T extends TAirtableTable> = {
 	success: boolean;
-	data?: TAirtableRecord<K>;
+	data?: TAirtableRecordAll<T>;
 };
 
-export const getAirtableRecord = async <K extends keyof TAirtableFields>(
-	table: string,
+export const getAirtableRecord = async <T extends TAirtableTable>(
+	table: T,
 	env: Env,
 	recordID: string,
-): Promise<TGetAirtableRecord<K>> => {
+): Promise<Prettify<TGetAirtableRecord<T>>> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}/${recordID}`;
 
@@ -132,7 +150,9 @@ export const getAirtableRecord = async <K extends keyof TAirtableFields>(
 			};
 		}
 
-		const data = (await response.json()) satisfies TAirtableRecord<K>;
+		const data = (await response.json()) satisfies TAirtableRecordAll<T>;
+
+		console.log(data, 'getAirtableRecord - data');
 
 		return { success: true, data: data ?? undefined };
 	} catch (error) {
@@ -144,24 +164,24 @@ export const getAirtableRecord = async <K extends keyof TAirtableFields>(
 	}
 };
 
-type TGetAirtableRecords<K extends keyof TAirtableFields> = {
+type TGetAirtableRecords<T extends TAirtableTable> = {
 	success: boolean;
-	records: TAirtableRecord<K>[];
+	records: TAirtableRecordAll<T>[];
 } & {};
 
-export const getAirtableRecords = async <K extends keyof TAirtableFields>(
-	table: string,
+export const getAirtableRecords = async <T extends TAirtableTable>(
+	table: T,
 	env: Env,
-	fields?: K[],
+	fields?: (keyof TableFieldMap[T])[],
 	filters?: string,
-): Promise<TGetAirtableRecords<K>> => {
+): Promise<TGetAirtableRecords<T>> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const params = new URLSearchParams();
 
 		// Add fields to the params
 		fields?.map((field) => {
-			params.append('fields[]', field);
+			params.append('fields[]', field.toString());
 		});
 
 		// Add filters to the params
@@ -186,7 +206,7 @@ export const getAirtableRecords = async <K extends keyof TAirtableFields>(
 			};
 		}
 
-		const data = (await response.json()) satisfies TAirtableResponse<K>;
+		const data = (await response.json()) satisfies TAirtableResponse<T>;
 		const records = data.records;
 
 		return { success: true, records: records ?? [] };
@@ -200,15 +220,15 @@ export const getAirtableRecords = async <K extends keyof TAirtableFields>(
 	}
 };
 
-type TUpdateAirtableRecords<T extends keyof TAirtableFields> = {
+type TUpdateAirtableRecords = {
 	success: boolean;
 };
 
-export const updateAirtableRecords = async <K extends keyof TAirtableFields>(
-	table: string,
+export const updateAirtableRecords = async <T extends TAirtableTable>(
+	table: T,
 	env: Env,
-	records: TAirtableRecord<K>[],
-): Promise<TUpdateAirtableRecords<K>> => {
+	records: TAirtableRecordPartial<T>[],
+): Promise<TUpdateAirtableRecords> => {
 	try {
 		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
 		const response = await fetch(url, {
@@ -227,8 +247,6 @@ export const updateAirtableRecords = async <K extends keyof TAirtableFields>(
 				success: false,
 			};
 		}
-
-		const data = (await response.json()) satisfies TAirtableResponse<K>;
 
 		return { success: true };
 	} catch (error) {

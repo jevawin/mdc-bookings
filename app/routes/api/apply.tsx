@@ -95,12 +95,11 @@ export const action = async ({
 		if (!alreadyApplied && interpreterID) {
 			// Get record to apply interpreter to
 			const record = await getAirtableRecord('Jobs', env, recordID);
+			const fields = record.data?.fields;
+			const applicants = fields ? fields['Airtable: applications'] : [];
 
 			// Get existing applications, if null set as empty array
-			const applications = [
-				...(record.data?.fields['Airtable: applications'] ?? []),
-				interpreterID,
-			];
+			const applications = [...applicants, interpreterID];
 
 			// Append Airtable
 			const updated = await updateAirtableRecords('Jobs', env, [
