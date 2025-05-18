@@ -5,5 +5,5 @@ export const loader = async (data: Route.LoaderArgs) => {
 };
 
 export default function Account(data: Route.ComponentProps) {
-	return <>Add your components here</>;
+	return <></>;
 }

@@ -1,5 +1,6 @@
 import {
 	NavLink,
+	Outlet,
 	redirect,
 	useLoaderData,
 	type LoaderFunctionArgs,
@@ -54,7 +55,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 	};
 }
 
-export const Account: React.FC<TAccount> = ({ ...rest }) => {
+export default function AccountLayout() {
 	const loaderData = useLoaderData<typeof loader>();
 
 	return (
@@ -126,8 +127,10 @@ export const Account: React.FC<TAccount> = ({ ...rest }) => {
 			</header>
 
 			<main id="main" className={styles.main}>
-				<Container className={styles.mainContainer}></Container>
+				<Container className={styles.mainContainer}>
+					<Outlet />
+				</Container>
 			</main>
 		</>
 	);
-};
+}
