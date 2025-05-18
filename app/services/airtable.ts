@@ -258,15 +258,15 @@ export const updateAirtableRecords = async <T extends TAirtableTable>(
 
 /* OPINIONATED */
 
-type TGetAvailableJobsFromAirtable = {
+type TGetAvailableAirtableJobs = {
 	jobs: TJob[];
 	error?: string;
 };
 
-export const getAvailableJobsFromAirtable = async (
+export const getAvailableAirtableJobs = async (
 	filters: string,
 	env: Env,
-): Promise<TGetAvailableJobsFromAirtable> => {
+): Promise<TGetAvailableAirtableJobs> => {
 	try {
 		const airtableResponse = await getAirtableRecords(
 			'Jobs',

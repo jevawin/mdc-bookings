@@ -3,13 +3,14 @@ import type { Route } from './+types/applied';
 import { redirect } from 'react-router';
 import {
 	getAirtableRecords,
-	getAvailableJobsFromAirtable,
+	getAvailableAirtableJobs,
 } from '~/services/airtable.ts';
 import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
+import { useState } from 'react';
 
 type TRevokeResponse = {
 	success: boolean;
@@ -22,7 +23,7 @@ const getDefaultError = (error: string, lastUpdated: string) => ({
 	lastUpdated,
 });
 
-const handleClick = async (record: string) => {
+const revokeJob = async (record: string) => {
 	try {
 		const response = await fetch('/api/revoke', {
 			method: 'POST',
@@ -97,7 +98,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	// Query available jobs for the interpreter to apply for
 	try {
-		const data = await getAvailableJobsFromAirtable(
+		const data = await getAvailableAirtableJobs(
 			`AND(
 				{Status} = 'Applications received',
 				FIND(
@@ -138,6 +139,18 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 	const error = loaderData.error;
 	const jobs = loaderData.jobs;
 
+	const [cardClicked, setCardClicked] = useState<string | undefined>(
+		undefined,
+	);
+
+	const handleClick = async (record: string) => {
+		setCardClicked(record);
+
+		await revokeJob(record);
+
+		setCardClicked(undefined);
+	};
+
 	if (error) {
 		return (
 			<main id="main">
@@ -162,6 +175,7 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 					type="applied"
 					isPast={false}
 					handleClick={handleClick}
+					cardClicked={cardClicked}
 				/>
 			</JobsDisplay.Root>
 		</main>

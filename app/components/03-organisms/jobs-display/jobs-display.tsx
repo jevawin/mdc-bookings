@@ -55,6 +55,7 @@ type TJobsDisplayCards = {
 	type: TJobsDisplayType;
 	isPast: boolean;
 	cards: TJob[];
+	cardClicked?: string;
 	handleClick?: (record: string) => void;
 };
 
@@ -82,10 +83,17 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 	type,
 	isPast,
 	cards,
+	cardClicked,
 	handleClick,
 }) => {
 	const buttonData = getButtonData(isPast);
 	const button = buttonData[type];
+
+	const onClick = (record: string) => {
+		if (handleClick) {
+			handleClick(record);
+		}
+	};
 
 	return (
 		<ul className={styles.list}>
@@ -132,11 +140,8 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 							text={button.text}
 							icon={button.icon}
 							variant={button.varaint}
-							onClick={
-								handleClick
-									? () => handleClick(card.record)
-									: undefined
-							}
+							isLoading={cardClicked === card.record}
+							onClick={() => onClick(card.record)}
 						/>
 					</Card.Root>
 				</li>

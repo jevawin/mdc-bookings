@@ -3,7 +3,7 @@ import type { Route } from './+types/approved';
 import { redirect } from 'react-router';
 import {
 	getAirtableRecords,
-	getAvailableJobsFromAirtable,
+	getAvailableAirtableJobs,
 } from '~/services/airtable.ts';
 import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
@@ -71,7 +71,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	// Query available jobs for the interpreter to apply for
 	try {
-		const data = await getAvailableJobsFromAirtable(
+		const data = await getAvailableAirtableJobs(
 			`AND(
 				{Status} = 'Appointment booked',
 				FIND(

@@ -6,6 +6,7 @@ import { Button, ButtonContent } from '../button/button.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './card.module.css';
+import { Loader } from '~/components/01-atoms/loader/loader.tsx';
 
 export type TCard = {
 	id: string;
@@ -84,6 +85,7 @@ type TCardButton = {
 	text: string;
 	icon: TIconName;
 	variant: TButtonVariant;
+	isLoading?: boolean;
 	onClick?: () => void;
 };
 
@@ -91,10 +93,12 @@ const CardButton: React.FC<TCardButton> = ({
 	text,
 	icon,
 	variant,
+	isLoading = false,
 	onClick,
 }) => (
 	<Button variant={variant} onClick={onClick} className={styles.button}>
-		<ButtonContent.Icon name={icon} size={18} />
+		{isLoading ? <Loader /> : <ButtonContent.Icon name={icon} />}
+
 		<ButtonContent.Text>{text}</ButtonContent.Text>
 	</Button>
 );

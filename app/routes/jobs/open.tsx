@@ -1,9 +1,10 @@
 import type { Route } from './+types/open';
 
+import { useState } from 'react';
 import { redirect } from 'react-router';
 import {
 	getAirtableRecords,
-	getAvailableJobsFromAirtable,
+	getAvailableAirtableJobs,
 } from '~/services/airtable.ts';
 import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
@@ -22,7 +23,7 @@ const getDefaultError = (error: string, lastUpdated: string) => ({
 	lastUpdated,
 });
 
-const handleClick = async (record: string) => {
+const applyForJob = async (record: string) => {
 	try {
 		const response = await fetch('/api/apply', {
 			method: 'POST',
@@ -96,7 +97,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 	// Query available jobs for the interpreter to apply for
 	try {
-		const data = await getAvailableJobsFromAirtable(
+		const data = await getAvailableAirtableJobs(
 			`AND(
 				OR(
 					{Status} = 'Booking posted',
@@ -141,6 +142,17 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 export default function OpenJobs({ loaderData }: Route.ComponentProps) {
 	const error = loaderData.error;
 	const jobs = loaderData.jobs;
+	const [cardClicked, setCardClicked] = useState<string | undefined>(
+		undefined,
+	);
+
+	const handleClick = async (record: string) => {
+		setCardClicked(record);
+
+		await applyForJob(record);
+
+		setCardClicked(undefined);
+	};
 
 	if (error) {
 		return (
@@ -166,6 +178,7 @@ export default function OpenJobs({ loaderData }: Route.ComponentProps) {
 					type="open"
 					isPast={false}
 					handleClick={handleClick}
+					cardClicked={cardClicked}
 				/>
 			</JobsDisplay.Root>
 		</main>
