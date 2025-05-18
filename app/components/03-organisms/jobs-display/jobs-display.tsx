@@ -25,10 +25,10 @@ const JobsDisplayRoot: React.FC<TJobsDisplayRoot> = ({ id, children }) => (
 	<Segment.Root
 		id={id}
 		aria-labelledby={`${id}-title`}
-		className={styles.base}
 		data-e2e-id="jobs-display"
+		className={styles.display}
 	>
-		<Segment.Container>{children}</Segment.Container>
+		{children}
 	</Segment.Root>
 );
 
@@ -83,7 +83,7 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 	};
 
 	return (
-		<ul>
+		<ul className={styles.list}>
 			{cards.map((card) => (
 				<li key={card.id}>
 					<Card.Root id={card.id}>
