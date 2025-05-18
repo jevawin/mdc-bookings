@@ -70,7 +70,7 @@ export const action = async ({
 
 	try {
 		const form = await request.formData();
-		const formValidation = await validateFormData(form);
+		const formValidation = validateFormData(form);
 
 		if (formValidation.status !== 200 || !formValidation.data) {
 			return formValidation;
