@@ -7,7 +7,7 @@
 	gap: calc(var(--base-spacing) * 3);
 
 	@media (--bp-tiny) {
-		gap: calc(var(--base-spacing) * 6);
+		gap: calc(var(--base-spacing) * 5);
 	}
 }
 
