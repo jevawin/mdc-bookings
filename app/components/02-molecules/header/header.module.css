@@ -1,0 +1,86 @@
+.header {
+	--link-color: var(--color-core-foreground);
+
+	background-color: var(--color-core-background);
+	box-shadow: 0 5px 25px -20px rgb(0 0 0 / 25%);
+	color: var(--color-core-foreground);
+	inline-size: 100%;
+	margin-block-end: calc(var(--base-spacing) * 3);
+}
+
+.container {
+	align-items: center;
+	display: flex;
+	inline-size: 100%;
+	justify-content: space-between;
+	padding-block: calc(var(--base-spacing) * 1.25);
+}
+
+.title {
+	align-items: center;
+	display: flex;
+	gap: calc(var(--base-spacing) * 0.75);
+	justify-content: space-between;
+}
+
+.logo {
+	block-size: 100%;
+	inline-size: auto;
+}
+
+.username {
+	align-items: center;
+	display: flex;
+	gap: calc(var(--base-spacing) * 0.5);
+}
+
+.list {
+	display: flex;
+	gap: calc(var(--base-spacing) * 2.5);
+}
+
+.link {
+	--border-size: 0.2rem;
+	--link-color: var(--color-core-foreground);
+	--underline-color-s: linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--link-color) 30%, transparent 70%) 0%,
+		color-mix(in srgb, var(--link-color) 30%, transparent 70%) 100%
+	);
+	--underline-color-e: linear-gradient(
+		90deg,
+		var(--link-color) 0%,
+		var(--link-color) 100%
+	);
+	--border-style: var(--underline-color-s), var(--underline-color-e);
+
+	text-decoration-color: var(--link-color);
+
+	&[aria-current='page'] {
+		--link-color: var(--color-core-brand);
+		--border-style: linear-gradient(90deg, var(--color-core-brand) 100%);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		background-image: var(--border-style);
+		background-position: 0 100%;
+		background-repeat: no-repeat;
+		background-size:
+			100% var(--border-size),
+			0% var(--border-size);
+		color: var(--link-color);
+		display: inline;
+		margin-block-end: var(--border-size);
+		padding-block-end: var(--border-size);
+		text-decoration: none;
+		transition: background-size 0.3s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+		&:hover {
+			background-size:
+				100% var(--border-size),
+				100% var(--border-size);
+		}
+	}
+}

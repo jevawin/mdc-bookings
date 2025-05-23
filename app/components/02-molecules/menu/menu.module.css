@@ -1,25 +1,28 @@
-.base {
-	color: inherit;
-	position: relative;
+@value --breakpoints: '../../../styles/modules/breakpoints.module.css';
+@value --bp-tiny from --breakpoints;
+
+.nav {
+	@media (--bp-tiny) {
+		max-inline-size: max-content;
+	}
 }
 
 .list {
 	display: flex;
-	flex-direction: row;
+	flex-wrap: wrap;
 	gap: calc(var(--base-spacing) * 3);
+	justify-content: space-between;
 }
 
-.listItem {
+.item {
+	flex: 1;
+	max-inline-size: max-content;
 	padding-block-end: calc(var(--base-spacing) * 0.5);
 }
 
-.listItem:has([aria-current='page']) {
+.item:has([aria-current='page']) {
 	border-block-end: calc(var(--base-spacing) * 0.5) solid
 		var(--color-core-brand);
-
-	& .link {
-		color: var(--color-core-brand);
-	}
 }
 
 .link {
@@ -29,14 +32,22 @@
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--base-spacing) * 0.5);
-	text-decoration: none;
 
-	&:hover {
+	&[aria-current='page'] {
 		color: var(--color-core-brand);
 	}
 
 	&:focus-visible {
-		outline: 0.2rem solid var(--color-core-brand);
-		outline-offset: 0.2rem;
+		outline-color: var(--color-core-brand);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		text-decoration: none;
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			color: var(--color-core-brand);
+		}
 	}
 }

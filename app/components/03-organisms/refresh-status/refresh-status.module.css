@@ -1,0 +1,10 @@
+.refresh {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--base-spacing) * 2);
+}
+
+.content {
+	flex: 1;
+	text-align: end;
+}

@@ -1,26 +1,16 @@
 import type { LoaderFunctionArgs } from 'react-router';
 import type { TMenuItem } from '~/components/02-molecules/menu/menu.tsx';
 
-import {
-	NavLink,
-	Outlet,
-	redirect,
-	useLoaderData,
-	useNavigation,
-} from 'react-router';
+import { Outlet, redirect, useLoaderData, useNavigation } from 'react-router';
 import { getAirtableRecords } from '~/services/airtable.ts';
 import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
-import { Container } from '../container/container.tsx';
 import { Loader } from '~/components/01-atoms/loader/loader.tsx';
-import { Text } from '~/components/01-atoms/text/text.tsx';
-import { Icon } from '~/components/01-atoms/icon/icon.tsx';
-import {
-	Button,
-	ButtonContent,
-} from '~/components/02-molecules/button/button.tsx';
 import { Menu } from '~/components/02-molecules/menu/menu.tsx';
+import { Header } from '~/components/02-molecules/header/header.tsx';
+import { RefreshStatus } from '~/components/03-organisms/refresh-status/refresh-status.tsx';
+import { Container } from '../container/container.tsx';
 
 import styles from './jobs.module.css';
 
@@ -49,6 +39,10 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 	const token = session.get('access_token');
 	const user = await getUser(env, token);
 
+	const date = new Date();
+	const lastUpdated = date.toISOString();
+	const lastUpdatedDisplay = date.toLocaleString('en-GB');
+
 	// Redirect to login if not logged in
 	if (!user.success) return redirect('/log-in');
 
@@ -58,7 +52,11 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 	if (!userID) {
 		console.error('No ID found for user');
 
-		return { error: 'No ID found for user' };
+		return {
+			error: 'No ID found for user',
+			lastUpdated,
+			lastUpdatedDisplay,
+		};
 	}
 
 	// Get user name from Airtable
@@ -72,14 +70,19 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 	if (!airtableResponse || !airtableResponse.records) {
 		console.error('Interpreter ID not found in Airtable');
 
-		return { error: 'Interpreter ID not found' };
+		return {
+			error: 'Interpreter ID not found',
+			lastUpdated,
+			lastUpdatedDisplay,
+		};
 	}
 
 	const name = airtableResponse?.records[0]?.fields['Name'] || '';
 
 	return {
 		name,
-		lastUpdated: new Date().toLocaleString('en-GB'),
+		lastUpdated: date.toISOString(),
+		lastUpdatedDisplay: date.toLocaleString('en-GB'),
 	};
 }
 
@@ -95,94 +98,17 @@ export default function JobsLayout() {
 
 	return (
 		<>
-			<header className={styles.header}>
-				<Container className={styles.headerContainer}>
-					<Text
-						tag="h2"
-						weight="200"
-						size="400"
-						className={styles.title}
-					>
-						<img
-							src="/assets/logo.svg"
-							alt=""
-							className={styles.logo}
-						/>
-						MDC
-					</Text>
-
-					<Text
-						tag="p"
-						size="200"
-						weight="100"
-						className={styles.userName}
-					>
-						<Icon
-							name="user"
-							size={19}
-							className={styles.userIcon}
-						/>
-
-						{loaderData.name}
-					</Text>
-
-					<nav className={styles.nav} aria-label="Main">
-						<ul className={styles.list}>
-							<li className={styles.listItem}>
-								<NavLink to="/jobs" className={styles.navLink}>
-									<Text
-										tag="span"
-										size="200"
-										weight="200"
-										role="presentation"
-									>
-										Jobs
-									</Text>
-								</NavLink>
-							</li>
-
-							<li className={styles.listItem}>
-								<NavLink
-									to="/account"
-									className={styles.navLink}
-								>
-									<Text
-										tag="span"
-										size="200"
-										weight="200"
-										role="presentation"
-									>
-										Account
-									</Text>
-								</NavLink>
-							</li>
-						</ul>
-					</nav>
-				</Container>
-			</header>
+			<Header username={loaderData.name} />
 
 			<main id="main" className={styles.main}>
-				<Container className={styles.mainContainer}>
-					<Menu items={menuItems} />
+				<Container className={styles.container}>
+					<div className={styles.meta}>
+						<Menu items={menuItems} />
 
-					<div className={styles.lastUpdated}>
-						<Button
-							size="small"
-							variant="secondary"
-							onClick={() => location.reload()}
-						>
-							<ButtonContent.Icon name="refresh" size={14} />
-							<ButtonContent.Text>Refresh</ButtonContent.Text>
-						</Button>
-
-						<div>
-							<Text size="100" weight="200" tag="p">
-								Last updated:
-							</Text>
-							<Text size="100" weight="100" tag="p">
-								{loaderData.lastUpdated}
-							</Text>
-						</div>
+						<RefreshStatus
+							dateTime={loaderData.lastUpdated}
+							displayDateTime={loaderData.lastUpdatedDisplay}
+						/>
 					</div>
 
 					{isNavigating ? (

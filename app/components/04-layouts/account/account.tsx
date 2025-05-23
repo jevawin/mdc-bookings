@@ -1,17 +1,17 @@
-import {
-	NavLink,
-	Outlet,
-	redirect,
-	useLoaderData,
-	type LoaderFunctionArgs,
-} from 'react-router';
-import { Icon } from '~/components/01-atoms/icon/icon';
-import { Text } from '~/components/01-atoms/text/text';
+import type { LoaderFunctionArgs } from 'react-router';
+
+import { NavLink, Outlet, redirect, useLoaderData } from 'react-router';
+
 import { getAirtableRecords } from '~/services/airtable';
 import { getUser } from '~/services/supabase';
 import { getSession } from '~/sessions.server';
-import { Container } from '../container/container';
+
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { Container } from '../container/container.tsx';
+
 import styles from './account.module.css';
+import { Header } from '~/components/02-molecules/header/header.tsx';
 
 export type TAccount = React.PropsWithChildren;
 
@@ -60,77 +60,10 @@ export default function AccountLayout() {
 
 	return (
 		<>
-			<header className={styles.header}>
-				<Container className={styles.headerContainer}>
-					<Text
-						tag="h2"
-						weight="200"
-						size="400"
-						className={styles.title}
-					>
-						<img
-							src="/assets/logo.svg"
-							alt=""
-							className={styles.logo}
-						/>
-						MDC
-					</Text>
-
-					<Text
-						tag="p"
-						size="200"
-						weight="100"
-						className={styles.userName}
-					>
-						<Icon
-							name="user"
-							size={19}
-							className={styles.userIcon}
-						/>
-
-						{loaderData.name}
-					</Text>
-
-					<nav className={styles.nav} aria-label="Main">
-						<ul className={styles.list}>
-							<li className={styles.listItem}>
-								<NavLink
-									to="/jobs/open"
-									className={styles.navLink}
-								>
-									<Text
-										tag="span"
-										size="200"
-										weight="200"
-										role="presentation"
-									>
-										Jobs
-									</Text>
-								</NavLink>
-							</li>
-
-							<li className={styles.listItem}>
-								<NavLink
-									to="/account"
-									className={styles.navLink}
-								>
-									<Text
-										tag="span"
-										size="200"
-										weight="200"
-										role="presentation"
-									>
-										Account
-									</Text>
-								</NavLink>
-							</li>
-						</ul>
-					</nav>
-				</Container>
-			</header>
+			<Header username={loaderData.name} />
 
 			<main id="main" className={styles.main}>
-				<Container className={styles.mainContainer}>
+				<Container className={styles.container}>
 					<Outlet context={loaderData} />
 				</Container>
 			</main>
