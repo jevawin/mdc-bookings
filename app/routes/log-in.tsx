@@ -1,7 +1,7 @@
 import type { Route } from './+types/log-in';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
-import { redirect, useActionData } from 'react-router';
+import { redirect } from 'react-router';
 import { logInFormSchema } from '~/schemas/log-in-form-schema.ts';
 import { getUser, logInWithEmailPassword } from '~/services/supabase.ts';
 import { commitSession, getSession } from '~/sessions.server';
@@ -59,6 +59,13 @@ const buildFormError = (error?: { msg?: string }): TFormError => {
 		},
 	};
 };
+
+export function meta({}: Route.MetaArgs) {
+	return [
+		{ title: 'Log in' },
+		{ name: 'description', content: 'Welcome to React Router!' },
+	];
+}
 
 type TLogInAction = Promise<Response | TFormError>;
 
