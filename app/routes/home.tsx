@@ -13,6 +13,7 @@ export function loader({ context }: Route.LoaderArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
 	console.log(loaderData, 'loaderData');
+	console.error('I AM AN ERROR');
 
 	return (
 		<main>
