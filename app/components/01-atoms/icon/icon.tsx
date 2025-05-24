@@ -1,4 +1,8 @@
 export type TIconName =
+	| 'apple'
+	| 'google'
+	| 'ms-office'
+	| 'outlook'
 	| 'calendar-plus'
 	| 'check-circle'
 	| 'chevron-down'

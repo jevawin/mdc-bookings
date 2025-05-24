@@ -21,6 +21,7 @@
 	"dependencies": {
 		"@react-router/node": "^7.6.0",
 		"@react-router/serve": "^7.6.0",
+		"calendar-link": "^2.10.0",
 		"clsx": "^2.1.1",
 		"isbot": "^5.1.28",
 		"react": "^19.1.0",

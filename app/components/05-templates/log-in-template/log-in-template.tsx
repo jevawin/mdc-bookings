@@ -10,6 +10,7 @@ import { Form } from '~/components/03-organisms/form/form.tsx';
 import { Authentication } from '~/components/04-layouts/authentication/authentication';
 
 import styles from './log-in-template.module.css';
+import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-calendar';
 
 export type TLogInTemplate = {
 	formError?: TFormSubmissionError;
@@ -77,6 +78,15 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 					</Fieldset>
 				</Form>
 			</main>
+
+			<AddToCalendar
+				event={{
+					title: 'Space Jelly Palooza',
+					description: 'The biggest party in the universe.',
+					start: '2024-07-14 10:00:00 +0300',
+					duration: [8, 'hour'],
+				}}
+			/>
 
 			<Authentication.Footer
 				title="Don't have an account?"
