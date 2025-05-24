@@ -130,10 +130,12 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({ event }) => {
 	return (
 		<div className={styles.atc} data-e2e-id="add-to-calendar">
 			<Button
+				id="atc-button"
 				onClick={handleButtonClick}
 				onKeyDown={handleButtonKeyDown}
-				aria-expanded={isOpen}
 				ref={buttonRef}
+				aria-expanded={isOpen}
+				aria-haspopup="true"
 				className={styles.button}
 			>
 				<ButtonContent.Text>Add to calendar</ButtonContent.Text>
@@ -144,14 +146,17 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({ event }) => {
 				className={styles.menu}
 				hidden={!isOpen}
 				onKeyDown={handleKeyDown}
+				aria-labelledby="atc-button"
+				role="menu"
 			>
 				{items.map((item, i) => (
-					<li key={item.name}>
+					<li key={item.name} role="presentation">
 						<a
 							href={item.url}
 							target="_blank"
 							rel="noopener noreferrer"
 							className={styles.link}
+							role="menuitem"
 							ref={(el) => {
 								if (el) linkRefs.current[i] = el;
 							}}
