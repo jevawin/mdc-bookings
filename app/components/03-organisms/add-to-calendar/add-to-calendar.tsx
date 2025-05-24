@@ -1,9 +1,10 @@
 import type { CalendarEvent } from 'calendar-link';
+import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 
 import { useEffect, useRef, useState } from 'react';
 import { google, outlook, office365, ics } from 'calendar-link';
 
-import { Icon, type TIconName } from '~/components/01-atoms/icon/icon.tsx';
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import {
 	Button,
