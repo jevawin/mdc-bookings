@@ -79,15 +79,6 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 				</Form>
 			</main>
 
-			<AddToCalendar
-				event={{
-					title: 'Space Jelly Palooza',
-					description: 'The biggest party in the universe.',
-					start: '2024-07-14 10:00:00 +0300',
-					duration: [8, 'hour'],
-				}}
-			/>
-
 			<Authentication.Footer
 				title="Don't have an account?"
 				cta={{ linkText: 'Create an account', to: '/registration' }}
