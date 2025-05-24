@@ -1,8 +1,22 @@
 @value --breakpoints: '../../../styles/modules/breakpoints.module.css';
 @value --bp-tiny from --breakpoints;
 
-.container {
+.jobs {
 	display: flex;
+	flex-direction: column;
+	min-block-size: 100svh;
+}
+
+.main {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}
+
+.container {
+	block-size: 100%;
+	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: calc(var(--base-spacing) * 3);
 
@@ -16,6 +30,14 @@
 	display: grid;
 	gap: calc(var(--base-spacing) * 3);
 	grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
+}
+
+.loading {
+	place-content: center center;
+	display: grid;
+	flex: 1;
+	gap: calc(var(--base-spacing) * 2);
+	text-align: center;
 }
 
 .loader {

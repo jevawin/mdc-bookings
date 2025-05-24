@@ -10,6 +10,6 @@
 
 :where(.loader) {
 	& path {
-		animation: loader 1s linear infinite;
+		animation: loader 1.5s linear infinite;
 	}
 }

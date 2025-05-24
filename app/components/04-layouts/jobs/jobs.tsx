@@ -13,6 +13,7 @@ import { RefreshStatus } from '~/components/03-organisms/refresh-status/refresh-
 import { Container } from '../container/container.tsx';
 
 import styles from './jobs.module.css';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 const menuItems: TMenuItem[] = [
 	{
@@ -97,7 +98,7 @@ export default function JobsLayout() {
 	}
 
 	return (
-		<>
+		<div className={styles.jobs}>
 			<Header username={loaderData.name} />
 
 			<main id="main" className={styles.main}>
@@ -112,12 +113,23 @@ export default function JobsLayout() {
 					</div>
 
 					{isNavigating ? (
-						<Loader size={150} className={styles.loader} />
+						<div className={styles.loading}>
+							<Loader size={150} className={styles.loader} />
+
+							<Text
+								size="400"
+								weight="300"
+								role="alert"
+								aria-live="assertive"
+							>
+								Loading
+							</Text>
+						</div>
 					) : (
 						<Outlet />
 					)}
 				</Container>
 			</main>
-		</>
+		</div>
 	);
 }
