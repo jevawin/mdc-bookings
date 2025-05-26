@@ -10,11 +10,11 @@ export type TAuthentication = React.PropsWithChildren;
 
 export default function AuthenticationLayout() {
 	return (
-		<Container className={styles.container}>
-			<div className={styles.inner}>
+		<div className={styles.container}>
+			<Container className={styles.inner}>
 				<Outlet />
-			</div>
-		</Container>
+			</Container>
+		</div>
 	);
 }
 

@@ -144,7 +144,8 @@ const CardAddToCalendarButton: React.FC<TCardAddToCalendarButton> = ({
 	<AddToCalendar
 		event={event}
 		isDisabled={isDisabled}
-		className={clsx(styles.button, styles.atc)}
+		className={styles.button}
+		buttonClassName={styles.atc}
 	/>
 );
 

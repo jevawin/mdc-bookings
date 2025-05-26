@@ -21,6 +21,7 @@ export type TAddToCalendar = {
 
 type TTAddToCalendarProps = {
 	className?: string;
+	buttonClassName?: string;
 } & TAddToCalendar;
 
 type TAddToCalendarItem = {
@@ -33,6 +34,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 	event,
 	isDisabled = false,
 	className,
+	buttonClassName,
 }) => {
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const linkRefs = useRef<HTMLAnchorElement[]>([]);
@@ -146,7 +148,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 				ref={buttonRef}
 				aria-expanded={isOpen}
 				aria-haspopup="true"
-				className={styles.button}
+				className={clsx(styles.button, buttonClassName)}
 				variant={isDisabled ? 'inactive' : 'primary'}
 			>
 				<ButtonContent.Text>Add to calendar</ButtonContent.Text>
