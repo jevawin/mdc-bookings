@@ -16,6 +16,7 @@ import { RegistrationTemplate } from '~/components/05-templates/registration-tem
 
 type TFormDataResult = {
 	name: string;
+	preferredName: string;
 	email: string;
 	registrationNumber: string;
 	password: string;
@@ -41,7 +42,7 @@ const defaultFormError = {
 	error: {
 		title: "We're having a bit of trouble processing your request.",
 		bodyText:
-			"Don't worry, your information is still here. Please click 'Register your interest' again in a moment.",
+			"Don't worry, your information is still here. Please click 'Submit' again in a moment.",
 	},
 };
 
@@ -111,6 +112,7 @@ const sendUserToAirtable = async (
 			'User ID': userId,
 			'Email': formData.email,
 			'Name': formData.name,
+			'Preferred name': formData.preferredName,
 			'Registration organisation': !isRegOrgEmpty ? regOrg : 'NRCPD',
 			'Registration number': formData.registrationNumber,
 			'Job post emails': isJobPostEmails,

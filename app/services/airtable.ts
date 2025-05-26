@@ -6,6 +6,7 @@ export type TAirtableInterpreterFields = {
 	'Email'?: string;
 	'Posted listings'?: string[];
 	'Name'?: string;
+	'Preferred name'?: string;
 	'Registration number'?: string;
 	'Job post emails'?: boolean;
 	'Job summary emails'?: boolean;

@@ -18,7 +18,7 @@ const defaultFormError = {
 	error: {
 		title: "We're having a bit of trouble processing your request.",
 		bodyText:
-			"Don't worry, your information is still here. Please click 'Register your interest' again in a moment.",
+			"Don't worry, your information is still here. Please click 'Log in' again in a moment.",
 	},
 };
 

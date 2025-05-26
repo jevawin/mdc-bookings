@@ -3,6 +3,9 @@ import { z } from 'zod';
 export const registrationFormSchema = z
 	.object({
 		name: z.string().min(1, { message: 'Enter your full name' }),
+		preferredName: z
+			.string()
+			.min(1, { message: 'Enter your preferred name' }),
 		email: z.string().email({ message: 'Enter a valid email address' }),
 		nonNrcpd: z.union([z.undefined(), z.literal('yes')], {
 			errorMap: () => ({

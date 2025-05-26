@@ -78,6 +78,16 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 					/>
 
 					<TextInput
+						id="preferred-name"
+						name="preferredName"
+						label="Preferred name"
+						inputMode="text"
+						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.preferredName)}
+						validationMessage={fieldErrors?.preferredName?.message}
+					/>
+
+					<TextInput
 						id="email"
 						type="email"
 						name="email"

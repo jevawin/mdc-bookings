@@ -22,7 +22,7 @@ export const iconNames: TIconName[] = [
 	'clock-rotate',
 	'calendar-check',
 	'user',
-] as const;
+];
 
 export const mockIconData: TIcon = {
 	name: 'pencil',
