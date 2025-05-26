@@ -17,7 +17,10 @@ export type TIconName =
 	| 'warning'
 	| 'clock-rotate'
 	| 'calendar-check'
-	| 'user';
+	| 'user'
+	| 'wave'
+	| 'building'
+	| 'bell';
 
 export type TIcon = {
 	name: TIconName;

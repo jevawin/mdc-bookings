@@ -14,6 +14,7 @@ export type TInlineCheckbox = {
 	validationMessage?: string;
 	className?: string;
 	onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
+	defaultChecked?: boolean;
 };
 
 export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
@@ -26,6 +27,7 @@ export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
 	isRequired = false,
 	className,
 	onClick,
+	defaultChecked,
 }) => {
 	const validationMessageId = `${id.replace(' ', '-')}-message`;
 
@@ -55,6 +57,7 @@ export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
 						isInvalid ? validationMessageId : undefined
 					}
 					onClick={handleInputClick}
+					defaultChecked={defaultChecked}
 				/>
 
 				<label htmlFor={id}>

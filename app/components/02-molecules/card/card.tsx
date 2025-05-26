@@ -8,8 +8,8 @@ import { Text } from '~/components/01-atoms/text/text.tsx';
 import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-calendar.tsx';
 import { Button, ButtonContent } from '../button/button.tsx';
 
-import styles from './card.module.css';
 import { clsx } from 'clsx';
+import styles from './card.module.css';
 
 export type TCard = {
 	id: string;
@@ -20,10 +20,15 @@ export type TCard = {
 type TCardRoot = {
 	id: string;
 	children: React.ReactNode;
+	className?: string;
 };
 
-const CardRoot: React.FC<TCardRoot> = ({ id, children }) => (
-	<article id={id} className={styles.card} data-e2e-id="card">
+const CardRoot: React.FC<TCardRoot> = ({ id, children, className }) => (
+	<article
+		id={id}
+		className={clsx(styles.card, className)}
+		data-e2e-id="card"
+	>
 		{children}
 	</article>
 );
