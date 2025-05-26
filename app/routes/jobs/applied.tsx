@@ -148,7 +148,7 @@ export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
 					cards={jobs}
 					type="applied"
 					isPast={false}
-					handleClick={handleClick}
+					onCardClick={handleClick}
 					cardClicked={cardClicked}
 				/>
 			</JobsDisplay.Root>

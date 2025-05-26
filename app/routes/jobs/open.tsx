@@ -151,7 +151,7 @@ export default function OpenJobs({ loaderData }: Route.ComponentProps) {
 					cards={jobs}
 					type="open"
 					isPast={false}
-					handleClick={handleClick}
+					onCardClick={handleClick}
 					cardClicked={cardClicked}
 				/>
 			</JobsDisplay.Root>

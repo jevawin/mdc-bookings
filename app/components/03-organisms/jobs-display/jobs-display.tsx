@@ -1,10 +1,8 @@
 import type { TJob } from '~/global-types.ts';
-import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
-import type { TButtonVariant } from '~/components/02-molecules/button/button.tsx';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
-import { Card } from '~/components/02-molecules/card/card.tsx';
 import { Segment } from '~/components/04-layouts/segment/segment.tsx';
+import { JobsDisplayCard } from './components/card.tsx';
 
 import styles from './jobs-display.module.css';
 
@@ -45,128 +43,35 @@ const JobsDisplayTitle: React.FC<TJobsDisplayTitle> = ({ id, title }) => (
 
 type TJobsDisplayType = 'applied' | 'approved' | 'open';
 
-type TJobsDisplayCardsButtonMap = {
-	text: string;
-	icon: TIconName;
-	varaint: TButtonVariant;
-};
-
 type TJobsDisplayCards = {
 	type: TJobsDisplayType;
 	isPast: boolean;
 	cards: TJob[];
 	cardClicked?: string;
-	handleClick?: (record: string) => void;
+	onCardClick?: (record: string) => void;
 };
-
-type TGetButtonData = {
-	[k in TJobsDisplayType]: TJobsDisplayCardsButtonMap;
-};
-
-const getButtonData = (isPast: boolean): TGetButtonData => ({
-	applied: {
-		text: 'Revoke',
-		icon: 'cross',
-		varaint: 'revoke',
-	},
-	approved: {
-		text: 'Add to calendar',
-		icon: 'calendar-plus',
-		varaint: isPast ? 'inactive' : 'primary',
-	},
-	open: {
-		text: 'Apply',
-		icon: 'pencil',
-		varaint: 'apply',
-	},
-});
 
 const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 	type,
 	isPast,
 	cards,
 	cardClicked,
-	handleClick,
-}) => {
-	const buttonData = getButtonData(isPast);
-	const button = buttonData[type];
-	const isApproved = type === 'approved';
-
-	const onClick = (record: string) => {
-		if (handleClick) {
-			handleClick(record);
-		}
-	};
-
-	return (
-		<ul className={styles.list}>
-			{cards.map((card) => (
-				<li key={card.id}>
-					<Card.Root id={card.id}>
-						<Card.Content>
-							<Card.Header title="Job number" bodyText={card.id}>
-								{isApproved ? (
-									<Card.AddToCalendarButton
-										isDisabled={isPast}
-										event={{
-											title: `MDC Interpreting: ${card.id}`,
-											description: card.description,
-											location: card.location,
-											start: card.dateTimeStart,
-											end: card.dateTimeEnd,
-											organizer: {
-												name: 'Manchester Deaf Centre',
-												email: 'bookings@manchesterdeafcentre.com',
-											},
-										}}
-									/>
-								) : (
-									<Card.Button
-										text={button.text}
-										icon={button.icon}
-										variant={button.varaint}
-										isLoading={cardClicked === card.record}
-										onClick={() => onClick(card.record)}
-									/>
-								)}
-							</Card.Header>
-
-							<Card.DescriptionList
-								items={[
-									{
-										title: 'Service',
-										description: card.service,
-									},
-									{
-										title: 'Specialism',
-										description: card.specialism,
-									},
-									{
-										title: 'Date',
-										description: card.displayDate,
-									},
-									{
-										title: 'Time',
-										description: card.displayTime,
-									},
-									{
-										title: 'Location',
-										description: card.location,
-									},
-								]}
-							/>
-
-							<Card.Description
-								title="Description"
-								bodyText={card.description}
-							/>
-						</Card.Content>
-					</Card.Root>
-				</li>
-			))}
-		</ul>
-	);
-};
+	onCardClick,
+}) => (
+	<ul className={styles.list}>
+		{cards.map((card) => (
+			<li key={card.id}>
+				<JobsDisplayCard
+					job={card}
+					type={type}
+					isPast={isPast}
+					cardClicked={cardClicked}
+					onCardClick={onCardClick}
+				/>
+			</li>
+		))}
+	</ul>
+);
 
 export const JobsDisplay = {
 	Root: JobsDisplayRoot,
