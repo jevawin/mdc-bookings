@@ -76,6 +76,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 		}
 
 		if (isArrowDown && isOpen) {
+			e.preventDefault();
 			linkRefs.current[0]?.focus();
 		}
 	};
