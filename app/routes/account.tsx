@@ -142,6 +142,7 @@ export default function Account({ actionData }: Route.ComponentProps) {
 							title="notification settings"
 							id="notification-settings"
 							method="POST"
+							submitButtonText="Save preferences"
 						>
 							<InlineCheckbox
 								label="As soon as a job goes live"
