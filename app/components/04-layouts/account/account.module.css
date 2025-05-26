@@ -1,14 +1,15 @@
 .container {
+	align-items: flex-start;
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--base-spacing) * 3);
-	padding-block: calc(var(--base-spacing) * 3);
 }
 
 .cards {
 	display: grid;
 	gap: calc(var(--base-spacing) * 3);
 	grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr));
+	inline-size: 100%;
 	line-break: anywhere;
 }
 
@@ -16,6 +17,13 @@
 	align-items: center;
 	display: flex;
 	gap: calc(var(--base-spacing) * 0.7);
+}
+
+.greeting {
+	align-items: center;
+	display: flex;
+	inline-size: 100%;
+	justify-content: space-between;
 }
 
 .submitMessage {
@@ -54,5 +62,47 @@
 			var(--color-core-negative),
 			#fff 90%
 		);
+	}
+}
+
+.logOut {
+	--border-size: 0.2rem;
+	--link-color: var(--color-core-brand);
+	--underline-color-s: linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--link-color) 30%, transparent 70%) 0%,
+		color-mix(in srgb, var(--link-color) 30%, transparent 70%) 100%
+	);
+	--underline-color-e: linear-gradient(
+		90deg,
+		var(--link-color) 0%,
+		var(--link-color) 100%
+	);
+	--border-style: var(--underline-color-s), var(--underline-color-e);
+
+	flex-shrink: 0;
+	text-decoration-color: var(--link-color);
+
+	@media (prefers-reduced-motion: no-preference) {
+		background-image: var(--border-style);
+		background-position: 0 100%;
+		background-repeat: no-repeat;
+		background-size:
+			100% var(--border-size),
+			0% var(--border-size);
+		color: var(--link-color);
+		display: inline;
+		margin-block-end: var(--border-size);
+		padding-block-end: var(--border-size);
+		text-decoration: none;
+		transition: background-size 0.3s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+		&:hover {
+			background-size:
+				100% var(--border-size),
+				100% var(--border-size);
+		}
 	}
 }

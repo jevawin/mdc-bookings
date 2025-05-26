@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from 'react-router';
 
-import { Outlet, redirect, useLoaderData } from 'react-router';
+import { NavLink, Outlet, redirect, useLoaderData } from 'react-router';
 
 import { getAirtableRecords } from '~/services/airtable';
 import { getUser } from '~/services/supabase';
@@ -12,6 +12,7 @@ import { Header } from '~/components/02-molecules/header/header.tsx';
 import styles from './account.module.css';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
 export type TAccountLoaderData = {
 	error?: string;
@@ -33,9 +34,9 @@ const getGreeting = () => {
 	var today = new Date();
 	var curHr = today.getHours();
 
-	if (curHr < 12) return 'morning';
-	if (curHr < 18) return 'afternoon';
-	return 'evening';
+	if (curHr < 12) return 'Morning';
+	if (curHr < 18) return 'Afternoon';
+	return 'Evening';
 };
 
 export async function loader({
@@ -129,15 +130,22 @@ export default function AccountLayout() {
 
 			<main id="main" className={styles.main}>
 				<Container className={styles.container}>
-					<Text
-						tag="h1"
-						size="400"
-						weight="300"
-						className={styles.cardTitle}
-					>
-						<Icon name="wave" />
-						Good {loaderData.greeting}, {loaderData.fields.name}
-					</Text>
+					<div className={styles.greeting}>
+						<Text
+							tag="h1"
+							size="400"
+							weight="300"
+							className={styles.cardTitle}
+						>
+							<Icon name="wave" />
+							{loaderData.greeting}, {loaderData.fields.name}
+						</Text>
+						<NavLink to="/log-out" className={styles.logOut}>
+							<Text size="200" weight="200">
+								Log out
+							</Text>
+						</NavLink>
+					</div>
 					<div className={styles.cards}>
 						<Outlet context={loaderData} />
 					</div>

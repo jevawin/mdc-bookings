@@ -43,7 +43,7 @@
 
 .link {
 	--border-size: 0.2rem;
-	--link-color: var(--color-core-foreground);
+	--link-color: var(--color-core-brand);
 	--underline-color-s: linear-gradient(
 		90deg,
 		color-mix(in srgb, var(--link-color) 30%, transparent 70%) 0%,
@@ -59,8 +59,11 @@
 	text-decoration-color: var(--link-color);
 
 	&[aria-current='page'] {
-		--link-color: var(--color-core-brand);
-		--border-style: linear-gradient(90deg, var(--color-core-brand) 100%);
+		--link-color: var(--color-core-foreground);
+		--border-style: linear-gradient(
+			90deg,
+			var(--color-core-foreground) 100%
+		);
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

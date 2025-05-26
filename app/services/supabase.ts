@@ -201,6 +201,35 @@ export const logInWithEmailPassword = async (
 	}
 };
 
+export const logOut = async (
+	env: Env,
+	token: string,
+): Promise<{ success: boolean }> => {
+	try {
+		const url = `${env.SUPABASE_URL}/auth/v1/logout`;
+		const headers = {
+			...getHeaders(env),
+			Authorization: `Bearer ${token}`,
+		};
+		const response = await fetch(url, {
+			method: 'POST',
+			headers,
+		});
+
+		if (!response.ok) {
+			const error = await response.json();
+			console.error(error);
+			return { success: false };
+		}
+
+		return { success: true };
+	} catch (error) {
+		console.error('logOut - Unexpected error:', error);
+
+		return { success: false };
+	}
+};
+
 type TGetUser = {
 	success: boolean;
 	data?: TSupabaseUserSchema;
