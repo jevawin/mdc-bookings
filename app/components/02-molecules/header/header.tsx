@@ -33,7 +33,7 @@ export const Header: React.FC<THeader> = ({ username }) => (
 			<nav className={styles.nav} aria-label="Main">
 				<ul className={styles.list}>
 					<li className={styles.item}>
-						<NavLink to="/jobs" className={styles.link}>
+						<NavLink to="/jobs/open" className={styles.link}>
 							<Text
 								tag="span"
 								size="200"
