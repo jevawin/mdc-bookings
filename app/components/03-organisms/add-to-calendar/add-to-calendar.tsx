@@ -12,9 +12,11 @@ import {
 } from '~/components/02-molecules/button/button.tsx';
 
 import styles from './add-to-calendar.module.css';
+import { clsx } from 'clsx';
 
 export type TAddToCalendar = {
 	event: CalendarEvent;
+	isDisabled?: boolean;
 };
 
 type TTAddToCalendarProps = {
@@ -27,7 +29,11 @@ type TAddToCalendarItem = {
 	url: string;
 };
 
-export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({ event }) => {
+export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
+	event,
+	isDisabled = false,
+	className,
+}) => {
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const linkRefs = useRef<HTMLAnchorElement[]>([]);
 	const [isOpen, setIsOpen] = useState(false);
@@ -128,7 +134,10 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({ event }) => {
 	}, []);
 
 	return (
-		<div className={styles.atc} data-e2e-id="add-to-calendar">
+		<div
+			className={clsx(styles.atc, className)}
+			data-e2e-id="add-to-calendar"
+		>
 			<Button
 				id="atc-button"
 				onClick={handleButtonClick}
@@ -137,6 +146,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({ event }) => {
 				aria-expanded={isOpen}
 				aria-haspopup="true"
 				className={styles.button}
+				variant={isDisabled ? 'inactive' : 'primary'}
 			>
 				<ButtonContent.Text>Add to calendar</ButtonContent.Text>
 				<ButtonContent.Icon name="calendar-plus" />

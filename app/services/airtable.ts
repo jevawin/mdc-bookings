@@ -1,5 +1,7 @@
 import type { Env, Prettify, TJob } from '~/global-types.ts';
 
+import { addDurationToDateTime } from '~/utils/date-utils.ts';
+
 export type TAirtableInterpreterFields = {
 	'Email'?: string;
 	'Posted listings'?: string[];
@@ -268,7 +270,7 @@ export const getAvailableAirtableJobs = async (
 	env: Env,
 ): Promise<TGetAvailableAirtableJobs> => {
 	try {
-		const airtableResponse = await getAirtableRecords(
+		const response = await getAirtableRecords(
 			'Jobs',
 			env,
 			[
@@ -276,30 +278,34 @@ export const getAvailableAirtableJobs = async (
 				'Appointment: service',
 				'Appointment: specialism',
 				'Appointment: date',
+				'Appointment: duration',
 				'Airtable: friendly address',
 				'Appointment: details',
 			],
 			filters,
 		);
 
-		if (!airtableResponse || !airtableResponse.records) {
+		if (!response || !response.records) {
 			console.error('No jobs found in Airtable');
 
 			return { error: 'No jobs found', jobs: [] };
 		}
 
-		const availableJobs: TJob[] = airtableResponse?.records.map((job) => {
+		const jobs: TJob[] = response?.records.map((job) => {
 			const date = job.fields['Appointment: date'];
-			const dateTime = new Date(date);
-			const isPast = dateTime ? dateTime < new Date() : false;
+			const duration = job.fields['Appointment: duration'];
 
-			const displayDate = dateTime.toLocaleDateString('en-GB', {
+			const dateTimeStart = new Date(date);
+			const dateTimeEnd = addDurationToDateTime(dateTimeStart, duration);
+			const isPast = dateTimeStart ? dateTimeStart < new Date() : false;
+
+			const displayDate = dateTimeStart.toLocaleDateString('en-GB', {
 				day: '2-digit',
 				month: '2-digit',
 				year: 'numeric',
 			});
 
-			const displayTime = dateTime.toLocaleTimeString('en-GB', {
+			const displayTime = dateTimeStart.toLocaleTimeString('en-GB', {
 				hour: '2-digit',
 				minute: '2-digit',
 			});
@@ -309,7 +315,8 @@ export const getAvailableAirtableJobs = async (
 				id: job.fields['Request ID'],
 				service: job.fields['Appointment: service'],
 				specialism: job.fields['Appointment: specialism'],
-				dateTime,
+				dateTimeStart,
+				dateTimeEnd,
 				displayDate,
 				displayTime,
 				location: job.fields['Airtable: friendly address'],
@@ -318,7 +325,7 @@ export const getAvailableAirtableJobs = async (
 			};
 		});
 
-		return { jobs: availableJobs };
+		return { jobs };
 	} catch (error) {
 		console.error('Error fetching jobs:', error);
 

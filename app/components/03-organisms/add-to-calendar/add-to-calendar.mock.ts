@@ -1,6 +1,7 @@
 import type { TAddToCalendar } from './add-to-calendar.tsx';
 
 export const mockAddToCalendarData: TAddToCalendar = {
+	isDisabled: false,
 	event: {
 		title: 'My Event',
 		description: 'This is a cool event.',

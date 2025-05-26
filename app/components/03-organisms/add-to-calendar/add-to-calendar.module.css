@@ -8,13 +8,16 @@
 }
 
 .menu {
+	background-color: var(--color-core-background);
 	border: 2px solid var(--color-core-neutral);
 	border-radius: var(--border-radius);
-	inline-size: 100%;
+	box-shadow: rgb(149 157 165 / 20%) 0 8px 24px;
+	inline-size: max(100%, 20rem);
 	inset-block-start: calc(100% + 2px);
-	inset-inline-start: 0;
+	inset-inline-end: 0;
 	list-style: none;
 	margin-block: 0;
+	max-inline-size: max-content;
 	overflow: hidden;
 	padding: 0;
 	position: absolute;

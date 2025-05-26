@@ -1,12 +1,15 @@
-import { Icon, type TIconName } from '~/components/01-atoms/icon/icon.tsx';
+import type { CalendarEvent } from 'calendar-link';
+import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TButtonVariant } from '../button/button.tsx';
 
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { Loader } from '~/components/01-atoms/loader/loader.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-calendar.tsx';
 import { Button, ButtonContent } from '../button/button.tsx';
 
-import { Text } from '~/components/01-atoms/text/text.tsx';
-
 import styles from './card.module.css';
-import { Loader } from '~/components/01-atoms/loader/loader.tsx';
+import { clsx } from 'clsx';
 
 export type TCard = {
 	id: string;
@@ -36,19 +39,24 @@ const CardContent: React.FC<TCardContent> = ({ children }) => (
 type TCardHeader = {
 	title: string;
 	bodyText?: string;
+	children?: React.ReactNode;
 };
 
-const CardHeader: React.FC<TCardHeader> = ({ title, bodyText }) => (
+const CardHeader: React.FC<TCardHeader> = ({ title, bodyText, children }) => (
 	<header className={styles.header}>
-		<Text tag="h2" size="200" weight="300">
-			{title}
-		</Text>
-
-		{bodyText ? (
-			<Text tag="p" size="100" weight="100">
-				{bodyText}
+		<hgroup className={styles.hgroup}>
+			<Text tag="h2" size="200" weight="300">
+				{title}
 			</Text>
-		) : null}
+
+			{bodyText ? (
+				<Text tag="p" size="100" weight="100">
+					{bodyText}
+				</Text>
+			) : null}
+		</hgroup>
+
+		{children}
 	</header>
 );
 
@@ -124,6 +132,22 @@ const CardButton: React.FC<TCardButton> = ({
 	</Button>
 );
 
+type TCardAddToCalendarButton = {
+	event: CalendarEvent;
+	isDisabled?: boolean;
+};
+
+const CardAddToCalendarButton: React.FC<TCardAddToCalendarButton> = ({
+	event,
+	isDisabled = false,
+}) => (
+	<AddToCalendar
+		event={event}
+		isDisabled={isDisabled}
+		className={clsx(styles.button, styles.atc)}
+	/>
+);
+
 export const Card = {
 	Root: CardRoot,
 	Content: CardContent,
@@ -131,4 +155,5 @@ export const Card = {
 	DescriptionList: CardDescriptionList,
 	Description: CardDescription,
 	Button: CardButton,
+	AddToCalendarButton: CardAddToCalendarButton,
 };

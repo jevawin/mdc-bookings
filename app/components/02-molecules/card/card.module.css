@@ -1,3 +1,6 @@
+@value --breakpoints: '../../../styles/modules/breakpoints.module.css';
+@value --bp-tiny_max from --breakpoints;
+
 .card {
 	--card-radius: calc(var(--border-radius) * 2);
 
@@ -13,12 +16,20 @@
 	align-content: start;
 	border-radius: var(--card-radius);
 	display: grid;
+	gap: calc(var(--base-spacing) * 3);
+}
+
+.header {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
 	gap: calc(var(--base-spacing) * 2);
+	justify-content: space-between;
 }
 
 .list {
 	display: grid;
-	gap: calc(var(--base-spacing) * 2) calc(var(--base-spacing) * 3);
+	gap: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 3);
 	grid-template-columns: auto 1fr;
 }
 
@@ -81,5 +92,16 @@
 }
 
 .button {
-	align-self: end;
+	place-self: end start;
+}
+
+.atc {
+	@media (--bp-tiny_max) {
+		& > span {
+			block-size: 1px;
+			inline-size: 1px;
+			opacity: 0;
+			position: absolute;
+		}
+	}
 }

@@ -26,18 +26,33 @@ export const Button: React.FC<TButtonProps> = ({
 	variant = 'primary',
 	className,
 	size = 'medium',
+	onClick,
 	...rest
-}) => (
-	<button
-		type="button"
-		aria-disabled={variant === 'inactive' ? 'true' : undefined}
-		className={clsx(styles.base, styles[variant], styles[size], className)}
-		data-e2e-id="button"
-		{...rest}
-	>
-		{children}
-	</button>
-);
+}) => {
+	const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (variant === 'inactive') return;
+
+		if (onClick) onClick(e);
+	};
+
+	return (
+		<button
+			type="button"
+			aria-disabled={variant === 'inactive' ? 'true' : undefined}
+			onClick={handleOnClick}
+			className={clsx(
+				styles.base,
+				styles[variant],
+				styles[size],
+				className,
+			)}
+			data-e2e-id="button"
+			{...rest}
+		>
+			{children}
+		</button>
+	);
+};
 
 const ButtonIcon: React.FC<TIcon> = ({ name, className, size = 20 }) => (
 	<Icon name={name} size={size} className={clsx(styles.icon, className)} />

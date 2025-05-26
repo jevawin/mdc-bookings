@@ -59,9 +59,11 @@ type TJobsDisplayCards = {
 	handleClick?: (record: string) => void;
 };
 
-const getButtonData = (
-	isPast: boolean,
-): Record<TJobsDisplayType, TJobsDisplayCardsButtonMap> => ({
+type TGetButtonData = {
+	[k in TJobsDisplayType]: TJobsDisplayCardsButtonMap;
+};
+
+const getButtonData = (isPast: boolean): TGetButtonData => ({
 	applied: {
 		text: 'Revoke',
 		icon: 'cross',
@@ -88,6 +90,7 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 }) => {
 	const buttonData = getButtonData(isPast);
 	const button = buttonData[type];
+	const isApproved = type === 'approved';
 
 	const onClick = (record: string) => {
 		if (handleClick) {
@@ -101,10 +104,32 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 				<li key={card.id}>
 					<Card.Root id={card.id}>
 						<Card.Content>
-							<Card.Header
-								title="Job number"
-								bodyText={card.id}
-							/>
+							<Card.Header title="Job number" bodyText={card.id}>
+								{isApproved ? (
+									<Card.AddToCalendarButton
+										isDisabled={isPast}
+										event={{
+											title: `MDC Interpreting: ${card.id}`,
+											description: card.description,
+											location: card.location,
+											start: card.dateTimeStart,
+											end: card.dateTimeEnd,
+											organizer: {
+												name: 'Manchester Deaf Centre',
+												email: 'bookings@manchesterdeafcentre.com',
+											},
+										}}
+									/>
+								) : (
+									<Card.Button
+										text={button.text}
+										icon={button.icon}
+										variant={button.varaint}
+										isLoading={cardClicked === card.record}
+										onClick={() => onClick(card.record)}
+									/>
+								)}
+							</Card.Header>
 
 							<Card.DescriptionList
 								items={[
@@ -136,14 +161,6 @@ const JobsDisplayCards: React.FC<TJobsDisplayCards> = ({
 								bodyText={card.description}
 							/>
 						</Card.Content>
-
-						<Card.Button
-							text={button.text}
-							icon={button.icon}
-							variant={button.varaint}
-							isLoading={cardClicked === card.record}
-							onClick={() => onClick(card.record)}
-						/>
 					</Card.Root>
 				</li>
 			))}
