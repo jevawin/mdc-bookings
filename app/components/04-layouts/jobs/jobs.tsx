@@ -64,7 +64,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 	const airtableResponse = await getAirtableRecords(
 		'Interpreters',
 		env,
-		['Name'],
+		['Preferred name'],
 		`{User ID}="${userID}"`,
 	);
 
