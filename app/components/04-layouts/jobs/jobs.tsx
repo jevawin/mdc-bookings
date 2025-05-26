@@ -7,13 +7,13 @@ import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
 import { Loader } from '~/components/01-atoms/loader/loader.tsx';
-import { Menu } from '~/components/02-molecules/menu/menu.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 import { Header } from '~/components/02-molecules/header/header.tsx';
+import { Menu } from '~/components/02-molecules/menu/menu.tsx';
 import { RefreshStatus } from '~/components/03-organisms/refresh-status/refresh-status.tsx';
 import { Container } from '../container/container.tsx';
 
 import styles from './jobs.module.css';
-import { Text } from '~/components/01-atoms/text/text.tsx';
 
 const menuItems: TMenuItem[] = [
 	{

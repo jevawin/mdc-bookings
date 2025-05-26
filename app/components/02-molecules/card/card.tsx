@@ -1,14 +1,14 @@
-import type { CalendarEvent } from 'calendar-link';
+import type { TAddToCalendarItem } from '~/global-types.ts';
 import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TButtonVariant } from '../button/button.tsx';
 
+import { clsx } from 'clsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Loader } from '~/components/01-atoms/loader/loader.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-calendar.tsx';
 import { Button, ButtonContent } from '../button/button.tsx';
 
-import { clsx } from 'clsx';
 import styles from './card.module.css';
 
 export type TCard = {
@@ -138,16 +138,16 @@ const CardButton: React.FC<TCardButton> = ({
 );
 
 type TCardAddToCalendarButton = {
-	event: CalendarEvent;
+	items: TAddToCalendarItem[];
 	isDisabled?: boolean;
 };
 
 const CardAddToCalendarButton: React.FC<TCardAddToCalendarButton> = ({
-	event,
+	items,
 	isDisabled = false,
 }) => (
 	<AddToCalendar
-		event={event}
+		items={items}
 		isDisabled={isDisabled}
 		className={styles.button}
 		buttonClassName={styles.atc}

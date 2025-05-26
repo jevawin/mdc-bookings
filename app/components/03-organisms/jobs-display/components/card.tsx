@@ -65,18 +65,8 @@ export const JobsDisplayCard: React.FC<TJobsDisplayCard> = ({
 				<Card.Header title="Job number" bodyText={job.id}>
 					{isApproved ? (
 						<Card.AddToCalendarButton
+							items={job.calendarItems}
 							isDisabled={isPast}
-							event={{
-								title: `MDC Interpreting: ${job.id}`,
-								description: job.description,
-								location: job.location,
-								start: job.dateTimeStart,
-								end: job.dateTimeEnd,
-								organizer: {
-									name: 'Manchester Deaf Centre',
-									email: 'bookings@manchesterdeafcentre.com',
-								},
-							}}
 						/>
 					) : (
 						<Card.Button

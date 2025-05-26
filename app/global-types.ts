@@ -1,3 +1,5 @@
+import type { TIconName } from './components/01-atoms/icon/icon.tsx';
+
 export type Env = {
 	AIRTABLE_API_KEY: string;
 	AIRTABLE_URL: string;
@@ -36,6 +38,12 @@ export type TValidateFormData = {
 	status: number;
 };
 
+export type TAddToCalendarItem = {
+	name: string;
+	icon: TIconName;
+	url: string;
+};
+
 export type TJob = {
 	id: string;
 	record: string;
@@ -48,4 +56,5 @@ export type TJob = {
 	location: string;
 	description: string;
 	isPast: boolean;
+	calendarItems: TAddToCalendarItem[];
 };

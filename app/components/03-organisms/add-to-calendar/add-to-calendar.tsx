@@ -1,9 +1,7 @@
-import type { CalendarEvent } from 'calendar-link';
-import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
+import type { TAddToCalendarItem } from '~/global-types.ts';
 
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import { google, outlook, office365, ics } from 'calendar-link';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
@@ -15,7 +13,7 @@ import {
 import styles from './add-to-calendar.module.css';
 
 export type TAddToCalendar = {
-	event: CalendarEvent;
+	items: TAddToCalendarItem[];
 	isDisabled?: boolean;
 };
 
@@ -24,14 +22,8 @@ type TTAddToCalendarProps = {
 	buttonClassName?: string;
 } & TAddToCalendar;
 
-type TAddToCalendarItem = {
-	name: string;
-	icon: TIconName;
-	url: string;
-};
-
 export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
-	event,
+	items,
 	isDisabled = false,
 	className,
 	buttonClassName,
@@ -39,29 +31,6 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 	const buttonRef = useRef<HTMLButtonElement | null>(null);
 	const linkRefs = useRef<HTMLAnchorElement[]>([]);
 	const [isOpen, setIsOpen] = useState(false);
-
-	const items: TAddToCalendarItem[] = [
-		{
-			name: 'Apple (iCal)',
-			icon: 'apple',
-			url: ics(event),
-		},
-		{
-			name: 'Google',
-			icon: 'google',
-			url: google(event),
-		},
-		{
-			name: 'Office 365',
-			icon: 'ms-office',
-			url: office365(event),
-		},
-		{
-			name: 'Outlook',
-			icon: 'outlook',
-			url: outlook(event),
-		},
-	];
 
 	const handleButtonClick = () => {
 		setIsOpen(!isOpen);

@@ -1,6 +1,6 @@
 import type { Env, Prettify, TJob } from '~/global-types.ts';
 
-import { addDurationToDateTime } from '~/utils/date-utils.ts';
+import { jobMapper } from '~/mappers/job-mapper.ts';
 
 export type TAirtableInterpreterFields = {
 	'Email'?: string;
@@ -292,39 +292,7 @@ export const getAvailableAirtableJobs = async (
 			return { error: 'No jobs found', jobs: [] };
 		}
 
-		const jobs: TJob[] = response?.records.map((job) => {
-			const date = job.fields['Appointment: date'];
-			const duration = job.fields['Appointment: duration'];
-
-			const dateTimeStart = new Date(date);
-			const dateTimeEnd = addDurationToDateTime(dateTimeStart, duration);
-			const isPast = dateTimeStart ? dateTimeStart < new Date() : false;
-
-			const displayDate = dateTimeStart.toLocaleDateString('en-GB', {
-				day: '2-digit',
-				month: '2-digit',
-				year: 'numeric',
-			});
-
-			const displayTime = dateTimeStart.toLocaleTimeString('en-GB', {
-				hour: '2-digit',
-				minute: '2-digit',
-			});
-
-			return {
-				record: job.id,
-				id: job.fields['Request ID'],
-				service: job.fields['Appointment: service'],
-				specialism: job.fields['Appointment: specialism'],
-				dateTimeStart,
-				dateTimeEnd,
-				displayDate,
-				displayTime,
-				location: job.fields['Airtable: friendly address'],
-				description: job.fields['Appointment: details'],
-				isPast,
-			};
-		});
+		const jobs = response?.records.map(jobMapper) ?? [];
 
 		return { jobs };
 	} catch (error) {

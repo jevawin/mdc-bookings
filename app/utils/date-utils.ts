@@ -1,3 +1,8 @@
+import type { CalendarEvent } from 'calendar-link';
+import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
+
+import { google, outlook, office365, ics } from 'calendar-link';
+
 export const addDurationToDateTime = (startTime: Date, durarion: string) => {
 	// Parse duration like "2h30m"
 	const match = durarion.match(/(?:(\d+)h)?(?:(\d+)m)?/);
@@ -25,4 +30,39 @@ export const addDurationToDateTime = (startTime: Date, durarion: string) => {
 	const second = pad(date.getUTCSeconds());
 
 	return `${year}-${month}-${day} ${hour}:${minute}:${second} +0000`;
+};
+
+type TAddToCalendarItem = {
+	name: string;
+	icon: TIconName;
+	url: string;
+};
+
+export const getAddToCalendarData = (
+	event: CalendarEvent,
+): TAddToCalendarItem[] => {
+	const items = [
+		{
+			name: 'Apple (iCal)',
+			icon: 'apple',
+			url: ics(event),
+		},
+		{
+			name: 'Google',
+			icon: 'google',
+			url: google(event),
+		},
+		{
+			name: 'Office 365',
+			icon: 'ms-office',
+			url: office365(event),
+		},
+		{
+			name: 'Outlook',
+			icon: 'outlook',
+			url: outlook(event),
+		},
+	] satisfies TAddToCalendarItem[];
+
+	return items;
 };

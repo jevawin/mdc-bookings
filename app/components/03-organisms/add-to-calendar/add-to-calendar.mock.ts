@@ -2,11 +2,16 @@ import type { TAddToCalendar } from './add-to-calendar.tsx';
 
 export const mockAddToCalendarData: TAddToCalendar = {
 	isDisabled: false,
-	event: {
-		title: 'My Event',
-		description: 'This is a cool event.',
-		start: '2025-06-01T10:00:00.000Z',
-		end: '2025-06-01T12:00:00.000Z',
-		location: 'Online',
-	},
+	items: [
+		{
+			name: 'Google',
+			url: 'https://www.google.com/calendar/render?action=TEMPLATE&text=Event+Title&dates=20231001T120000Z/20231001T130000Z&details=Event+Details&location=Event+Location',
+			icon: 'google',
+		},
+		{
+			name: 'Apple (iCal)',
+			url: 'https://calendar.apple.com/event?title=Event+Title&start=20231001T120000Z&end=20231001T130000Z&details=Event+Details&location=Event+Location',
+			icon: 'apple',
+		},
+	],
 };

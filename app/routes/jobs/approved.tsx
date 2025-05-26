@@ -10,7 +10,6 @@ import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display
 
 const getDefaultError = (error: string, lastUpdated: string) => ({
 	error,
-	jobs: [],
 	currentJobs: [],
 	pastJobs: [],
 	lastUpdated,
@@ -71,7 +70,6 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 		const pastJobs = data.jobs.filter((job) => job.isPast);
 
 		return {
-			jobs: data.jobs,
 			currentJobs,
 			pastJobs,
 			lastUpdated,

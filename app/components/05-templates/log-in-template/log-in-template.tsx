@@ -10,7 +10,6 @@ import { Form } from '~/components/03-organisms/form/form.tsx';
 import { Authentication } from '~/components/04-layouts/authentication/authentication';
 
 import styles from './log-in-template.module.css';
-import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-calendar';
 
 export type TLogInTemplate = {
 	formError?: TFormSubmissionError;
