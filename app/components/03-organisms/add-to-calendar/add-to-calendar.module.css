@@ -28,7 +28,7 @@
 	color: var(--color-core-brand);
 	display: flex;
 	flex-wrap: wrap;
-	gap: calc(var(--base-spacing) * 1.5);
+	gap: calc(var(--base-spacing) * 2);
 	justify-content: space-between;
 	padding: var(--base-spacing) calc(var(--base-spacing) * 2.5);
 	text-decoration: none;
