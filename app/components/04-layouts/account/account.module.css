@@ -17,3 +17,42 @@
 	display: flex;
 	gap: calc(var(--base-spacing) * 0.7);
 }
+
+.submitMessage {
+	--foreground-color: var(--color-core-foreground);
+	--background-color: var(--color-core-inactive);
+
+	background-color: var(--background-color);
+	border-color: var(--foreground-color);
+	border-radius: var(--border-radius);
+	border-style: solid;
+	border-width: 2px;
+	color: var(--foreground-color);
+	padding: var(--base-spacing);
+
+	&.success {
+		--foreground-color: color-mix(
+			in srgb,
+			var(--color-core-positive),
+			#000 20%
+		);
+		--background-color: color-mix(
+			in srgb,
+			var(--color-core-positive),
+			#fff 90%
+		);
+	}
+
+	&.error {
+		--foreground-color: color-mix(
+			in srgb,
+			var(--color-core-negative),
+			#000 20%
+		);
+		--background-color: color-mix(
+			in srgb,
+			var(--color-core-negative),
+			#fff 90%
+		);
+	}
+}

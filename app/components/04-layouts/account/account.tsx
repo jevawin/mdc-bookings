@@ -16,10 +16,12 @@ import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 export type TAccountLoaderData = {
 	error?: string;
 	fields: {
+		record: string;
 		email: string;
 		jobPost?: boolean;
 		jobSummary?: boolean;
 		name: string;
+		fullName: string;
 		regNum: string;
 		regOrg: string;
 	} | null;
@@ -70,6 +72,7 @@ export async function loader({
 			'Email',
 			'Job post emails',
 			'Job summary emails',
+			'Preferred name',
 			'Name',
 			'Registration number',
 			'Registration organisation',
@@ -91,10 +94,12 @@ export async function loader({
 
 	return {
 		fields: {
+			record: airtableResponse.records[0].id,
 			email: fields['Email'],
 			jobPost: fields['Job post emails'],
 			jobSummary: fields['Job summary emails'],
-			name: fields['Name'],
+			name: fields['Preferred name'],
+			fullName: fields['Name'],
 			regNum: fields['Registration number'],
 			regOrg: fields['Registration organisation'],
 		},
