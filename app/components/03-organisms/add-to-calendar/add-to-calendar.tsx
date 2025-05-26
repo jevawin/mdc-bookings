@@ -1,6 +1,7 @@
 import type { CalendarEvent } from 'calendar-link';
 import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 
+import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { google, outlook, office365, ics } from 'calendar-link';
 
@@ -12,7 +13,6 @@ import {
 } from '~/components/02-molecules/button/button.tsx';
 
 import styles from './add-to-calendar.module.css';
-import { clsx } from 'clsx';
 
 export type TAddToCalendar = {
 	event: CalendarEvent;
