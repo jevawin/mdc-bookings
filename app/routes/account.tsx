@@ -22,7 +22,6 @@ export async function action({
 	request,
 	context,
 }: Route.ActionArgs): Promise<{ success: boolean; message: string }> {
-	console.log('ACTION');
 	const env = context.cloudflare.env;
 	const formData = await request.formData();
 
@@ -30,7 +29,6 @@ export async function action({
 	const isJobPostSelected = formData.get('jobPostEmails') !== null;
 	const isJobSummarySelected = formData.get('jobSummaryEmails') !== null;
 	const record = formData.get('record')?.toString();
-	console.log(isJobPostSelected, isJobSummarySelected, record);
 
 	// Error if no record
 	if (!record)
