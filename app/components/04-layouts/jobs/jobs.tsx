@@ -78,7 +78,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 		};
 	}
 
-	const name = airtableResponse?.records[0]?.fields['Name'] || '';
+	const name = airtableResponse?.records[0]?.fields['Preferred name'] || '';
 
 	return {
 		name,
