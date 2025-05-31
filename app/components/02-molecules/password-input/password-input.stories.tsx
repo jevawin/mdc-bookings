@@ -1,4 +1,4 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
 import { PasswordInput as PasswordInputComponent } from './password-input.tsx';
 import { mockPasswordInputData } from './password-input.mock.ts';

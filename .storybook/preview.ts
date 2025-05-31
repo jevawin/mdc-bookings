@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react-vite';
 
 import '../app/styles/font-face.css';
 import '../app/styles/globals.css';

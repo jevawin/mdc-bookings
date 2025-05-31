@@ -1,4 +1,4 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { mockHeaderData } from './header.mock';

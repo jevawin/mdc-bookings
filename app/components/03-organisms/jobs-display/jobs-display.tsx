@@ -16,7 +16,7 @@ export type TJobsDisplay = {
 
 export type TJobsDisplayRoot = {
 	id: string;
-	children: React.ReactNode;
+	children?: React.ReactNode;
 };
 
 const JobsDisplayRoot: React.FC<TJobsDisplayRoot> = ({ id, children }) => (

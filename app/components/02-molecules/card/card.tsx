@@ -19,7 +19,7 @@ export type TCard = {
 
 type TCardRoot = {
 	id: string;
-	children: React.ReactNode;
+	children?: React.ReactNode;
 	className?: string;
 };
 

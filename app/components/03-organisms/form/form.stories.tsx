@@ -1,6 +1,6 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { fn } from '@storybook/test';
+import { fn } from 'storybook/test';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 
 import { Form as FormComponent } from './form.tsx';
