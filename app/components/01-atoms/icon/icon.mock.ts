@@ -9,6 +9,7 @@ export const iconNames: TIconName[] = [
 	'outlook',
 	'calendar-plus',
 	'check-circle',
+	'check-circle-solid',
 	'chevron-down',
 	'clipboard-check',
 	'cross',

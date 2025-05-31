@@ -1,3 +1,29 @@
 .base {
-	color: inherit;
+	--icon-color: var(--color-core-foreground);
+
+	color: var(--icon-color);
+}
+
+.background {
+	--icon-color: var(--color-core-background);
+}
+
+.brand {
+	--icon-color: var(--color-core-brand);
+}
+
+.neutral {
+	--icon-color: var(--color-core-neutral);
+}
+
+.inactive {
+	--icon-color: var(--color-core-inactive);
+}
+
+.negative {
+	--icon-color: var(--color-core-negative);
+}
+
+.positive {
+	--icon-color: var(--color-core-positive);
 }

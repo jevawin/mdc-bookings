@@ -1,3 +1,6 @@
+import clsx from 'clsx';
+import styles from './icon.module.css';
+
 export type TIconName =
 	| 'apple'
 	| 'google'
@@ -5,6 +8,7 @@ export type TIconName =
 	| 'outlook'
 	| 'calendar-plus'
 	| 'check-circle'
+	| 'check-circle-solid'
 	| 'chevron-down'
 	| 'clipboard-check'
 	| 'cross'
@@ -27,6 +31,13 @@ export type TIcon = {
 	size?: number | string;
 	title?: string;
 	className?: string;
+	color?:
+		| 'background'
+		| 'brand'
+		| 'neutral'
+		| 'inactive'
+		| 'negative'
+		| 'positive';
 };
 
 /** Set of icons to be used sitewide */
@@ -35,6 +46,7 @@ export const Icon: React.FC<TIcon> = ({
 	name,
 	className,
 	size = 24,
+	color,
 }) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +55,7 @@ export const Icon: React.FC<TIcon> = ({
 		pointerEvents="none"
 		width={size}
 		height={size}
-		className={className}
+		className={clsx(styles.base, color && styles[color], className)}
 	>
 		{title ? <title>{title}</title> : null}
 
