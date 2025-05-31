@@ -5,6 +5,7 @@ import { index, layout, prefix, route } from '@react-router/dev/routes';
 export default [
 	index('routes/home.tsx'),
 	route('log-out', 'routes/log-out.tsx'),
+	route('book-interpreter', 'routes/book-interpreter.tsx'),
 
 	layout('components/04-layouts/authentication/authentication.tsx', [
 		route('log-in', 'routes/log-in.tsx'),
