@@ -92,7 +92,8 @@ export const action = async ({
 			return buildFormError(loginResult.error);
 		}
 
-		const session = await getSession();
+		const cookieHeader = request.headers.get('Cookie');
+		const session = await getSession(cookieHeader);
 
 		const access_token = loginResult.data.access_token;
 		const refresh_token = loginResult.data.refresh_token;
@@ -121,8 +122,9 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 	const token = session.get('access_token');
 	const expiresAt = session.get('expires_at');
 	const now = Math.floor(Date.now() / 1000);
+	const isExpired = !token || !expiresAt || now > expiresAt;
 
-	if ((!token || !expiresAt) && now > expiresAt) {
+	if (isExpired) {
 		return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
 	}
 

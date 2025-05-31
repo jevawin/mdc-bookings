@@ -1,19 +1,20 @@
 import type { ActionFunctionArgs } from 'react-router';
 
-import { applyApiSchema } from '~/schemas/api-schema';
+import { applyApiSchema } from '~/schemas/api-schema.ts';
 import {
 	getAirtableRecord,
 	getAirtableRecords,
 	updateAirtableRecords,
-} from '~/services/airtable';
-import { getUser } from '~/services/supabase';
-import { getSession } from '~/sessions.server';
+} from '~/services/airtable.ts';
+import { getSession } from '~/sessions.server.ts';
+import { getUser } from '~/services/supabase.ts';
 
 export type TAPIResponse = {
 	success: boolean;
 	error?: string;
 	redirect?: string;
 };
+
 const respond = (data: TAPIResponse, status: number): Response => {
 	if (data.error) console.error(data.error);
 	return new Response(JSON.stringify(data), {

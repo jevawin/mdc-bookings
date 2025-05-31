@@ -184,11 +184,11 @@ export const logInWithEmailPassword = async (
 		});
 
 		if (!response.ok) {
-			const result = await response.json();
+			const error = await response.json();
 
-			console.log(result, 'error');
+			console.error('logInWithEmailPassword - Supabase error:', error);
 
-			return parseSupabaseError(result);
+			return parseSupabaseError(error);
 		}
 
 		const result = (await response.json()) satisfies TSupabaseSessionSchema;
@@ -218,7 +218,9 @@ export const logOut = async (
 
 		if (!response.ok) {
 			const error = await response.json();
-			console.error(error);
+
+			console.error('logOut - Supabase error:', error);
+
 			return { success: false };
 		}
 
@@ -248,6 +250,10 @@ export const getUser = async (env: Env, token: string): Promise<TGetUser> => {
 		});
 
 		if (!response.ok) {
+			const error = await response.json();
+
+			console.error('getUser - Supabase error:', error);
+
 			return { success: false };
 		}
 
@@ -256,6 +262,32 @@ export const getUser = async (env: Env, token: string): Promise<TGetUser> => {
 		return { success: true, data: result };
 	} catch (error) {
 		console.error('getUser - Unexpected error:', error);
+
+		return { success: false };
+	}
+};
+
+export const forgottenPassword = async (env: Env, email: string) => {
+	try {
+		const url = `${env.SUPABASE_URL}/auth/v1/recover`;
+
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: getHeaders(env),
+			body: JSON.stringify({ email }),
+		});
+
+		if (!response.ok) {
+			const error = await response.json();
+
+			console.error('forgottenPassword - Supabase error:', error);
+
+			return { success: false };
+		}
+
+		return { success: true };
+	} catch (error) {
+		console.error('forgottenPassword - Unexpected error:', error);
 
 		return { success: false };
 	}
