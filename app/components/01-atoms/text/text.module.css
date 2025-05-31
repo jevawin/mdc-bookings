@@ -1,6 +1,9 @@
 @value type: '../../../styles/modules/typography.module.css';
 
 .text {
+	--text-color: var(--color-core-foreground);
+
+	color: var(--text-color);
 	composes: text from type;
 	font-family: var(--font-family-primary);
 	font-variation-settings: 'wght' var(--text-fw);
@@ -77,4 +80,28 @@
 	--fs-min: 48;
 	--fs-max: 68;
 	--text-lh: 120%;
+}
+
+.colorbackground {
+	--text-color: var(--color-core-background);
+}
+
+.colorbrand {
+	--text-color: var(--color-core-brand);
+}
+
+.colorneutral {
+	--text-color: var(--color-core-neutral);
+}
+
+.colorinactive {
+	--text-color: var(--color-core-inactive);
+}
+
+.colornegative {
+	--text-color: var(--color-core-negative);
+}
+
+.colorpositive {
+	--text-color: var(--color-core-positive);
 }

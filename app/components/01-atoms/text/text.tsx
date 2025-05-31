@@ -14,12 +14,21 @@ export type TTextSizes =
 	| '700'
 	| '800';
 
+export type TTextColors =
+	| 'background'
+	| 'brand'
+	| 'neutral'
+	| 'inactive'
+	| 'negative'
+	| 'positive';
+
 export type TTextWeights = '100' | '200' | '300';
 
 export type TText = {
 	size: TTextSizes;
 	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend' | 'p' | 'span';
 	weight?: TTextWeights;
+	color?: TTextColors;
 } & Pick<React.HtmlHTMLAttributes<Element>, 'children' | 'className'>;
 
 type TTextAttributes = Omit<
@@ -36,6 +45,7 @@ type TTextProps = TText & TTextAttributes;
  * Component specific typography styles can be applied by passing a `className`.
  */
 export const Text: React.FC<TTextProps> = ({
+	color,
 	tag: Tag = 'span',
 	size,
 	weight,
@@ -48,6 +58,7 @@ export const Text: React.FC<TTextProps> = ({
 			styles.text,
 			size ? styles[`size${size}`] : undefined,
 			weight ? styles[`weight${weight}`] : undefined,
+			color ? styles[`color${color}`] : undefined,
 			className,
 		)}
 		{...rest}
