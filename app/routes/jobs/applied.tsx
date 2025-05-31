@@ -109,7 +109,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	}
 }
 
-export default function AppliedJobs({ loaderData }: Route.ComponentProps) {
+export default function Applied({ loaderData }: Route.ComponentProps) {
 	const error = loaderData.error;
 	const jobs = loaderData.jobs;
 

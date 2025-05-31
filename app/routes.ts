@@ -9,7 +9,10 @@ export default [
 	layout('components/04-layouts/authentication/authentication.tsx', [
 		route('log-in', 'routes/log-in.tsx'),
 
-		route('password-reset', 'routes/password-reset.tsx'),
+		...prefix('password-reset', [
+			index('routes/password-reset/home.tsx'),
+			route('confirmation', 'routes/password-reset/confirmation.tsx'),
+		]),
 
 		...prefix('registration', [
 			index('routes/registration/home.tsx'),

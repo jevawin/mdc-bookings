@@ -1,6 +1,7 @@
-import type { Route } from './+types/password-reset';
+import type { Route } from './+types/home';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
+import { redirect } from 'react-router';
 import { getSession } from '~/sessions.server.ts';
 import { passwordResetFormSchema } from '~/schemas/password-reset-schema.ts';
 import {
@@ -44,6 +45,16 @@ const validateFormData = (formData: FormData): TValidateResetPasswordForm => {
 	}
 };
 
+export function meta() {
+	return [
+		{ title: 'Reset your password' },
+		{
+			name: 'description',
+			content: 'Send a password reset link to your email.',
+		},
+	];
+}
+
 type TResetPasswordAction = Promise<Response | TFormError>;
 
 export const action = async ({
@@ -58,21 +69,15 @@ export const action = async ({
 			return formValidation;
 		}
 
-		return new Response(null, {
-			status: 301,
-			headers: {
-				Location: '/reset-password/success',
-			},
-		});
+		return redirect('/reset-password/confirmation');
 	} catch (error) {
-		console.error('Error in login form data:', error);
+		console.error('Error in password reset form data:', error);
 
 		return defaultFormError;
 	}
 };
 
 export const loader = async ({
-	context,
 	request,
 }: Route.LoaderArgs): Promise<Response | undefined> => {
 	const cookieHeader = request.headers.get('Cookie');
@@ -80,12 +85,7 @@ export const loader = async ({
 	const token = session.get('access_token');
 
 	if (token) {
-		return new Response(null, {
-			status: 301,
-			headers: {
-				Location: '/jobs/open',
-			},
-		});
+		return redirect('/jobs/open');
 	}
 };
 

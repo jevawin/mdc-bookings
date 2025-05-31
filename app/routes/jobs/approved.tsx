@@ -81,7 +81,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	}
 }
 
-export default function ApprovedJobs({ loaderData }: Route.ComponentProps) {
+export default function Approved({ loaderData }: Route.ComponentProps) {
 	const error = loaderData.error;
 	const currentJobs = loaderData.currentJobs;
 	const pastJobs = loaderData.pastJobs;

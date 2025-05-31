@@ -113,7 +113,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	}
 }
 
-export default function OpenJobs({ loaderData }: Route.ComponentProps) {
+export default function Open({ loaderData }: Route.ComponentProps) {
 	const error = loaderData.error;
 	const jobs = loaderData.jobs;
 	const [cardClicked, setCardClicked] = useState<string | undefined>(

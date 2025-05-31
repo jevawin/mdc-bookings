@@ -14,7 +14,7 @@ export function loader({ context }: Route.LoaderArgs) {
 	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function Confirmation({ loaderData }: Route.ComponentProps) {
 	console.log(loaderData, 'loaderData');
 
 	return (

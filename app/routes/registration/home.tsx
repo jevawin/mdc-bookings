@@ -181,7 +181,7 @@ export const action = async ({
 	}
 };
 
-export default function Registration({ actionData }: Route.ComponentProps) {
+export default function Home({ actionData }: Route.ComponentProps) {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 

@@ -26,7 +26,7 @@ export async function loader({ context, request }: Route.LoaderArgs) {
 	return { success: response.success };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function Verify({ loaderData }: Route.ComponentProps) {
 	const isSuccess = loaderData.success;
 	const successTitle = isSuccess ? 'succesful' : 'unsuccesful';
 
