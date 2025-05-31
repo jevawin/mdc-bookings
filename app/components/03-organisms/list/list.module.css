@@ -1,0 +1,12 @@
+.base {
+	color: inherit;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 0.5);
+}
+
+.listItem {
+	align-items: center;
+	display: inline-flex;
+	gap: var(--base-spacing);
+}
