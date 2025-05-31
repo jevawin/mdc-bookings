@@ -3,6 +3,16 @@ to: "app/routes/<%= name.split('/').map(p => h.changeCase.paramCase(p)).join('/'
 ---
 import type { Route } from './+types/<%= h.changeCase.paramCase(name.split('/').slice(-1)[0]) %>';
 
+export function meta() {
+	return [
+		{ title: 'TITLE OF YOUR ROUTE' },
+		{
+			name: 'description',
+			content: 'DESCRIPTION OF YOUR ROUTE.',
+		},
+	];
+}
+
 export const loader = async (data: Route.LoaderArgs) => {
 	return data;
 };
