@@ -1,6 +1,6 @@
 import type { Route } from './+types/account';
 
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useNavigation, useOutletContext } from 'react-router';
 import { Icon } from '~/components/01-atoms/icon/icon';
 import { Text } from '~/components/01-atoms/text/text';

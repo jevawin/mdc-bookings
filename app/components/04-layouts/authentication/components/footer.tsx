@@ -5,19 +5,27 @@ import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
 import styles from '../authentication.module.css';
 
-type TAuthenticationFooter = {
+type TAuthenticationFooterItem = {
 	title: string;
 	cta: Pick<TTextLink, 'to' | 'linkText'>;
 };
 
+type TAuthenticationFooter = {
+	items: TAuthenticationFooterItem[];
+};
+
 export const AuthenticationFooter: React.FC<TAuthenticationFooter> = ({
-	title,
-	cta,
+	items,
 }) => (
 	<footer className={styles.footer}>
-		<Text tag="h2" size="100">
-			{title}
-		</Text>
-		<TextLink to={cta.to} linkText={cta.linkText} />
+		{items.map((item) => (
+			<div key={item.title} className={styles.item}>
+				<Text tag="h2" size="150" weight="200">
+					{item.title}
+				</Text>
+
+				<TextLink to={item.cta.to} linkText={item.cta.linkText} />
+			</div>
+		))}
 	</footer>
 );

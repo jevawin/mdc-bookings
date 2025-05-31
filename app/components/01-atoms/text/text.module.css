@@ -31,6 +31,12 @@
 	--text-lh: 160%;
 }
 
+.size150 {
+	--fs-min: 16;
+	--fs-max: 18;
+	--text-lh: 160%;
+}
+
 .size200 {
 	--fs-min: 18;
 	--fs-max: 20;

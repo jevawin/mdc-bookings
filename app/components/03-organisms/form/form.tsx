@@ -1,6 +1,6 @@
 import type { FormProps } from 'react-router';
 
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Form as ReactForm, useNavigation } from 'react-router';
 import {
 	Button,

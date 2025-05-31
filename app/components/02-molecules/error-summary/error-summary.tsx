@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 

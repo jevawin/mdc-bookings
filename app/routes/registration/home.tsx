@@ -195,8 +195,12 @@ export default function Registration({ actionData }: Route.ComponentProps) {
 			/>
 
 			<Authentication.Footer
-				title="Already have an account?"
-				cta={{ linkText: 'Log in', to: '/log-in' }}
+				items={[
+					{
+						title: 'Already have an account?',
+						cta: { linkText: 'Log in', to: '/log-in' },
+					},
+				]}
 			/>
 		</>
 	);

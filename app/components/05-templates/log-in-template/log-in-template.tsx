@@ -79,8 +79,22 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 			</main>
 
 			<Authentication.Footer
-				title="Don't have an account?"
-				cta={{ linkText: 'Create an account', to: '/registration' }}
+				items={[
+					{
+						title: 'Forgot password?',
+						cta: {
+							linkText: 'Reset password',
+							to: '/password-reset',
+						},
+					},
+					{
+						title: "Don't have an account?",
+						cta: {
+							linkText: 'Create an account',
+							to: '/registration',
+						},
+					},
+				]}
 			/>
 		</>
 	);

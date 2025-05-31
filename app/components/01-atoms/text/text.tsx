@@ -5,6 +5,7 @@ import styles from './text.module.css';
 export type TTextSizes =
 	| '0'
 	| '100'
+	| '150'
 	| '200'
 	| '300'
 	| '400'
