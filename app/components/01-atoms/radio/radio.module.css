@@ -1,0 +1,61 @@
+.base {
+	align-items: center;
+	border: 2px solid var(--color-core-inactive);
+	border-radius: calc(var(--border-radius) * 1.15);
+	display: flex;
+	gap: calc(var(--base-spacing) * 2.5);
+	justify-content: space-between;
+	padding: calc(var(--base-spacing) * 1.75);
+	position: relative;
+
+	&.withTitle {
+		align-items: flex-start;
+
+		.contentWrapper {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: calc(var(--base-spacing) * 2.25);
+		}
+	}
+}
+
+.contentWrapper {
+	align-items: center;
+	display: flex;
+	gap: calc(var(--base-spacing) * 1.25);
+	justify-content: space-between;
+}
+
+.textWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 0.5);
+}
+
+.radio {
+	appearance: none;
+	block-size: 100%;
+	inline-size: 100%;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	margin: 0;
+	position: absolute;
+
+	&:not(:checked) ~ .radioCircle .radioTick {
+		display: none;
+	}
+}
+
+.radioCircle {
+	block-size: 22px;
+	border: 2px solid var(--color-core-inactive);
+	border-radius: 100%;
+	inline-size: 22px;
+	position: relative;
+}
+
+.radioTick {
+	inset-block-start: -4.8px;
+	inset-inline-start: -4.5px;
+	position: absolute;
+}
