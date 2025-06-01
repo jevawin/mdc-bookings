@@ -119,20 +119,21 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
-	const token = session.get('access_token');
-	const expiresAt = session.get('expires_at');
+	const access_token = session.get('access_token');
+	const expires_at = session.get('expires_at');
+	const refresh_token = session.get('refresh_token');
 	const now = Math.floor(Date.now() / 1000);
-	const isExpired = !token || !expiresAt || now > expiresAt;
+	const isExpired = !expires_at || now > expires_at;
 
-	if (isExpired) {
-		return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+	if (access_token || refresh_token || !isExpired) {
+		return redirect('/jobs/open');
 	}
 
-	const user = await getUser(env, token);
+	const user = await getUser(env, access_token);
 
 	if (user.success) return redirect('/jobs/open');
 
-	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+	return null;
 };
 
 export default function LogIn({ actionData }: Route.ComponentProps) {

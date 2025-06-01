@@ -2,13 +2,14 @@ import type { FormProps } from 'react-router';
 
 import { clsx } from 'clsx';
 import { Form as ReactForm, useNavigation } from 'react-router';
+
+import { Loader } from '~/components/01-atoms/loader/loader.tsx';
 import {
 	Button,
 	ButtonContent,
 } from '~/components/02-molecules/button/button.tsx';
 
 import styles from './form.module.css';
-import { Loader } from '~/components/01-atoms/loader/loader';
 
 export type TForm = React.PropsWithChildren<{
 	id: string;
@@ -28,7 +29,7 @@ export const Form: React.FC<TFormProps> = ({
 	...rest
 }) => {
 	const navigation = useNavigation();
-	const isSubmitting = navigation.state !== 'idle';
+	const isSubmitting = navigation.state === 'submitting';
 
 	return (
 		<ReactForm

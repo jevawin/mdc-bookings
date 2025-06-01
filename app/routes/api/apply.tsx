@@ -17,6 +17,7 @@ export type TAPIResponse = {
 
 const respond = (data: TAPIResponse, status: number): Response => {
 	if (data.error) console.error(data.error);
+
 	return new Response(JSON.stringify(data), {
 		status,
 		headers: { 'Content-Type': 'application/json' },
@@ -35,7 +36,7 @@ export const action = async ({
 		const user = await getUser(env, token);
 
 		// Redirect to login if not logged in
-		if (!user.success)
+		if (!user.success) {
 			return respond(
 				{
 					success: false,
@@ -44,12 +45,14 @@ export const action = async ({
 				},
 				400,
 			);
+		}
 
 		const email = user?.data?.email;
 
 		// Send error if no email
-		if (!email)
+		if (!email) {
 			return respond({ success: false, error: 'No email found' }, 400);
+		}
 
 		// Get record recordID
 		const data = await request.json();
@@ -57,7 +60,7 @@ export const action = async ({
 		const recordID = parsed?.data?.record;
 
 		// Send error if no recordID
-		if (!recordID)
+		if (!recordID) {
 			return respond(
 				{
 					success: false,
@@ -65,6 +68,7 @@ export const action = async ({
 				},
 				400,
 			);
+		}
 
 		// Get intpreter recordID from Airtable
 		const interpreterRecord = await getAirtableRecords(
@@ -75,7 +79,7 @@ export const action = async ({
 		);
 
 		// Send error if interpreter not found
-		if (!interpreterRecord || !interpreterRecord.records)
+		if (!interpreterRecord || !interpreterRecord.records) {
 			return respond(
 				{
 					success: false,
@@ -83,6 +87,7 @@ export const action = async ({
 				},
 				400,
 			);
+		}
 
 		// Check if interpreter has already applied
 		const listings = interpreterRecord.records[0].fields['Posted listings'];
@@ -97,11 +102,12 @@ export const action = async ({
 			const record = await getAirtableRecord('Jobs', env, recordID);
 
 			// Error if no record retrived
-			if (!record.success)
+			if (!record.success) {
 				return respond(
 					{ success: false, error: 'Error retreiving record' },
 					400,
 				);
+			}
 
 			// Get existing applications, if null set as empty array
 			const applications = [
@@ -120,7 +126,7 @@ export const action = async ({
 				},
 			]);
 
-			if (!updated.success)
+			if (!updated.success) {
 				return respond(
 					{
 						success: false,
@@ -128,6 +134,7 @@ export const action = async ({
 					},
 					400,
 				);
+			}
 		}
 
 		return respond({ success: true }, 200);

@@ -1,21 +1,23 @@
 import type { ActionFunctionArgs } from 'react-router';
 
-import { applyApiSchema } from '~/schemas/api-schema';
+import { applyApiSchema } from '~/schemas/api-schema.ts';
 import {
 	getAirtableRecord,
 	getAirtableRecords,
 	updateAirtableRecords,
-} from '~/services/airtable';
-import { getUser } from '~/services/supabase';
-import { getSession } from '~/sessions.server';
+} from '~/services/airtable.ts';
+import { getUser } from '~/services/supabase.ts';
+import { getSession } from '~/sessions.server.ts';
 
 export type TAPIResponse = {
 	success: boolean;
 	error?: string;
 	redirect?: string;
 };
+
 const respond = (data: TAPIResponse, status: number): Response => {
 	if (data.error) console.error(data.error);
+
 	return new Response(JSON.stringify(data), {
 		status,
 		headers: { 'Content-Type': 'application/json' },
@@ -47,8 +49,9 @@ export const action = async ({
 		const email = user?.data?.email;
 
 		// Send error if no email
-		if (!email)
+		if (!email) {
 			return respond({ success: false, error: 'No email found' }, 400);
+		}
 
 		// Get record recordID
 		const data = await request.json();
@@ -56,7 +59,7 @@ export const action = async ({
 		const recordID = parsed?.data?.record;
 
 		// Send error if no recordID
-		if (!recordID)
+		if (!recordID) {
 			return respond(
 				{
 					success: false,
@@ -64,6 +67,7 @@ export const action = async ({
 				},
 				400,
 			);
+		}
 
 		// Get intpreter recordID from Airtable
 		const interpreterRecord = await getAirtableRecords(
@@ -74,7 +78,7 @@ export const action = async ({
 		);
 
 		// Send error if interpreter not found
-		if (!interpreterRecord || !interpreterRecord.records)
+		if (!interpreterRecord || !interpreterRecord.records) {
 			return respond(
 				{
 					success: false,
@@ -82,6 +86,7 @@ export const action = async ({
 				},
 				400,
 			);
+		}
 
 		// Check if interpreter has already applied
 		const listings = interpreterRecord.records[0].fields['Posted listings'];
@@ -96,11 +101,12 @@ export const action = async ({
 			const record = await getAirtableRecord('Jobs', env, recordID);
 
 			// Error if no record retrived
-			if (!record.success)
+			if (!record.success) {
 				return respond(
 					{ success: false, error: 'Error retreiving record' },
 					400,
 				);
+			}
 
 			// Get existing applications (should not be null)
 			const applications = record.data?.fields[
@@ -124,7 +130,7 @@ export const action = async ({
 				},
 			]);
 
-			if (!updated.success)
+			if (!updated.success) {
 				return respond(
 					{
 						success: false,
@@ -132,6 +138,7 @@ export const action = async ({
 					},
 					400,
 				);
+			}
 		}
 
 		return respond({ success: true }, 200);

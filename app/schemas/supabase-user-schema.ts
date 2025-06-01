@@ -65,3 +65,17 @@ export const supabaseVerifySuccessSchema = z.object({
 	refresh_token: z.string(),
 	user: supabaseUserSchema,
 });
+
+export type TSupabaseUpdateUserSchema = z.infer<
+	typeof supabaseUpdateUserSchema
+>;
+
+export const supabaseUpdateUserSchema = z.object({
+	id: z.string().uuid(),
+	email: z.string().email(),
+	email_change_sent_at: z.string().datetime().nullish(),
+	phone: z.string(),
+	phone_change_sent_at: z.string().datetime().nullish(),
+	created_at: z.string().datetime(),
+	updated_at: z.string().datetime(),
+});

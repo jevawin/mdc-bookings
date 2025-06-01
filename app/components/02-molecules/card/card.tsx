@@ -10,6 +10,7 @@ import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-
 import { Button, ButtonContent } from '../button/button.tsx';
 
 import styles from './card.module.css';
+import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
 export type TCard = {
 	id: string;
@@ -154,6 +155,15 @@ const CardAddToCalendarButton: React.FC<TCardAddToCalendarButton> = ({
 	/>
 );
 
+type TCardTextLink = {
+	href: string;
+	label: string;
+};
+
+const CardTextLink: React.FC<TCardTextLink> = ({ href, label }) => (
+	<TextLink to={href} linkText={label} className={styles.textLink} />
+);
+
 export const Card = {
 	Root: CardRoot,
 	Content: CardContent,
@@ -162,4 +172,5 @@ export const Card = {
 	Description: CardDescription,
 	Button: CardButton,
 	AddToCalendarButton: CardAddToCalendarButton,
+	TextLink: CardTextLink,
 };

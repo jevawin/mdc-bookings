@@ -2,6 +2,7 @@ import type { Env, Prettify } from '~/global-types.ts';
 import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
 import type {
 	TSupabaseSessionSchema,
+	TSupabaseUpdateUserSchema,
 	TSupabaseUserSchema,
 	TSupabaseVerifySuccessSchema,
 } from '~/schemas/supabase-user-schema.ts';
@@ -105,7 +106,7 @@ export const createNewUser = async (
 	}
 };
 
-const parseSupabaseVerifyResponse = (data: unknown): TVerifySignUp => {
+const parseSupabaseVerifyResponse = (data: unknown): TVerifyAuth => {
 	const parsed = supabaseVerifySuccessSchema.safeParse(data);
 
 	if (parsed.success) {
@@ -125,15 +126,15 @@ const parseSupabaseVerifyResponse = (data: unknown): TVerifySignUp => {
 	return { success: false };
 };
 
-type TVerifySignUp = Prettify<
+type TVerifyAuth = Prettify<
 	TSupabaseVerifySuccessResponse | TSupabaseErrorResponse
 >;
 
-export const verifySignUp = async (
+export const verifyAuth = async (
 	token_hash: string,
-	type: string,
+	type: 'email' | 'recovery',
 	env: Env,
-): Promise<TVerifySignUp> => {
+): Promise<TVerifyAuth> => {
 	try {
 		const response = await fetch(`${env.SUPABASE_URL}/auth/v1/verify`, {
 			method: 'POST',
@@ -150,7 +151,7 @@ export const verifySignUp = async (
 
 		return parsed;
 	} catch (error) {
-		console.error('verifySignUp - Unexpected error:', error);
+		console.error('verifyAuth - Unexpected error:', error);
 
 		return { success: false };
 	}
@@ -191,9 +192,9 @@ export const logInWithEmailPassword = async (
 			return parseSupabaseError(error);
 		}
 
-		const result = (await response.json()) satisfies TSupabaseSessionSchema;
+		const data = (await response.json()) satisfies TSupabaseSessionSchema;
 
-		return { success: true, data: result };
+		return { success: true, data };
 	} catch (error) {
 		console.error('logInWithEmailPassword - Unexpected error:', error);
 
@@ -207,13 +208,12 @@ export const logOut = async (
 ): Promise<{ success: boolean }> => {
 	try {
 		const url = `${env.SUPABASE_URL}/auth/v1/logout`;
-		const headers = {
-			...getHeaders(env),
-			Authorization: `Bearer ${token}`,
-		};
 		const response = await fetch(url, {
 			method: 'POST',
-			headers,
+			headers: {
+				...getHeaders(env),
+				Authorization: `Bearer ${token}`,
+			},
 		});
 
 		if (!response.ok) {
@@ -257,11 +257,52 @@ export const getUser = async (env: Env, token: string): Promise<TGetUser> => {
 			return { success: false };
 		}
 
-		const result = (await response.json()) satisfies TSupabaseUserSchema;
+		const data = (await response.json()) satisfies TSupabaseUserSchema;
 
-		return { success: true, data: result };
+		return { success: true, data };
 	} catch (error) {
 		console.error('getUser - Unexpected error:', error);
+
+		return { success: false };
+	}
+};
+
+type TUpdateUserBody = {
+	email?: string;
+	password?: string;
+};
+
+export const updateUser = async (
+	env: Env,
+	token: string,
+	body: TUpdateUserBody,
+) => {
+	try {
+		const url = `${env.SUPABASE_URL}/auth/v1/user`;
+
+		const response = await fetch(url, {
+			method: 'PUT',
+			headers: {
+				...getHeaders(env),
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(body),
+		});
+
+		if (!response.ok) {
+			const error = await response.json();
+
+			console.error('updateUser - Supabase error:', error);
+
+			return { success: false };
+		}
+
+		const data =
+			(await response.json()) satisfies TSupabaseUpdateUserSchema;
+
+		return { success: true, data };
+	} catch (error) {
+		console.error('updateUser - Unexpected error:', error);
 
 		return { success: false };
 	}
