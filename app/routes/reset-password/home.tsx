@@ -2,13 +2,16 @@ import type { Route } from './+types/home';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect } from 'react-router';
+import { resetPasswordFormSchema } from '~/schemas/reset-password-schema';
+import { forgottenPassword } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
-import { passwordResetFormSchema } from '~/schemas/password-reset-schema.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
 } from '~/utils/form-utils';
-import { ResetPasswordTemplate } from '~/components/05-templates/reset-password-template/reset-password-template';
+
+import { ResetPasswordTemplate } from '~/components/05-templates/reset-password-template/reset-password-template.tsx';
+import { Authentication } from '~/components/04-layouts/authentication/authentication';
 
 const defaultFormError = {
 	fieldErrors: {},
@@ -31,7 +34,7 @@ type TValidateResetPasswordForm = {
 const validateFormData = (formData: FormData): TValidateResetPasswordForm => {
 	try {
 		const formObject = convertFormDataToObject(formData);
-		const result = passwordResetFormSchema.safeParse(formObject);
+		const result = resetPasswordFormSchema.safeParse(formObject);
 
 		if (result.success) {
 			return { status: 200, data: result.data };
@@ -45,7 +48,7 @@ const validateFormData = (formData: FormData): TValidateResetPasswordForm => {
 	}
 };
 
-export function meta() {
+export function meta({}: Route.MetaArgs) {
 	return [
 		{ title: 'Reset your password' },
 		{
@@ -62,6 +65,7 @@ export const action = async ({
 	context,
 }: Route.ActionArgs): TResetPasswordAction => {
 	try {
+		const env = context.cloudflare.env;
 		const form = await request.formData();
 		const formValidation = validateFormData(form);
 
@@ -69,9 +73,16 @@ export const action = async ({
 			return formValidation;
 		}
 
+		const email = formValidation.data.email;
+		const sendForgotPassword = await forgottenPassword(env, email);
+
+		if (!sendForgotPassword.success) {
+			return defaultFormError;
+		}
+
 		return redirect('/reset-password/confirmation');
 	} catch (error) {
-		console.error('Error in password reset form data:', error);
+		console.error('Error in reset password form data:', error);
 
 		return defaultFormError;
 	}
@@ -89,11 +100,18 @@ export const loader = async ({
 	}
 };
 
-export default function PasswordReset({ actionData }: Route.ComponentProps) {
+export default function ResetPassword({ actionData }: Route.ComponentProps) {
+	const fieldErrors = actionData?.fieldErrors;
+	const formError = actionData?.error;
+
 	return (
-		<ResetPasswordTemplate
-			formError={actionData?.error}
-			fieldErrors={actionData?.fieldErrors}
-		/>
+		<>
+			<Authentication.Header title="Reset password" />
+
+			<ResetPasswordTemplate.Form
+				formError={formError}
+				fieldErrors={fieldErrors}
+			/>
+		</>
 	);
 }

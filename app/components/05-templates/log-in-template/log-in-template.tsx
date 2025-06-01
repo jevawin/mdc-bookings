@@ -84,7 +84,7 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 						title: 'Forgot password?',
 						cta: {
 							linkText: 'Reset password',
-							to: '/password-reset',
+							to: '/reset-password',
 						},
 					},
 					{

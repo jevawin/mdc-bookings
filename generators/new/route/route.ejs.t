@@ -3,7 +3,7 @@ to: "app/routes/<%= name.split('/').map(p => h.changeCase.paramCase(p)).join('/'
 ---
 import type { Route } from './+types/<%= h.changeCase.paramCase(name.split('/').slice(-1)[0]) %>';
 
-export function meta() {
+export function meta({}: Route.MetaArgs) {
 	return [
 		{ title: 'TITLE OF YOUR ROUTE' },
 		{
