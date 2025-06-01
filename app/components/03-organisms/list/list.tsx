@@ -1,10 +1,16 @@
 import styles from './list.module.css';
 
-export type TList = {
+export type TList = { tag?: 'ul' | 'ol' };
+
+type TListRoot = {
 	tag?: 'ul' | 'ol';
 	children?: React.ReactNode;
 };
-const ListRoot: React.FC<TList> = ({ tag: Tag = 'ul', children, ...rest }) => {
+const ListRoot: React.FC<TListRoot> = ({
+	tag: Tag = 'ul',
+	children,
+	...rest
+}) => {
 	return (
 		<Tag className={styles.base} data-e2e-id="list" {...rest}>
 			{children}

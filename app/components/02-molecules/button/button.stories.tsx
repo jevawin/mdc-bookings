@@ -1,6 +1,4 @@
-import type { StoryObj, Meta } from '@storybook/react-vite';
-
-import { mockButtonData } from './button.mock.ts';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button as ButtonComponent, ButtonContent } from './button.tsx';
 
