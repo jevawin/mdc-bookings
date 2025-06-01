@@ -25,7 +25,7 @@ export type TTextColors =
 export type TTextWeights = '100' | '200' | '300';
 
 export type TText = {
-	size: TTextSizes;
+	size?: TTextSizes;
 	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend' | 'p' | 'span';
 	weight?: TTextWeights;
 	color?: TTextColors;
@@ -47,8 +47,8 @@ type TTextProps = TText & TTextAttributes;
 export const Text: React.FC<TTextProps> = ({
 	color,
 	tag: Tag = 'span',
-	size,
-	weight,
+	size = 100,
+	weight = 100,
 	className,
 	children,
 	...rest
