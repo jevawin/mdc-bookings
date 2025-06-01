@@ -115,7 +115,7 @@ const CardDescription: React.FC<TCardDescription> = ({ title, bodyText }) => (
 				{title}
 			</Text>
 
-			<Icon name="chevron-down" size={28} className={styles.chevron} />
+			<Icon name="down-arrow" size={28} className={styles.chevron} />
 		</summary>
 
 		<Text tag="p" size="100" weight="100" className={styles.summaryContent}>

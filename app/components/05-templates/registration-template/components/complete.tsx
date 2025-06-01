@@ -7,7 +7,7 @@ export type TRegistrationComplete = React.PropsWithChildren;
 
 export const RegistrationComplete: React.FC = () => (
 	<main id="main" className={styles.main}>
-		<Icon name="email-in" size={50} className={styles.icon} />
+		<Icon name="email" size={50} className={styles.icon} />
 
 		<Text tag="h2" size="200" weight="300">
 			Verification required

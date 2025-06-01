@@ -7,7 +7,7 @@ export type TResetPasswordComplete = React.PropsWithChildren;
 
 export const ResetPasswordComplete: React.FC = () => (
 	<main id="main" className={styles.main}>
-		<Icon name="email-in" size={50} className={styles.icon} />
+		<Icon name="email" size={50} className={styles.icon} />
 
 		<Text tag="h2" size="200" weight="300">
 			Check your email

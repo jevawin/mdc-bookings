@@ -33,7 +33,7 @@ export const RefreshStatus: React.FC<TRefreshStatus> = ({
 			variant="secondary"
 			onClick={() => location.reload()}
 		>
-			<ButtonContent.Icon name="refresh" size={14} />
+			<ButtonContent.Icon name="refresh" />
 			<ButtonContent.Text>Refresh</ButtonContent.Text>
 		</Button>
 	</div>

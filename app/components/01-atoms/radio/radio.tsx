@@ -47,7 +47,7 @@ export const Radio: React.FC<TRadio> = ({
 			<span className={styles.radioCircle}>
 				<Icon
 					className={styles.radioTick}
-					name="check-circle-solid"
+					name="check-circle"
 					color="brand"
 					size={28}
 				/>

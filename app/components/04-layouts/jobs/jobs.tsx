@@ -17,17 +17,17 @@ import styles from './jobs.module.css';
 
 const menuItems: TMenuItem[] = [
 	{
-		icon: 'list',
+		icon: 'calendar-down',
 		label: 'Open',
 		href: '/jobs/open',
 	},
 	{
-		icon: 'clipboard-check',
+		icon: 'calendar-plus',
 		label: 'Applied',
 		href: '/jobs/applied',
 	},
 	{
-		icon: 'calendar-plus',
+		icon: 'calendar-tick',
 		label: 'Approved',
 		href: '/jobs/approved',
 	},
