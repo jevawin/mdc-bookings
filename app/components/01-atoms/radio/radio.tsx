@@ -4,7 +4,7 @@ import { Text } from '../text/text';
 import styles from './radio.module.css';
 
 export type TRadio = {
-	icon: TIconName;
+	icon?: TIconName;
 	title?: string;
 	description: string;
 	name: string;
@@ -33,7 +33,7 @@ export const Radio: React.FC<TRadio> = ({
 			/>
 
 			<div className={styles.contentWrapper}>
-				<Icon name={icon} color="brand" />
+				{icon ? <Icon name={icon} color="brand" /> : null}
 				<div className={styles.textWrapper}>
 					{title ? (
 						<Text weight="300" color="brand">
