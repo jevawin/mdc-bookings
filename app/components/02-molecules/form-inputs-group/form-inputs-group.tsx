@@ -17,11 +17,11 @@ export const FormInputsGroup: React.FC<TFormInputsGroup> = ({
 		<>
 			<div className={styles.base}>
 				{label ? <Text weight="200">{label}</Text> : null}
-				<div className={styles.inputsContainer}>
+				<fieldset className={styles.inputsContainer}>
 					{items.map((item) => {
 						return <Radio {...item} />;
 					})}
-				</div>
+				</fieldset>
 			</div>
 		</>
 	);
