@@ -1,15 +1,14 @@
-import { Form } from '~/components/03-organisms/form/form';
-import type { Route } from './+types/book-interpreter';
-import { Fieldset } from '~/components/02-molecules/fieldset/fieldset';
-import { Segment } from '~/components/04-layouts/segment/segment';
-import { Text } from '~/components/01-atoms/text/text';
-import { MdcLogo } from '~/components/01-atoms/mdc-logo/mdc-logo';
-import { List } from '~/components/03-organisms/list/list';
 import { Icon } from '~/components/01-atoms/icon/icon';
-import { Link } from 'react-router';
+import { MdcLogo } from '~/components/01-atoms/mdc-logo/mdc-logo';
 import { TextLink } from '~/components/01-atoms/text-link/text-link';
+import { Text } from '~/components/01-atoms/text/text';
 import { Callout } from '~/components/02-molecules/callout/callout';
-import { TextInput } from '~/components/02-molecules/text-input/text-input';
+import { Fieldset } from '~/components/02-molecules/fieldset/fieldset';
+import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group';
+import { Form } from '~/components/03-organisms/form/form';
+import { List } from '~/components/03-organisms/list/list';
+import { Segment } from '~/components/04-layouts/segment/segment';
+import type { Route } from './+types/book-interpreter';
 
 export const loader = async (data: Route.LoaderArgs) => {
 	return data;
@@ -43,13 +42,13 @@ export default function BookInterpreter(data: Route.ComponentProps) {
 					</Text>
 					<List.Root>
 						<List.Item>
-							<Icon name="check-circle-solid" color="brand" />
+							<Icon name="check-circle" color="brand" />
 							<Text size="300" weight="200">
 								0161 273 6699
 							</Text>
 						</List.Item>
 						<List.Item>
-							<Icon name="check-circle-solid" color="brand" />
+							<Icon name="check-circle" color="brand" />
 							<Text size="300" weight="200">
 								<TextLink
 									to="mailto:bookings@manchesterdeafcentre.com"
@@ -73,8 +72,131 @@ export default function BookInterpreter(data: Route.ComponentProps) {
 					>
 						<Fieldset
 							id="appointment-type"
-							title="Which service do you require?"
-						></Fieldset>
+							title="Appointment type"
+						>
+							{/* SERVICE */}
+							<FormInputsGroup
+								label="Which service do you require?"
+								isRequired={true}
+								items={[
+									{
+										name: 'service',
+										value: 'bsl-to-english-interpreters',
+										icon: 'bsl-hands',
+										description:
+											'BSL to English interpreters',
+									},
+									{
+										name: 'service',
+										value: 'lipspeaker',
+										icon: 'lips',
+										description: 'Lipspeaker',
+									},
+									{
+										name: 'service',
+										value: 'deaf-intermediary-interpreters',
+										icon: 'hearing-loop',
+										description:
+											'Deaf intermediary interpreters',
+									},
+									{
+										name: 'service',
+										value: 'deafblind-interpreters',
+										icon: 'blind-person',
+										description: 'Deafblind interpreters',
+									},
+									{
+										name: 'service',
+										value: 'speech-to-text-reporters',
+										icon: 'speech-bubble',
+										description: 'Speech to text reporters',
+									},
+									{
+										name: 'service',
+										value: 'note-takers',
+										icon: 'pencil',
+										description: 'Note takers',
+									},
+								]}
+							/>
+
+							{/* APPOINTMENT TYPE */}
+							<FormInputsGroup
+								label="What type of appointment is it?"
+								isRequired={true}
+								items={[
+									{
+										title: 'General',
+										name: 'appointment-type',
+										value: 'general',
+										icon: 'bsl-hands',
+										description:
+											'Work meetings, home visits (non-medical), events, job interviews, etc.',
+									},
+									{
+										title: 'Medical',
+										name: 'appointment-type',
+										value: 'medical',
+										icon: 'cross',
+										description:
+											"Hospital or GP appointments, health visits, opticians' appointments.",
+									},
+									{
+										title: 'Specialist',
+										name: 'appointment-type',
+										value: 'specialist',
+										icon: 'certificate',
+										description:
+											'Legal, mental health, child protection, or assistance with the police.',
+									},
+								]}
+							/>
+						</Fieldset>
+
+						{/* SIU / SFT */}
+						<FormInputsGroup
+							label="Are you booking from either SIU or SFT?"
+							isRequired={true}
+							description={`Choose "No" if you're unsure.`}
+							items={[
+								{
+									name: 'siu-sft',
+									value: 'no',
+									description: 'No',
+								},
+								{
+									name: 'siu-sft',
+									value: 'siu',
+									description:
+										'Stockport Interpreting Unit (SIU)',
+								},
+								{
+									name: 'siu-sft',
+									value: 'sft',
+									description:
+										'Stockport NHS Foundation Trust (SFT)',
+								},
+							]}
+						/>
+
+						{/* ACCESS TO WORK */}
+						<FormInputsGroup
+							label={`Is this an "Access to Work" booking?`}
+							description={`Choose "No" if you're unsure.`}
+							isRequired={true}
+							items={[
+								{
+									name: 'access-to-work',
+									value: 'no',
+									description: 'No',
+								},
+								{
+									name: 'access-to-work',
+									value: 'yes',
+									description: 'Yes',
+								},
+							]}
+						/>
 					</Form>
 				</Segment.Container>
 			</Segment.Root>
