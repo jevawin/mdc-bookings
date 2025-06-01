@@ -31,7 +31,7 @@
 	align-items: center;
 	display: flex;
 	gap: calc(var(--base-spacing) * 1.25);
-	justify-content: space-between;
+	justify-content: flex-start;
 }
 
 .textWrapper {
