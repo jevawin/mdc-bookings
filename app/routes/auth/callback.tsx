@@ -21,6 +21,8 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
 		const response = await verifyAuth(token, type, env);
 
 		if (!response.success) {
+			console.error('Supabase error:', response);
+
 			return redirect('/log-in?error=invalid_token');
 		}
 

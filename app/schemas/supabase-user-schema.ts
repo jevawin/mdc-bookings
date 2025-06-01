@@ -9,8 +9,9 @@ export const supabaseUserSchema = z.object({
 	email: z.string().email(),
 	email_confirmed_at: z.string().datetime().nullish(),
 	phone: z.string(),
-	confirmation_sent_at: z.string().datetime(),
 	confirmed_at: z.string().datetime().nullish(),
+	confirmation_sent_at: z.string().datetime().nullish(),
+	recovery_sent_at: z.string().datetime().nullish(),
 	last_sign_in_at: z.string().nullish(),
 	app_metadata: z.object({
 		provider: z.string(),

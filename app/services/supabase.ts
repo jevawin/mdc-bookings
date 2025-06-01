@@ -115,6 +115,18 @@ const parseSupabaseVerifyResponse = (data: unknown): TVerifyAuth => {
 		return { success: true, data: parsed.data };
 	}
 
+	if (parsed.error) {
+		console.error(parsed.error, 'parseSupabaseVerifyResponse - error');
+
+		return {
+			success: false,
+			error: {
+				code: '123',
+				msg: 'parseSupabaseVerifyResponse - failed to parse success chema',
+			},
+		};
+	}
+
 	const error = supabaseErrorSchema.safeParse(data);
 
 	if (error.success) {
@@ -123,7 +135,13 @@ const parseSupabaseVerifyResponse = (data: unknown): TVerifyAuth => {
 		return { success: false, error: error.data };
 	}
 
-	return { success: false };
+	return {
+		success: false,
+		error: {
+			code: '123',
+			msg: 'parseSupabaseVerifyResponse - failed to parse error schema',
+		},
+	};
 };
 
 type TVerifyAuth = Prettify<
@@ -143,7 +161,10 @@ export const verifyAuth = async (
 		});
 
 		if (!response.ok) {
-			return parseSupabaseError(response);
+			const data = await response.json();
+			const error = parseSupabaseError(data);
+
+			return error;
 		}
 
 		const data = await response.json();
@@ -153,7 +174,13 @@ export const verifyAuth = async (
 	} catch (error) {
 		console.error('verifyAuth - Unexpected error:', error);
 
-		return { success: false };
+		return {
+			success: false,
+			error: {
+				code: '123',
+				msg: 'catch error',
+			},
+		};
 	}
 };
 
@@ -279,6 +306,8 @@ export const updateUser = async (
 ) => {
 	try {
 		const url = `${env.SUPABASE_URL}/auth/v1/user`;
+
+		console.log(body, 'body');
 
 		const response = await fetch(url, {
 			method: 'PUT',
