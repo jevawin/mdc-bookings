@@ -1,10 +1,9 @@
 .base {
-	align-items: center;
 	border: 2px solid var(--color-core-inactive);
 	border-radius: calc(var(--border-radius) * 1.15);
-	display: flex;
+	display: grid;
 	gap: calc(var(--base-spacing) * 2.5);
-	justify-content: space-between;
+	grid-template-columns: 1fr 22px;
 	padding: calc(var(--base-spacing) * 1.75);
 	position: relative;
 
@@ -50,12 +49,13 @@
 	block-size: 22px;
 	border: 2px solid var(--color-core-inactive);
 	border-radius: 100%;
+	display: block;
 	inline-size: 22px;
 	position: relative;
 }
 
 .radioTick {
-	inset-block-start: -4.8px;
-	inset-inline-start: -4.5px;
+	inset-block-start: -5px;
+	inset-inline-start: -5px;
 	position: absolute;
 }

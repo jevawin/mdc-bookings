@@ -8,12 +8,14 @@ export type TRadio = {
 	title?: string;
 	description: string;
 	name: string;
+	value: string;
 };
 
 export const Radio: React.FC<TRadio> = ({
 	icon,
 	title,
 	name,
+	value,
 	description,
 	...rest
 }) => {
@@ -23,6 +25,13 @@ export const Radio: React.FC<TRadio> = ({
 			data-e2e-id="radio"
 			{...rest}
 		>
+			<input
+				type="radio"
+				name={name}
+				value={value}
+				className={styles.radio}
+			/>
+
 			<div className={styles.contentWrapper}>
 				<Icon name={icon} color="brand" />
 				<div className={styles.textWrapper}>
@@ -35,13 +44,12 @@ export const Radio: React.FC<TRadio> = ({
 				</div>
 			</div>
 
-			<input type="radio" name={name} className={styles.radio}></input>
 			<span className={styles.radioCircle}>
 				<Icon
 					className={styles.radioTick}
 					name="check-circle-solid"
 					color="brand"
-					size={27}
+					size={28}
 				/>
 			</span>
 		</label>
