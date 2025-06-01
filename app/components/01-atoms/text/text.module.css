@@ -1,7 +1,7 @@
 @value type: '../../../styles/modules/typography.module.css';
 
 .text {
-	--text-color: var(--color-core-foreground);
+	--text-color: inherit;
 
 	color: var(--text-color);
 	composes: text from type;
