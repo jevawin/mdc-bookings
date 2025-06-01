@@ -16,6 +16,15 @@
 			gap: calc(var(--base-spacing) * 2.25);
 		}
 	}
+
+	&:has(:checked) {
+		background-color: color-mix(
+			in srgb,
+			var(--color-core-brand),
+			white 90%
+		);
+		border-color: var(--color-core-brand);
+	}
 }
 
 .contentWrapper {
