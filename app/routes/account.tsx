@@ -2,8 +2,10 @@ import type { Route } from './+types/account';
 import type { TAccountLoaderData } from '~/components/04-layouts/account/account.tsx';
 
 import { clsx } from 'clsx';
-import { useNavigation, useOutletContext } from 'react-router';
+import { redirect, useNavigation, useOutletContext } from 'react-router';
 import { updateAirtableRecords } from '~/services/airtable.ts';
+import { getSession } from '~/sessions.server.ts';
+import { getUser } from '~/services/supabase.ts';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
@@ -20,10 +22,15 @@ export function meta({}: Route.MetaArgs) {
 	];
 }
 
-export async function action({
+type TAccountAction = {
+	success: boolean;
+	message: string;
+};
+
+export const action = async ({
 	request,
 	context,
-}: Route.ActionArgs): Promise<{ success: boolean; message: string }> {
+}: Route.ActionArgs): Promise<TAccountAction> => {
 	const env = context.cloudflare.env;
 	const formData = await request.formData();
 
@@ -67,7 +74,31 @@ export async function action({
 			message: 'Something went wrong, please call MDC!',
 		};
 	}
-}
+};
+
+export const loader = async ({ request, context }: Route.LoaderArgs) => {
+	const env = context.cloudflare.env;
+	const cookieHeader = request.headers.get('Cookie');
+	const session = await getSession(cookieHeader);
+
+	const access_token = session.get('access_token');
+	const expires_at = session.get('expires_at');
+	const refresh_token = session.get('refresh_token');
+	const now = Math.floor(Date.now() / 1000);
+	const isExpired = !expires_at || now > expires_at;
+
+	if (!access_token || !refresh_token || isExpired) {
+		return redirect('/log-in');
+	}
+
+	const user = await getUser(env, access_token);
+
+	if (!user.success) {
+		return redirect('/log-in');
+	}
+
+	return user;
+};
 
 export default function Account({ actionData }: Route.ComponentProps) {
 	const loaderData = useOutletContext<TAccountLoaderData>();
