@@ -59,8 +59,8 @@ export default function BookInterpreter(data: Route.ComponentProps) {
 						</List.Item>
 					</List.Root>
 					<Callout color="brand">
-						<Icon name="warning" color="brand" />
-						<Text size="200" weight="100">
+						<Icon name="user-circle-star" color="brand" size={30} />
+						<Text size="200" weight="200">
 							We'll share this with your interpreter.
 						</Text>
 					</Callout>

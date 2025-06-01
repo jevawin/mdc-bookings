@@ -2,7 +2,7 @@
 	--color: var(--color-core-foreground);
 
 	align-items: center;
-	background-color: color-mix(in srgb, var(--color), white 85%);
+	background-color: color-mix(in srgb, var(--color), white 90%);
 	border-radius: calc(var(--border-radius) * 3);
 	color: var(--color-core-foreground);
 	display: inline-flex;
