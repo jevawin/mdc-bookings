@@ -17,8 +17,18 @@ export const parseSupabaseError = (data: unknown): TSupabaseErrorResponse => {
 		const parsed = supabaseErrorSchema.safeParse(data);
 
 		if (parsed.success) {
+			console.error('parseSupabaseError:', parsed.error);
+
 			return { success: false, error: parsed.data };
 		}
+
+		return {
+			success: false,
+			error: {
+				code: 'unknown_error',
+				msg: 'An unexpected error occurred.',
+			},
+		};
 	} catch (error) {
 		console.error('Failed to parse Supabase error response:', error);
 
@@ -30,12 +40,4 @@ export const parseSupabaseError = (data: unknown): TSupabaseErrorResponse => {
 			},
 		};
 	}
-
-	return {
-		success: false,
-		error: {
-			code: 'unknown_error',
-			msg: 'An unexpected error occurred.',
-		},
-	};
 };

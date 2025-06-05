@@ -76,7 +76,12 @@ export const createNewUser = async (
 		});
 
 		if (!response.ok) {
-			return parseSupabaseError(response);
+			const data = await response.json();
+			const error = parseSupabaseError(data);
+
+			console.error('createNewUser - Supabase error:', error);
+
+			return error;
 		}
 
 		const data = await response.json();
@@ -164,6 +169,8 @@ export const verifyAuth = async (
 			const data = await response.json();
 			const error = parseSupabaseError(data);
 
+			console.error('verifyAuth - Supabase error:', error);
+
 			return error;
 		}
 
@@ -212,11 +219,12 @@ export const logInWithEmailPassword = async (
 		});
 
 		if (!response.ok) {
-			const error = await response.json();
+			const data = await response.json();
+			const error = parseSupabaseError(data);
 
 			console.error('logInWithEmailPassword - Supabase error:', error);
 
-			return parseSupabaseError(error);
+			return error;
 		}
 
 		const data = (await response.json()) satisfies TSupabaseSessionSchema;
