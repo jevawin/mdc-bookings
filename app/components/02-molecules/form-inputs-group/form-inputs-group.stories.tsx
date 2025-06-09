@@ -1,6 +1,6 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockFormInputsGroupData } from './form-inputs-group.mock';
+import { mockFormInputsGroupData } from './form-inputs-group.mock.ts';
 
 import { FormInputsGroup as FormInputsGroupComponent } from './form-inputs-group.tsx';
 

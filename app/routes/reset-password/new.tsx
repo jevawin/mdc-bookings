@@ -1,5 +1,6 @@
-import type { Route } from './+types/new';
+import type { Route } from './+types/new.ts';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
+import type { TGetUser } from '~/services/supabase.ts';
 
 import { redirect } from 'react-router';
 import { newPasswordFormSchema } from '~/schemas/new-password-schema.ts';
@@ -48,16 +49,6 @@ const validateFormData = (formData: FormData): TValidateResetPasswordForm => {
 	}
 };
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Create new password' },
-		{
-			name: 'description',
-			content: 'DESCRIPTION OF YOUR ROUTE.',
-		},
-	];
-}
-
 type TNewPasswordAction = Promise<Response | TFormError>;
 
 export const action = async ({
@@ -93,7 +84,10 @@ export const action = async ({
 	}
 };
 
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const loader = async ({
+	request,
+	context,
+}: Route.LoaderArgs): Promise<Response | TGetUser> => {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -117,12 +111,17 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 	return user;
 };
 
-export default function New({ actionData }: Route.ComponentProps) {
+export default function New({
+	actionData,
+}: Route.ComponentProps): React.ReactNode {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 
 	return (
 		<>
+			<title>Create new password</title>
+			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+
 			<Authentication.Header title="Change password" />
 
 			<ResetPasswordTemplate.NewPassword

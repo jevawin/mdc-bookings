@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockMenuData } from './menu.mock';
+import { mockMenuData } from './menu.mock.ts';
 
 import { Menu as MenuComponent } from './menu.tsx';
 import { MemoryRouter, Route, Routes } from 'react-router';

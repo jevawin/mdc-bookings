@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockFieldsetData } from './fieldset.mock';
+import { mockFieldsetData } from './fieldset.mock.ts';
 
 import { Fieldset as FieldsetComponent } from './fieldset.tsx';
 import { TextInput } from '../text-input/text-input.tsx';

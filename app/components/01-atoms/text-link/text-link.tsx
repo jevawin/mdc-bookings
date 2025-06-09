@@ -1,8 +1,9 @@
 import type { LinkProps } from 'react-router';
+import type { TTextSizes, TTextWeights } from '../text/text.tsx';
 
 import { Link } from 'react-router';
 import { clsx } from 'clsx';
-import { Text, type TTextSizes, type TTextWeights } from '../text/text';
+import { Text } from '../text/text.tsx';
 
 import styles from './text-link.module.css';
 

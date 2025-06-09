@@ -1,9 +1,9 @@
 ---
 to: "app/components/<%= type %>/<%= h.changeCase.paramCase(name) %>/<%= h.changeCase.paramCase(name) %>.stories.tsx"
 ---
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mock<%= h.changeCase.pascalCase(name) %>Data } from './<%= h.changeCase.paramCase(name) %>.mock';
+import { mock<%= h.changeCase.pascalCase(name) %>Data } from './<%= h.changeCase.paramCase(name) %>.mock.ts';
 
 import { <%= h.inflection.camelize(h.changeCase.camelCase(name)) %> as <%= h.inflection.camelize(h.changeCase.camelCase(name)) %>Component } from './<%= h.changeCase.paramCase(name) %>.tsx';
 

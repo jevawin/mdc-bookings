@@ -29,7 +29,7 @@ export const Button: React.FC<TButtonProps> = ({
 	onClick,
 	...rest
 }) => {
-	const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		if (variant === 'inactive') return;
 
 		if (onClick) onClick(e);

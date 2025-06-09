@@ -1,7 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 import type { TJobsDisplay } from './jobs-display.tsx';
 
-import { mockJobsDisplayData } from './jobs-display.mock';
+import { mockJobsDisplayData } from './jobs-display.mock.ts';
 
 import { JobsDisplay as JobsDisplayComponent } from './jobs-display.tsx';
 

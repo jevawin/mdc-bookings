@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockRefreshStatusData } from './refresh-status.mock';
+import { mockRefreshStatusData } from './refresh-status.mock.ts';
 
 import { RefreshStatus as RefreshStatusComponent } from './refresh-status.tsx';
 

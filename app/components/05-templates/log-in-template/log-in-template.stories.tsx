@@ -3,8 +3,8 @@ import type { StoryObj, Meta } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 
+import { mockLogInTemplateData } from './log-in-template.mock.ts';
 import { LogInTemplate as LogInTemplateComponent } from './log-in-template.tsx';
-import { mockLogInTemplateData } from './log-in-template.mock';
 
 const meta: Meta<typeof LogInTemplateComponent> = {
 	title: '05-templates/Log in template',

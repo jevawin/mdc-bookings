@@ -1,6 +1,10 @@
-import { Text, type TTextSizes } from '~/components/01-atoms/text/text';
-import styles from './callout.module.css';
+import type { TTextSizes } from '~/components/01-atoms/text/text.tsx';
+
 import clsx from 'clsx';
+
+import { Text } from '~/components/01-atoms/text/text.tsx';
+
+import styles from './callout.module.css';
 
 export type TCallout = {
 	children?: React.ReactNode;

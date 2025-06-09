@@ -47,7 +47,7 @@ export const PasswordInput: React.FC<TPasswordInputProps> = ({
 			.filter(Boolean)
 			.join(' ') || undefined;
 
-	const togglePasswordVisibility = () => {
+	const togglePasswordVisibility = (): void => {
 		setShowPassword(!showPassword);
 	};
 

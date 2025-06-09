@@ -1,6 +1,9 @@
+import type { TIconName } from '../icon/icon.tsx';
+
 import clsx from 'clsx';
-import { Icon, type TIconName } from '../icon/icon';
-import { Text } from '../text/text';
+import { Icon } from '../icon/icon.tsx';
+import { Text } from '../text/text.tsx';
+
 import styles from './radio.module.css';
 
 export type TRadio = {

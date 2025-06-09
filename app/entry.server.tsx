@@ -1,4 +1,5 @@
-import type { AppLoadContext, EntryContext } from 'react-router';
+import type { EntryContext } from 'react-router';
+
 import { ServerRouter } from 'react-router';
 import { isbot } from 'isbot';
 import { renderToReadableStream } from 'react-dom/server';
@@ -8,8 +9,8 @@ export default async function handleRequest(
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	routerContext: EntryContext,
-	_loadContext: AppLoadContext,
-) {
+	// _loadContext: AppLoadContext,
+): Promise<Response> {
 	let shellRendered = false;
 	const userAgent = request.headers.get('user-agent');
 

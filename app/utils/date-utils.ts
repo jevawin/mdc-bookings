@@ -3,7 +3,10 @@ import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 
 import { google, outlook, office365, ics } from 'calendar-link';
 
-export const addDurationToDateTime = (startTime: Date, durarion: string) => {
+export const addDurationToDateTime = (
+	startTime: Date,
+	durarion: string,
+): string | null => {
 	// Parse duration like "2h30m"
 	const match = durarion.match(/(?:(\d+)h)?(?:(\d+)m)?/);
 
@@ -19,7 +22,7 @@ export const addDurationToDateTime = (startTime: Date, durarion: string) => {
 	date.setUTCMinutes(date.getUTCMinutes() + minutes);
 
 	// Format the final date as "YYYY-MM-DD HH:mm:ss +0000"
-	const pad = (n: number) => String(n).padStart(2, '0');
+	const pad = (n: number): string => String(n).padStart(2, '0');
 
 	const year = date.getUTCFullYear();
 	const month = pad(date.getUTCMonth() + 1);

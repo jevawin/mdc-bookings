@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockTextInputData } from './text-input.mock';
+import { mockTextInputData } from './text-input.mock.ts';
 
 import { TextInput as TextInputComponent } from './text-input.tsx';
 

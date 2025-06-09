@@ -1,3 +1,5 @@
+import type { Route } from './+types/root.tsx';
+
 import {
 	isRouteErrorResponse,
 	Links,
@@ -6,8 +8,6 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from 'react-router';
-
-import type { Route } from './+types/root';
 
 import styles from './styles/globals.css?url';
 import fontFace from './styles/font-face.css?url';
@@ -34,7 +34,11 @@ export const links: Route.LinksFunction = () => [
 	{ rel: 'stylesheet', href: styles },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({
+	children,
+}: {
+	children: React.ReactNode;
+}): React.ReactNode {
 	return (
 		<html lang="en">
 			<head>
@@ -58,11 +62,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export default function App() {
+export default function App(): React.ReactNode {
 	return <Outlet />;
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({
+	error,
+}: Route.ErrorBoundaryProps): React.ReactNode {
 	let message = 'Oops!';
 	let details = 'An unexpected error occurred.';
 	let stack: string | undefined;

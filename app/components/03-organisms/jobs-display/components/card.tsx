@@ -53,7 +53,7 @@ export const JobsDisplayCard: React.FC<TJobsDisplayCard> = ({
 	const button = buttonData[type];
 	const isApproved = type === 'approved';
 
-	const handleOnClick = () => {
+	const handleOnClick = (): void => {
 		if (onCardClick) {
 			onCardClick(job.record);
 		}

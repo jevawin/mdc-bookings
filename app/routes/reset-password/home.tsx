@@ -1,17 +1,17 @@
-import type { Route } from './+types/home';
+import type { Route } from './+types/home.ts';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect } from 'react-router';
-import { resetPasswordFormSchema } from '~/schemas/reset-password-schema';
+import { resetPasswordFormSchema } from '~/schemas/reset-password-schema.ts';
 import { forgottenPassword } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
-} from '~/utils/form-utils';
+} from '~/utils/form-utils.ts';
 
+import { Authentication } from '~/components/04-layouts/authentication/authentication.tsx';
 import { ResetPasswordTemplate } from '~/components/05-templates/reset-password-template/reset-password-template.tsx';
-import { Authentication } from '~/components/04-layouts/authentication/authentication';
 
 const defaultFormError = {
 	fieldErrors: {},
@@ -47,16 +47,6 @@ const validateFormData = (formData: FormData): TValidateResetPasswordForm => {
 		return defaultFormError;
 	}
 };
-
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Reset your password' },
-		{
-			name: 'description',
-			content: 'Send a password reset link to your email.',
-		},
-	];
-}
 
 type TResetPasswordAction = Promise<Response | TFormError>;
 
@@ -100,12 +90,20 @@ export const loader = async ({
 	}
 };
 
-export default function ResetPassword({ actionData }: Route.ComponentProps) {
+export default function ResetPassword({
+	actionData,
+}: Route.ComponentProps): React.ReactNode {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 
 	return (
 		<>
+			<title>Reset your password</title>
+			<meta
+				name="description"
+				content="Send a password reset link to your email."
+			/>
+
 			<Authentication.Header title="Reset password" />
 
 			<ResetPasswordTemplate.Form

@@ -1,10 +1,13 @@
-import type { Route } from './+types/log-out';
+import type { Route } from './+types/log-out.ts';
 
 import { redirect } from 'react-router';
 import { logOut } from '~/services/supabase.ts';
 import { destroySession, getSession } from '~/sessions.server.ts';
 
-export const loader = async ({ context, request }: Route.LoaderArgs) => {
+export const loader = async ({
+	context,
+	request,
+}: Route.LoaderArgs): Promise<Response | 'Error logging you out.'> => {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -23,7 +26,7 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
 	return 'Error logging you out.';
 };
 
-export default function LogOut(data: Route.ComponentProps) {
+export default function LogOut(data: Route.ComponentProps): React.ReactNode {
 	return (
 		<>
 			<p>{data.loaderData}</p>

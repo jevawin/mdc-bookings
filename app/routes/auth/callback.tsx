@@ -1,10 +1,13 @@
-import type { Route } from './+types/callback';
+import type { Route } from './+types/callback.ts';
 
 import { redirect } from 'react-router';
-import { verifyAuth } from '~/services/supabase';
-import { commitSession, getSession } from '~/sessions.server';
+import { verifyAuth } from '~/services/supabase.ts';
+import { commitSession, getSession } from '~/sessions.server.ts';
 
-export const loader = async ({ context, request }: Route.LoaderArgs) => {
+export const loader = async ({
+	context,
+	request,
+}: Route.LoaderArgs): Promise<Response> => {
 	try {
 		const env = context.cloudflare.env;
 		const url = new URL(request.url);

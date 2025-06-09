@@ -1,7 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 import type { TCard } from './card.tsx';
 
-import { mockCardData } from './card.mock';
+import { mockCardData } from './card.mock.ts';
 
 import { Card as CardComponent } from './card.tsx';
 

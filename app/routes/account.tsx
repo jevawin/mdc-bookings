@@ -1,4 +1,5 @@
-import type { Route } from './+types/account';
+import type { Route } from './+types/account.ts';
+import type { TGetUser } from '~/services/supabase.ts';
 import type { TAccountLoaderData } from '~/components/04-layouts/account/account.tsx';
 
 import { clsx } from 'clsx';
@@ -14,13 +15,6 @@ import { InlineCheckbox } from '~/components/02-molecules/inline-checkbox/inline
 import { Form } from '~/components/03-organisms/form/form.tsx';
 
 import styles from '../components/04-layouts/account/account.module.css';
-
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'My account' },
-		{ name: 'description', content: 'Welcome to React Router!' },
-	];
-}
 
 type TAccountAction = {
 	success: boolean;
@@ -76,7 +70,10 @@ export const action = async ({
 	}
 };
 
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const loader = async ({
+	request,
+	context,
+}: Route.LoaderArgs): Promise<TGetUser | Response> => {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -100,7 +97,9 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 	return user;
 };
 
-export default function Account({ actionData }: Route.ComponentProps) {
+export default function Account({
+	actionData,
+}: Route.ComponentProps): React.ReactNode {
 	const loaderData = useOutletContext<TAccountLoaderData>();
 	const navigation = useNavigation();
 	const fields = loaderData.fields;
@@ -110,6 +109,9 @@ export default function Account({ actionData }: Route.ComponentProps) {
 
 	return (
 		<>
+			<title>My account</title>
+			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+
 			<Card.Root id="personal">
 				<Card.Content>
 					<Text

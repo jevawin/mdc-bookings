@@ -7,7 +7,7 @@ import { PasswordInput } from '~/components/02-molecules/password-input/password
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 import { Form } from '~/components/03-organisms/form/form.tsx';
-import { Authentication } from '~/components/04-layouts/authentication/authentication';
+import { Authentication } from '~/components/04-layouts/authentication/authentication.tsx';
 
 import styles from './log-in-template.module.css';
 
@@ -31,6 +31,7 @@ export const LogInTemplate: React.FC<TLogInTemplate> = ({
 		if (errorSummary && formError) {
 			errorSummary.focus();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fieldErrors]);
 
 	return (

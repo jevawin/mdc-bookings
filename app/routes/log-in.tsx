@@ -1,10 +1,10 @@
-import type { Route } from './+types/log-in';
+import type { Route } from './+types/log-in.ts';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect } from 'react-router';
 import { logInFormSchema } from '~/schemas/log-in-form-schema.ts';
 import { getUser, logInWithEmailPassword } from '~/services/supabase.ts';
-import { commitSession, getSession } from '~/sessions.server';
+import { commitSession, getSession } from '~/sessions.server.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
@@ -60,13 +60,6 @@ const buildFormError = (error?: { msg?: string }): TFormError => {
 	};
 };
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Log in' },
-		{ name: 'description', content: 'Welcome to React Router!' },
-	];
-}
-
 type TLogInAction = Promise<Response | TFormError>;
 
 export const action = async ({
@@ -115,7 +108,10 @@ export const action = async ({
 	}
 };
 
-export const loader = async ({ request, context }: Route.LoaderArgs) => {
+export const loader = async ({
+	request,
+	context,
+}: Route.LoaderArgs): Promise<Response | null> => {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -136,11 +132,18 @@ export const loader = async ({ request, context }: Route.LoaderArgs) => {
 	return null;
 };
 
-export default function LogIn({ actionData }: Route.ComponentProps) {
+export default function LogIn({
+	actionData,
+}: Route.ComponentProps): React.ReactNode {
 	return (
-		<LogInTemplate
-			formError={actionData?.error}
-			fieldErrors={actionData?.fieldErrors}
-		/>
+		<>
+			<title>Log in</title>
+			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+
+			<LogInTemplate
+				formError={actionData?.error}
+				fieldErrors={actionData?.fieldErrors}
+			/>
+		</>
 	);
 }

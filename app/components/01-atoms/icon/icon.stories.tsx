@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { iconNames, mockIconData } from './icon.mock';
+import { iconNames, mockIconData } from './icon.mock.ts';
 
 import { Icon as IconComponent } from './icon.tsx';
 

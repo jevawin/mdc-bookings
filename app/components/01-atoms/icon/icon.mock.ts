@@ -1,6 +1,4 @@
-import type { TIconName } from './icon.tsx';
-
-import type { TIcon } from './icon.tsx';
+import type { TIconName, TIcon } from './icon.tsx';
 
 export const iconNames: TIconName[] = [
 	'apple',

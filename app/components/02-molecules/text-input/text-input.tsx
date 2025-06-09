@@ -43,7 +43,7 @@ export const TextInput: React.FC<TTextInput> = ({
 	const validationMessageId = `${id.replace(' ', '-')}-message`;
 	const showValidationMessage = isInvalid && validationMessage;
 
-	const togglePasswordReveal = () => {
+	const togglePasswordReveal = (): void => {
 		setshowPassword(!showPassword);
 	};
 

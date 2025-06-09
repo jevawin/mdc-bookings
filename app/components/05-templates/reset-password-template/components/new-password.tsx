@@ -26,6 +26,7 @@ export const ResetPasswordNew: React.FC<TResetPasswordNew> = ({
 		if (errorSummary && formError) {
 			errorSummary.focus();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fieldErrors]);
 
 	return (

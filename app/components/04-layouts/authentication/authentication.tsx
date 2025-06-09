@@ -8,7 +8,7 @@ import styles from './authentication.module.css';
 
 export type TAuthentication = React.PropsWithChildren;
 
-export default function AuthenticationLayout() {
+export default function AuthenticationLayout(): React.ReactNode {
 	return (
 		<div className={styles.container}>
 			<Container>

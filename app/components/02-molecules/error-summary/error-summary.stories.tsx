@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockErrorSummaryData } from './error-summary.mock';
+import { mockErrorSummaryData } from './error-summary.mock.ts';
 
 import { ErrorSummary as ErrorSummaryComponent } from './error-summary.tsx';
 

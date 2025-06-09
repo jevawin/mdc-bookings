@@ -1,26 +1,36 @@
-import type { Route } from './+types/applied';
+import type { Route } from './+types/applied.ts';
+import type { TJob } from '~/global-types.ts';
 
+import { useState } from 'react';
 import { redirect } from 'react-router';
 import { getAvailableAirtableJobs } from '~/services/airtable.ts';
 import { getUser } from '~/services/supabase.ts';
 import { getSession } from '~/sessions.server.ts';
 
-import { useState } from 'react';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
+
+type TGetDefaultError = {
+	error: string;
+	jobs: never[];
+	lastUpdated: string;
+};
+
+const getDefaultError = (
+	error: string,
+	lastUpdated: string,
+): TGetDefaultError => ({
+	error,
+	jobs: [],
+	lastUpdated,
+});
 
 type TRevokeResponse = {
 	success: boolean;
 	error?: string;
 };
 
-const getDefaultError = (error: string, lastUpdated: string) => ({
-	error,
-	jobs: [],
-	lastUpdated,
-});
-
-const revokeJob = async (record: string) => {
+const revokeJob = async (record: string): Promise<void> => {
 	try {
 		const response = await fetch('/api/revoke', {
 			method: 'POST',
@@ -53,7 +63,16 @@ export const meta: Route.MetaFunction = () => {
 	];
 };
 
-export async function loader({ request, context }: Route.LoaderArgs) {
+type TAppliedPageData = {
+	jobs: TJob[];
+	lastUpdated: string;
+	error?: unknown;
+};
+
+export async function loader({
+	request,
+	context,
+}: Route.LoaderArgs): Promise<Response | TAppliedPageData> {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -109,7 +128,9 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	}
 }
 
-export default function Applied({ loaderData }: Route.ComponentProps) {
+export default function Applied({
+	loaderData,
+}: Route.ComponentProps): React.ReactNode {
 	const error = loaderData.error;
 	const jobs = loaderData.jobs;
 
@@ -117,7 +138,7 @@ export default function Applied({ loaderData }: Route.ComponentProps) {
 		undefined,
 	);
 
-	const handleClick = async (record: string) => {
+	const handleClick = async (record: string): Promise<void> => {
 		setCardClicked(record);
 
 		await revokeJob(record);
@@ -128,6 +149,12 @@ export default function Applied({ loaderData }: Route.ComponentProps) {
 	if (error) {
 		return (
 			<>
+				<title>Applied Interpreter Jobs</title>
+				<meta
+					name="description"
+					content="Your applied jobs, pending approval by Manchester Deaf Centre."
+				/>
+
 				<Text size="300" weight="300" tag="h3" role="alert">
 					Error loading jobs. Please contact MDC.
 				</Text>
@@ -141,6 +168,12 @@ export default function Applied({ loaderData }: Route.ComponentProps) {
 
 	return (
 		<>
+			<title>Applied Interpreter Jobs</title>
+			<meta
+				name="description"
+				content="Your applied jobs, pending approval by Manchester Deaf Centre."
+			/>
+
 			<JobsDisplay.Root id="upcoming-jobs">
 				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
 

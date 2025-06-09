@@ -1,4 +1,5 @@
-import type { Route } from './+types/open';
+import type { Route } from './+types/open.ts';
+import type { TJob } from '~/global-types.ts';
 
 import { useState } from 'react';
 import { redirect } from 'react-router';
@@ -14,13 +15,22 @@ type TApplyResponse = {
 	error?: string;
 };
 
-const getDefaultError = (error: string, lastUpdated: string) => ({
+type TGetDefaultError = {
+	error: string;
+	jobs: never[];
+	lastUpdated: string;
+};
+
+const getDefaultError = (
+	error: string,
+	lastUpdated: string,
+): TGetDefaultError => ({
 	error,
 	jobs: [],
 	lastUpdated,
 });
 
-const applyForJob = async (record: string) => {
+const applyForJob = async (record: string): Promise<void> => {
 	try {
 		const response = await fetch('/api/apply', {
 			method: 'POST',
@@ -42,17 +52,16 @@ const applyForJob = async (record: string) => {
 	}
 };
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: '📋 Open Interpreter Jobs' },
-		{
-			name: 'description',
-			content: 'Open interpreter jobs at Manchester Deaf Centre.',
-		},
-	];
-}
+type TOpenJobsPageData = {
+	jobs: TJob[];
+	lastUpdated: string;
+	error?: unknown;
+};
 
-export async function loader({ request, context }: Route.LoaderArgs) {
+export async function loader({
+	request,
+	context,
+}: Route.LoaderArgs): Promise<Response | TOpenJobsPageData> {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -113,14 +122,16 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	}
 }
 
-export default function Open({ loaderData }: Route.ComponentProps) {
+export default function Open({
+	loaderData,
+}: Route.ComponentProps): React.ReactNode {
 	const error = loaderData.error;
 	const jobs = loaderData.jobs;
 	const [cardClicked, setCardClicked] = useState<string | undefined>(
 		undefined,
 	);
 
-	const handleClick = async (record: string) => {
+	const handleClick = async (record: string): Promise<void> => {
 		setCardClicked(record);
 
 		await applyForJob(record);
@@ -131,6 +142,12 @@ export default function Open({ loaderData }: Route.ComponentProps) {
 	if (error) {
 		return (
 			<>
+				<title>📋 Open Interpreter Jobs</title>
+				<meta
+					name="description"
+					content="Open interpreter jobs at Manchester Deaf Centre."
+				/>
+
 				<Text size="300" weight="300" tag="h3" role="alert">
 					Error loading jobs. Please contact MDC.
 				</Text>
@@ -144,6 +161,12 @@ export default function Open({ loaderData }: Route.ComponentProps) {
 
 	return (
 		<>
+			<title>📋 Open Interpreter Jobs</title>
+			<meta
+				name="description"
+				content="Open interpreter jobs at Manchester Deaf Centre."
+			/>
+
 			<JobsDisplay.Root id="upcoming-jobs">
 				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
 

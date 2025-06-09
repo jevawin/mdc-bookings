@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockInlineCheckboxData } from './inline-checkbox.mock';
+import { mockInlineCheckboxData } from './inline-checkbox.mock.ts';
 
 import { InlineCheckbox as InlineCheckboxComponent } from './inline-checkbox.tsx';
 

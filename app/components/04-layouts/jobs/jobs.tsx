@@ -33,7 +33,17 @@ const menuItems: TMenuItem[] = [
 	},
 ];
 
-export async function loader({ request, context }: LoaderFunctionArgs) {
+type TJobsPageData = {
+	lastUpdated: string;
+	lastUpdatedDisplay: string;
+	name?: string;
+	error?: string;
+};
+
+export async function loader({
+	request,
+	context,
+}: LoaderFunctionArgs): Promise<Response | TJobsPageData> {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -87,14 +97,23 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 	};
 }
 
-export default function JobsLayout() {
+export default function JobsLayout(): React.ReactNode {
 	const loaderData = useLoaderData<typeof loader>();
 	const navigation = useNavigation();
-
 	const isNavigating = Boolean(navigation.location);
 
 	if (loaderData.error) {
-		return <div>Awww nahhh!!</div>;
+		return (
+			<>
+				<Text size="300" weight="300" tag="h3" role="alert">
+					Error loading jobs. Please contact MDC.
+				</Text>
+
+				<Text size="200" weight="100" tag="p">
+					Error details: {loaderData.error}
+				</Text>
+			</>
+		);
 	}
 
 	return (

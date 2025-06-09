@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockAddToCalendarData } from './add-to-calendar.mock';
+import { mockAddToCalendarData } from './add-to-calendar.mock.ts';
 
 import { AddToCalendar as AddToCalendarComponent } from './add-to-calendar.tsx';
 

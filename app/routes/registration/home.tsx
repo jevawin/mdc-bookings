@@ -1,9 +1,9 @@
-import type { Route } from './+types/home';
+import type { Route } from './+types/home.ts';
 import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
 import type { TAirtableInterpreterFields } from '~/services/airtable.ts';
 
 import { redirect } from 'react-router';
-import { registrationFormSchema } from '~/schemas/registration-form-schema';
+import { registrationFormSchema } from '~/schemas/registration-form-schema.ts';
 import { createAirtableRecord } from '~/services/airtable.ts';
 import { createNewUser } from '~/services/supabase.ts';
 import {
@@ -11,8 +11,8 @@ import {
 	convertFormDataToObject,
 } from '~/utils/form-utils.ts';
 
-import { Authentication } from '~/components/04-layouts/authentication/authentication';
-import { RegistrationTemplate } from '~/components/05-templates/registration-template/registration-template';
+import { Authentication } from '~/components/04-layouts/authentication/authentication.tsx';
+import { RegistrationTemplate } from '~/components/05-templates/registration-template/registration-template.tsx';
 
 type TFormDataResult = {
 	name: string;
@@ -135,13 +135,6 @@ const sendUserToAirtable = async (
 	}
 };
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Registration' },
-		{ name: 'description', content: 'Welcome to React Router!' },
-	];
-}
-
 export const action = async ({
 	request,
 	context,
@@ -181,12 +174,17 @@ export const action = async ({
 	}
 };
 
-export default function Home({ actionData }: Route.ComponentProps) {
+export default function Home({
+	actionData,
+}: Route.ComponentProps): React.ReactNode {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 
 	return (
 		<>
+			<title>Registration</title>
+			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+
 			<Authentication.Header title="Become an interpreter" />
 
 			<RegistrationTemplate.Form

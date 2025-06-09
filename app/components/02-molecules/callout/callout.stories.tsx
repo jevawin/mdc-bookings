@@ -1,6 +1,6 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockCalloutData } from './callout.mock';
+import { mockCalloutData } from './callout.mock.ts';
 
 import { Callout as CalloutComponent } from './callout.tsx';
 

@@ -12,7 +12,7 @@ import {
 	supabaseUserSchema,
 	supabaseVerifySuccessSchema,
 } from '~/schemas/supabase-user-schema.ts';
-import { parseSupabaseError } from '~/utils/supabase-utils';
+import { parseSupabaseError } from '~/utils/supabase-utils.ts';
 
 type TSupabaseError = {
 	code: string;
@@ -38,7 +38,12 @@ type TCreateNewUser = Prettify<
 	TSupabaseUserSuccessResponse | TSupabaseErrorResponse
 >;
 
-const getHeaders = (env: Env) => ({
+type TGetHeaders = {
+	'apikey': string;
+	'Content-Type': string;
+};
+
+const getHeaders = (env: Env): TGetHeaders => ({
 	'apikey': env.SUPABASE_API_KEY,
 	'Content-Type': 'application/json',
 });
@@ -259,7 +264,7 @@ export const logOut = async (
 	}
 };
 
-type TGetUser = {
+export type TGetUser = {
 	success: boolean;
 	data?: TSupabaseUserSchema;
 };
@@ -299,11 +304,16 @@ type TUpdateUserBody = {
 	password?: string;
 };
 
+type TUpdateUser = {
+	success: boolean;
+	data?: TSupabaseUpdateUserSchema;
+};
+
 export const updateUser = async (
 	env: Env,
 	token: string,
 	body: TUpdateUserBody,
-) => {
+): Promise<TUpdateUser> => {
 	try {
 		const url = `${env.SUPABASE_URL}/auth/v1/user`;
 
@@ -337,7 +347,14 @@ export const updateUser = async (
 	}
 };
 
-export const forgottenPassword = async (env: Env, email: string) => {
+type TForgottenPassword = {
+	success: boolean;
+};
+
+export const forgottenPassword = async (
+	env: Env,
+	email: string,
+): Promise<TForgottenPassword> => {
 	try {
 		const url = `${env.SUPABASE_URL}/auth/v1/recover`;
 

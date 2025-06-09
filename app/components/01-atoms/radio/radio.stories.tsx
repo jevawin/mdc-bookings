@@ -1,6 +1,6 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockRadioData } from './radio.mock';
+import { mockRadioData } from './radio.mock.ts';
 
 import { Radio as RadioComponent } from './radio.tsx';
 import { iconNames } from '../icon/icon.mock.ts';

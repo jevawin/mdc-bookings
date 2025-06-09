@@ -1,6 +1,7 @@
-import { Radio, type TRadio } from '~/components/01-atoms/radio/radio';
+import { Radio, type TRadio } from '~/components/01-atoms/radio/radio.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
+
 import styles from './form-inputs-group.module.css';
-import { Text } from '~/components/01-atoms/text/text';
 
 export type TFormInputsGroup = {
 	items: TRadio[];
@@ -35,7 +36,7 @@ export const FormInputsGroup: React.FC<TFormInputsGroup> = ({
 				</div>
 				<fieldset className={styles.inputsContainer}>
 					{items.map((item) => {
-						return <Radio {...item} />;
+						return <Radio key={item.value} {...item} />;
 					})}
 				</fieldset>
 			</div>

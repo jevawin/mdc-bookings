@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockTextLinkData } from './text-link.mock';
+import { mockTextLinkData } from './text-link.mock.ts';
 
 import { TextLink as TextLinkComponent } from './text-link.tsx';
 import { MemoryRouter, Route, Routes } from 'react-router';

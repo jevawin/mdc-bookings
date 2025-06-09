@@ -32,11 +32,13 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 	const linkRefs = useRef<HTMLAnchorElement[]>([]);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const handleButtonClick = () => {
+	const handleButtonClick = (): void => {
 		setIsOpen(!isOpen);
 	};
 
-	const handleButtonKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+	const handleButtonKeyDown = (
+		e: React.KeyboardEvent<HTMLButtonElement>,
+	): void => {
 		const isEscapeKey = e.key === 'Escape';
 		const isArrowDown = e.key === 'ArrowDown';
 
@@ -52,7 +54,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 		}
 	};
 
-	const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>): void => {
 		const isEscapeKey = e.key === 'Escape';
 		const isArrowDown = e.key === 'ArrowDown';
 		const isArrowUp = e.key === 'ArrowUp';
@@ -81,7 +83,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 		}
 	};
 
-	const handleBodyClick = (e: MouseEvent) => {
+	const handleBodyClick = (e: MouseEvent): void => {
 		const button = buttonRef.current;
 
 		if (!button) return;
@@ -129,6 +131,7 @@ export const AddToCalendar: React.FC<TTAddToCalendarProps> = ({
 				hidden={!isOpen}
 				onKeyDown={handleKeyDown}
 				aria-labelledby="atc-button"
+				// eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
 				role="menu"
 			>
 				{items.map((item, i) => (

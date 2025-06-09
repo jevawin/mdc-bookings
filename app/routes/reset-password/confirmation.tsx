@@ -1,23 +1,28 @@
-import { Authentication } from '~/components/04-layouts/authentication/authentication';
-import type { Route } from './+types/confirmation';
-import { ResetPasswordTemplate } from '~/components/05-templates/reset-password-template/reset-password-template';
+import type { Route } from './+types/confirmation.ts';
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: 'Confirmation' },
-		{ name: 'description', content: 'Welcome to React Router!' },
-	];
-}
+import { Authentication } from '~/components/04-layouts/authentication/authentication.tsx';
+import { ResetPasswordTemplate } from '~/components/05-templates/reset-password-template/reset-password-template.tsx';
 
-export function loader({ context }: Route.LoaderArgs) {
+type TResetPassswordConfirmationData = {
+	message: string;
+};
+
+export function loader({
+	context,
+}: Route.LoaderArgs): TResetPassswordConfirmationData {
 	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
 }
 
-export default function Confirmation({ loaderData }: Route.ComponentProps) {
+export default function Confirmation({
+	loaderData,
+}: Route.ComponentProps): React.ReactNode {
 	console.log(loaderData, 'loaderData');
 
 	return (
 		<>
+			<title>Confirmation</title>
+			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+
 			<Authentication.Header title="Reset password" />
 
 			<ResetPasswordTemplate.Complete />

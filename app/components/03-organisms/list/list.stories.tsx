@@ -1,9 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { TList } from './list.tsx';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
+import { List as ListComponent } from './list.tsx';
+
 import { mockListData } from './list.mock.ts';
-import { List as ListComponent, type TList } from './list.tsx';
 
 const meta: Meta<TList> = {
 	title: '03-organisms/List',
@@ -24,15 +26,17 @@ type Story = StoryObj<TList>;
 export const List: Story = {
 	args: mockListData,
 	render: (args) => (
-		<ListComponent.Root>
+		<ListComponent.Root tag={args.tag}>
 			<ListComponent.Item>
 				<Icon name="apple" />
 				<Text size="100">Apple</Text>
 			</ListComponent.Item>
+
 			<ListComponent.Item>
 				<Icon name="bell" />
 				<Text size="100">Bell</Text>
 			</ListComponent.Item>
+
 			<ListComponent.Item>
 				<Icon name="building" />
 				<Text size="100">Building</Text>

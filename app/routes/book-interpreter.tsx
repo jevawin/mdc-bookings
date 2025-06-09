@@ -1,22 +1,38 @@
-import { Icon } from '~/components/01-atoms/icon/icon';
-import { MdcLogo } from '~/components/01-atoms/mdc-logo/mdc-logo';
-import { TextLink } from '~/components/01-atoms/text-link/text-link';
-import { Text } from '~/components/01-atoms/text/text';
-import { Callout } from '~/components/02-molecules/callout/callout';
-import { Fieldset } from '~/components/02-molecules/fieldset/fieldset';
-import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group';
-import { Form } from '~/components/03-organisms/form/form';
-import { List } from '~/components/03-organisms/list/list';
-import { Segment } from '~/components/04-layouts/segment/segment';
-import type { Route } from './+types/book-interpreter';
+import type { Route } from './+types/book-interpreter.tsx';
 
-export const loader = async (data: Route.LoaderArgs) => {
-	return data;
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { MdcLogo } from '~/components/01-atoms/mdc-logo/mdc-logo.tsx';
+import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { Callout } from '~/components/02-molecules/callout/callout.tsx';
+import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
+import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
+import { Form } from '~/components/03-organisms/form/form.tsx';
+import { List } from '~/components/03-organisms/list/list.tsx';
+import { Segment } from '~/components/04-layouts/segment/segment.tsx';
+
+type TBookeInterpreterData = {
+	message: string;
 };
 
-export default function BookInterpreter(data: Route.ComponentProps) {
+export const loader = async ({
+	context,
+}: Route.LoaderArgs): Promise<TBookeInterpreterData> => {
+	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+};
+
+export default function BookInterpreter({
+	actionData,
+	loaderData,
+}: Route.ComponentProps): React.ReactNode {
+	console.log(actionData, 'actionData');
+	console.log(loaderData, 'loaderData');
+
 	return (
 		<>
+			<title>Booke an interpreter</title>
+			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+
 			<Segment.Root id="interpreter-booking">
 				<Segment.Container>
 					<MdcLogo size="200" />

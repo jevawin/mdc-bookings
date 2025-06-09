@@ -2,17 +2,16 @@ import type { LoaderFunctionArgs } from 'react-router';
 
 import { NavLink, Outlet, redirect, useLoaderData } from 'react-router';
 
-import { getAirtableRecords } from '~/services/airtable';
-import { getUser } from '~/services/supabase';
-import { getSession } from '~/sessions.server';
+import { getAirtableRecords } from '~/services/airtable.ts';
+import { getUser } from '~/services/supabase.ts';
+import { getSession } from '~/sessions.server.ts';
 
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { Header } from '~/components/02-molecules/header/header.tsx';
 import { Container } from '../container/container.tsx';
 
-import { Header } from '~/components/02-molecules/header/header.tsx';
 import styles from './account.module.css';
-import { Text } from '~/components/01-atoms/text/text.tsx';
-import { Icon } from '~/components/01-atoms/icon/icon.tsx';
-import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
 export type TAccountLoaderData = {
 	error?: string;
@@ -29,10 +28,10 @@ export type TAccountLoaderData = {
 	greeting: string | null;
 };
 
-const getGreeting = () => {
+const getGreeting = (): 'Morning' | 'Afternoon' | 'Evening' => {
 	// Morning, afternoon, evening greeting
-	var today = new Date();
-	var curHr = today.getHours();
+	const today = new Date();
+	const curHr = today.getHours();
 
 	if (curHr < 12) return 'Morning';
 	if (curHr < 18) return 'Afternoon';
@@ -108,7 +107,7 @@ export async function loader({
 	};
 }
 
-export default function AccountLayout() {
+export default function AccountLayout(): React.ReactNode {
 	const loaderData = useLoaderData<typeof loader>();
 
 	if (!loaderData.fields) {

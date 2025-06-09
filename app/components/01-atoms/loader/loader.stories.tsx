@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
-import { mockLoaderData } from './loader.mock';
+import { mockLoaderData } from './loader.mock.ts';
 
 import { Loader as LoaderComponent } from './loader.tsx';
 

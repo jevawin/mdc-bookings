@@ -1,4 +1,5 @@
-import type { Route } from './+types/approved';
+import type { Route } from './+types/approved.ts';
+import type { TJob } from '~/global-types.ts';
 
 import { redirect } from 'react-router';
 import { getAvailableAirtableJobs } from '~/services/airtable.ts';
@@ -8,24 +9,34 @@ import { getSession } from '~/sessions.server.ts';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
 
-const getDefaultError = (error: string, lastUpdated: string) => ({
+type TGetDefaultError = {
+	error: string;
+	currentJobs: never[];
+	pastJobs: never[];
+	lastUpdated: string;
+};
+
+const getDefaultError = (
+	error: string,
+	lastUpdated: string,
+): TGetDefaultError => ({
 	error,
 	currentJobs: [],
 	pastJobs: [],
 	lastUpdated,
 });
 
-export const meta: Route.MetaFunction = () => {
-	return [
-		{ title: 'Approved Interpreter Jobs' },
-		{
-			name: 'description',
-			content: 'Your upcoming and past jobs.',
-		},
-	];
+type TApprovaedPageData = {
+	currentJobs: TJob[];
+	pastJobs: TJob[];
+	lastUpdated: string;
+	error?: string | unknown;
 };
 
-export async function loader({ request, context }: Route.LoaderArgs) {
+export async function loader({
+	request,
+	context,
+}: Route.LoaderArgs): Promise<Response | TApprovaedPageData> {
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
@@ -77,11 +88,13 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 	} catch (error) {
 		console.error(error);
 
-		return { error, currentJobs: [], pastJobs: [], jobs: [], lastUpdated };
+		return { error, currentJobs: [], pastJobs: [], lastUpdated };
 	}
 }
 
-export default function Approved({ loaderData }: Route.ComponentProps) {
+export default function Approved({
+	loaderData,
+}: Route.ComponentProps): React.ReactNode {
 	const error = loaderData.error;
 	const currentJobs = loaderData.currentJobs;
 	const pastJobs = loaderData.pastJobs;
@@ -89,6 +102,12 @@ export default function Approved({ loaderData }: Route.ComponentProps) {
 	if (error) {
 		return (
 			<>
+				<title>Approved Interpreter Jobs</title>
+				<meta
+					name="description"
+					content="Your upcoming and past jobs."
+				/>
+
 				<Text size="300" weight="300" tag="h3" role="alert">
 					Error loading jobs. Please contact MDC.
 				</Text>
@@ -102,6 +121,9 @@ export default function Approved({ loaderData }: Route.ComponentProps) {
 
 	return (
 		<>
+			<title>Approved Interpreter Jobs</title>
+			<meta name="description" content="Your upcoming and past jobs." />
+
 			<JobsDisplay.Root id="upcoming-jobs">
 				<JobsDisplay.Title id="upcoming-jobs" title="Upcoming jobs" />
 

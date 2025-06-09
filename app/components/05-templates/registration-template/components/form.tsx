@@ -23,7 +23,9 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
 	const registrationOrganisationRef = useRef<HTMLDivElement>(null);
 
-	const handleNonNrcpdClick = (e: React.MouseEvent<HTMLInputElement>) => {
+	const handleNonNrcpdClick = (
+		e: React.MouseEvent<HTMLInputElement>,
+	): void => {
 		const currentTarget = e.currentTarget;
 		const isChecked = currentTarget.checked;
 		const regOrganisation = registrationOrganisationRef.current;
@@ -46,6 +48,7 @@ export const RegistrationForm: React.FC<TRegistrationForm> = ({
 		if (errorSummary && formError) {
 			errorSummary.focus();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fieldErrors]);
 
 	return (
