@@ -36,7 +36,18 @@ export default async function handleRequest(
 		await body.allReady;
 	}
 
+	// Set headers
 	responseHeaders.set('Content-Type', 'text/html');
+	if (process.env.NODE_ENV === 'development') {
+		console.log('Setting no cache headers');
+		responseHeaders.set(
+			'Cache-Control',
+			'no-store, no-cache, must-revalidate, max-age=0',
+		);
+		responseHeaders.set('Pragma', 'no-cache');
+		responseHeaders.set('Expires', ' 0');
+	}
+
 	return new Response(body, {
 		headers: responseHeaders,
 		status: responseStatusCode,
