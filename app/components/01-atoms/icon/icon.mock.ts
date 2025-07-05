@@ -24,6 +24,7 @@ export const iconNames: TIconName[] = [
 	'outlook',
 	'pencil',
 	'refresh',
+	'question-circle',
 	'speech-bubble',
 	'user',
 	'user-circle-star',
