@@ -1,3 +1,4 @@
+import { DatePicker } from '~/components/01-atoms/date-picker/date-picker.tsx';
 import type { Route } from './+types/book-interpreter.tsx';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
@@ -30,7 +31,7 @@ export default function BookInterpreter({
 
 	return (
 		<>
-			<title>Booke an interpreter</title>
+			<title>Book an interpreter</title>
 			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
 
 			<Segment.Root id="interpreter-booking">
@@ -98,7 +99,7 @@ export default function BookInterpreter({
 									{
 										name: 'service',
 										value: 'bsl-to-english-interpreters',
-										icon: 'bsl-hands',
+										icon: 'check-circle',
 										description:
 											'BSL to English interpreters',
 									},
@@ -145,7 +146,7 @@ export default function BookInterpreter({
 										title: 'General',
 										name: 'appointment-type',
 										value: 'general',
-										icon: 'bsl-hands',
+										icon: 'check-circle',
 										description:
 											'Work meetings, home visits (non-medical), events, job interviews, etc.',
 									},
@@ -167,52 +168,136 @@ export default function BookInterpreter({
 									},
 								]}
 							/>
+
+							{/* SIU / SFT */}
+							<FormInputsGroup
+								label="Are you booking from either SIU or SFT?"
+								isRequired={true}
+								description={`Choose "No" if you're unsure.`}
+								items={[
+									{
+										name: 'siu-sft',
+										value: 'no',
+										description: 'No',
+									},
+									{
+										name: 'siu-sft',
+										value: 'siu',
+										description:
+											'Stockport Interpreting Unit (SIU)',
+									},
+									{
+										name: 'siu-sft',
+										value: 'sft',
+										description:
+											'Stockport NHS Foundation Trust (SFT)',
+									},
+								]}
+							/>
+
+							{/* ACCESS TO WORK */}
+							<FormInputsGroup
+								label={`Is this an "Access to Work" booking?`}
+								description={`Choose "No" if you're unsure.`}
+								isRequired={true}
+								items={[
+									{
+										name: 'access-to-work',
+										value: 'yes',
+										description: 'Yes',
+									},
+									{
+										name: 'access-to-work',
+										value: 'no',
+										description: 'No',
+									},
+								]}
+							/>
+
+							{/* APPOINTMENT INFORMATION */}
+							<Text weight="200" tag="p">
+								What else can you tell us about the appointment?
+							</Text>
+							<Text weight="100" tag="p">
+								Things that are useful for us to know:
+							</Text>
+							<List.Root>
+								<List.Item>
+									<Icon name="question-circle" size={18} />
+									Does your client have special requirements?
+								</List.Item>
+								<List.Item>
+									<Icon name="question-circle" size={18} />
+									Would you prefer a particular interpreter?
+								</List.Item>
+								<List.Item>
+									<Icon name="question-circle" size={18} />
+									Will preparation notes be provided before
+									the appointment?
+								</List.Item>
+								<List.Item>
+									<Icon name="question-circle" size={18} />
+									Will the appointment be
+									recorded/live-streamed?
+								</List.Item>
+								<List.Item>
+									<Icon name="question-circle" size={18} />
+									Anything else you think we should know.
+								</List.Item>
+							</List.Root>
+							<textarea
+								name="appointment-description"
+								placeholder="Describe the appointment in as much detail as possible"
+								maxLength={5000}
+							></textarea>
 						</Fieldset>
 
-						{/* SIU / SFT */}
-						<FormInputsGroup
-							label="Are you booking from either SIU or SFT?"
-							isRequired={true}
-							description={`Choose "No" if you're unsure.`}
-							items={[
-								{
-									name: 'siu-sft',
-									value: 'no',
-									description: 'No',
-								},
-								{
-									name: 'siu-sft',
-									value: 'siu',
-									description:
-										'Stockport Interpreting Unit (SIU)',
-								},
-								{
-									name: 'siu-sft',
-									value: 'sft',
-									description:
-										'Stockport NHS Foundation Trust (SFT)',
-								},
-							]}
-						/>
+						{/* INTERPRETER PREFERENCE */}
+						<Fieldset
+							id="interpreter-preference"
+							title="Interpreter preference"
+						>
+							<FormInputsGroup
+								label={`What gender interpreter/s do you need?`}
+								isRequired={true}
+								items={[
+									{
+										name: 'interpreter-gender',
+										value: 'male',
+										description: 'Male',
+									},
+									{
+										name: 'interpreter-gender',
+										value: 'female',
+										description: 'Female',
+									},
+									{
+										name: 'interpreter-gender',
+										value: 'either',
+										description: "Don't mind",
+									},
+								]}
+							/>
+						</Fieldset>
 
-						{/* ACCESS TO WORK */}
-						<FormInputsGroup
-							label={`Is this an "Access to Work" booking?`}
-							description={`Choose "No" if you're unsure.`}
-							isRequired={true}
-							items={[
-								{
-									name: 'access-to-work',
-									value: 'no',
-									description: 'No',
-								},
-								{
-									name: 'access-to-work',
-									value: 'yes',
-									description: 'Yes',
-								},
-							]}
-						/>
+						{/* INTERPRETER PREFERENCE */}
+						<Fieldset
+							id="appointment-details"
+							title="Appointment details"
+						>
+							<DatePicker
+								description="If you need an appointment within 24 hours, please call 0161 273 3415"
+								name="appointment-date"
+								validationMessage="Please provide an appointment date, 24+ hours from now"
+								label="When is the appointment?"
+								isRequired={true}
+								minDate={new Date(
+									Date.now() + 24 * 60 * 60 * 1000,
+								)
+									.toISOString()
+									.substring(0, 16)}
+							></DatePicker>
+						</Fieldset>
 					</Form>
 				</Segment.Container>
 			</Segment.Root>
