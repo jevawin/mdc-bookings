@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { Text } from '../text/text.tsx';
 import styles from './date-picker.module.css';
 import { Icon } from '../icon/icon.tsx';
+import { useRef } from 'react';
 
 export type TDatePicker = {
 	minDate?: string;
@@ -29,23 +30,29 @@ export const DatePicker: React.FC<TDatePicker> = ({
 }) => {
 	const showValidationMessage = isInvalid && validationMessage;
 	const validationMessageID = `${name.replace(' ', '-')}-message`;
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const handleFocus = (event: React.FocusEvent<HTMLElement>) => {
+		inputRef.current?.showPicker?.();
+	};
 
 	return (
 		<div className={clsx(styles.base, className)} data-e2e-id="date-picker">
 			<label>
-				<Text className={styles.label} tag="p" weight="200">
+				<Text className={styles.label} weight="200">
 					{label}
-					{isRequired ? (
-						<Text weight="200" color="brand">
-							&nbsp;(Required)
-						</Text>
-					) : null}
-					{description ? (
-						<Text tag="p" className={styles.description}>
-							{description}
-						</Text>
-					) : null}
 				</Text>
+
+				{isRequired ? (
+					<Text weight="200" color="brand">
+						&nbsp;(Required)
+					</Text>
+				) : null}
+				{description ? (
+					<Text tag="p" className={styles.description}>
+						{description}
+					</Text>
+				) : null}
 				<input
 					className={styles.datePicker}
 					type={type}
@@ -56,11 +63,12 @@ export const DatePicker: React.FC<TDatePicker> = ({
 					aria-describedby={
 						showValidationMessage ? validationMessageID : undefined
 					}
+					ref={inputRef}
+					onFocus={handleFocus}
 				/>
 			</label>
 			{showValidationMessage ? (
 				<Text
-					tag="p"
 					size="100"
 					weight="100"
 					id={validationMessageID}
