@@ -1,0 +1,20 @@
+.base {
+	--border-color: var(--color-core-inactive);
+
+	appearance: none;
+	background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjAwMiAxMy4wMDJDOS44Mzc4OSAxMy4xNjYgOS41MzcxMSAxMy4xNjYgOS4zNzMwNSAxMy4wMDJMNC4xMjMwNSA3Ljc1MTk1QzMuOTU4OTggNy41ODc4OSAzLjk1ODk4IDcuMjg3MTEgNC4xMjMwNSA3LjEyMzA1QzQuMjg3MTEgNi45NTg5OCA0LjU4Nzg5IDYuOTU4OTggNC43NTE5NSA3LjEyMzA1TDkuNzAxMTcgMTIuMDcyM0wxNC42MjMgNy4xMjMwNUMxNC43ODcxIDYuOTU4OTggMTUuMDg3OSA2Ljk1ODk4IDE1LjI1MiA3LjEyMzA1QzE1LjQxNiA3LjI4NzExIDE1LjQxNiA3LjU4Nzg5IDE1LjI1MiA3Ljc1MTk1TDEwLjAwMiAxMy4wMDJaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K');
+	background-position: top 50% right 0.25rem;
+	background-repeat: no-repeat;
+	background-size: auto;
+	border: 2px solid var(--border-color);
+	border-radius: calc(var(--border-radius) * 1.15);
+	color: inherit;
+	font-family: var(--font-family-primary);
+	font-size: 1.6rem;
+	padding: calc(var(--base-spacing) * 1.75);
+	padding-inline-end: 2.5rem;
+
+	/* &:focus-visible {
+		--border-color: var(--color-core-brand);
+	} */
+}
