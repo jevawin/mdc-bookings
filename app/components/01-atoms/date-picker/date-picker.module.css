@@ -19,15 +19,12 @@
 	font-family: var(--font-family-primary, sans-serif);
 	font-size: 1.6rem;
 	font-weight: 600;
+	margin-block-start: calc(var(--base-spacing) * 3);
 	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2);
 	scroll-margin-top: calc(var(--base-spacing) * 4);
 
 	&[aria-invalid='true'] {
 		border-color: var(--color-core-negative);
-	}
-
-	&:focus-visible {
-		color: #fff;
 	}
 }
 
