@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { Text } from '../text/text.tsx';
+import { Text } from '../../01-atoms/text/text.tsx';
 import styles from './date-picker.module.css';
-import { Icon } from '../icon/icon.tsx';
+import { Icon } from '../../01-atoms/icon/icon.tsx';
 import { useRef } from 'react';
 
 export type TDatePicker = {

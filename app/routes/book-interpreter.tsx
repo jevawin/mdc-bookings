@@ -1,4 +1,4 @@
-import { DatePicker } from '~/components/01-atoms/date-picker/date-picker.tsx';
+import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
 import type { Route } from './+types/book-interpreter.tsx';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
