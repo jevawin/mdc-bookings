@@ -1,16 +1,16 @@
 import { Radio, type TRadio } from '~/components/01-atoms/radio/radio.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
-import styles from './form-inputs-group.module.css';
+import styles from './radio-inputs-group.module.css';
 
-export type TFormInputsGroup = {
+export type TRadioInputsGroup = {
 	items: TRadio[];
 	label?: string;
 	description?: string;
 	isRequired?: boolean;
 };
 
-export const FormInputsGroup: React.FC<TFormInputsGroup> = ({
+export const RadioInputsGroup: React.FC<TRadioInputsGroup> = ({
 	items,
 	label,
 	description,

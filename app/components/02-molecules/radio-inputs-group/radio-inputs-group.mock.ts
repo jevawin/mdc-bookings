@@ -1,6 +1,6 @@
-import type { TFormInputsGroup } from './form-inputs-group.tsx';
+import type { TRadioInputsGroup } from './radio-inputs-group.tsx';
 
-export const mockFormInputsGroupData: TFormInputsGroup = {
+export const mockRadioInputsGroupData: TRadioInputsGroup = {
 	label: 'Which service do you require?',
 	items: [
 		{

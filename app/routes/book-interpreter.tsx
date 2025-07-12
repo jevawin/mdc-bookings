@@ -7,7 +7,7 @@ import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { Callout } from '~/components/02-molecules/callout/callout.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
-import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
+import { RadioInputsGroup } from '~/components/02-molecules/radio-inputs-group/radio-inputs-group.tsx';
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
 import { Segment } from '~/components/04-layouts/segment/segment.tsx';
@@ -92,7 +92,7 @@ export default function BookInterpreter({
 							title="Appointment type"
 						>
 							{/* SERVICE */}
-							<FormInputsGroup
+							<RadioInputsGroup
 								label="Which service do you require?"
 								isRequired={true}
 								items={[
@@ -138,7 +138,7 @@ export default function BookInterpreter({
 							/>
 
 							{/* APPOINTMENT TYPE */}
-							<FormInputsGroup
+							<RadioInputsGroup
 								label="What type of appointment is it?"
 								isRequired={true}
 								items={[
@@ -170,7 +170,7 @@ export default function BookInterpreter({
 							/>
 
 							{/* SIU / SFT */}
-							<FormInputsGroup
+							<RadioInputsGroup
 								label="Are you booking from either SIU or SFT?"
 								isRequired={true}
 								description={`Choose "No" if you're unsure.`}
@@ -196,7 +196,7 @@ export default function BookInterpreter({
 							/>
 
 							{/* ACCESS TO WORK */}
-							<FormInputsGroup
+							<RadioInputsGroup
 								label={`Is this an "Access to Work" booking?`}
 								description={`Choose "No" if you're unsure.`}
 								isRequired={true}
@@ -257,7 +257,7 @@ export default function BookInterpreter({
 							id="interpreter-preference"
 							title="Interpreter preference"
 						>
-							<FormInputsGroup
+							<RadioInputsGroup
 								label={`What gender interpreter/s do you need?`}
 								isRequired={true}
 								items={[
