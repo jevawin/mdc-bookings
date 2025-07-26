@@ -1,0 +1,21 @@
+.base {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 3);
+}
+
+.textWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--base-spacing);
+}
+
+.inputsContainer {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 4);
+}
+
+.callout {
+	margin-block-start: var(--base-spacing);
+}
