@@ -6,11 +6,6 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-	build: {
-		outDir: 'build',
-		manifest: true,
-		ssrManifest: true,
-	},
 	css: {
 		postcss: {
 			plugins: [
@@ -27,7 +22,7 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		cloudflare({ viteEnvironment: { name: 'server' } }),
+		cloudflare({ viteEnvironment: { name: 'ssr' } }),
 		reactRouter(),
 		tsconfigPaths(),
 	],
