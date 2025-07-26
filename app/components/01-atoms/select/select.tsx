@@ -31,6 +31,7 @@ export const Select: React.FC<TSelect> = ({
 				className={clsx(styles.base, className)}
 				data-e2e-id="select"
 				id={id}
+				name={id}
 				aria-required={isRequired}
 				{...rest}
 			>
