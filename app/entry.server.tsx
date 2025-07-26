@@ -1,17 +1,8 @@
-import type { EntryContext, HandleErrorFunction } from 'react-router';
+import type { EntryContext } from 'react-router';
 
-import * as Sentry from '@sentry/react-router';
 import { ServerRouter } from 'react-router';
-import { renderToReadableStream } from 'react-dom/server';
 import { isbot } from 'isbot';
-import '../instrument.server.mjs';
-
-export const handleError: HandleErrorFunction = (error, { request }) => {
-	if (!request.signal.aborted) {
-		Sentry.captureException(error);
-		console.error(error);
-	}
-};
+import { renderToReadableStream } from 'react-dom/server';
 
 export default async function handleRequest(
 	request: Request,
