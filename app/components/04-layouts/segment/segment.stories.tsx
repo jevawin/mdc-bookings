@@ -24,13 +24,15 @@ const meta: Meta<TSegment> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SegmentComponent>;
+type Story = StoryObj<TSegment>;
 
 export const Segment: Story = {
-	args: {},
-	render: () => (
+	args: {
+		containerSize: 'max',
+	},
+	render: (args) => (
 		<SegmentComponent.Root id="segment">
-			<SegmentComponent.Container>
+			<SegmentComponent.Container containerSize={args.containerSize}>
 				<div className="containerInner">Hello world</div>
 			</SegmentComponent.Container>
 		</SegmentComponent.Root>

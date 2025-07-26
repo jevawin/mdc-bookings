@@ -2,9 +2,9 @@ import type { LoaderFunctionArgs } from 'react-router';
 import type { TMenuItem } from '~/components/02-molecules/menu/menu.tsx';
 
 import { Outlet, redirect, useLoaderData, useNavigation } from 'react-router';
-import { getAirtableRecords } from '~/services/airtable.ts';
-import { getUser } from '~/services/supabase.ts';
-import { getSession } from '~/sessions.server.ts';
+import { getAirtableRecords } from '~/.server/services/airtable.ts';
+import { getUser } from '~/.server/services/supabase.ts';
+import { getSession } from '~/.server/sessions.ts';
 
 import { Loader } from '~/components/01-atoms/loader/loader.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';

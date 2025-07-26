@@ -1,13 +1,13 @@
 import type { ActionFunctionArgs } from 'react-router';
 
-import { applyApiSchema } from '~/schemas/api-schema.ts';
+import { applyApiSchema } from '~/.server/schemas/api-schema.ts';
 import {
 	getAirtableRecord,
 	getAirtableRecords,
 	updateAirtableRecords,
-} from '~/services/airtable.ts';
-import { getUser } from '~/services/supabase.ts';
-import { getSession } from '~/sessions.server.ts';
+} from '~/.server/services/airtable.ts';
+import { getUser } from '~/.server/services/supabase.ts';
+import { getSession } from '~/.server/sessions.ts';
 
 export type TAPIResponse = {
 	success: boolean;

@@ -1,6 +1,6 @@
 import type { Env, Prettify, TJob } from '~/global-types.ts';
 
-import { jobMapper } from '~/mappers/job-mapper.ts';
+import { jobMapper } from '~/.server/mappers/job-mapper.ts';
 
 export type TAirtableInterpreterFields = {
 	'Email'?: string;

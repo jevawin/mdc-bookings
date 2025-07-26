@@ -1,6 +1,6 @@
-import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+import type { TSupabaseErrorSchema } from '~/.server/schemas/supabase-error-schema.ts';
 
-import { supabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+import { supabaseErrorSchema } from '~/.server/schemas/supabase-error-schema.ts';
 
 type TGenericError = {
 	code: string;

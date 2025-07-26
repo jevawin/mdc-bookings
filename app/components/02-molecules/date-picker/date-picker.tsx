@@ -26,13 +26,12 @@ export const DatePicker: React.FC<TDatePicker> = ({
 	validationMessage,
 	className,
 	description,
-	...rest
 }) => {
 	const showValidationMessage = isInvalid && validationMessage;
 	const validationMessageID = `${name.replace(' ', '-')}-message`;
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const handleFocus = (event: React.FocusEvent<HTMLElement>) => {
+	const handleFocus = (): void => {
 		inputRef.current?.showPicker?.();
 	};
 

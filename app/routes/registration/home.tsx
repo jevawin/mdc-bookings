@@ -1,11 +1,11 @@
 import type { Route } from './+types/home.ts';
 import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
-import type { TAirtableInterpreterFields } from '~/services/airtable.ts';
+import type { TAirtableInterpreterFields } from '~/.server/services/airtable.ts';
 
 import { redirect } from 'react-router';
-import { registrationFormSchema } from '~/schemas/registration-form-schema.ts';
-import { createAirtableRecord } from '~/services/airtable.ts';
-import { createNewUser } from '~/services/supabase.ts';
+import { registrationFormSchema } from '~/.server/schemas/registration-form-schema.ts';
+import { createAirtableRecord } from '~/.server/services/airtable.ts';
+import { createNewUser } from '~/.server/services/supabase.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,

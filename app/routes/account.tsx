@@ -1,12 +1,12 @@
 import type { Route } from './+types/account.ts';
-import type { TGetUser } from '~/services/supabase.ts';
+import type { TGetUser } from '~/.server/services/supabase.ts';
 import type { TAccountLoaderData } from '~/components/04-layouts/account/account.tsx';
 
 import { clsx } from 'clsx';
 import { redirect, useNavigation, useOutletContext } from 'react-router';
-import { updateAirtableRecords } from '~/services/airtable.ts';
-import { getSession } from '~/sessions.server.ts';
-import { getUser } from '~/services/supabase.ts';
+import { updateAirtableRecords } from '~/.server/services/airtable.ts';
+import { getSession } from '~/.server/sessions.ts';
+import { getUser } from '~/.server/services/supabase.ts';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';

@@ -1,8 +1,8 @@
 import type { Route } from './+types/log-out.ts';
 
 import { redirect } from 'react-router';
-import { logOut } from '~/services/supabase.ts';
-import { destroySession, getSession } from '~/sessions.server.ts';
+import { logOut } from '~/.server/services/supabase.ts';
+import { destroySession, getSession } from '~/.server/sessions.ts';
 
 export const loader = async ({
 	context,

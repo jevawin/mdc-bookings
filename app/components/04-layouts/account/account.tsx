@@ -2,9 +2,9 @@ import type { LoaderFunctionArgs } from 'react-router';
 
 import { NavLink, Outlet, redirect, useLoaderData } from 'react-router';
 
-import { getAirtableRecords } from '~/services/airtable.ts';
-import { getUser } from '~/services/supabase.ts';
-import { getSession } from '~/sessions.server.ts';
+import { getAirtableRecords } from '~/.server/services/airtable.ts';
+import { getUser } from '~/.server/services/supabase.ts';
+import { getSession } from '~/.server/sessions.ts';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';

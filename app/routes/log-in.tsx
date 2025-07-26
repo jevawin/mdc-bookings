@@ -2,9 +2,12 @@ import type { Route } from './+types/log-in.ts';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect } from 'react-router';
-import { logInFormSchema } from '~/schemas/log-in-form-schema.ts';
-import { getUser, logInWithEmailPassword } from '~/services/supabase.ts';
-import { commitSession, getSession } from '~/sessions.server.ts';
+import { logInFormSchema } from '~/.server/schemas/log-in-form-schema.ts';
+import {
+	getUser,
+	logInWithEmailPassword,
+} from '~/.server/services/supabase.ts';
+import { commitSession, getSession } from '~/.server/sessions.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,

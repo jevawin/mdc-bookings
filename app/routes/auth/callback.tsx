@@ -1,8 +1,8 @@
 import type { Route } from './+types/callback.ts';
 
 import { redirect } from 'react-router';
-import { verifyAuth } from '~/services/supabase.ts';
-import { commitSession, getSession } from '~/sessions.server.ts';
+import { verifyAuth } from '~/.server/services/supabase.ts';
+import { commitSession, getSession } from '~/.server/sessions.ts';
 
 export const loader = async ({
 	context,

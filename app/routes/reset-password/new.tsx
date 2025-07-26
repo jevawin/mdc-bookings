@@ -1,11 +1,11 @@
 import type { Route } from './+types/new.ts';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
-import type { TGetUser } from '~/services/supabase.ts';
+import type { TGetUser } from '~/.server/services/supabase.ts';
 
 import { redirect } from 'react-router';
-import { newPasswordFormSchema } from '~/schemas/new-password-schema.ts';
-import { getUser, updateUser } from '~/services/supabase.ts';
-import { getSession } from '~/sessions.server.ts';
+import { newPasswordFormSchema } from '~/.server/schemas/new-password-schema.ts';
+import { getUser, updateUser } from '~/.server/services/supabase.ts';
+import { getSession } from '~/.server/sessions.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,

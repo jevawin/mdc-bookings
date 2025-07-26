@@ -1,5 +1,5 @@
 import type { TJob } from '~/global-types.ts';
-import type { TAirtableJobFields } from '~/services/airtable.ts';
+import type { TAirtableJobFields } from '~/.server/services/airtable.ts';
 
 import {
 	addDurationToDateTime,

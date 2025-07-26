@@ -1,17 +1,17 @@
 import type { Env, Prettify } from '~/global-types.ts';
-import type { TSupabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+import type { TSupabaseErrorSchema } from '~/.server/schemas/supabase-error-schema.ts';
 import type {
 	TSupabaseSessionSchema,
 	TSupabaseUpdateUserSchema,
 	TSupabaseUserSchema,
 	TSupabaseVerifySuccessSchema,
-} from '~/schemas/supabase-user-schema.ts';
+} from '~/.server/schemas/supabase-user-schema.ts';
 
-import { supabaseErrorSchema } from '~/schemas/supabase-error-schema.ts';
+import { supabaseErrorSchema } from '~/.server/schemas/supabase-error-schema.ts';
 import {
 	supabaseUserSchema,
 	supabaseVerifySuccessSchema,
-} from '~/schemas/supabase-user-schema.ts';
+} from '~/.server/schemas/supabase-user-schema.ts';
 import { parseSupabaseError } from '~/utils/supabase-utils.ts';
 
 type TSupabaseError = {

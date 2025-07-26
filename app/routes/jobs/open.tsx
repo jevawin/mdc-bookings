@@ -3,9 +3,9 @@ import type { TJob } from '~/global-types.ts';
 
 import { useState } from 'react';
 import { redirect } from 'react-router';
-import { getAvailableAirtableJobs } from '~/services/airtable.ts';
-import { getUser } from '~/services/supabase.ts';
-import { getSession } from '~/sessions.server.ts';
+import { getAvailableAirtableJobs } from '~/.server/services/airtable.ts';
+import { getUser } from '~/.server/services/supabase.ts';
+import { getSession } from '~/.server/sessions.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';

@@ -21,6 +21,7 @@ const config = [
 			'.husky/*',
 			'.react-router/*',
 			'generators/*',
+			'**/build',
 			'**/public',
 			'!**/.prettierrc.js',
 			'app/stories/**/*',

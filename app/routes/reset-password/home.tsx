@@ -2,9 +2,9 @@ import type { Route } from './+types/home.ts';
 import type { TFormError, TValidateFormData } from '~/global-types.ts';
 
 import { redirect } from 'react-router';
-import { resetPasswordFormSchema } from '~/schemas/reset-password-schema.ts';
-import { forgottenPassword } from '~/services/supabase.ts';
-import { getSession } from '~/sessions.server.ts';
+import { resetPasswordFormSchema } from '~/.server/schemas/reset-password-schema.ts';
+import { forgottenPassword } from '~/.server/services/supabase.ts';
+import { getSession } from '~/.server/sessions.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
