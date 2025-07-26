@@ -62,7 +62,7 @@ const validateFormData = async (
 			};
 		}
 
-		return buildFormFieldErrors(result.error.errors);
+		return buildFormFieldErrors(result.error.issues);
 	} catch (error) {
 		console.error('Error validating sign up form data:', error);
 

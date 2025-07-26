@@ -3,29 +3,29 @@ import { z } from 'zod';
 export type TSupabaseUserSchema = z.infer<typeof supabaseUserSchema>;
 
 export const supabaseUserSchema = z.object({
-	id: z.string().uuid(),
+	id: z.uuid(),
 	aud: z.string(),
 	role: z.string(),
-	email: z.string().email(),
-	email_confirmed_at: z.string().datetime().nullish(),
+	email: z.email(),
+	email_confirmed_at: z.iso.datetime().nullish(),
 	phone: z.string(),
-	confirmed_at: z.string().datetime().nullish(),
-	confirmation_sent_at: z.string().datetime().nullish(),
-	recovery_sent_at: z.string().datetime().nullish(),
+	confirmed_at: z.iso.datetime().nullish(),
+	confirmation_sent_at: z.iso.datetime().nullish(),
+	recovery_sent_at: z.iso.datetime().nullish(),
 	last_sign_in_at: z.string().nullish(),
 	app_metadata: z.object({
 		provider: z.string(),
 		providers: z.array(z.string()),
 	}),
 	user_metadata: z.object({
-		email: z.string().email(),
+		email: z.email(),
 		email_verified: z.boolean(),
 		phone_verified: z.boolean(),
 		sub: z.string().uuid(),
 	}),
-	identities: z.array(z.record(z.unknown())),
-	created_at: z.string().datetime(),
-	updated_at: z.string().datetime(),
+	identities: z.array(z.record(z.string(), z.unknown())),
+	created_at: z.iso.datetime(),
+	updated_at: z.iso.datetime(),
 	is_anonymous: z.boolean(),
 });
 
@@ -72,11 +72,11 @@ export type TSupabaseUpdateUserSchema = z.infer<
 >;
 
 export const supabaseUpdateUserSchema = z.object({
-	id: z.string().uuid(),
-	email: z.string().email(),
-	email_change_sent_at: z.string().datetime().nullish(),
+	id: z.uuid(),
+	email: z.email(),
+	email_change_sent_at: z.iso.datetime().nullish(),
 	phone: z.string(),
-	phone_change_sent_at: z.string().datetime().nullish(),
-	created_at: z.string().datetime(),
-	updated_at: z.string().datetime(),
+	phone_change_sent_at: z.iso.datetime().nullish(),
+	created_at: z.iso.datetime(),
+	updated_at: z.iso.datetime(),
 });

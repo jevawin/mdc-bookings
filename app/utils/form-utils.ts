@@ -1,9 +1,11 @@
-import type { ZodIssue } from 'zod';
 import type { TFormFieldErrors, TValidateFormData } from '~/global-types.ts';
 
+import { z } from 'zod';
 import { camelToKebabCase, pluraliseText } from './string-utils.ts';
 
-export const buildFormFieldErrors = (errors: ZodIssue[]): TValidateFormData => {
+export const buildFormFieldErrors = (
+	errors: z.core.$ZodIssue[],
+): TValidateFormData => {
 	const fieldErrors: TFormFieldErrors = {};
 
 	for (const error of errors) {

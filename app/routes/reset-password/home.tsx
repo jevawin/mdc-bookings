@@ -40,7 +40,7 @@ const validateFormData = (formData: FormData): TValidateResetPasswordForm => {
 			return { status: 200, data: result.data };
 		}
 
-		return buildFormFieldErrors(result.error.errors);
+		return buildFormFieldErrors(result.error.issues);
 	} catch (error) {
 		console.error('Error validating log in form data:', error);
 
