@@ -44,7 +44,7 @@ export const TextInputsGroup: React.FC<TTextInputsGroup> = ({
 								size={30}
 							/>
 							<Text size="100" weight="200">
-								We'll share this with your interpreter.
+								We'll share this with your interpreter/s.
 							</Text>
 						</Callout>
 					) : null}
