@@ -19,4 +19,5 @@ export const mockSelectData: TSelect = {
 			description: 'Something very long',
 		},
 	],
+	label: 'Values',
 };

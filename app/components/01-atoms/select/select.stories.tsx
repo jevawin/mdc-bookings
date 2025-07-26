@@ -8,7 +8,12 @@ const meta: Meta<typeof SelectComponent> = {
 	title: '01-atoms/Select',
 	component: SelectComponent,
 	tags: ['autodocs'],
-	argTypes: {},
+	argTypes: {
+		labelPosition: {
+			control: { type: 'select' },
+			options: ['top', 'right', 'bottom', 'left'],
+		},
+	},
 };
 
 export default meta;

@@ -18,3 +18,27 @@
 		--border-color: var(--color-core-brand);
 	} */
 }
+
+.wrapper {
+	align-items: center;
+	display: flex;
+	gap: var(--base-spacing);
+}
+
+.top {
+	align-items: flex-start;
+	flex-direction: column-reverse;
+}
+
+.right {
+	flex-direction: row;
+}
+
+.bottom {
+	align-items: flex-start;
+	flex-direction: column;
+}
+
+.left {
+	flex-direction: row-reverse;
+}
