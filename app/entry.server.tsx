@@ -57,8 +57,6 @@ export default async function handleRequest(
 		responseHeaders.set('Expires', ' 0');
 	}
 
-	console.error({ message: 'This is an error', error: 'yes' });
-
 	return new Response(body, {
 		headers: responseHeaders,
 		status: responseStatusCode,
