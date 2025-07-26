@@ -37,7 +37,7 @@ export const Select: React.FC<TSelect> = ({
 					</option>
 				))}
 			</select>
-			<label>
+			<label htmlFor={id}>
 				<Text>{label}</Text>
 			</label>
 		</div>
