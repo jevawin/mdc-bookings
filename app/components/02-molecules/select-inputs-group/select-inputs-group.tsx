@@ -37,6 +37,7 @@ export const SelectInputsGroup: React.FC<TSelectInputsGroup> = ({
 					{items.map((item) => {
 						return (
 							<Select
+								isRequired
 								key={item.label}
 								label={item.label}
 								labelPosition={item.labelPosition}

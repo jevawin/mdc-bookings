@@ -12,6 +12,7 @@ export type TSelect = {
 	className?: string;
 	label: string;
 	labelPosition?: 'top' | 'right' | 'bottom' | 'left';
+	isRequired?: boolean;
 };
 
 export const Select: React.FC<TSelect> = ({
@@ -19,6 +20,7 @@ export const Select: React.FC<TSelect> = ({
 	className,
 	label,
 	labelPosition = 'right',
+	isRequired = false,
 	...rest
 }) => {
 	const lowerLabel = label.toLowerCase();
@@ -29,6 +31,7 @@ export const Select: React.FC<TSelect> = ({
 				className={clsx(styles.base, className)}
 				data-e2e-id="select"
 				id={id}
+				aria-required={isRequired}
 				{...rest}
 			>
 				{options.map((option) => (

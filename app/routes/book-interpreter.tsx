@@ -11,6 +11,7 @@ import { RadioInputsGroup } from '~/components/02-molecules/radio-inputs-group/r
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
 import { Segment } from '~/components/04-layouts/segment/segment.tsx';
+import { SelectInputsGroup } from '~/components/02-molecules/select-inputs-group/select-inputs-group.tsx';
 
 type TBookeInterpreterData = {
 	message: string;
@@ -298,6 +299,92 @@ export default function BookInterpreter({
 									.substring(0, 16)}
 							></DatePicker>
 						</Fieldset>
+
+						{/* APPOINTMENT DURATION */}
+						<SelectInputsGroup
+							isRequired={true}
+							label="How long is the appointment?"
+							items={[
+								{
+									label: 'Hours',
+									options: [
+										{
+											description: '',
+											value: '',
+										},
+										{
+											description: '0',
+											value: 0,
+										},
+										{
+											description: '1',
+											value: 1,
+										},
+										{
+											description: '2',
+											value: 2,
+										},
+										{
+											description: '3',
+											value: 3,
+										},
+										{
+											description: '4',
+											value: 4,
+										},
+										{
+											description: '5',
+											value: 5,
+										},
+										{
+											description: '6',
+											value: 6,
+										},
+										{
+											description: '7',
+											value: 7,
+										},
+										{
+											description: '8',
+											value: 8,
+										},
+										{
+											description: '9',
+											value: 9,
+										},
+										{
+											description: '10',
+											value: 10,
+										},
+									],
+								},
+								{
+									label: 'Minutes',
+									options: [
+										{
+											description: '',
+											value: '',
+										},
+										{
+											description: '0',
+											value: 0,
+										},
+										{
+											description: '15',
+											value: 15,
+										},
+										{
+											description: '30',
+											value: 30,
+										},
+										{
+											description: '45',
+											value: 45,
+										},
+									],
+								},
+							]}
+						/>
 					</Form>
 				</Segment.Container>
 			</Segment.Root>
