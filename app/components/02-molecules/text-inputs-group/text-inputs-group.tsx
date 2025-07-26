@@ -53,6 +53,7 @@ export const TextInputsGroup: React.FC<TTextInputsGroup> = ({
 					{items.map((item) => {
 						return (
 							<TextInput
+								className={styles.textInput}
 								key={item.id}
 								id={item.id}
 								label={item.label}
