@@ -16,12 +16,14 @@ export type TCallout = {
 		| 'negative'
 		| 'positive';
 	size?: TTextSizes;
+	className?: string;
 };
 
 export const Callout: React.FC<TCallout> = ({
 	size = '200',
 	children,
 	color,
+	className,
 	...rest
 }) => {
 	return (
@@ -29,7 +31,7 @@ export const Callout: React.FC<TCallout> = ({
 			tag="p"
 			size={size}
 			role="note"
-			className={clsx(styles.base, color && styles[color])}
+			className={clsx(className, styles.base, color && styles[color])}
 			data-e2e-id="callout"
 			{...rest}
 		>
