@@ -88,11 +88,11 @@ export default function BookInterpreter({
 						method="POST"
 						submitButtonText="Request booking →"
 					>
+						{/* SERVICE */}
 						<Fieldset
 							id="appointment-type"
 							title="Appointment type"
 						>
-							{/* SERVICE */}
 							<RadioInputsGroup
 								label="Which service do you require?"
 								isRequired={true}
@@ -281,7 +281,7 @@ export default function BookInterpreter({
 							/>
 						</Fieldset>
 
-						{/* INTERPRETER PREFERENCE */}
+						{/* APPOINTMENT DETAILS */}
 						<Fieldset
 							id="appointment-details"
 							title="Appointment details"
@@ -298,93 +298,93 @@ export default function BookInterpreter({
 									.toISOString()
 									.substring(0, 16)}
 							></DatePicker>
-						</Fieldset>
 
-						{/* APPOINTMENT DURATION */}
-						<SelectInputsGroup
-							isRequired={true}
-							label="How long is the appointment?"
-							items={[
-								{
-									label: 'Hours',
-									options: [
-										{
-											description: '',
-											value: '',
-										},
-										{
-											description: '0',
-											value: 0,
-										},
-										{
-											description: '1',
-											value: 1,
-										},
-										{
-											description: '2',
-											value: 2,
-										},
-										{
-											description: '3',
-											value: 3,
-										},
-										{
-											description: '4',
-											value: 4,
-										},
-										{
-											description: '5',
-											value: 5,
-										},
-										{
-											description: '6',
-											value: 6,
-										},
-										{
-											description: '7',
-											value: 7,
-										},
-										{
-											description: '8',
-											value: 8,
-										},
-										{
-											description: '9',
-											value: 9,
-										},
-										{
-											description: '10',
-											value: 10,
-										},
-									],
-								},
-								{
-									label: 'Minutes',
-									options: [
-										{
-											description: '',
-											value: '',
-										},
-										{
-											description: '0',
-											value: 0,
-										},
-										{
-											description: '15',
-											value: 15,
-										},
-										{
-											description: '30',
-											value: 30,
-										},
-										{
-											description: '45',
-											value: 45,
-										},
-									],
-								},
-							]}
-						/>
+							{/* APPOINTMENT DURATION */}
+							<SelectInputsGroup
+								isRequired={true}
+								label="How long is the appointment?"
+								items={[
+									{
+										label: 'Hours',
+										options: [
+											{
+												description: '',
+												value: '',
+											},
+											{
+												description: '0',
+												value: 0,
+											},
+											{
+												description: '1',
+												value: 1,
+											},
+											{
+												description: '2',
+												value: 2,
+											},
+											{
+												description: '3',
+												value: 3,
+											},
+											{
+												description: '4',
+												value: 4,
+											},
+											{
+												description: '5',
+												value: 5,
+											},
+											{
+												description: '6',
+												value: 6,
+											},
+											{
+												description: '7',
+												value: 7,
+											},
+											{
+												description: '8',
+												value: 8,
+											},
+											{
+												description: '9',
+												value: 9,
+											},
+											{
+												description: '10',
+												value: 10,
+											},
+										],
+									},
+									{
+										label: 'Minutes',
+										options: [
+											{
+												description: '',
+												value: '',
+											},
+											{
+												description: '0',
+												value: 0,
+											},
+											{
+												description: '15',
+												value: 15,
+											},
+											{
+												description: '30',
+												value: 30,
+											},
+											{
+												description: '45',
+												value: 45,
+											},
+										],
+									},
+								]}
+							/>
+						</Fieldset>
 					</Form>
 				</Segment.Container>
 			</Segment.Root>
