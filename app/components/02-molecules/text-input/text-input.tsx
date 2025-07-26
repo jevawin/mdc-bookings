@@ -39,7 +39,6 @@ export const TextInput: React.FC<TTextInput> = ({
 	const [showPassword, setshowPassword] = useState(false);
 
 	const isPassword = type === 'password';
-	const labelText = !isRequired ? `${label} (optional)` : label;
 	const validationMessageId = `${id.replace(' ', '-')}-message`;
 	const showValidationMessage = isInvalid && validationMessage;
 
@@ -56,7 +55,12 @@ export const TextInput: React.FC<TTextInput> = ({
 		>
 			<label className={styles.label} htmlFor={id}>
 				<Text size="100" weight="200" role="presentation">
-					{labelText}
+					{label}{' '}
+					{!isRequired ? (
+						<Text weight="200" color="brand">
+							(Optional)
+						</Text>
+					) : null}
 				</Text>
 			</label>
 
