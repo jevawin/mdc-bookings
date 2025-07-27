@@ -9,32 +9,36 @@ import styles from './text-input.module.css';
 type InputType = React.HTMLInputTypeAttribute;
 
 export type TTextInput = {
-	id: string;
-	label: string;
-	type?: Extract<InputType, 'email' | 'password' | 'search' | 'text' | 'url'>;
-	isRequired?: boolean;
-	isInvalid?: boolean;
-	validationMessage?: string;
-	ref?: React.Ref<HTMLDivElement>;
 	className?: string;
+	description?: string;
+	id: string;
+	isInvalid?: boolean;
+	isRequired?: boolean;
+	label: string;
+	ref?: React.Ref<HTMLDivElement>;
+	type?: Extract<InputType, 'email' | 'password' | 'search' | 'text' | 'url'>;
+	showRequired?: boolean;
+	validationMessage?: string;
 } & Pick<
 	React.ComponentProps<'input'>,
 	'autoComplete' | 'name' | 'inputMode' | 'hidden'
 >;
 
 export const TextInput: React.FC<TTextInput> = ({
+	autoComplete,
+	className,
+	description,
+	hidden,
 	id,
+	inputMode,
+	isInvalid = false,
+	isRequired = true,
 	label,
 	name,
-	type = 'text',
-	autoComplete,
-	inputMode,
-	isRequired = true,
-	isInvalid = false,
-	validationMessage,
-	hidden,
 	ref,
-	className,
+	showRequired = false,
+	type = 'text',
+	validationMessage,
 }) => {
 	const [showPassword, setshowPassword] = useState(false);
 
@@ -46,6 +50,8 @@ export const TextInput: React.FC<TTextInput> = ({
 		setshowPassword(!showPassword);
 	};
 
+	const reqOpt = isRequired ? '(Required)' : '(Optional)';
+
 	return (
 		<div
 			className={clsx(styles.field, className)}
@@ -56,13 +62,15 @@ export const TextInput: React.FC<TTextInput> = ({
 			<label className={styles.label} htmlFor={id}>
 				<Text size="100" weight="200" role="presentation">
 					{label}{' '}
-					{!isRequired ? (
+					{showRequired ? (
 						<Text weight="200" color="brand">
-							(Optional)
+							{reqOpt}
 						</Text>
 					) : null}
 				</Text>
 			</label>
+
+			{description !== null ? <Text tag="p">{description}</Text> : null}
 
 			<div className={styles.inputWrapper}>
 				<input
