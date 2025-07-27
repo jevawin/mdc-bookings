@@ -20,7 +20,7 @@ export const TextLink: React.FC<TTextLink> = ({
 	size = '100',
 	weight = '200',
 	className,
-	color = 'neutral',
+	color,
 }) => {
 	return (
 		<Link
