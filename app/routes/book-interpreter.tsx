@@ -541,6 +541,143 @@ export default function BookInterpreter({
 							termsLink="#null"
 						/>
 					</Form>
+					<div className="terms-conditions-wrapper">
+						<Text color="brand" size="300" weight="300">
+							Manchester Deaf Centre interpreter booking terms and
+							conditions:
+						</Text>
+						<List.Root>
+							<List.Item>
+								<Text>
+									This contract is with Manchester Deaf Centre
+									Ltd. If the Customer is reclaiming the cost
+									of the interpreter from another organisation
+									(for example Access to Work or a student's
+									local authority) although Manchester Deaf
+									Centre will support the Customer to reclaim
+									the cost, the Customer is responsible for
+									paying Manchester Deaf Centre in full within
+									30 days.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									The Interpreter is bound by professional
+									confidentiality and is required to adhere to
+									the NRCPD Code of Conduct.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									All Interpreters placed by Manchester Deaf
+									Centre Ltd have Professional Indemnity
+									Insurance and a current DBS.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									The Interpreter will interpret to the best
+									of their ability, knowledge and belief.
+									However, no guarantee can be given as to the
+									absolute accuracy of any interpretation.
+									Manchester Deaf Centre Ltd will only place
+									interpreters with the relevant skills and
+									experience to competently undertake the
+									work.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									We may advise that more than 1 BSL
+									interpreter needs to be booked for certain
+									assignments for co-working support and
+									quality assurance. This will be at our
+									discretion and Manchester Deaf Centre Ltd
+									will always discuss this with the booker
+									before booking additional interpreters.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									Manchester Deaf Centre will only book NRCPD
+									registered Trainee Interpreters with
+									relevant skills and experience to undertake
+									assignments.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									Please contact{' '}
+									<TextLink
+										to="mailto:bookings@manchesterdeafcentre.com"
+										linkText="bookings@manchesterdeafcentre.com"
+										color="brand"
+									/>{' '}
+									for information related to fees.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									Assignments outside core hours of Monday to
+									Friday 9am - 6pm will be charged at normal
+									fees plus 50%.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									The customer agrees to remittance terms and
+									conditions i.e. to pay Manchester Deaf
+									Centre Ltd invoices in full within 30 days
+									of receipts.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									Once a booking has been confirmed, either
+									verbally or in writing, it is binding.
+									Should it become necessary to cancel the
+									booking, the following charges will be made:
+								</Text>
+							</List.Item>
+						</List.Root>
+						<Text
+							color="brand"
+							weight="300"
+							id="cancellation-charges"
+						>
+							Cancellation charges
+						</Text>
+						<List.Root>
+							<List.Item>
+								<Text>
+									15 days' notice or more before the booking
+									date:{' '}
+									<Text weight="300">
+										no cancellation fee
+									</Text>
+									.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									8-14 days' notice before the booking date:{' '}
+									<Text weight="300">
+										50% cancellation fee
+									</Text>
+									.
+								</Text>
+							</List.Item>
+							<List.Item>
+								<Text>
+									1-7 days' notice before the booking date:{' '}
+									<Text weight="300">
+										full charge applies
+									</Text>
+									.
+								</Text>
+							</List.Item>
+						</List.Root>
+					</div>
 				</Segment.Container>
 			</Segment.Root>
 		</>
