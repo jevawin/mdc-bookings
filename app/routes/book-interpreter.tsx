@@ -12,6 +12,7 @@ import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
 import { Segment } from '~/components/04-layouts/segment/segment.tsx';
 import { SelectInputsGroup } from '~/components/02-molecules/select-inputs-group/select-inputs-group.tsx';
+import { TextInputsGroup } from '../components/02-molecules/text-inputs-group/text-inputs-group.tsx';
 
 type TBookeInterpreterData = {
 	message: string;
@@ -79,7 +80,7 @@ export default function BookInterpreter({
 					<Callout color="brand">
 						<Icon name="user-circle-star" color="brand" size={30} />
 						<Text size="200" weight="200">
-							We'll share this with your interpreter.
+							We'll share this with your interpreter/s.
 						</Text>
 					</Callout>
 					<Form
@@ -381,6 +382,153 @@ export default function BookInterpreter({
 												value: 45,
 											},
 										],
+									},
+								]}
+							/>
+
+							{/* APPOINTMENT LOCATION */}
+							<TextInputsGroup
+								dataSharing={true}
+								label="Where is the appointment?"
+								isRequired={true}
+								items={[
+									{
+										id: 'address_1',
+										label: 'Address line 1',
+									},
+									{
+										id: 'address_2',
+										label: 'Address line 2',
+										isRequired: false,
+										showRequired: true,
+									},
+									{ id: 'city', label: 'Town or city' },
+									{ id: 'postcode', label: 'Post code' },
+								]}
+							/>
+
+							{/* CONTACT NAME */}
+							<TextInputsGroup
+								dataSharing={true}
+								label="Who should our interpreter/s contact?"
+								isRequired={true}
+								items={[
+									{
+										id: 'name',
+										label: 'Forename and surname',
+									},
+								]}
+							/>
+
+							{/* CONTACT NUMBER */}
+							<TextInputsGroup
+								dataSharing={true}
+								label="What's their phone number?"
+								description="In case we need to call, for example to gain access to a building."
+								isRequired={true}
+								items={[
+									{
+										id: 'name',
+										label: 'Forename and surname',
+									},
+								]}
+							/>
+
+							{/* CONTACT NUMBER */}
+							<TextInputsGroup
+								dataSharing={true}
+								label="What is the client's name?"
+								description="The D/deaf or hard of hearing person we'll be interpreting for."
+								isRequired={true}
+								items={[
+									{
+										id: 'name',
+										label: 'Forename and surname',
+									},
+								]}
+							/>
+						</Fieldset>
+
+						{/* YOUR DETAILS */}
+						<Fieldset id="your-details" title="Your details">
+							{' '}
+							{/* CONTACT DETAILS */}
+							<TextInputsGroup
+								items={[
+									{
+										id: 'your-name',
+										isRequired: true,
+										label: "What's your name?",
+										description: 'Forename and surname',
+										showRequired: true,
+									},
+									{
+										id: 'your-number',
+										isRequired: true,
+										label: "What's your phone number?",
+										description:
+											"We'll only use this to contact you about this booking.",
+										showRequired: true,
+									},
+									{
+										id: 'your-email',
+										isRequired: true,
+										label: "What's your email address?",
+										description:
+											"We'll only use this to contact you about this booking.",
+										showRequired: true,
+									},
+								]}
+							/>
+						</Fieldset>
+
+						{/* FINANCE INFORMATION */}
+						<Fieldset
+							id="finance-information"
+							title="Finance information"
+						>
+							{' '}
+							{/* COMPANY NAME */}
+							<TextInputsGroup
+								items={[
+									{
+										id: 'company-name',
+										isRequired: false,
+										label: "What's your company's name?",
+										showRequired: true,
+									},
+								]}
+							/>
+							{/* COMPANY ADDRESS */}
+							<TextInputsGroup
+								label="What's your company's address?"
+								description="We\ll use this address on your invoice."
+								isRequired={true}
+								items={[
+									{
+										id: 'address_1',
+										label: 'Address line 1',
+									},
+									{
+										id: 'address_2',
+										label: 'Address line 2',
+										isRequired: false,
+										showRequired: true,
+									},
+									{ id: 'city', label: 'Town or city' },
+									{ id: 'postcode', label: 'Post code' },
+								]}
+							/>
+							{/* FINANCE EMAIL */}
+							<TextInputsGroup
+								items={[
+									{
+										id: 'finance-email',
+										isRequired: false,
+										label: "What's your finance email address?",
+										description:
+											"We'll send invoices to this email address.",
+										showRequired: true,
 									},
 								]}
 							/>
