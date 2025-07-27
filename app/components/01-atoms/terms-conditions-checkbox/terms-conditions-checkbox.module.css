@@ -1,0 +1,33 @@
+.base {
+	border: 2px solid var(--color-core-inactive);
+	border-radius: var(--border-radius);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 2);
+	max-inline-size: 50rem;
+	padding: calc(var(--base-spacing) * 2);
+}
+
+.label {
+	align-items: center;
+	display: flex;
+	gap: var(--base-spacing);
+}
+
+.checkBox {
+	block-size: 3.5rem;
+	inline-size: 3.5rem;
+}
+
+.keyTerms,
+.keyTerms ul {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 2);
+
+	li {
+		align-items: start;
+		display: grid;
+		grid-template-columns: min-content auto;
+	}
+}

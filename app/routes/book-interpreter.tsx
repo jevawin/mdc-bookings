@@ -13,6 +13,7 @@ import { List } from '~/components/03-organisms/list/list.tsx';
 import { Segment } from '~/components/04-layouts/segment/segment.tsx';
 import { SelectInputsGroup } from '~/components/02-molecules/select-inputs-group/select-inputs-group.tsx';
 import { TextInputsGroup } from '../components/02-molecules/text-inputs-group/text-inputs-group.tsx';
+import { TermsConditionsCheckbox } from '../components/01-atoms/terms-conditions-checkbox/terms-conditions-checkbox.tsx';
 
 type TBookeInterpreterData = {
 	message: string;
@@ -533,6 +534,12 @@ export default function BookInterpreter({
 								]}
 							/>
 						</Fieldset>
+
+						{/* TERMS CHECK BOX */}
+						<TermsConditionsCheckbox
+							cancellationLink="#null"
+							termsLink="#null"
+						/>
 					</Form>
 				</Segment.Container>
 			</Segment.Root>
