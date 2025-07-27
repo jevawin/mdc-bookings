@@ -23,7 +23,7 @@ const meta: Meta<TList> = {
 export default meta;
 type Story = StoryObj<TList>;
 
-export const List: Story = {
+export const ListWithIcons: Story = {
 	args: mockListData,
 	render: (args) => (
 		<ListComponent.Root tag={args.tag}>
@@ -39,6 +39,25 @@ export const List: Story = {
 
 			<ListComponent.Item>
 				<Icon name="building" />
+				<Text size="100">Building</Text>
+			</ListComponent.Item>
+		</ListComponent.Root>
+	),
+};
+
+export const ListNoIcons: Story = {
+	args: mockListData,
+	render: (args) => (
+		<ListComponent.Root tag={args.tag}>
+			<ListComponent.Item>
+				<Text size="100">Apple</Text>
+			</ListComponent.Item>
+
+			<ListComponent.Item>
+				<Text size="100">Bell</Text>
+			</ListComponent.Item>
+
+			<ListComponent.Item>
 				<Text size="100">Building</Text>
 			</ListComponent.Item>
 		</ListComponent.Root>
