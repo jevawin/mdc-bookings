@@ -54,15 +54,17 @@ export const TextInputsGroup: React.FC<TTextInputsGroup> = ({
 						return (
 							<TextInput
 								className={styles.textInput}
-								key={item.id}
+								description={item.description}
 								id={item.id}
-								label={item.label}
-								name={item.id}
 								isRequired={
 									item.isRequired !== null
 										? item.isRequired
 										: isRequired
 								}
+								key={item.id}
+								label={item.label}
+								name={item.id}
+								showRequired={item.showRequired}
 							/>
 						);
 					})}

@@ -12,7 +12,6 @@
 }
 
 .inputsContainer {
-	align-items: flex-start;
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--base-spacing) * 4);
@@ -22,6 +21,6 @@
 	margin-block-start: var(--base-spacing);
 }
 
-.textInput {
+.textInput input {
 	inline-size: min(30rem, 100%);
 }
