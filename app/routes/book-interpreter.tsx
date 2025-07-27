@@ -252,6 +252,7 @@ export default function BookInterpreter({
 								name="appointment-description"
 								placeholder="Describe the appointment in as much detail as possible"
 								maxLength={5000}
+								rows={5}
 							></textarea>
 						</Fieldset>
 
