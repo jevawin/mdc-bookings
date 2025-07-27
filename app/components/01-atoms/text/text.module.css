@@ -8,6 +8,7 @@
 	font-family: var(--font-family-primary);
 	font-variation-settings: 'wght' var(--text-fw);
 	font-weight: normal;
+	text-decoration-color: var(--text-color);
 }
 
 .weight100 {
@@ -84,6 +85,10 @@
 
 .colorbackground {
 	--text-color: var(--color-core-background);
+}
+
+.colorforeground {
+	--text-color: var(--color-core-foreground);
 }
 
 .colorbrand {

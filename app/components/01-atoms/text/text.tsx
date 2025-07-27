@@ -17,6 +17,7 @@ export type TTextSizes =
 export type TTextColors =
 	| 'background'
 	| 'brand'
+	| 'foreground'
 	| 'neutral'
 	| 'inactive'
 	| 'negative'
