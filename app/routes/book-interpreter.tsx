@@ -35,7 +35,10 @@ export default function BookInterpreter({
 	return (
 		<>
 			<title>Book an interpreter</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<meta
+				name="description"
+				content="Book a Manchester Deaf Centre interpreter here."
+			/>
 
 			<Segment.Root id="interpreter-booking">
 				<Segment.Container>
@@ -63,25 +66,24 @@ export default function BookInterpreter({
 					<List.Root>
 						<List.Item>
 							<Icon name="check-circle" color="brand" />
-							<Text size="300" weight="200">
+							<Text size="200" weight="200">
 								0161 273 6699
 							</Text>
 						</List.Item>
 						<List.Item>
 							<Icon name="check-circle" color="brand" />
-							<Text size="300" weight="200">
-								<TextLink
-									to="mailto:bookings@manchesterdeafcentre.com"
-									linkText="bookings@manchesterdeafcentre.com"
-									size="300"
-								/>
-							</Text>
+							<TextLink
+								to="mailto:bookings@manchesterdeafcentre.com"
+								linkText="bookings@manchesterdeafcentre.com"
+								size="200"
+							/>
 						</List.Item>
 					</List.Root>
 					<Callout color="brand">
 						<Icon name="user-circle-star" color="brand" size={30} />
-						<Text size="200" weight="200">
-							We'll share this with your interpreter/s.
+						<Text size="100" weight="200">
+							This indicates information we'll share with your
+							interpreters
 						</Text>
 					</Callout>
 					<Form
