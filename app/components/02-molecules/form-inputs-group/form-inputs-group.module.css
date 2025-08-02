@@ -1,0 +1,49 @@
+@value --breakpoints: '../../../styles/modules/breakpoints.module.css';
+@value --bp-small from --breakpoints;
+
+.fieldset {
+	border: none;
+	justify-items: start;
+	margin: 0;
+	padding: 0;
+
+	& > :not([hidden]) ~ :not([hidden]) {
+		margin-block-start: calc(var(--base-spacing) * 1.5);
+	}
+}
+
+.fields {
+	inline-size: 100%;
+}
+
+.radioFields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: calc(var(--base-spacing) * 1.5);
+}
+
+.selectFields {
+	display: flex;
+	gap: calc(var(--base-spacing) * 3);
+}
+
+.inputFields {
+	display: grid;
+	gap: calc(var(--base-spacing) * 3);
+
+	@media (--bp-small) {
+		grid-template-columns: 1fr 1fr;
+
+		& > *:nth-child(n + 3) {
+			grid-column: 1/-1;
+		}
+	}
+}
+
+.validationMessage {
+	align-items: center;
+	color: var(--color-core-negative);
+	display: flex;
+	gap: var(--base-spacing);
+	position: relative;
+}

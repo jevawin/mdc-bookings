@@ -1,9 +1,9 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
 import { mockRadioData } from './radio.mock.ts';
+import { iconNames } from '../icon/icon.mock.ts';
 
 import { Radio as RadioComponent } from './radio.tsx';
-import { iconNames } from '../icon/icon.mock.ts';
 
 const meta: Meta<typeof RadioComponent> = {
 	title: '01-atoms/Radio',
@@ -15,8 +15,8 @@ const meta: Meta<typeof RadioComponent> = {
 			options: iconNames,
 			control: 'select',
 		},
-		title: {
-			description: 'Optional title, changes to vertical layout',
+		hint: {
+			description: 'Optional hint for extra context',
 			control: 'text',
 		},
 	},

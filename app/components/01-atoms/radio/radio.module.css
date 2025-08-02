@@ -1,71 +1,84 @@
-.base {
-	align-items: center;
-	border: 2px solid var(--color-core-inactive);
+.field {
+	--radio-border: 0 0 0 0.2rem var(--color-core-inactive) inset;
+
 	border-radius: calc(var(--border-radius) * 1.15);
-	display: grid;
-	gap: calc(var(--base-spacing) * 2.5);
-	grid-template-columns: 1fr 22px;
-	padding: calc(var(--base-spacing) * 1.75);
 	position: relative;
-
-	&.withTitle {
-		align-items: flex-start;
-
-		.contentWrapper {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: calc(var(--base-spacing) * 2.25);
-		}
-	}
-
-	&:has(:checked) {
-		background-color: color-mix(
-			in srgb,
-			var(--color-core-brand),
-			white 90%
-		);
-		border-color: var(--color-core-brand);
-	}
 }
 
-.contentWrapper {
+.input {
+	appearance: none;
+	block-size: 100%;
+	border-radius: inherit;
+	inline-size: 100%;
+	inset: 0;
+	margin: 0;
+	position: absolute;
+}
+
+.input:checked + .inner {
+	--input-bg-color: color-mix(in srgb, var(--color-core-brand), white 90%);
+	--input-border-color: var(--color-core-brand);
+}
+
+.input:checked + .inner .radio {
+	--radio-border: none;
+}
+
+.input:checked ~ .inner .radio .radioTick {
+	display: block;
+}
+
+.input:focus-visible {
+	outline: 0.2rem solid var(--color-core-brand);
+	outline-offset: 0.2rem;
+}
+
+.inner {
+	--input-bg-color: var(--color-core-background);
+	--input-border-color: var(--color-core-inactive);
+
 	align-items: center;
+	background-color: var(--input-bg-color);
+	border: 0.2rem solid var(--input-border-color);
+	border-radius: inherit;
 	display: flex;
-	gap: calc(var(--base-spacing) * 1.25);
-	justify-content: flex-start;
+	gap: calc(var(--base-spacing) * 1.5);
+	padding: calc(var(--base-spacing) * 1.75);
+
+	&:has(.icon):has(.hint) {
+		display: grid;
+	}
+
+	&:has(.icon):has(.hint) :is(.icon, .radio) {
+		grid-row: 1;
+	}
+
+	&:has(.icon):has(.hint) :is(.content) {
+		grid-row: 2;
+	}
 }
 
-.textWrapper {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--base-spacing) * 0.5);
+.content {
+	display: grid;
+	gap: var(--base-spacing);
+}
+
+.label {
+	color: var(--color-core-navy);
+	position: relative;
 }
 
 .radio {
-	appearance: none;
-	block-size: 100%;
-	inline-size: 100%;
-	inset-block-start: 0;
-	inset-inline-start: 0;
-	margin: 0;
-	position: absolute;
-
-	&:not(:checked) ~ .radioCircle .radioTick {
-		display: none;
-	}
-}
-
-.radioCircle {
-	block-size: 22px;
-	border: 2px solid var(--color-core-inactive);
+	align-items: center;
+	block-size: 2.8rem;
 	border-radius: 100%;
-	display: block;
-	inline-size: 22px;
-	position: relative;
+	box-shadow: var(--radio-border);
+	display: flex;
+	flex-direction: column;
+	inline-size: 2.8rem;
+	justify-content: center;
 }
 
 .radioTick {
-	inset-block-start: -5px;
-	inset-inline-start: -5px;
-	position: absolute;
+	display: none;
 }

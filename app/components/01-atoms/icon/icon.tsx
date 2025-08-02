@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import styles from './icon.module.css';
 
 export type TIconName =

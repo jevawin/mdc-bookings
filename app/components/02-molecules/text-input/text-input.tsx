@@ -5,52 +5,61 @@ import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './text-input.module.css';
+import { Callout } from '../callout/callout.tsx';
 
 type InputType = React.HTMLInputTypeAttribute;
 
 export type TTextInput = {
-	className?: string;
-	description?: string;
 	id: string;
+	label: string;
+	type?: Extract<InputType, 'email' | 'password' | 'search' | 'text' | 'url'>;
+	hint?: string;
+	isDataShared?: boolean;
 	isInvalid?: boolean;
 	isRequired?: boolean;
-	label: string;
-	ref?: React.Ref<HTMLDivElement>;
-	type?: Extract<InputType, 'email' | 'password' | 'search' | 'text' | 'url'>;
 	showRequired?: boolean;
 	validationMessage?: string;
+	className?: string;
+	ref?: React.Ref<HTMLDivElement>;
 } & Pick<
 	React.ComponentProps<'input'>,
 	'autoComplete' | 'name' | 'inputMode' | 'hidden'
 >;
 
 export const TextInput: React.FC<TTextInput> = ({
-	autoComplete,
-	className,
-	description,
-	hidden,
 	id,
+	label,
+	type = 'text',
+	name,
+	autoComplete,
+	hint,
+	hidden,
 	inputMode,
+	isDataShared = false,
 	isInvalid = false,
 	isRequired = true,
-	label,
-	name,
-	ref,
 	showRequired = false,
-	type = 'text',
 	validationMessage,
+	className,
+	ref,
 }) => {
 	const [showPassword, setshowPassword] = useState(false);
 
 	const isPassword = type === 'password';
-	const validationMessageId = `${id.replace(' ', '-')}-message`;
-	const showValidationMessage = isInvalid && validationMessage;
+	const reqOpt = isRequired ? '(Required)' : '(Optional)';
+	const showInvalid = isInvalid && validationMessage;
+	const dataSharedId = isDataShared ? `${id}-data-shared` : null;
+	const hintId = hint ? `${id}-hint` : null;
+	const invalidId = showInvalid ? `${id}-error` : null;
+
+	const describedByIds = [hintId, dataSharedId, invalidId]
+		.filter(Boolean)
+		.join(' ');
+	const isEmptyDescribedByIds = describedByIds === '';
 
 	const togglePasswordReveal = (): void => {
 		setshowPassword(!showPassword);
 	};
-
-	const reqOpt = isRequired ? '(Required)' : '(Optional)';
 
 	return (
 		<div
@@ -70,7 +79,21 @@ export const TextInput: React.FC<TTextInput> = ({
 				</Text>
 			</label>
 
-			{description !== null ? <Text tag="p">{description}</Text> : null}
+			{hint ? (
+				<Text tag="p" id={hintId ?? undefined} role="presentation">
+					{hint}
+				</Text>
+			) : null}
+
+			{isDataShared ? (
+				<Callout id={dataSharedId ?? undefined} color="brand">
+					<Icon name="user-circle-star" color="brand" size={30} />
+
+					<Text size="100" weight="200" role="presentation">
+						We'll share this with your interpreter/s.
+					</Text>
+				</Callout>
+			) : null}
 
 			<div className={styles.inputWrapper}>
 				<input
@@ -82,7 +105,7 @@ export const TextInput: React.FC<TTextInput> = ({
 					aria-required={isRequired ? 'true' : undefined}
 					aria-invalid={isInvalid ? 'true' : undefined}
 					aria-describedby={
-						showValidationMessage ? validationMessageId : undefined
+						!isEmptyDescribedByIds ? describedByIds : undefined
 					}
 					className={styles.input}
 				/>
@@ -104,11 +127,11 @@ export const TextInput: React.FC<TTextInput> = ({
 				) : null}
 			</div>
 
-			{showValidationMessage ? (
+			{showInvalid ? (
 				<Text
 					size="100"
 					weight="100"
-					id={validationMessageId}
+					id={invalidId ?? undefined}
 					className={styles.validationMessage}
 				>
 					<Icon name="warning" size={22} />

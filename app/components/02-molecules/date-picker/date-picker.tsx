@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Text } from '../../01-atoms/text/text.tsx';
 import styles from './date-picker.module.css';
 import { Icon } from '../../01-atoms/icon/icon.tsx';

@@ -1,8 +1,10 @@
 import type { TRadio } from './radio.tsx';
 
 export const mockRadioData: TRadio = {
-	icon: 'apple',
-	description: 'Deaf intermediary interpreters',
-	name: 'service',
-	value: 'apple',
+	id: 'deaf-intermediary-interpreters',
+	icon: 'bsl-hands',
+	label: 'Deaf intermediary interpreters',
+	name: 'appointmentType',
+	value: 'deaf-intermediary-interpreters',
+	hint: "Hospital or GP appointments, health visits, opticians' appointments",
 };

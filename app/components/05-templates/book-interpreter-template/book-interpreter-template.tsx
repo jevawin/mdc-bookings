@@ -3,15 +3,17 @@ import { MdcLogo } from '~/components/01-atoms/mdc-logo/mdc-logo.tsx';
 import { TermsConditionsCheckbox } from '~/components/01-atoms/terms-conditions-checkbox/terms-conditions-checkbox.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
+
 import { Callout } from '~/components/02-molecules/callout/callout.tsx';
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
+import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
-import { RadioInputsGroup } from '~/components/02-molecules/radio-inputs-group/radio-inputs-group.tsx';
-import { SelectInputsGroup } from '~/components/02-molecules/select-inputs-group/select-inputs-group.tsx';
-import { TextInputsGroup } from '~/components/02-molecules/text-inputs-group/text-inputs-group.tsx';
+import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
+
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
-import { Segment } from '~/components/04-layouts/segment/segment.tsx';
+
+import { Container } from '~/components/04-layouts/container/container.tsx';
 
 // import styles from './book-interpreter-template.module.css';
 
@@ -21,8 +23,8 @@ export const BookInterpreterTemplate: React.FC<
 	TBookInterpreterTemplate
 > = () => {
 	return (
-		<Segment.Root id="interpreter-booking">
-			<Segment.Container>
+		<main id="main">
+			<Container>
 				<MdcLogo size="200" />
 
 				<Text
@@ -33,6 +35,7 @@ export const BookInterpreterTemplate: React.FC<
 				>
 					Interpreter booking
 				</Text>
+
 				<Text tag="p" size="200">
 					All MDC interpreters are BSL level 6 qualified; adhere to
 					the NRCPD code of conduct; are DBS checked; and, have
@@ -41,10 +44,12 @@ export const BookInterpreterTemplate: React.FC<
 					your booking, please contact our bookings officer: 0161 273
 					6699 bookings@manchesterdeafcentre.com
 				</Text>
+
 				<Text tag="p" size="200">
 					If you'd like to discuss your booking, please contact our
 					bookings officer:
 				</Text>
+
 				<List.Root>
 					<List.Item>
 						<Icon name="check-circle" color="brand" />
@@ -61,6 +66,7 @@ export const BookInterpreterTemplate: React.FC<
 						/>
 					</List.Item>
 				</List.Root>
+
 				<Callout color="brand">
 					<Icon name="user-circle-star" color="brand" size={30} />
 					<Text size="100" weight="200">
@@ -68,137 +74,160 @@ export const BookInterpreterTemplate: React.FC<
 						interpreters
 					</Text>
 				</Callout>
+
 				<Form
 					title="interpreter booking"
 					id="interpreter-booking-form"
 					method="POST"
 					submitButtonText="Request booking →"
 				>
-					{/* SERVICE */}
-					<Fieldset id="appointment-type" title="Appointment type">
-						<RadioInputsGroup
-							label="Which service do you require?"
+					{/* APPOINTMENT OVERVIEW */}
+					<Fieldset
+						id="appointment-overview"
+						title="Appointment overview"
+					>
+						{/* SERVICE */}
+						<FormInputsGroup
+							id="service"
+							type="radio"
+							title="Which service do you require?"
 							isRequired={true}
 							items={[
 								{
+									id: 'bsl-to-english-interpreters',
+									label: 'BSL to English interpreters',
 									name: 'service',
-									value: 'bsl-to-english-interpreters',
+									value: 'BSL to English interpreters',
 									icon: 'check-circle',
-									description: 'BSL to English interpreters',
 								},
 								{
+									id: 'lipspeaker',
+									label: 'Lipspeaker',
 									name: 'service',
 									value: 'lipspeaker',
 									icon: 'lips',
-									description: 'Lipspeaker',
 								},
 								{
+									id: 'deaf-intermediary-interpreters',
+									label: 'Deaf intermediary interpreters',
 									name: 'service',
-									value: 'deaf-intermediary-interpreters',
+									value: 'Deaf intermediary interpreters',
 									icon: 'hearing-loop',
-									description:
-										'Deaf intermediary interpreters',
 								},
 								{
+									id: 'deafblind-interpreters',
+									label: 'Deafblind interpreters',
 									name: 'service',
-									value: 'deafblind-interpreters',
+									value: 'Deafblind interpreters',
 									icon: 'blind-person',
-									description: 'Deafblind interpreters',
 								},
 								{
+									id: 'speech-to-text-reporters',
+									label: 'Speech to text reporters',
 									name: 'service',
-									value: 'speech-to-text-reporters',
+									value: 'Speech to text reporters',
 									icon: 'speech-bubble',
-									description: 'Speech to text reporters',
 								},
 								{
+									id: 'note-takers',
+									label: 'Note takers',
 									name: 'service',
-									value: 'note-takers',
+									value: 'Note takers',
 									icon: 'pencil',
-									description: 'Note takers',
 								},
 							]}
 						/>
 
 						{/* APPOINTMENT TYPE */}
-						<RadioInputsGroup
-							label="What type of appointment is it?"
+						<FormInputsGroup
+							id="appointment-type"
+							type="radio"
+							title="What type of appointment is it?"
 							isRequired={true}
 							items={[
 								{
-									title: 'General',
+									id: 'appointment-general',
+									label: 'General',
 									name: 'appointment-type',
-									value: 'general',
+									value: 'General',
+									hint: 'Work meetings, home visits (non-medical), events, job interviews, etc',
+									icon: 'bsl-hands',
+								},
+								{
+									id: 'appointment-medical',
+									label: 'Medical',
+									name: 'appointment-type',
+									value: 'Medical',
+									hint: "Hospital or GP appointments, health visits, opticians' appointments.",
 									icon: 'check-circle',
-									description:
-										'Work meetings, home visits (non-medical), events, job interviews, etc.',
 								},
 								{
-									title: 'Medical',
+									id: 'appointment-specialist',
+									label: 'Specialist',
 									name: 'appointment-type',
-									value: 'medical',
-									icon: 'cross',
-									description:
-										"Hospital or GP appointments, health visits, opticians' appointments.",
-								},
-								{
-									title: 'Specialist',
-									name: 'appointment-type',
-									value: 'specialist',
-									icon: 'certificate',
-									description:
-										'Legal, mental health, child protection, or assistance with the police.',
+									value: 'Specialist',
+									hint: 'Legal, mental health, child protection, or assistance with the police.',
+									icon: 'check-circle',
 								},
 							]}
 						/>
 
 						{/* SIU / SFT */}
-						<RadioInputsGroup
-							label="Are you booking from either SIU or SFT?"
+						<FormInputsGroup
+							id="siu-sft"
+							type="radio"
+							title="Are you booking from either SIU or SFT?"
+							hint={'Choose "No" if you\'re unsure.'}
 							isRequired={true}
-							description={`Choose "No" if you're unsure.`}
 							items={[
 								{
+									id: 'siu-sft-none',
+									label: 'No',
 									name: 'siu-sft',
-									value: 'no',
-									description: 'No',
+									value: 'No',
 								},
 								{
+									id: 'siu',
+									label: 'Stockport Interpreting Unit (SIU)',
 									name: 'siu-sft',
-									value: 'siu',
-									description:
-										'Stockport Interpreting Unit (SIU)',
+									value: 'SIU',
 								},
 								{
+									id: 'sft',
+									label: 'Stockport NHS Foundation Trust (SFT)',
 									name: 'siu-sft',
-									value: 'sft',
-									description:
-										'Stockport NHS Foundation Trust (SFT)',
+									value: 'SFT',
 								},
 							]}
 						/>
 
 						{/* ACCESS TO WORK */}
-						<RadioInputsGroup
-							label={`Is this an "Access to Work" booking?`}
-							description={`Choose "No" if you're unsure.`}
+						<FormInputsGroup
+							id="access-to-work-booking"
+							type="radio"
+							title='Is this an "Access to Work" booking?'
+							hint={'Choose "No" if you\'re unsure.'}
 							isRequired={true}
 							items={[
 								{
+									id: 'access-to-work-yes',
+									label: 'Yes',
 									name: 'access-to-work',
-									value: 'yes',
-									description: 'Yes',
+									value: 'Yes',
 								},
 								{
+									id: 'access-to-work-no',
+									label: 'No',
 									name: 'access-to-work',
-									value: 'no',
-									description: 'No',
+									value: 'No',
 								},
 							]}
 						/>
 
 						{/* APPOINTMENT INFORMATION */}
-						<Text weight="200" tag="p">
+						{/* TODO: Textarea component goes here */}
+
+						{/* <Text weight="200" tag="p">
 							What else can you tell us about the appointment?
 						</Text>
 						<Text weight="100" tag="p">
@@ -226,13 +255,7 @@ export const BookInterpreterTemplate: React.FC<
 								<Icon name="question-circle" size={18} />
 								Anything else you think we should know.
 							</List.Item>
-						</List.Root>
-						<textarea
-							name="appointment-description"
-							placeholder="Describe the appointment in as much detail as possible"
-							maxLength={5000}
-							rows={5}
-						></textarea>
+						</List.Root> */}
 					</Fieldset>
 
 					{/* INTERPRETER PREFERENCE */}
@@ -240,24 +263,30 @@ export const BookInterpreterTemplate: React.FC<
 						id="interpreter-preference"
 						title="Interpreter preference"
 					>
-						<RadioInputsGroup
-							label={`What gender interpreter/s do you need?`}
+						{/* INTERPRETER GENDER/S */}
+						<FormInputsGroup
+							id="interpreter-gender"
+							type="radio"
+							title="What gender interpreter/s do you need?"
 							isRequired={true}
 							items={[
 								{
+									id: 'interpreter-gender-male',
+									label: 'Male',
 									name: 'interpreter-gender',
-									value: 'male',
-									description: 'Male',
+									value: 'Male',
 								},
 								{
+									id: 'interpreter-gender-female',
+									label: 'Female',
 									name: 'interpreter-gender',
-									value: 'female',
-									description: 'Female',
+									value: 'Female',
 								},
 								{
+									id: 'interpreter-gender-either',
+									label: "Don't mind",
 									name: 'interpreter-gender',
-									value: 'either',
-									description: "Don't mind",
+									value: 'Either',
 								},
 							]}
 						/>
@@ -280,12 +309,16 @@ export const BookInterpreterTemplate: React.FC<
 						/>
 
 						{/* APPOINTMENT DURATION */}
-						<SelectInputsGroup
+						<FormInputsGroup
+							id="appointment-duration"
+							type="select"
+							title="How long is the appointment?"
 							isRequired={true}
-							label="How long is the appointment?"
 							items={[
 								{
+									id: 'appointment-duration-hours',
 									label: 'Hours',
+									name: 'appointment-duration-hours',
 									options: [
 										{
 											description: '',
@@ -338,7 +371,9 @@ export const BookInterpreterTemplate: React.FC<
 									],
 								},
 								{
+									id: 'appointment-duration-minutes',
 									label: 'Minutes',
+									name: 'appointment-duration-minutes',
 									options: [
 										{
 											description: '',
@@ -366,95 +401,97 @@ export const BookInterpreterTemplate: React.FC<
 						/>
 
 						{/* APPOINTMENT LOCATION */}
-						<TextInputsGroup
-							dataSharing={true}
-							label="Where is the appointment?"
+						<FormInputsGroup
+							id="appointment-location"
+							type="input"
+							title="Where is the appointment?"
 							isRequired={true}
 							items={[
 								{
-									id: 'address_1',
+									id: 'appointment-address-1',
 									label: 'Address line 1',
+									name: 'appointment-address-1',
 								},
 								{
-									id: 'address_2',
+									id: 'appointment-address-2',
 									label: 'Address line 2',
+									name: 'appointment-address-2',
 									isRequired: false,
 									showRequired: true,
 								},
-								{ id: 'city', label: 'Town or city' },
-								{ id: 'postcode', label: 'Post code' },
+								{
+									id: 'appointment-city',
+									label: 'Town or city',
+									name: 'appointment-city',
+								},
+								{
+									id: 'appointment-postcode',
+									label: 'Postcode',
+									name: 'appointment-postcode',
+								},
 							]}
 						/>
 
 						{/* CONTACT NAME */}
-						<TextInputsGroup
-							dataSharing={true}
+						<TextInput
+							id="contact-name"
 							label="Who should our interpreter/s contact?"
-							isRequired={true}
-							items={[
-								{
-									id: 'name',
-									label: 'Forename and surname',
-								},
-							]}
+							hint="Forename and surname"
+							name="contact-name"
 						/>
 
 						{/* CONTACT NUMBER */}
-						<TextInputsGroup
-							dataSharing={true}
+						<TextInput
+							id="phone-number"
 							label="What's their phone number?"
-							description="In case we need to call, for example to gain access to a building."
-							isRequired={true}
-							items={[
-								{
-									id: 'name',
-									label: 'Forename and surname',
-								},
-							]}
+							hint="In case we need to call, for example to gain access to a building."
+							name="phone-number"
+							inputMode="tel"
+							isDataShared={true}
 						/>
 
-						{/* CONTACT NUMBER */}
-						<TextInputsGroup
-							dataSharing={true}
+						{/* CLIENT NAME */}
+						<TextInput
+							id="client-name"
 							label="What is the client's name?"
-							description="The D/deaf or hard of hearing person we'll be interpreting for."
-							isRequired={true}
-							items={[
-								{
-									id: 'name',
-									label: 'Forename and surname',
-								},
-							]}
+							hint="The D/deaf or hard of hearing person we'll be interpreting for."
+							name="client-name"
+							isDataShared={true}
 						/>
 					</Fieldset>
 
 					{/* YOUR DETAILS */}
 					<Fieldset id="your-details" title="Your details">
-						{' '}
 						{/* CONTACT DETAILS */}
-						<TextInputsGroup
+						<FormInputsGroup
+							id="your-details-info"
+							type="input"
+							isRequired={true}
 							items={[
 								{
 									id: 'your-name',
-									isRequired: true,
 									label: "What's your name?",
-									description: 'Forename and surname',
+									hint: 'Forename and surname',
+									name: 'your-name',
+									autoComplete: 'name',
 									showRequired: true,
 								},
 								{
 									id: 'your-number',
-									isRequired: true,
 									label: "What's your phone number?",
-									description:
-										"We'll only use this to contact you about this booking.",
+									hint: "We'll only use this to contact you about this booking.",
+									name: 'your-number',
+									autoComplete: 'tel',
+									inputMode: 'tel',
 									showRequired: true,
 								},
 								{
 									id: 'your-email',
-									isRequired: true,
 									label: "What's your email address?",
-									description:
-										"We'll only use this to contact you about this booking.",
+									hint: "We'll only use this to contact you about this booking.",
+									name: 'your-email',
+									autoComplete: 'email',
+									inputMode: 'email',
 									showRequired: true,
 								},
 							]}
@@ -466,50 +503,56 @@ export const BookInterpreterTemplate: React.FC<
 						id="finance-information"
 						title="Finance information"
 					>
-						{' '}
 						{/* COMPANY NAME */}
-						<TextInputsGroup
-							items={[
-								{
-									id: 'company-name',
-									isRequired: false,
-									label: "What's your company's name?",
-									showRequired: true,
-								},
-							]}
+						<TextInput
+							id="company-name"
+							label="What's your company's name?"
+							name="company-name"
+							isRequired={false}
+							showRequired={true}
 						/>
+
 						{/* COMPANY ADDRESS */}
-						<TextInputsGroup
-							label="What's your company's address?"
-							description="We\ll use this address on your invoice."
+						<FormInputsGroup
+							id="company-address"
+							type="input"
+							title="What's your company's address?"
+							hint="We'll use this address on your invoice."
 							isRequired={true}
 							items={[
 								{
-									id: 'address_1',
+									id: 'company-address-1',
 									label: 'Address line 1',
+									name: 'company-address-1',
 								},
 								{
-									id: 'address_2',
+									id: 'company-address-2',
 									label: 'Address line 2',
+									name: 'company-address-2',
 									isRequired: false,
 									showRequired: true,
 								},
-								{ id: 'city', label: 'Town or city' },
-								{ id: 'postcode', label: 'Post code' },
+								{
+									id: 'company-address-city',
+									label: 'Town or city',
+									name: 'company-address-city',
+								},
+								{
+									id: 'company-address-postcode',
+									label: 'Postcode',
+									name: 'company-address-postcode',
+								},
 							]}
 						/>
+
 						{/* FINANCE EMAIL */}
-						<TextInputsGroup
-							items={[
-								{
-									id: 'finance-email',
-									isRequired: false,
-									label: "What's your finance email address?",
-									description:
-										"We'll send invoices to this email address.",
-									showRequired: true,
-								},
-							]}
+						<TextInput
+							id="finance-email"
+							label="What's your finance email address?"
+							name="finance-email"
+							hint="We'll send invoices to this email address."
+							isRequired={false}
+							showRequired={true}
 						/>
 					</Fieldset>
 
@@ -519,6 +562,7 @@ export const BookInterpreterTemplate: React.FC<
 						termsLink="#null"
 					/>
 				</Form>
+
 				<div className="terms-conditions-wrapper">
 					<Text color="brand" size="300" weight="300">
 						Manchester Deaf Centre interpreter booking terms and
@@ -637,7 +681,7 @@ export const BookInterpreterTemplate: React.FC<
 						</List.Item>
 					</List.Root>
 				</div>
-			</Segment.Container>
-		</Segment.Root>
+			</Container>
+		</main>
 	);
 };

@@ -1,60 +1,85 @@
 import type { TIconName } from '../icon/icon.tsx';
 
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Icon } from '../icon/icon.tsx';
 import { Text } from '../text/text.tsx';
 
 import styles from './radio.module.css';
 
 export type TRadio = {
-	icon?: TIconName;
-	title?: string;
-	description: string;
+	id: string;
+	label: string;
 	name: string;
 	value: string;
-};
+	icon?: TIconName;
+	hint?: string;
+	checked?: boolean;
+	className?: string;
+} & Pick<React.ComponentProps<'input'>, 'onChange' | 'defaultChecked'>;
 
 export const Radio: React.FC<TRadio> = ({
-	icon,
-	title,
+	id,
+	label,
 	name,
 	value,
-	description,
-	...rest
+	hint,
+	checked,
+	defaultChecked,
+	icon,
+	className,
+	onChange,
 }) => {
+	const hintId = `${id}-hint`;
+
 	return (
-		<label
-			className={clsx(styles.base, title ? styles.withTitle : null)}
-			data-e2e-id="radio"
-			{...rest}
-		>
+		<div className={clsx(styles.field, className)}>
 			<input
+				id={id}
 				type="radio"
-				name={name}
 				value={value}
-				className={styles.radio}
+				checked={checked}
+				name={name}
+				defaultChecked={defaultChecked}
+				aria-describedby={hint ? hintId : undefined}
+				className={styles.input}
+				onChange={onChange}
+				data-e2e-id="radio"
 			/>
 
-			<div className={styles.contentWrapper}>
-				{icon ? <Icon name={icon} color="brand" /> : null}
-				<div className={styles.textWrapper}>
-					{title ? (
-						<Text weight="300" color="brand">
-							{title}
+			<div className={styles.inner}>
+				{icon ? (
+					<Icon name={icon} color="brand" className={styles.icon} />
+				) : null}
+
+				<div className={styles.content}>
+					<label htmlFor={id} className={styles.label}>
+						<Text weight="300" color="brand" role="presentation">
+							{label}
+						</Text>
+					</label>
+
+					{hint ? (
+						<Text
+							id={hintId}
+							tag="p"
+							weight="200"
+							color="foreground"
+							className={styles.hint}
+						>
+							{hint}
 						</Text>
 					) : null}
-					<Text weight="200">{description}</Text>
 				</div>
-			</div>
 
-			<span className={styles.radioCircle}>
-				<Icon
-					className={styles.radioTick}
-					name="check-circle"
-					color="brand"
-					size={28}
-				/>
-			</span>
-		</label>
+				<span className={styles.radio} aria-hidden="true">
+					<Icon
+						className={styles.radioTick}
+						name="check-circle"
+						color="brand"
+						size="100%"
+					/>
+				</span>
+			</div>
+		</div>
 	);
 };

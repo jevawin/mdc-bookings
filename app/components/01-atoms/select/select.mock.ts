@@ -1,6 +1,9 @@
 import type { TSelect } from './select.tsx';
 
 export const mockSelectData: TSelect = {
+	id: 'select',
+	label: 'Values',
+	name: 'select',
 	options: [
 		{
 			value: 1,
@@ -19,5 +22,4 @@ export const mockSelectData: TSelect = {
 			description: 'Something very long',
 		},
 	],
-	label: 'Values',
 };
