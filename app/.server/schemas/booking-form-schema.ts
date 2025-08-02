@@ -5,8 +5,8 @@ export const bookingFormSchema = z.object({
 	appointmentSpecialism: z
 		.string()
 		.min(1, { error: 'Please choose an appointment type' }),
-	appointmentOrganisation: z.enum(['no', 'siu', 'sft']),
-	accessToWork: z.enum(['yes', 'no']),
+	appointmentOrganisation: z.enum(['GEN', 'SIU', 'SFT']),
+	accessToWork: z.enum(['Yes', 'No']),
 	appointmentDescription: z.string().optional(),
 	interpreterGender: z.string().min(1, { error: 'Please choose a gender' }),
 	appointmentDate: z.string().min(1, { error: 'Please set a date' }),
@@ -31,7 +31,7 @@ export const bookingFormSchema = z.object({
 	bookerNumber: z.string().min(1, { error: 'Please provide a booker name' }),
 	bookerEmail: z
 		.string()
-		.min(1, { error: 'Please provide a n email address' }),
+		.min(1, { error: 'Please provide an email address' }),
 	companyName: z.string().optional(),
 	financeAddress1: z.string().optional(),
 	financeAddress2: z.string().optional(),

@@ -45,9 +45,9 @@ export type TAirtableJobFields = {
 	'Airtable: appointment start'?: string;
 	'Airtable: appointment end'?: string;
 	'Finance: department'?: string;
-	'Finance: company'?: string;
-	'Finance: address line 1'?: string;
-	'Finance: address line 2'?: string;
+	'Finance: company name'?: string;
+	'Finance: address 1'?: string;
+	'Finance: address 2'?: string;
 	'Finance: city'?: string;
 	'Finance: post code'?: string;
 	'Finance: email'?: string;

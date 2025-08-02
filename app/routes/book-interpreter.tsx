@@ -21,8 +21,8 @@ type TBookingAction = Promise<Response | TFormError>;
 type TFormDataResult = {
 	appointmentService: string;
 	appointmentSpecialism: string;
-	appointmentOrganisation: 'no' | 'siu' | 'sft';
-	accessToWork: 'yes' | 'no';
+	appointmentOrganisation: 'GEN' | 'SIU' | 'SFT';
+	accessToWork: 'Yes' | 'No';
 	appointmentDetails?: string;
 	interpreterGender: string;
 	appointmentDate: string;
@@ -109,9 +109,9 @@ const sendBookingToAirtable = async (
 			'Appointment: post code': formData.appointmentPostcode,
 			'Booker: number': formData.bookerNumber,
 			'Booker: email': formData.bookerEmail,
-			'Finance: company': formData.companyName,
-			'Finance: address line 1': formData.financeAddress1,
-			'Finance: address line 2': formData.financeAddress2,
+			'Finance: company name': formData.companyName,
+			'Finance: address 1': formData.financeAddress1,
+			'Finance: address 2': formData.financeAddress2,
 			'Finance: city': formData.financeCity,
 			'Finance: post code': formData.financeCity,
 			'Finance: email': formData.financeEmail,
@@ -155,17 +155,13 @@ export const action = async ({
 	return defaultFormError;
 };
 
-export const loader = async ({
-	context,
-}: Route.LoaderArgs): Promise<TBookeInterpreterData> => {
-	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
-};
-
 export default function BookInterpreter({
 	actionData,
 }: Route.ComponentProps): React.ReactNode {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
+
+	console.log(fieldErrors, formError);
 
 	return (
 		<>

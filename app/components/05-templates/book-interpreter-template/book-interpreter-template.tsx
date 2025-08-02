@@ -94,45 +94,45 @@ export const BookInterpreterTemplate: React.FC<
 							isRequired={true}
 							items={[
 								{
-									id: 'bsl-to-english-interpreters',
-									label: 'BSL to English interpreters',
-									name: 'service',
-									value: 'BSL to English interpreters',
+									id: 'bsl-to-english-interpreter',
+									label: 'BSL to English interpreter',
+									name: 'appointmentService',
+									value: 'BSL to English interpreter',
 									icon: 'check-circle',
 								},
 								{
 									id: 'lipspeaker',
 									label: 'Lipspeaker',
-									name: 'service',
-									value: 'lipspeaker',
+									name: 'appointmentService',
+									value: 'Lipspeaker',
 									icon: 'lips',
 								},
 								{
-									id: 'deaf-intermediary-interpreters',
-									label: 'Deaf intermediary interpreters',
-									name: 'service',
-									value: 'Deaf intermediary interpreters',
+									id: 'deaf-intermediary-interpreter',
+									label: 'Deaf intermediary interpreter',
+									name: 'appointmentService',
+									value: 'Deaf intermediary interpreter',
 									icon: 'hearing-loop',
 								},
 								{
-									id: 'deafblind-interpreters',
-									label: 'Deafblind interpreters',
-									name: 'service',
+									id: 'deafblind-interpreter',
+									label: 'Deafblind interpreter',
+									name: 'appointmentService',
 									value: 'Deafblind interpreters',
 									icon: 'blind-person',
 								},
 								{
-									id: 'speech-to-text-reporters',
-									label: 'Speech to text reporters',
-									name: 'service',
-									value: 'Speech to text reporters',
+									id: 'speech-to-text-reporter',
+									label: 'Speech to text reporter',
+									name: 'appointmentService',
+									value: 'Speech to text reporter',
 									icon: 'speech-bubble',
 								},
 								{
-									id: 'note-takers',
-									label: 'Note takers',
-									name: 'service',
-									value: 'Note takers',
+									id: 'note-taker',
+									label: 'Note taker',
+									name: 'appointmentService',
+									value: 'Note taker',
 									icon: 'pencil',
 								},
 							]}
@@ -148,7 +148,7 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'appointment-general',
 									label: 'General',
-									name: 'appointment-type',
+									name: 'appointmentSpecialism',
 									value: 'General',
 									hint: 'Work meetings, home visits (non-medical), events, job interviews, etc',
 									icon: 'bsl-hands',
@@ -156,7 +156,7 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'appointment-medical',
 									label: 'Medical',
-									name: 'appointment-type',
+									name: 'appointmentSpecialism',
 									value: 'Medical',
 									hint: "Hospital or GP appointments, health visits, opticians' appointments.",
 									icon: 'check-circle',
@@ -164,7 +164,7 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'appointment-specialist',
 									label: 'Specialist',
-									name: 'appointment-type',
+									name: 'appointmentSpecialism',
 									value: 'Specialist',
 									hint: 'Legal, mental health, child protection, or assistance with the police.',
 									icon: 'check-circle',
@@ -183,19 +183,19 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'siu-sft-none',
 									label: 'No',
-									name: 'siu-sft',
-									value: 'No',
+									name: 'appointmentOrganisation',
+									value: 'GEN',
 								},
 								{
 									id: 'siu',
 									label: 'Stockport Interpreting Unit (SIU)',
-									name: 'siu-sft',
+									name: 'appointmentOrganisation',
 									value: 'SIU',
 								},
 								{
 									id: 'sft',
 									label: 'Stockport NHS Foundation Trust (SFT)',
-									name: 'siu-sft',
+									name: 'appointmentOrganisation',
 									value: 'SFT',
 								},
 							]}
@@ -212,20 +212,20 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'access-to-work-yes',
 									label: 'Yes',
-									name: 'access-to-work',
+									name: 'accessToWork',
 									value: 'Yes',
 								},
 								{
 									id: 'access-to-work-no',
 									label: 'No',
-									name: 'access-to-work',
+									name: 'accessToWork',
 									value: 'No',
 								},
 							]}
 						/>
 
 						{/* APPOINTMENT INFORMATION */}
-						{/* TODO: Textarea component goes here */}
+						{/* TODO: Textarea component goes here, name: appointmentDetails */}
 
 						{/* <Text weight="200" tag="p">
 							What else can you tell us about the appointment?
@@ -273,20 +273,20 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'interpreter-gender-male',
 									label: 'Male',
-									name: 'interpreter-gender',
+									name: 'interpreterGender',
 									value: 'Male',
 								},
 								{
 									id: 'interpreter-gender-female',
 									label: 'Female',
-									name: 'interpreter-gender',
+									name: 'interpreterGender',
 									value: 'Female',
 								},
 								{
 									id: 'interpreter-gender-either',
 									label: "Don't mind",
-									name: 'interpreter-gender',
-									value: 'Either',
+									name: 'interpreterGender',
+									value: 'Any',
 								},
 							]}
 						/>
@@ -299,7 +299,7 @@ export const BookInterpreterTemplate: React.FC<
 					>
 						<DatePicker
 							description="If you need an appointment within 24 hours, please call 0161 273 3415"
-							name="appointment-date"
+							name="appointmentDate"
 							validationMessage="Please provide an appointment date, 24+ hours from now"
 							label="When is the appointment?"
 							isRequired={true}
@@ -318,7 +318,7 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'appointment-duration-hours',
 									label: 'Hours',
-									name: 'appointment-duration-hours',
+									name: 'hours',
 									options: [
 										{
 											description: '',
@@ -373,7 +373,7 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'appointment-duration-minutes',
 									label: 'Minutes',
-									name: 'appointment-duration-minutes',
+									name: 'minutes',
 									options: [
 										{
 											description: '',
@@ -410,24 +410,24 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'appointment-address-1',
 									label: 'Address line 1',
-									name: 'appointment-address-1',
+									name: 'appointmentAddress1',
 								},
 								{
 									id: 'appointment-address-2',
 									label: 'Address line 2',
-									name: 'appointment-address-2',
+									name: 'appointmentAddress2',
 									isRequired: false,
 									showRequired: true,
 								},
 								{
 									id: 'appointment-city',
 									label: 'Town or city',
-									name: 'appointment-city',
+									name: 'appointmentCity',
 								},
 								{
 									id: 'appointment-postcode',
 									label: 'Postcode',
-									name: 'appointment-postcode',
+									name: 'appointmentPostcode',
 								},
 							]}
 						/>
@@ -437,7 +437,7 @@ export const BookInterpreterTemplate: React.FC<
 							id="contact-name"
 							label="Who should our interpreter/s contact?"
 							hint="Forename and surname"
-							name="contact-name"
+							name="contactName"
 						/>
 
 						{/* CONTACT NUMBER */}
@@ -445,7 +445,7 @@ export const BookInterpreterTemplate: React.FC<
 							id="phone-number"
 							label="What's their phone number?"
 							hint="In case we need to call, for example to gain access to a building."
-							name="phone-number"
+							name="contactNumber"
 							inputMode="tel"
 							isDataShared={true}
 						/>
@@ -455,14 +455,13 @@ export const BookInterpreterTemplate: React.FC<
 							id="client-name"
 							label="What is the client's name?"
 							hint="The D/deaf or hard of hearing person we'll be interpreting for."
-							name="client-name"
+							name="clientName"
 							isDataShared={true}
 						/>
 					</Fieldset>
 
 					{/* YOUR DETAILS */}
 					<Fieldset id="your-details" title="Your details">
-						{/* CONTACT DETAILS */}
 						<FormInputsGroup
 							id="your-details-info"
 							type="input"
@@ -472,7 +471,7 @@ export const BookInterpreterTemplate: React.FC<
 									id: 'your-name',
 									label: "What's your name?",
 									hint: 'Forename and surname',
-									name: 'your-name',
+									name: 'bookerName',
 									autoComplete: 'name',
 									showRequired: true,
 								},
@@ -480,7 +479,7 @@ export const BookInterpreterTemplate: React.FC<
 									id: 'your-number',
 									label: "What's your phone number?",
 									hint: "We'll only use this to contact you about this booking.",
-									name: 'your-number',
+									name: 'bookerNumber',
 									autoComplete: 'tel',
 									inputMode: 'tel',
 									showRequired: true,
@@ -489,7 +488,7 @@ export const BookInterpreterTemplate: React.FC<
 									id: 'your-email',
 									label: "What's your email address?",
 									hint: "We'll only use this to contact you about this booking.",
-									name: 'your-email',
+									name: 'bookerEmail',
 									autoComplete: 'email',
 									inputMode: 'email',
 									showRequired: true,
@@ -507,7 +506,7 @@ export const BookInterpreterTemplate: React.FC<
 						<TextInput
 							id="company-name"
 							label="What's your company's name?"
-							name="company-name"
+							name="companyName"
 							isRequired={false}
 							showRequired={true}
 						/>
@@ -523,24 +522,24 @@ export const BookInterpreterTemplate: React.FC<
 								{
 									id: 'company-address-1',
 									label: 'Address line 1',
-									name: 'company-address-1',
+									name: 'financeAddress1',
 								},
 								{
 									id: 'company-address-2',
 									label: 'Address line 2',
-									name: 'company-address-2',
+									name: 'financeAddress2',
 									isRequired: false,
 									showRequired: true,
 								},
 								{
 									id: 'company-address-city',
 									label: 'Town or city',
-									name: 'company-address-city',
+									name: 'financeCity',
 								},
 								{
 									id: 'company-address-postcode',
 									label: 'Postcode',
-									name: 'company-address-postcode',
+									name: 'financePostcode',
 								},
 							]}
 						/>
@@ -549,7 +548,7 @@ export const BookInterpreterTemplate: React.FC<
 						<TextInput
 							id="finance-email"
 							label="What's your finance email address?"
-							name="finance-email"
+							name="financeEmail"
 							hint="We'll send invoices to this email address."
 							isRequired={false}
 							showRequired={true}
