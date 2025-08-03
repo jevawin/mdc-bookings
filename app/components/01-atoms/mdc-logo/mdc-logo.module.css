@@ -1,17 +1,11 @@
-.base {
-	block-size: auto;
-	color: inherit;
-	inline-size: auto;
-}
-
 .size100 {
-	max-inline-size: calc(var(--base-spacing) * 10);
+	inline-size: calc(var(--base-spacing) * 10);
 }
 
 .size200 {
-	max-inline-size: calc(var(--base-spacing) * 20);
+	inline-size: calc(var(--base-spacing) * 20);
 }
 
 .size300 {
-	max-inline-size: calc(var(--base-spacing) * 30);
+	inline-size: calc(var(--base-spacing) * 30);
 }

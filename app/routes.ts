@@ -24,7 +24,9 @@ export default [
 			index('routes/registration/home.tsx'),
 			route('confirmation', 'routes/registration/confirmation.tsx'),
 		]),
+	]),
 
+	layout('components/04-layouts/book-interpreter/book-interpreter.tsx', [
 		...prefix('book-interpreter', [
 			index('routes/book-interpreter/home.tsx'),
 			route('confirmation', 'routes/book-interpreter/confirmation.tsx'),

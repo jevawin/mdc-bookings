@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router';
+
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { MdcLogo } from '~/components/01-atoms/mdc-logo/mdc-logo.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { Container } from '~/components/04-layouts/container/container.tsx';
 
@@ -12,10 +14,7 @@ export type THeader = {
 export const Header: React.FC<THeader> = ({ username }) => (
 	<header className={styles.header}>
 		<Container className={styles.container}>
-			<Text tag="h1" size="400" weight="200" className={styles.title}>
-				<img src="/assets/logo.svg" alt="" className={styles.logo} />
-				MDC
-			</Text>
+			<MdcLogo size="200" />
 
 			{username ? (
 				<Text
