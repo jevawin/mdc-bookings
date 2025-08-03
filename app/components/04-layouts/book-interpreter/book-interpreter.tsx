@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
@@ -16,11 +16,12 @@ import styles from './book-interpreter.module.css';
 export type TBookInterpreter = React.PropsWithChildren;
 
 export default function BookInterpreterLayout(): React.ReactNode {
+	const location = useLocation();
 	return (
 		<>
 			<Header />
 
-			{window.location.pathname === '/confirmation' ? (
+			{location.pathname !== '/book-interpreter/confirmation' ? (
 				<main id="main">
 					<Hero.Root
 						id="interpreter-booking-hero"
