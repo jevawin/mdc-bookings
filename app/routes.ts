@@ -26,11 +26,14 @@ export default [
 		]),
 	]),
 
-	layout('components/04-layouts/book-interpreter/book-interpreter.tsx', [
-		...prefix('book-interpreter', [
+	...prefix('book-interpreter', [
+		layout('components/04-layouts/book-interpreter/book-interpreter.tsx', [
 			index('routes/book-interpreter/home.tsx'),
-			route('confirmation', 'routes/book-interpreter/confirmation.tsx'),
 		]),
+		layout(
+			'components/04-layouts/book-interpreter/book-interpreter-confirmation.tsx',
+			[route('confirmation', 'routes/book-interpreter/confirmation.tsx')],
+		),
 	]),
 
 	...prefix('jobs', [
