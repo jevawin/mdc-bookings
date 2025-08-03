@@ -23,7 +23,7 @@ export type TTextInput = {
 	ref?: React.Ref<HTMLDivElement>;
 } & Pick<
 	React.ComponentProps<'input'>,
-	'autoComplete' | 'name' | 'inputMode' | 'hidden'
+	'autoComplete' | 'enterKeyHint' | 'name' | 'inputMode' | 'hidden'
 >;
 
 export const TextInput: React.FC<TTextInput> = ({
@@ -34,6 +34,7 @@ export const TextInput: React.FC<TTextInput> = ({
 	autoComplete,
 	hint,
 	hidden,
+	enterKeyHint,
 	inputMode,
 	isDataShared = false,
 	isInvalid = false,
@@ -118,6 +119,7 @@ export const TextInput: React.FC<TTextInput> = ({
 					id={id}
 					name={name ?? id}
 					autoComplete={autoComplete}
+					enterKeyHint={enterKeyHint}
 					inputMode={inputMode}
 					aria-required={isRequired ? 'true' : undefined}
 					aria-invalid={isInvalid ? 'true' : undefined}
