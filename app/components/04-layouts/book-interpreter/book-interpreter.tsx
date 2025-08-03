@@ -9,7 +9,7 @@ import { Header } from '~/components/02-molecules/header/header.tsx';
 import { Hero } from '~/components/03-organisms/hero/hero.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
 
-import { Container } from '../container/container.tsx';
+import { Segment } from '../segment/segment.tsx';
 
 import styles from './book-interpreter.module.css';
 
@@ -89,11 +89,175 @@ export default function BookInterpreterLayout(): React.ReactNode {
 					</Hero.Content>
 				</Hero.Root>
 
-				<Container>
-					<div className={styles.content}>
-						<Outlet />
-					</div>
-				</Container>
+				<Outlet />
+
+				<Segment.Root id="terms-conditions" className={styles.terms}>
+					<Segment.Container>
+						<div className={styles.content}>
+							<Text
+								tag="h2"
+								color="brand"
+								size="300"
+								weight="300"
+								id="terms-conditions-title"
+							>
+								Manchester Deaf Centre interpreter booking terms
+								and conditions
+							</Text>
+
+							<List.Root>
+								<List.Item>
+									<Text role="presentation">
+										This contract is with Manchester Deaf
+										Centre Ltd. If the Customer is
+										reclaiming the cost of the interpreter
+										from another organisation (for example
+										Access to Work or a student's local
+										authority) although Manchester Deaf
+										Centre will support the Customer to
+										reclaim the cost, the Customer is
+										responsible for paying Manchester Deaf
+										Centre in full within 30 days.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										The Interpreter is bound by professional
+										confidentiality and is required to
+										adhere to the NRCPD Code of Conduct.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										All Interpreters placed by Manchester
+										Deaf Centre Ltd have Professional
+										Indemnity Insurance and a current DBS.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										The Interpreter will interpret to the
+										best of their ability, knowledge and
+										belief. However, no guarantee can be
+										given as to the absolute accuracy of any
+										interpretation. Manchester Deaf Centre
+										Ltd will only place interpreters with
+										the relevant skills and experience to
+										competently undertake the work.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										We may advise that more than 1 BSL
+										interpreter needs to be booked for
+										certain assignments for co-working
+										support and quality assurance. This will
+										be at our discretion and Manchester Deaf
+										Centre Ltd will always discuss this with
+										the booker before booking additional
+										interpreters.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										Manchester Deaf Centre will only book
+										NRCPD registered Trainee Interpreters
+										with relevant skills and experience to
+										undertake assignments.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										Please contact{' '}
+										<TextLink
+											to="mailto:bookings@manchesterdeafcentre.com"
+											linkText="bookings@manchesterdeafcentre.com"
+											color="brand"
+										/>{' '}
+										for information related to fees.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										Assignments outside core hours of Monday
+										to Friday 9am - 6pm will be charged at
+										normal fees plus 50%.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										The customer agrees to remittance terms
+										and conditions i.e. to pay Manchester
+										Deaf Centre Ltd invoices in full within
+										30 days of receipts.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										Once a booking has been confirmed,
+										either verbally or in writing, it is
+										binding. Should it become necessary to
+										cancel the booking, the following
+										charges will be made:
+									</Text>
+								</List.Item>
+							</List.Root>
+
+							<Text
+								tag="h3"
+								color="brand"
+								size="200"
+								weight="300"
+							>
+								Cancellation charges
+							</Text>
+
+							<List.Root>
+								<List.Item>
+									<Text role="presentation">
+										15 days' notice or more before the
+										booking date:{' '}
+										<Text weight="300">
+											no cancellation fee
+										</Text>
+										.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										8-14 days' notice before the booking
+										date:{' '}
+										<Text weight="300">
+											50% cancellation fee
+										</Text>
+										.
+									</Text>
+								</List.Item>
+
+								<List.Item>
+									<Text role="presentation">
+										1-7 days' notice before the booking
+										date:{' '}
+										<Text weight="300">
+											full charge applies
+										</Text>
+										.
+									</Text>
+								</List.Item>
+							</List.Root>
+						</div>
+					</Segment.Container>
+				</Segment.Root>
 			</main>
 		</>
 	);

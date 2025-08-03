@@ -1,6 +1,9 @@
 .content {
 	display: grid;
-	gap: calc(var(--base-spacing) * 3);
-	justify-content: start;
+	gap: calc(var(--base-spacing) * 2.5);
 	max-inline-size: 70rem;
+}
+
+.terms {
+	padding-block: calc(var(--base-spacing) * 5);
 }

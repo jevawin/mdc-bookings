@@ -1,3 +1,7 @@
+.inner {
+	max-inline-size: 70rem;
+}
+
 .form {
 	& > :is(fieldset):not([hidden]) ~ :is(fieldset):not([hidden]) {
 		border-block-start: 2px solid var(--color-core-inactive);
