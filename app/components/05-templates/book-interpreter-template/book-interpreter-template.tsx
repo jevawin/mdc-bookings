@@ -1,25 +1,25 @@
-import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import type {
+	TFieldError,
+	TFormFieldErrors,
+	TFormSubmissionError,
+} from '../../../global-types.ts';
+
+import { useEffect, useRef } from 'react';
+
 import { TermsConditionsCheckbox } from '~/components/01-atoms/terms-conditions-checkbox/terms-conditions-checkbox.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
-import { Callout } from '~/components/02-molecules/callout/callout.tsx';
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
+import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
 import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
-import type {
-	TFieldError,
-	TFormFieldErrors,
-	TFormSubmissionError,
-} from '../../../global-types.ts';
-import { useEffect, useRef } from 'react';
-import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
 
-// import styles from './book-interpreter-template.module.css';
+import styles from './book-interpreter-template.module.css';
 
 export type TBookInterpreterTemplate = {
 	formError?: TFormSubmissionError;
@@ -31,6 +31,23 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 	fieldErrors,
 }) => {
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
+
+	// Hours and minutes error
+	const appointmentDurationError = (
+		hours: TFieldError | undefined,
+		minutes: TFieldError | undefined,
+	): string => {
+		const and = hours && minutes ? 'and' : '';
+		const hoursMessage = hours?.message ?? '';
+		const minutesMessage = minutes?.message ?? '';
+
+		if (hours || minutes) {
+			return `Please set ${hoursMessage} ${and} ${minutesMessage} (can be 0)`;
+		}
+
+		return '';
+	};
+
 	useEffect(() => {
 		const errorSummary = errorSummaryRef.current;
 
@@ -40,68 +57,8 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [fieldErrors]);
 
-	// Hours and minutes error
-	const appointmentDurationError = (
-		hours: TFieldError | undefined,
-		minutes: TFieldError | undefined,
-	): string => {
-		const and = hours && minutes ? ' and ' : '';
-		if (hours || minutes) {
-			return `Please set ${hours?.message || ''}${and}${minutes?.message || ''} (can be 0)`;
-		}
-		return '';
-	};
-
 	return (
 		<>
-			<Text
-				id="interpreter-booking-title"
-				tag="h1"
-				size="300"
-				weight="300"
-			>
-				Interpreter booking
-			</Text>
-
-			<Text tag="p" size="200">
-				All MDC interpreters are BSL level 6 qualified; adhere to the
-				NRCPD code of conduct; are DBS checked; and, have professional
-				indemnity insurance. Specialists are further qualified in their
-				specialisms. If you'd like to discuss your booking, please
-				contact our bookings officer: 0161 273 6699
-				bookings@manchesterdeafcentre.com
-			</Text>
-
-			<Text tag="p" size="200">
-				If you'd like to discuss your booking, please contact our
-				bookings officer:
-			</Text>
-
-			<List.Root>
-				<List.Item>
-					<Icon name="check-circle" color="brand" />
-					<Text size="200" weight="200">
-						0161 273 6699
-					</Text>
-				</List.Item>
-				<List.Item>
-					<Icon name="check-circle" color="brand" />
-					<TextLink
-						to="mailto:bookings@manchesterdeafcentre.com"
-						linkText="bookings@manchesterdeafcentre.com"
-						size="200"
-					/>
-				</List.Item>
-			</List.Root>
-
-			<Callout color="brand">
-				<Icon name="user-circle-star" color="brand" size={30} />
-				<Text size="100" weight="200">
-					This indicates information we'll share with your
-					interpreters
-				</Text>
-			</Callout>
-
 			{formError?.title && formError?.bodyText ? (
 				<ErrorSummary
 					title={formError.title}
@@ -115,6 +72,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 				id="interpreter-booking-form"
 				method="POST"
 				submitButtonText="Request booking →"
+				className={styles.form}
 			>
 				{/* APPOINTMENT OVERVIEW */}
 				<Fieldset

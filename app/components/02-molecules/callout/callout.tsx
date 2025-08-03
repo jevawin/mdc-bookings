@@ -35,7 +35,11 @@ export const Callout: React.FC<TCallout> = ({
 			tag="p"
 			size={size}
 			role="note"
-			className={clsx(className, styles.base, color && styles[color])}
+			className={clsx(
+				styles.callout,
+				color ? styles[color] : undefined,
+				className,
+			)}
 			data-e2e-id="callout"
 		>
 			{children}

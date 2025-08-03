@@ -28,7 +28,7 @@ export const Fieldset: React.FC<TFieldset> = ({
 			data-e2e-id="fieldset"
 		>
 			<header className={styles.header}>
-				<Text tag="legend" size="200" weight="300">
+				<Text tag="legend" size="300" weight="300">
 					{title}
 				</Text>
 

@@ -1,3 +1,11 @@
-.base {
-	color: inherit;
+.form {
+	& > :is(fieldset):not([hidden]) ~ :is(fieldset):not([hidden]) {
+		border-block-start: 2px solid var(--color-core-inactive);
+		padding-block-start: calc(var(--base-spacing) * 4);
+	}
+
+	& > :is(fieldset):last-of-type {
+		border-block-end: 2px solid var(--color-core-inactive);
+		padding-block-end: calc(var(--base-spacing) * 4);
+	}
 }

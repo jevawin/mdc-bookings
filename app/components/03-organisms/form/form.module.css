@@ -1,6 +1,6 @@
 .form {
 	display: grid;
-	gap: calc(var(--base-spacing) * 3);
+	gap: calc(var(--base-spacing) * 4);
 	position: relative;
 }
 

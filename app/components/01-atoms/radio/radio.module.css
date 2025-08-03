@@ -39,6 +39,7 @@
 
 	align-items: center;
 	background-color: var(--input-bg-color);
+	block-size: 100%;
 	border: 0.2rem solid var(--input-border-color);
 	border-radius: inherit;
 	display: flex;
@@ -60,16 +61,21 @@
 
 .content {
 	display: grid;
+	flex: 1;
 	gap: var(--base-spacing);
 }
 
 .label {
-	color: var(--color-core-navy);
 	position: relative;
+}
+
+.hint {
+	max-inline-size: 25rem;
 }
 
 .radio {
 	align-items: center;
+	aspect-ratio: 1 / 1;
 	block-size: 2.8rem;
 	border-radius: 100%;
 	box-shadow: var(--radio-border);
@@ -77,6 +83,7 @@
 	flex-direction: column;
 	inline-size: 2.8rem;
 	justify-content: center;
+	justify-self: end;
 }
 
 .radioTick {

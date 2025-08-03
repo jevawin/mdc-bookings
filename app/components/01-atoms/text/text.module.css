@@ -8,6 +8,7 @@
 	font-family: var(--font-family-primary);
 	font-variation-settings: 'wght' var(--text-fw);
 	font-weight: normal;
+	line-height: var(--text-lh);
 	text-decoration-color: var(--text-color);
 }
 
@@ -32,7 +33,7 @@
 .size100 {
 	--fs-min: 16;
 	--fs-max: 16;
-	--text-lh: 160%;
+	--text-lh: 140%;
 }
 
 .size150 {
@@ -44,7 +45,7 @@
 .size200 {
 	--fs-min: 18;
 	--fs-max: 20;
-	--text-lh: 140%;
+	--text-lh: 160%;
 }
 
 .size300 {

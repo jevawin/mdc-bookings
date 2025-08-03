@@ -1,0 +1,25 @@
+.hero {
+	padding-block: calc(var(--base-spacing) * 5);
+}
+
+.container,
+.content {
+	& > :not([hidden]) ~ :not([hidden]) {
+		margin-block-start: calc(var(--base-spacing) * 4);
+	}
+}
+
+.container {
+	border-block-end: 2px solid var(--color-core-inactive);
+	padding-block-end: calc(var(--base-spacing) * 5);
+}
+
+.content {
+	max-inline-size: 80rem;
+}
+
+.bodyText {
+	& > :not([hidden]) ~ :not([hidden]) {
+		margin-block-start: calc(var(--base-spacing) * 2);
+	}
+}

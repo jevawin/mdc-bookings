@@ -1,6 +1,6 @@
 .field {
 	flex-direction: column;
-	gap: var(--base-spacing);
+	gap: calc(var(--base-spacing) * 1.5);
 
 	&:not([hidden]) {
 		display: flex;

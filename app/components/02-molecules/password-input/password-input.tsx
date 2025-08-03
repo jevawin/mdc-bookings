@@ -58,7 +58,7 @@ export const PasswordInput: React.FC<TPasswordInputProps> = ({
 			ref={ref}
 			data-e2e-id="password-input"
 		>
-			<div className={styles.labelWrapper}>
+			<header className={styles.header}>
 				<label className={styles.label} htmlFor={id}>
 					<Text size="100" weight="200" role="presentation">
 						{labelText}
@@ -75,7 +75,7 @@ export const PasswordInput: React.FC<TPasswordInputProps> = ({
 						{hint}
 					</Text>
 				) : null}
-			</div>
+			</header>
 
 			<div className={styles.inputWrapper}>
 				<input

@@ -68,22 +68,24 @@ export const TextInput: React.FC<TTextInput> = ({
 			ref={ref}
 			data-e2e-id="text-input"
 		>
-			<label className={styles.label} htmlFor={id}>
-				<Text size="100" weight="200" role="presentation">
-					{label}{' '}
-					{showRequired ? (
-						<Text weight="200" color="brand">
-							{reqOpt}
-						</Text>
-					) : null}
-				</Text>
-			</label>
+			<header>
+				<label className={styles.label} htmlFor={id}>
+					<Text size="100" weight="200" role="presentation">
+						{label}{' '}
+						{showRequired ? (
+							<Text weight="200" color="brand">
+								{reqOpt}
+							</Text>
+						) : null}
+					</Text>
+				</label>
 
-			{hint ? (
-				<Text tag="p" id={hintId ?? undefined} role="presentation">
-					{hint}
-				</Text>
-			) : null}
+				{hint ? (
+					<Text tag="p" id={hintId ?? undefined} role="presentation">
+						{hint}
+					</Text>
+				) : null}
+			</header>
 
 			{isDataShared ? (
 				<Callout id={dataSharedId ?? undefined} color="brand">
