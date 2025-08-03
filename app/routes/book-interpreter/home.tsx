@@ -1,13 +1,13 @@
-import type { Route } from './+types/book-interpreter.tsx';
-import type { TAirtableJobFields } from '../.server/services/airtable.ts';
-import type { Env, TFormError, TValidateFormData } from '../global-types.ts';
+import type { Route } from './+types/home.ts';
+import type { TAirtableJobFields } from '../../.server/services/airtable.ts';
+import type { Env, TFormError, TValidateFormData } from '../../global-types.ts';
 
-import { bookingFormSchema } from '../.server/schemas/booking-form-schema.ts';
-import { createAirtableRecord } from '../.server/services/airtable.ts';
+import { bookingFormSchema } from '../../.server/schemas/booking-form-schema.ts';
+import { createAirtableRecord } from '../../.server/services/airtable.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
-} from '../utils/form-utils.ts';
+} from '../../utils/form-utils.ts';
 
 import { BookInterpreterTemplate } from '~/components/05-templates/book-interpreter-template/book-interpreter-template.tsx';
 

@@ -6,7 +6,6 @@ export default [
 	index('routes/home.tsx'),
 
 	route('log-out', 'routes/log-out.tsx'),
-	route('book-interpreter', 'routes/book-interpreter.tsx'),
 
 	layout('components/04-layouts/account/account.tsx', [
 		route('account', 'routes/account.tsx'),
@@ -24,6 +23,11 @@ export default [
 		...prefix('registration', [
 			index('routes/registration/home.tsx'),
 			route('confirmation', 'routes/registration/confirmation.tsx'),
+		]),
+
+		...prefix('book-interpreter', [
+			index('routes/book-interpreter/home.tsx'),
+			route('confirmation', 'routes/book-interpreter/confirmation.tsx'),
 		]),
 	]),
 
