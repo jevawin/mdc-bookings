@@ -1,3 +1,6 @@
 .content {
+	display: grid;
+	gap: calc(var(--base-spacing) * 3);
+	justify-content: start;
 	max-inline-size: 70rem;
 }
