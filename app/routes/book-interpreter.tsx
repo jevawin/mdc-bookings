@@ -1,20 +1,15 @@
-import { bookingFormSchema } from '../.server/schemas/booking-form-schema.ts';
-import {
-	createAirtableRecord,
-	type TAirtableJobFields,
-} from '../.server/services/airtable.ts';
+import type { Route } from './+types/book-interpreter.tsx';
+import type { TAirtableJobFields } from '../.server/services/airtable.ts';
 import type { Env, TFormError, TValidateFormData } from '../global-types.ts';
+
+import { bookingFormSchema } from '../.server/schemas/booking-form-schema.ts';
+import { createAirtableRecord } from '../.server/services/airtable.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
 } from '../utils/form-utils.ts';
-import type { Route } from './+types/book-interpreter.tsx';
 
 import { BookInterpreterTemplate } from '~/components/05-templates/book-interpreter-template/book-interpreter-template.tsx';
-
-type TBookeInterpreterData = {
-	message: string;
-};
 
 type TBookingAction = Promise<Response | TFormError>;
 
