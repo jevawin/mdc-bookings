@@ -416,6 +416,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									id: 'appointment-address-1',
 									label: 'Address line 1',
 									name: 'appointmentAddress1',
+									autoComplete: 'address-line1',
 									isInvalid: Boolean(
 										fieldErrors?.appointmentAddress1,
 									),
@@ -427,6 +428,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									id: 'appointment-address-2',
 									label: 'Address line 2',
 									name: 'appointmentAddress2',
+									autoComplete: 'address-line2',
 									isRequired: false,
 									showRequired: true,
 								},
@@ -434,6 +436,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									id: 'appointment-city',
 									label: 'Town or city',
 									name: 'appointmentCity',
+									autoComplete: 'address-level2',
 									isInvalid: Boolean(
 										fieldErrors?.appointmentCity,
 									),
@@ -444,6 +447,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									id: 'appointment-postcode',
 									label: 'Postcode',
 									name: 'appointmentPostcode',
+									autoComplete: 'postal-code',
 									isInvalid: Boolean(
 										fieldErrors?.appointmentPostcode,
 									),
@@ -460,6 +464,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 							label="Who should our interpreter/s contact?"
 							hint="Forename and surname"
 							name="contactName"
+							autoComplete="name"
 							isInvalid={Boolean(fieldErrors?.contactName)}
 							validationMessage={
 								fieldErrors?.contactName?.message
@@ -472,6 +477,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 							label="What's their phone number?"
 							hint="In case we need to call, for example to gain access to a building."
 							name="contactNumber"
+							autoComplete="tel"
 							inputMode="tel"
 							isDataShared={true}
 							isInvalid={Boolean(fieldErrors?.contactNumber)}

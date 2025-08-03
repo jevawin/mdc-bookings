@@ -5,7 +5,7 @@
 .container,
 .content {
 	& > :not([hidden]) ~ :not([hidden]) {
-		margin-block-start: calc(var(--base-spacing) * 4);
+		margin-block-start: calc(var(--base-spacing) * 3);
 	}
 }
 
