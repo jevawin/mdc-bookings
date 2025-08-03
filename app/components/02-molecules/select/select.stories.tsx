@@ -5,7 +5,7 @@ import { mockSelectData } from './select.mock.ts';
 import { Select as SelectComponent } from './select.tsx';
 
 const meta: Meta<typeof SelectComponent> = {
-	title: '01-atoms/Select',
+	title: '02-molecules/Select',
 	component: SelectComponent,
 	tags: ['autodocs'],
 	argTypes: {

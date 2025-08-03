@@ -12,7 +12,7 @@ import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
-import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
+import { FormInputsGroup } from '~/components/03-organisms/form-inputs-group/form-inputs-group.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
 

@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
-import { Text } from '../text/text.tsx';
+
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './select.module.css';
 

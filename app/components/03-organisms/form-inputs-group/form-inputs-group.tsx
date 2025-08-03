@@ -1,15 +1,16 @@
-import type { TRadio } from '~/components/01-atoms/radio/radio.tsx';
-import type { TSelect } from '~/components/01-atoms/select/select.tsx';
+import type { TRadio } from '~/components/02-molecules/radio/radio.tsx';
+import type { TSelect } from '~/components/02-molecules/select/select.tsx';
 import type { TTextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 import { clsx } from 'clsx';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
-import { Radio } from '~/components/01-atoms/radio/radio.tsx';
-import { Select } from '~/components/01-atoms/select/select.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
+
+import { Callout } from '~/components/02-molecules/callout/callout.tsx';
+import { Radio } from '~/components/02-molecules/radio/radio.tsx';
+import { Select } from '~/components/02-molecules/select/select.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
-import { Callout } from '../callout/callout.tsx';
 
 import styles from './form-inputs-group.module.css';
 

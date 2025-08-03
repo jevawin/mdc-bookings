@@ -5,7 +5,7 @@ import { mockFormInputsGroupData } from './form-inputs-group.mock.ts';
 import { FormInputsGroup as FormInputsGroupComponent } from './form-inputs-group.tsx';
 
 const meta: Meta<typeof FormInputsGroupComponent> = {
-	title: '02-molecules/Form inputs group',
+	title: '03-organisms/Form inputs group',
 	component: FormInputsGroupComponent,
 	tags: ['autodocs'],
 	argTypes: {

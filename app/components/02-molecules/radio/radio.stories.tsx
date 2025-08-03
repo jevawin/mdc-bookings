@@ -1,12 +1,12 @@
 import type { StoryObj, Meta } from '@storybook/react-vite';
 
+import { iconNames } from '~/components/01-atoms/icon/icon.mock.ts';
 import { mockRadioData } from './radio.mock.ts';
-import { iconNames } from '../icon/icon.mock.ts';
 
 import { Radio as RadioComponent } from './radio.tsx';
 
 const meta: Meta<typeof RadioComponent> = {
-	title: '01-atoms/Radio',
+	title: '02-molecules/Radio',
 	component: RadioComponent,
 	tags: ['autodocs'],
 	argTypes: {

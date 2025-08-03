@@ -1,8 +1,9 @@
-import type { TIconName } from '../icon/icon.tsx';
+import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 
 import { clsx } from 'clsx';
-import { Icon } from '../icon/icon.tsx';
-import { Text } from '../text/text.tsx';
+
+import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import styles from './radio.module.css';
 
