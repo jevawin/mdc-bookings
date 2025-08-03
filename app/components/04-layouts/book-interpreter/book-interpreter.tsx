@@ -18,7 +18,7 @@ export type TBookInterpreter = React.PropsWithChildren;
 export default function BookInterpreterLayout(): React.ReactNode {
 	return (
 		<>
-			<Header />
+			<Header showNav={false} />
 
 			<main id="main">
 				<Hero.Root

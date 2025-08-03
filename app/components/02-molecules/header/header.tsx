@@ -9,9 +9,10 @@ import styles from './header.module.css';
 
 export type THeader = {
 	username?: string;
+	showNav?: boolean;
 };
 
-export const Header: React.FC<THeader> = ({ username }) => (
+export const Header: React.FC<THeader> = ({ username, showNav = true }) => (
 	<header className={styles.header}>
 		<Container className={styles.container}>
 			<MdcLogo size="200" />
@@ -29,35 +30,37 @@ export const Header: React.FC<THeader> = ({ username }) => (
 				</Text>
 			) : null}
 
-			<nav className={styles.nav} aria-label="Main">
-				<ul className={styles.list}>
-					<li className={styles.item}>
-						<NavLink to="/jobs/open" className={styles.link}>
-							<Text
-								tag="span"
-								size="200"
-								weight="200"
-								role="presentation"
-							>
-								Jobs
-							</Text>
-						</NavLink>
-					</li>
+			{showNav === true ? (
+				<nav className={styles.nav} aria-label="Main">
+					<ul className={styles.list}>
+						<li className={styles.item}>
+							<NavLink to="/jobs/open" className={styles.link}>
+								<Text
+									tag="span"
+									size="200"
+									weight="200"
+									role="presentation"
+								>
+									Jobs
+								</Text>
+							</NavLink>
+						</li>
 
-					<li className={styles.item}>
-						<NavLink to="/account" className={styles.link}>
-							<Text
-								tag="span"
-								size="200"
-								weight="200"
-								role="presentation"
-							>
-								Account
-							</Text>
-						</NavLink>
-					</li>
-				</ul>
-			</nav>
+						<li className={styles.item}>
+							<NavLink to="/account" className={styles.link}>
+								<Text
+									tag="span"
+									size="200"
+									weight="200"
+									role="presentation"
+								>
+									Account
+								</Text>
+							</NavLink>
+						</li>
+					</ul>
+				</nav>
+			) : null}
 		</Container>
 	</header>
 );
