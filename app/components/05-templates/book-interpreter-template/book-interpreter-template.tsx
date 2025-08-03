@@ -2,7 +2,7 @@ import type {
 	TFieldError,
 	TFormFieldErrors,
 	TFormSubmissionError,
-} from '../../../global-types.ts';
+} from '~/global-types.ts';
 
 import { useEffect, useRef } from 'react';
 
@@ -11,7 +11,7 @@ import { Text } from '~/components/01-atoms/text/text.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
-import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
+import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
 import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
