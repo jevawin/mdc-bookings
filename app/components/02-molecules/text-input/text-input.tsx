@@ -80,7 +80,7 @@ export const TextInput: React.FC<TTextInput> = ({
 			</label>
 
 			{hint ? (
-				<Text tag="p" id={hintId ?? undefined} role="presentation">
+				<Text tag="p" id={hintId ?? undefined}>
 					{hint}
 				</Text>
 			) : null}

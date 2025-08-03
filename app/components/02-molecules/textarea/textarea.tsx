@@ -56,7 +56,7 @@ export const Textarea: React.FC<TTextarea> = ({
 			</label>
 
 			{hint ? (
-				<Text tag="p" id={hintId ?? undefined} role="presentation">
+				<Text tag="p" id={hintId ?? undefined}>
 					{hint}
 				</Text>
 			) : null}
