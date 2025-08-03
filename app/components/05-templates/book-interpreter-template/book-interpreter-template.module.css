@@ -1,4 +1,7 @@
 .inner {
+	display: grid;
+	gap: calc(var(--base-spacing) * 2) 0.5;
+	justify-content: start;
 	max-inline-size: 70rem;
 }
 
