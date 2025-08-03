@@ -7,14 +7,14 @@ import type {
 import { useEffect, useRef } from 'react';
 
 import { TermsConditionsCheckbox } from '~/components/01-atoms/terms-conditions-checkbox/terms-conditions-checkbox.tsx';
-import { Text } from '~/components/01-atoms/text/text.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
-import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
-import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
+import { FormInputsGroup } from '~/components/02-molecules/form-inputs-group/form-inputs-group.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
+import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
 
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
@@ -71,6 +71,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 				title="interpreter booking"
 				id="interpreter-booking-form"
 				method="POST"
+				action="/book-interpreter"
 				submitButtonText="Request booking →"
 				className={styles.form}
 			>
