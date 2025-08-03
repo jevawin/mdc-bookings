@@ -1,5 +1,12 @@
+@value --breakpoints: '../../../styles/modules/breakpoints.module.css';
+@value --bp-tiny from --breakpoints;
+
 .hero {
-	padding-block: calc(var(--base-spacing) * 5);
+	padding-block: calc(var(--base-spacing) * 2.5);
+
+	@media (--bp-tiny) {
+		padding-block: calc(var(--base-spacing) * 5);
+	}
 }
 
 .container,
@@ -9,7 +16,7 @@
 	}
 }
 
-.container {
+.inner {
 	border-block-end: 2px solid var(--color-core-inactive);
 	padding-block-end: calc(var(--base-spacing) * 5);
 }

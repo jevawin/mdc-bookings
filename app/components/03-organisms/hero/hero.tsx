@@ -25,13 +25,15 @@ const HeroRoot: React.FC<THeroRoot> = ({ id, title, children }) => {
 	return (
 		<Segment.Root id={id} className={styles.hero} data-e2e-id="hero">
 			<Segment.Container className={styles.container}>
-				<Text tag="h1" size="500" weight="300" id={titleId}>
-					{title}
-				</Text>
+				<div className={styles.inner}>
+					<Text tag="h1" size="500" weight="300" id={titleId}>
+						{title}
+					</Text>
 
-				{children ? (
-					<div className={styles.content}>{children}</div>
-				) : null}
+					{children ? (
+						<div className={styles.content}>{children}</div>
+					) : null}
+				</div>
 			</Segment.Container>
 		</Segment.Root>
 	);
