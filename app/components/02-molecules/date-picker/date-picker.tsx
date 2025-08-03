@@ -69,7 +69,7 @@ export const DatePicker: React.FC<TDatePicker> = ({
 			{showValidationMessage ? (
 				<Text
 					size="100"
-					weight="100"
+					weight="300"
 					id={validationMessageID}
 					className={styles.validationMessage}
 					color="negative"

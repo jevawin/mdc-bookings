@@ -132,7 +132,7 @@ export const TextInput: React.FC<TTextInput> = ({
 			{showInvalid ? (
 				<Text
 					size="100"
-					weight="100"
+					weight="300"
 					id={invalidId ?? undefined}
 					className={styles.validationMessage}
 				>
