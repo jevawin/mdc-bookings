@@ -14,9 +14,10 @@
 	padding: calc(var(--base-spacing) * 1.75);
 	padding-inline-end: 2.5rem;
 
-	/* &:focus-visible {
-		--border-color: var(--color-core-brand);
-	} */
+	&:focus-visible {
+		outline: 2px solid var(--color-core-foreground);
+		outline-offset: 2px;
+	}
 }
 
 .wrapper {

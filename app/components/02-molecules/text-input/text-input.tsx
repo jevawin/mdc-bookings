@@ -73,7 +73,11 @@ export const TextInput: React.FC<TTextInput> = ({
 					<Text size="100" weight="200" role="presentation">
 						{label}{' '}
 						{showRequired ? (
-							<Text weight="200" color="brand">
+							<Text
+								weight="200"
+								color="brand"
+								role="presentation"
+							>
 								{reqOpt}
 							</Text>
 						) : null}
@@ -95,6 +99,23 @@ export const TextInput: React.FC<TTextInput> = ({
 						We'll share this with your interpreter/s.
 					</Text>
 				</Callout>
+			) : null}
+
+			{showInvalid ? (
+				<Text
+					size="100"
+					weight="300"
+					id={invalidId ?? undefined}
+					className={styles.validationMessage}
+				>
+					<Icon name="warning" size={22} />
+
+					<span className="srOnly" role="presentation">
+						Error:{' '}
+					</span>
+
+					{validationMessage}
+				</Text>
 			) : null}
 
 			<div className={styles.inputWrapper}>
@@ -128,23 +149,6 @@ export const TextInput: React.FC<TTextInput> = ({
 					</button>
 				) : null}
 			</div>
-
-			{showInvalid ? (
-				<Text
-					size="100"
-					weight="300"
-					id={invalidId ?? undefined}
-					className={styles.validationMessage}
-				>
-					<Icon name="warning" size={22} />
-
-					<span className="srOnly" role="presentation">
-						Error:{' '}
-					</span>
-
-					{validationMessage}
-				</Text>
-			) : null}
 		</div>
 	);
 };

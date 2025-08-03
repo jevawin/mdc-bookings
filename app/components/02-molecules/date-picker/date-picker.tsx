@@ -7,72 +7,67 @@ import { Text } from '../../01-atoms/text/text.tsx';
 import styles from './date-picker.module.css';
 
 export type TDatePicker = {
-	minDate?: string;
+	id: string;
 	label: string;
-	name: string;
-	type?: string;
-	isRequired?: boolean;
+	name?: string;
+	hint?: string;
+	minDate?: string;
 	isInvalid?: boolean;
+	isRequired?: boolean;
 	validationMessage?: string;
 	className?: string;
-	description?: string;
 };
 
 export const DatePicker: React.FC<TDatePicker> = ({
+	id,
 	minDate,
 	label,
 	name,
-	type = 'datetime-local',
-	isRequired = false,
+	hint,
 	isInvalid = false,
+	isRequired = false,
 	validationMessage,
 	className,
-	description,
 }) => {
-	const showValidationMessage = isInvalid && validationMessage;
-	const validationMessageID = `${name.replace(' ', '-')}-message`;
 	const inputRef = useRef<HTMLInputElement>(null);
+
+	const reqOpt = isRequired ? '(Required)' : '(Optional)';
+	const showInvalid = isInvalid && validationMessage;
+	const hintId = hint ? `${id}-hint` : null;
+	const invalidId = showInvalid ? `${id}-error` : null;
+
+	const describedByIds = [hintId, invalidId].filter(Boolean).join(' ');
+	const isEmptyDescribedByIds = describedByIds === '';
 
 	const handleFocus = (): void => {
 		inputRef.current?.showPicker?.();
 	};
 
 	return (
-		<div className={clsx(styles.base, className)} data-e2e-id="date-picker">
-			<label>
-				<Text className={styles.label} weight="200">
-					{label}
+		<div
+			className={clsx(styles.field, className)}
+			data-e2e-id="date-picker"
+		>
+			<label htmlFor={id}>
+				<Text className={styles.label} weight="200" role="presentation">
+					{label}{' '}
+					<Text weight="200" color="brand" role="presentation">
+						{reqOpt}
+					</Text>
 				</Text>
-
-				{isRequired ? (
-					<Text weight="200" color="brand">
-						&nbsp;(Required)
-					</Text>
-				) : null}
-				{description ? (
-					<Text tag="p" className={styles.description}>
-						{description}
-					</Text>
-				) : null}
-				<input
-					className={styles.datePicker}
-					type={type}
-					min={minDate}
-					name={name}
-					aria-required={isRequired || undefined}
-					aria-invalid={isInvalid || undefined}
-					aria-describedby={
-						showValidationMessage ? validationMessageID : undefined
-					}
-					ref={inputRef}
-					onFocus={handleFocus}
-				/>
 			</label>
-			{showValidationMessage ? (
+
+			{hint ? (
+				<Text tag="p" className={styles.hint}>
+					{hint}
+				</Text>
+			) : null}
+
+			{showInvalid ? (
 				<Text
 					size="100"
 					weight="300"
-					id={validationMessageID}
+					id={invalidId ?? undefined}
 					className={styles.validationMessage}
 					color="negative"
 				>
@@ -85,6 +80,21 @@ export const DatePicker: React.FC<TDatePicker> = ({
 					{validationMessage}
 				</Text>
 			) : null}
+
+			<input
+				id={id}
+				type="datetime-local"
+				min={minDate}
+				name={name}
+				ref={inputRef}
+				onFocus={handleFocus}
+				aria-required={isRequired || undefined}
+				aria-invalid={isInvalid || undefined}
+				aria-describedby={
+					!isEmptyDescribedByIds ? describedByIds : undefined
+				}
+				className={styles.input}
+			/>
 		</div>
 	);
 };

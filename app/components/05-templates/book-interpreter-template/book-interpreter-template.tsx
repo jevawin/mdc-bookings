@@ -308,14 +308,15 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 				{/* APPOINTMENT DETAILS */}
 				<Fieldset id="appointment-details" title="Appointment details">
 					<DatePicker
-						description="If you need an appointment within 24 hours, please call 0161 273 3415"
+						id="appointment-date"
+						label="When is the appointment?"
 						name="appointmentDate"
+						hint="If you need an appointment within 24 hours, please call 0161 273 3415"
+						isRequired={true}
 						isInvalid={Boolean(fieldErrors?.appointmentDate)}
 						validationMessage={
 							fieldErrors?.appointmentDate?.message
 						}
-						label="When is the appointment?"
-						isRequired={true}
 						minDate={new Date(Date.now() + 24 * 60 * 60 * 1000)
 							.toISOString()
 							.substring(0, 16)}
