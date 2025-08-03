@@ -29,7 +29,6 @@
 	font-size: 1.6rem;
 	inline-size: 100%;
 	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2);
-	scroll-margin-top: calc(var(--base-spacing) * 4);
 
 	&[aria-invalid='true'] {
 		border-color: var(--color-core-negative);

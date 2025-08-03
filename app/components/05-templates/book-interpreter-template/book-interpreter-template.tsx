@@ -11,10 +11,11 @@ import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
+import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
 import { FormInputsGroup } from '~/components/03-organisms/form-inputs-group/form-inputs-group.tsx';
+import { Textarea } from '~/components/02-molecules/textarea/textarea.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
-import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
 
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
@@ -234,38 +235,13 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						]}
 					/>
 
-					{/* APPOINTMENT INFORMATION */}
-					{/* TODO: Textarea component goes here, name: appointmentDetails */}
-
-					{/* <Text weight="200" tag="p">
-							What else can you tell us about the appointment?
-						</Text>
-						<Text weight="100" tag="p">
-							Things that are useful for us to know:
-						</Text>
-						<List.Root>
-							<List.Item>
-								<Icon name="question-circle" size={18} />
-								Does your client have special requirements?
-							</List.Item>
-							<List.Item>
-								<Icon name="question-circle" size={18} />
-								Would you prefer a particular interpreter?
-							</List.Item>
-							<List.Item>
-								<Icon name="question-circle" size={18} />
-								Will preparation notes be provided before the
-								appointment?
-							</List.Item>
-							<List.Item>
-								<Icon name="question-circle" size={18} />
-								Will the appointment be recorded/live-streamed?
-							</List.Item>
-							<List.Item>
-								<Icon name="question-circle" size={18} />
-								Anything else you think we should know.
-							</List.Item>
-						</List.Root> */}
+					{/* APPOINTMENT DESCRIPTION */}
+					<Textarea
+						id="appointment-description"
+						label="What else can you tell us about the appointment?"
+						name="appointmentDescription"
+						hint="For example, tell us if your client has any access needs, if you have a preferred interpreter, if you'll send preparation notes, or if the appointment will be recorded or live-streamed."
+					/>
 				</Fieldset>
 
 				{/* INTERPRETER PREFERENCE */}

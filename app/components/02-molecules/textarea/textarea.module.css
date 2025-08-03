@@ -1,0 +1,44 @@
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--base-spacing) * 1.5);
+}
+
+.label {
+	align-self: flex-start;
+	color: var(--color-core-foreground);
+}
+
+.textarea {
+	--border-color: var(--color-core-foreground);
+	--border-color-mix: color-mix(in srgb, var(--border-color), #fff 80%);
+
+	appearance: none;
+	background-color: transparent;
+	border: 0.2rem solid var(--border-color-mix);
+	border-radius: var(--border-radius);
+	color: var(--color-core-foreground);
+	font-family: var(--font-family-primary, sans-serif);
+	font-size: 1.6rem;
+	inline-size: 100%;
+	line-height: 140%;
+	min-block-size: 4rem;
+	padding: calc(var(--base-spacing) * 2);
+	resize: vertical;
+
+	&[aria-invalid='true'] {
+		border-color: var(--color-core-negative);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-core-foreground);
+		outline-offset: 2px;
+	}
+}
+
+.validationMessage {
+	align-items: center;
+	color: var(--color-core-negative);
+	display: inline-flex;
+	gap: calc(var(--base-spacing) / 2);
+}
