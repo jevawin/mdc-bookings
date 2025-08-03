@@ -1,11 +1,27 @@
 .base {
-	border: 2px solid var(--color-core-inactive);
+	--terms-border-color: var(--color-core-inactive);
+
+	border: 2px solid var(--terms-border-color);
 	border-radius: var(--border-radius);
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--base-spacing) * 2);
 	max-inline-size: 50rem;
 	padding: calc(var(--base-spacing) * 2);
+
+	&.error {
+		--terms-border-color: var(--color-core-negative);
+	}
+}
+
+.hint {
+	align-items: center;
+	display: flex;
+	gap: var(--base-spacing);
+
+	svg {
+		flex-shrink: 0;
+	}
 }
 
 .label {

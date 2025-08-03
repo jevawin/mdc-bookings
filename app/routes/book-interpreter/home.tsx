@@ -1,6 +1,6 @@
-import type { Route } from './+types/home.ts';
 import type { TAirtableJobFields } from '../../.server/services/airtable.ts';
 import type { Env, TFormError, TValidateFormData } from '../../global-types.ts';
+import type { Route } from './+types/home.ts';
 
 import { bookingFormSchema } from '../../.server/schemas/booking-form-schema.ts';
 import { createAirtableRecord } from '../../.server/services/airtable.ts';
@@ -39,6 +39,7 @@ type TFormDataResult = {
 	financeCity?: string;
 	financePostcode?: string;
 	financeEmail?: string;
+	termsConditions: boolean;
 };
 
 type TValidateBookingForm = {

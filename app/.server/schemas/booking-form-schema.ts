@@ -70,4 +70,5 @@ export const bookingFormSchema = z.object({
 	financeCity: z.string().optional(),
 	financePostcode: z.string().optional(),
 	financeEmail: z.string().optional(),
+	termsConditions: z.literal(true),
 });

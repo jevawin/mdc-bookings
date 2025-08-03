@@ -608,6 +608,8 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 				<TermsConditionsCheckbox
 					cancellationLink="#cancellation-charges"
 					termsLink="#terms-conditions"
+					name="termsConditions"
+					isInvalid={Boolean(fieldErrors?.termsConditions)}
 				/>
 			</Form>
 

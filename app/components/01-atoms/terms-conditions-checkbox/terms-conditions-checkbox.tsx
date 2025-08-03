@@ -1,39 +1,60 @@
-import { Link } from 'react-router';
-import { Text } from '../text/text.tsx';
-import styles from './terms-conditions-checkbox.module.css';
+import clsx from 'clsx';
 import { List } from '../../03-organisms/list/list.tsx';
 import { Icon } from '../icon/icon.tsx';
 import { TextLink } from '../text-link/text-link.tsx';
+import { Text } from '../text/text.tsx';
+import styles from './terms-conditions-checkbox.module.css';
 
 export type TTermsConditionsCheckbox = {
 	termsLink: string;
 	cancellationLink: string;
+	isInvalid?: boolean;
+	name: string;
 };
 
 export const TermsConditionsCheckbox: React.FC<TTermsConditionsCheckbox> = ({
 	termsLink,
 	cancellationLink,
+	isInvalid,
+	name,
 }) => {
+	const invalidClass = isInvalid ? styles.error : '';
+
 	return (
-		<div className={styles.base} data-e2e-id="terms-conditions-checkbox">
+		<div
+			className={clsx(styles.base, invalidClass)}
+			data-e2e-id="terms-conditions-checkbox"
+		>
 			<label
 				className={styles.label}
 				aria-describedby="terms-hint key-terms"
 			>
-				<input type="checkbox" className={styles.checkBox} />
+				<input
+					type="checkbox"
+					className={styles.checkBox}
+					name={name}
+				/>
 				<Text size="300" color="brand" weight="300">
 					Terms and conditions
 				</Text>
 			</label>
-			<Text tag="p" id="terms-hint">
-				Please tick to confirm you have read and understand the terms
-				and conditions{' '}
-				<TextLink
-					linkText="at the end of this page"
-					to={termsLink}
-					color="foreground"
-				/>
-			</Text>
+			<div className={styles.hint}>
+				{isInvalid ? <Icon name="warning" color="negative" /> : null}
+				<Text
+					tag="p"
+					id="terms-hint"
+					color={isInvalid ? 'negative' : undefined}
+					weight={isInvalid ? '300' : undefined}
+				>
+					Please tick to confirm you have read and understand the
+					terms and conditions{' '}
+					<TextLink
+						linkText="at the end of this page"
+						to={termsLink}
+						color="foreground"
+					/>
+				</Text>
+			</div>
 			<div id="key-terms" className={styles.keyTerms}>
 				<Text weight="300">Key terms:</Text>
 				<List.Root>
