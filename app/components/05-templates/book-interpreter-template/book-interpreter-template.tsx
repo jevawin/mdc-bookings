@@ -11,14 +11,47 @@ import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 import { Form } from '~/components/03-organisms/form/form.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
+import type {
+	TFieldError,
+	TFormFieldErrors,
+	TFormSubmissionError,
+} from '../../../global-types.ts';
+import { useEffect, useRef } from 'react';
+import { ErrorSummary } from '../../02-molecules/error-summary/error-summary.tsx';
 
 // import styles from './book-interpreter-template.module.css';
 
-export type TBookInterpreterTemplate = React.PropsWithChildren;
+export type TBookInterpreterTemplate = {
+	formError?: TFormSubmissionError;
+	fieldErrors?: TFormFieldErrors;
+};
 
-export const BookInterpreterTemplate: React.FC<
-	TBookInterpreterTemplate
-> = () => {
+export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
+	formError,
+	fieldErrors,
+}) => {
+	const errorSummaryRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		const errorSummary = errorSummaryRef.current;
+
+		if (errorSummary && formError) {
+			errorSummary.focus();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fieldErrors]);
+
+	// Hours and minutes error
+	const appointmentDurationError = (
+		hours: TFieldError | undefined,
+		minutes: TFieldError | undefined,
+	): string => {
+		const and = hours && minutes ? ' and ' : '';
+		if (hours || minutes) {
+			return `Please set ${hours?.message || ''}${and}${minutes?.message || ''} (can be 0)`;
+		}
+		return '';
+	};
+
 	return (
 		<>
 			<Text
@@ -69,6 +102,14 @@ export const BookInterpreterTemplate: React.FC<
 				</Text>
 			</Callout>
 
+			{formError?.title && formError?.bodyText ? (
+				<ErrorSummary
+					title={formError.title}
+					bodyText={formError.bodyText}
+					errorSummaryRef={errorSummaryRef}
+				/>
+			) : null}
+
 			<Form
 				title="interpreter booking"
 				id="interpreter-booking-form"
@@ -86,6 +127,10 @@ export const BookInterpreterTemplate: React.FC<
 						type="radio"
 						title="Which service do you require?"
 						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.appointmentService)}
+						validationMessage={
+							fieldErrors?.appointmentService?.message
+						}
 						items={[
 							{
 								id: 'bsl-to-english-interpreter',
@@ -138,6 +183,10 @@ export const BookInterpreterTemplate: React.FC<
 						type="radio"
 						title="What type of appointment is it?"
 						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.appointmentSpecialism)}
+						validationMessage={
+							fieldErrors?.appointmentSpecialism?.message
+						}
 						items={[
 							{
 								id: 'appointment-general',
@@ -173,6 +222,12 @@ export const BookInterpreterTemplate: React.FC<
 						title="Are you booking from either SIU or SFT?"
 						hint={'Choose "No" if you\'re unsure.'}
 						isRequired={true}
+						isInvalid={Boolean(
+							fieldErrors?.appointmentOrganisation,
+						)}
+						validationMessage={
+							fieldErrors?.appointmentOrganisation?.message
+						}
 						items={[
 							{
 								id: 'siu-sft-none',
@@ -202,6 +257,8 @@ export const BookInterpreterTemplate: React.FC<
 						title='Is this an "Access to Work" booking?'
 						hint={'Choose "No" if you\'re unsure.'}
 						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.accessToWork)}
+						validationMessage={fieldErrors?.accessToWork?.message}
 						items={[
 							{
 								id: 'access-to-work-yes',
@@ -263,6 +320,10 @@ export const BookInterpreterTemplate: React.FC<
 						type="radio"
 						title="What gender interpreter/s do you need?"
 						isRequired={true}
+						isInvalid={Boolean(fieldErrors?.interpreterGender)}
+						validationMessage={
+							fieldErrors?.interpreterGender?.message
+						}
 						items={[
 							{
 								id: 'interpreter-gender-male',
@@ -291,7 +352,10 @@ export const BookInterpreterTemplate: React.FC<
 					<DatePicker
 						description="If you need an appointment within 24 hours, please call 0161 273 3415"
 						name="appointmentDate"
-						validationMessage="Please provide an appointment date, 24+ hours from now"
+						isInvalid={Boolean(fieldErrors?.appointmentDate)}
+						validationMessage={
+							fieldErrors?.appointmentDate?.message
+						}
 						label="When is the appointment?"
 						isRequired={true}
 						minDate={new Date(Date.now() + 24 * 60 * 60 * 1000)
@@ -305,6 +369,13 @@ export const BookInterpreterTemplate: React.FC<
 						type="select"
 						title="How long is the appointment?"
 						isRequired={true}
+						isInvalid={Boolean(
+							fieldErrors?.hours || fieldErrors?.minutes,
+						)}
+						validationMessage={appointmentDurationError(
+							fieldErrors?.hours,
+							fieldErrors?.minutes,
+						)}
 						items={[
 							{
 								id: 'appointment-duration-hours',
@@ -402,6 +473,11 @@ export const BookInterpreterTemplate: React.FC<
 								id: 'appointment-address-1',
 								label: 'Address line 1',
 								name: 'appointmentAddress1',
+								isInvalid: Boolean(
+									fieldErrors?.appointmentAddress1,
+								),
+								validationMessage:
+									fieldErrors?.appointmentAddress1?.message,
 							},
 							{
 								id: 'appointment-address-2',
@@ -414,11 +490,21 @@ export const BookInterpreterTemplate: React.FC<
 								id: 'appointment-city',
 								label: 'Town or city',
 								name: 'appointmentCity',
+								isInvalid: Boolean(
+									fieldErrors?.appointmentCity,
+								),
+								validationMessage:
+									fieldErrors?.appointmentCity?.message,
 							},
 							{
 								id: 'appointment-postcode',
 								label: 'Postcode',
 								name: 'appointmentPostcode',
+								isInvalid: Boolean(
+									fieldErrors?.appointmentPostcode,
+								),
+								validationMessage:
+									fieldErrors?.appointmentPostcode?.message,
 							},
 						]}
 					/>
@@ -429,6 +515,8 @@ export const BookInterpreterTemplate: React.FC<
 						label="Who should our interpreter/s contact?"
 						hint="Forename and surname"
 						name="contactName"
+						isInvalid={Boolean(fieldErrors?.contactName)}
+						validationMessage={fieldErrors?.contactName?.message}
 					/>
 
 					{/* CONTACT NUMBER */}
@@ -439,6 +527,8 @@ export const BookInterpreterTemplate: React.FC<
 						name="contactNumber"
 						inputMode="tel"
 						isDataShared={true}
+						isInvalid={Boolean(fieldErrors?.contactNumber)}
+						validationMessage={fieldErrors?.contactNumber?.message}
 					/>
 
 					{/* CLIENT NAME */}
@@ -448,6 +538,8 @@ export const BookInterpreterTemplate: React.FC<
 						hint="The D/deaf or hard of hearing person we'll be interpreting for."
 						name="clientName"
 						isDataShared={true}
+						isInvalid={Boolean(fieldErrors?.clientName)}
+						validationMessage={fieldErrors?.clientName?.message}
 					/>
 				</Fieldset>
 
@@ -465,6 +557,9 @@ export const BookInterpreterTemplate: React.FC<
 								name: 'bookerName',
 								autoComplete: 'name',
 								showRequired: true,
+								isInvalid: Boolean(fieldErrors?.bookerName),
+								validationMessage:
+									fieldErrors?.bookerName?.message,
 							},
 							{
 								id: 'your-number',
@@ -474,6 +569,9 @@ export const BookInterpreterTemplate: React.FC<
 								autoComplete: 'tel',
 								inputMode: 'tel',
 								showRequired: true,
+								isInvalid: Boolean(fieldErrors?.bookerNumber),
+								validationMessage:
+									fieldErrors?.bookerNumber?.message,
 							},
 							{
 								id: 'your-email',
@@ -483,6 +581,9 @@ export const BookInterpreterTemplate: React.FC<
 								autoComplete: 'email',
 								inputMode: 'email',
 								showRequired: true,
+								isInvalid: Boolean(fieldErrors?.bookerEmail),
+								validationMessage:
+									fieldErrors?.bookerEmail?.message,
 							},
 						]}
 					/>
@@ -545,13 +646,18 @@ export const BookInterpreterTemplate: React.FC<
 
 				{/* TERMS CHECK BOX */}
 				<TermsConditionsCheckbox
-					cancellationLink="#null"
-					termsLink="#null"
+					cancellationLink="#cancellation-charges"
+					termsLink="#terms-conditions"
 				/>
 			</Form>
 
 			<div className="terms-conditions-wrapper">
-				<Text color="brand" size="300" weight="300">
+				<Text
+					color="brand"
+					size="300"
+					weight="300"
+					id="terms-conditions"
+				>
 					Manchester Deaf Centre interpreter booking terms and
 					conditions:
 				</Text>

@@ -60,6 +60,7 @@ const validateFormData = async (
 ): Promise<TValidateBookingForm> => {
 	try {
 		const formData = await request.formData();
+		console.log(formData);
 		const formObject = convertFormDataToObject(formData);
 		const result = bookingFormSchema.safeParse(formObject);
 		const isSuccess = result.success;
@@ -156,7 +157,8 @@ export default function BookInterpreter({
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
 
-	console.log(fieldErrors, formError);
+	if (fieldErrors) console.log(fieldErrors);
+	if (formError) console.log(formError);
 
 	return (
 		<>
@@ -166,7 +168,10 @@ export default function BookInterpreter({
 				content="Book a Manchester Deaf Centre interpreter here."
 			/>
 
-			<BookInterpreterTemplate />
+			<BookInterpreterTemplate
+				formError={formError}
+				fieldErrors={fieldErrors}
+			/>
 		</>
 	);
 }

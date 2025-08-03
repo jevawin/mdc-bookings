@@ -11,7 +11,7 @@ export type TDatePicker = {
 	type?: string;
 	isRequired?: boolean;
 	isInvalid?: boolean;
-	validationMessage: string;
+	validationMessage?: string;
 	className?: string;
 	description?: string;
 };
