@@ -572,6 +572,11 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 								id: 'company-address-1',
 								label: 'Address line 1',
 								name: 'financeAddress1',
+								isInvalid: Boolean(
+									fieldErrors?.financeAddress1,
+								),
+								validationMessage:
+									fieldErrors?.financeAddress1?.message,
 							},
 							{
 								id: 'company-address-2',
@@ -584,11 +589,19 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 								id: 'company-address-city',
 								label: 'Town or city',
 								name: 'financeCity',
+								isInvalid: Boolean(fieldErrors?.financeCity),
+								validationMessage:
+									fieldErrors?.financeCity?.message,
 							},
 							{
 								id: 'company-address-postcode',
 								label: 'Postcode',
 								name: 'financePostcode',
+								isInvalid: Boolean(
+									fieldErrors?.financePostcode,
+								),
+								validationMessage:
+									fieldErrors?.financePostcode?.message,
 							},
 						]}
 					/>
@@ -601,6 +614,8 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						hint="We'll send invoices to this email address."
 						isRequired={false}
 						showRequired={true}
+						isInvalid={Boolean(fieldErrors?.financeEmail)}
+						validationMessage={fieldErrors?.financeEmail?.message}
 					/>
 				</Fieldset>
 

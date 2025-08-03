@@ -61,14 +61,14 @@ export const bookingFormSchema = z.object({
 	clientName: z.string().min(1, { error: 'Please provide a client name' }),
 	bookerName: z.string().min(1, { error: 'Please provide a booker name' }),
 	bookerNumber: z.string().min(1, { error: 'Please provide a booker name' }),
-	bookerEmail: z
-		.string()
-		.min(1, { error: 'Please provide an email address' }),
+	bookerEmail: z.email({ error: 'Please provide a valid email address' }),
 	companyName: z.string().optional(),
-	financeAddress1: z.string().optional(),
+	financeAddress1: z
+		.string()
+		.min(1, { error: 'Please provide a first address line' }),
 	financeAddress2: z.string().optional(),
-	financeCity: z.string().optional(),
-	financePostcode: z.string().optional(),
-	financeEmail: z.string().optional(),
+	financeCity: z.string().min(1, { error: 'Please provide a town or city' }),
+	financePostcode: z.string().min(1, { error: 'Please provide a postcode' }),
+	financeEmail: z.email({ error: 'Please provide a valid email address' }),
 	termsConditions: z.literal(true),
 });
