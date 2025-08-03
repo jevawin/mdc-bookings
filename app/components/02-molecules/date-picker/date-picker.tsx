@@ -1,8 +1,10 @@
-import { clsx } from 'clsx';
-import { Text } from '../../01-atoms/text/text.tsx';
-import styles from './date-picker.module.css';
-import { Icon } from '../../01-atoms/icon/icon.tsx';
 import { useRef } from 'react';
+import { clsx } from 'clsx';
+
+import { Icon } from '../../01-atoms/icon/icon.tsx';
+import { Text } from '../../01-atoms/text/text.tsx';
+
+import styles from './date-picker.module.css';
 
 export type TDatePicker = {
 	minDate?: string;
