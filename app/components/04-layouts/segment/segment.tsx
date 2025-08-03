@@ -28,6 +28,7 @@ const SegmentRoot: React.FC<TSegmentRootProps> = ({
 	return (
 		<section
 			className={clsx(styles.segment, className)}
+			id={id}
 			aria-labelledby={titleId}
 			{...rest}
 		>

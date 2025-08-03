@@ -214,6 +214,7 @@ export default function BookInterpreterLayout(): React.ReactNode {
 
 							<Text
 								tag="h3"
+								id="cancellation-charges"
 								color="brand"
 								size="200"
 								weight="300"
