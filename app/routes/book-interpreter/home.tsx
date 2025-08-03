@@ -9,6 +9,7 @@ import {
 	convertFormDataToObject,
 } from '../../utils/form-utils.ts';
 
+import { redirect } from 'react-router';
 import { BookInterpreterTemplate } from '~/components/05-templates/book-interpreter-template/book-interpreter-template.tsx';
 
 type TBookingAction = Promise<Response | TFormError>;
@@ -18,7 +19,7 @@ type TFormDataResult = {
 	appointmentSpecialism: string;
 	appointmentOrganisation: 'GEN' | 'SIU' | 'SFT';
 	accessToWork: 'Yes' | 'No';
-	appointmentDetails?: string;
+	appointmentDescription?: string;
 	interpreterGender: string;
 	appointmentDate: string;
 	hours: string;
@@ -39,7 +40,7 @@ type TFormDataResult = {
 	financeCity?: string;
 	financePostcode?: string;
 	financeEmail?: string;
-	termsConditions: boolean;
+	termsConditions: string;
 };
 
 type TValidateBookingForm = {
@@ -92,7 +93,7 @@ const sendBookingToAirtable = async (
 			'Appointment: service': formData.appointmentService,
 			'Appointment: specialism': formData.appointmentSpecialism,
 			'Appointment: organisation': formData.appointmentOrganisation,
-			'Appointment: details': formData.appointmentDetails,
+			'Appointment: details': formData.appointmentDescription,
 			'Appointment: client name': formData.clientName,
 			'Appointment: contact name': formData.contactName,
 			'Appointment: contact number': formData.contactNumber,
@@ -146,6 +147,8 @@ export const action = async ({
 		if (bookingData.status !== 200) {
 			return defaultFormError;
 		}
+
+		return redirect('/book-interpreter/confirmation');
 	} catch (error) {
 		console.error('Error in registration action:', error);
 	}
@@ -157,9 +160,6 @@ export default function BookInterpreter({
 }: Route.ComponentProps): React.ReactNode {
 	const fieldErrors = actionData?.fieldErrors;
 	const formError = actionData?.error;
-
-	if (fieldErrors) console.log(fieldErrors);
-	if (formError) console.log(formError);
 
 	return (
 		<>

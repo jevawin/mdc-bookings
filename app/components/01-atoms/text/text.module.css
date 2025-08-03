@@ -10,6 +10,20 @@
 	font-weight: normal;
 	line-height: var(--text-lh);
 	text-decoration-color: var(--text-color);
+
+	&:has(svg) {
+		align-items: center;
+		display: flex;
+		gap: var(--base-spacing);
+	}
+
+	span&:has(svg) {
+		display: inline-flex;
+	}
+
+	& svg {
+		flex-shrink: 0;
+	}
 }
 
 .weight100 {

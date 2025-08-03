@@ -27,4 +27,8 @@ ol.base:not(:has(svg)) {
 	align-items: center;
 	display: inline-flex;
 	gap: var(--base-spacing);
+
+	& svg {
+		flex-shrink: 0;
+	}
 }

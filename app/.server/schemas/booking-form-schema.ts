@@ -70,5 +70,5 @@ export const bookingFormSchema = z.object({
 	financeCity: z.string().min(1, { error: 'Please provide a town or city' }),
 	financePostcode: z.string().min(1, { error: 'Please provide a postcode' }),
 	financeEmail: z.email({ error: 'Please provide a valid email address' }),
-	termsConditions: z.literal(true),
+	termsConditions: z.string('on'),
 });
