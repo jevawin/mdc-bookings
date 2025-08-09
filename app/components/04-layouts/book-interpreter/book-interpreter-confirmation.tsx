@@ -6,6 +6,9 @@ import { Header } from '~/components/02-molecules/header/header.tsx';
 
 import { Hero } from '~/components/03-organisms/hero/hero.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
+import { Container } from '../container/container.tsx';
+
+import styles from './book-interpreter.module.css';
 
 export type TBookInterpreter = React.PropsWithChildren;
 
@@ -109,6 +112,23 @@ export default function BookInterpreterLayout(): React.ReactNode {
 						</Hero.BodyText>
 					</Hero.Content>
 				</Hero.Root>
+				<Container className={styles.container}>
+					<Text size="300">
+						You can close this window,{' '}
+						<TextLink
+							linkText="book another interpreter"
+							to="/book-interpreter"
+							size="300"
+						/>
+						, or visit{' '}
+						<TextLink
+							linkText="manchesterdeafcentre.com"
+							to="https://www.manchesterdeafcentre.com/"
+							size="300"
+						/>{' '}
+						next.
+					</Text>
+				</Container>
 			</main>
 		</>
 	);
