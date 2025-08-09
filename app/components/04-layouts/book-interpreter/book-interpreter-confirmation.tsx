@@ -14,10 +14,7 @@ export default function BookInterpreterLayout(): React.ReactNode {
 		<>
 			<Header showNav={false} />
 			<main id="main">
-				<Hero.Root
-					id="interpreter-booking-hero"
-					title="Interpreter booking"
-				>
+				<Hero.Root id="interpreter-booking-hero">
 					<Hero.Content>
 						<Hero.BodyText>
 							<Text
@@ -26,7 +23,8 @@ export default function BookInterpreterLayout(): React.ReactNode {
 								weight="300"
 								size="500"
 							>
-								<Icon name="check-circle" /> Booking received
+								<Icon name="calendar-tick" size={34} /> Booking
+								received
 							</Text>
 
 							<Text tag="p" size="300">
@@ -79,29 +77,29 @@ export default function BookInterpreterLayout(): React.ReactNode {
 							</Text>
 
 							<List.Root tag="ol">
-								<List.Item>
+								<List.Item size="200">
 									<Text size="200">
 										We'll check the details of your booking.
 									</Text>
 								</List.Item>
-								<List.Item>
+								<List.Item size="200">
 									<Text size="200">
 										If everything looks good, we'll
 										calculate a cost.
 									</Text>
 								</List.Item>
-								<List.Item>
+								<List.Item size="200">
 									<Text size="200">
 										We'll check that cost with you.
 									</Text>
 								</List.Item>
-								<List.Item>
+								<List.Item size="200">
 									<Text size="200">
 										If you're happy, we'll publish to our
 										approved interpreters.
 									</Text>
 								</List.Item>
-								<List.Item>
+								<List.Item size="200">
 									<Text size="200">
 										Once we've booked an interpreter, we'll
 										email you to confirm.

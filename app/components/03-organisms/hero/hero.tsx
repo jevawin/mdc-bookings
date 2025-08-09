@@ -15,7 +15,7 @@ export type THero = {
 
 type THeroRoot = {
 	id: string;
-	title: string;
+	title?: string;
 	children?: React.ReactNode;
 };
 
@@ -26,9 +26,11 @@ const HeroRoot: React.FC<THeroRoot> = ({ id, title, children }) => {
 		<Segment.Root id={id} className={styles.hero} data-e2e-id="hero">
 			<Segment.Container className={styles.container}>
 				<div className={styles.inner}>
-					<Text tag="h1" size="500" weight="300" id={titleId}>
-						{title}
-					</Text>
+					{title ? (
+						<Text tag="h1" size="500" weight="300" id={titleId}>
+							{title}
+						</Text>
+					) : null}
 
 					{children ? (
 						<div className={styles.content}>{children}</div>
