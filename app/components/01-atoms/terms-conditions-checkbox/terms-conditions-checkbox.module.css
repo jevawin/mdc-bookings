@@ -24,17 +24,6 @@
 	}
 }
 
-.label {
-	align-items: center;
-	display: flex;
-	gap: var(--base-spacing);
-}
-
-.checkBox {
-	block-size: 3.5rem;
-	inline-size: 3.5rem;
-}
-
 .keyTerms,
 .keyTerms ul {
 	display: flex;

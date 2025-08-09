@@ -1,5 +1,9 @@
 import { clsx } from 'clsx';
-import { Text } from '~/components/01-atoms/text/text.tsx';
+import {
+	Text,
+	type TTextSizes,
+	type TTextWeights,
+} from '~/components/01-atoms/text/text.tsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 
 import styles from './inline-checkbox.module.css';
@@ -15,6 +19,8 @@ export type TInlineCheckbox = {
 	className?: string;
 	onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
 	defaultChecked?: boolean;
+	size?: TTextSizes;
+	weight?: TTextWeights;
 };
 
 export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
@@ -28,6 +34,8 @@ export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
 	className,
 	onClick,
 	defaultChecked,
+	size = '200',
+	weight = '200',
 }) => {
 	const validationMessageId = `${id.replace(' ', '-')}-message`;
 
@@ -61,7 +69,7 @@ export const InlineCheckbox: React.FC<TInlineCheckbox> = ({
 				/>
 
 				<label htmlFor={id}>
-					<Text size="100" weight="200" role="presentation">
+					<Text size={size} weight={weight} role="presentation">
 						{label}
 					</Text>
 				</label>

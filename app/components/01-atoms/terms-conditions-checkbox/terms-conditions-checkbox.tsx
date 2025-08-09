@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { InlineCheckbox } from '../../02-molecules/inline-checkbox/inline-checkbox.tsx';
 import { List } from '../../03-organisms/list/list.tsx';
 import { Icon } from '../icon/icon.tsx';
 import { TextLink } from '../text-link/text-link.tsx';
@@ -25,19 +26,15 @@ export const TermsConditionsCheckbox: React.FC<TTermsConditionsCheckbox> = ({
 			className={clsx(styles.base, invalidClass)}
 			data-e2e-id="terms-conditions-checkbox"
 		>
-			<label
-				className={styles.label}
+			<InlineCheckbox
 				aria-describedby="terms-hint key-terms"
-			>
-				<input
-					type="checkbox"
-					className={styles.checkBox}
-					name={name}
-				/>
-				<Text size="300" color="brand" weight="300">
-					Terms and conditions
-				</Text>
-			</label>
+				id="terms-conditions-checkbox"
+				label="Terms and conditions"
+				value="on"
+				name={name}
+				size="300"
+				weight="300"
+			/>
 			<div className={styles.hint}>
 				{isInvalid ? <Icon name="warning" color="negative" /> : null}
 				<Text
