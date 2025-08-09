@@ -28,6 +28,7 @@
 	font-family: var(--font-family-primary, sans-serif);
 	font-size: 1.6rem;
 	inline-size: 100%;
+	max-inline-size: 40rem;
 	padding: calc(var(--base-spacing) * 1.5) calc(var(--base-spacing) * 2);
 
 	&[aria-invalid='true'] {

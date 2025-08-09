@@ -14,9 +14,9 @@
 }
 
 .radioFields {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
 	gap: calc(var(--base-spacing) * 1.5);
+	grid-template-columns: repeat(auto-fill, minmax(30rem, auto));
 }
 
 .selectFields {
@@ -27,6 +27,7 @@
 .inputFields {
 	display: grid;
 	gap: calc(var(--base-spacing) * 3);
+	max-inline-size: 40rem;
 }
 
 .validationMessage {
