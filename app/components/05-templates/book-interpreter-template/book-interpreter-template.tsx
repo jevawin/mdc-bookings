@@ -206,7 +206,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									name: 'appointmentSpecialism',
 									value: 'Medical',
 									hint: "Hospital or GP appointments, health visits, opticians' appointments.",
-									icon: 'check-circle',
+									icon: 'cross',
 									onChange: handleAppointmentTypeChange,
 								},
 								{
@@ -215,7 +215,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									name: 'appointmentSpecialism',
 									value: 'Specialist',
 									hint: 'Legal, mental health, child protection, or assistance with the police.',
-									icon: 'check-circle',
+									icon: 'certificate',
 									onChange: handleAppointmentTypeChange,
 								},
 							]}
