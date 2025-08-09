@@ -17,7 +17,7 @@ const ListRoot: React.FC<TListRoot> = ({
 	...rest
 }) => {
 	return (
-		<Tag className={styles.base} data-e2e-id="list" {...rest}>
+		<Tag className={styles.list} data-e2e-id="list" {...rest}>
 			{children}
 		</Tag>
 	);

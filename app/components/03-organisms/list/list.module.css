@@ -2,10 +2,10 @@
 	color: inherit;
 	display: flex;
 	flex-direction: column;
-	gap: calc(var(--base-spacing) * 1.5);
+	gap: var(--base-spacing);
 }
 
-ul.base:not(:has(svg)) {
+.list:is(ul):not(:has(svg)) {
 	list-style: disc outside;
 	margin-inline-start: 2rem;
 
@@ -14,7 +14,7 @@ ul.base:not(:has(svg)) {
 	}
 }
 
-ol.base:not(:has(svg)) {
+.list:is(ol):not(:has(svg)) {
 	list-style: decimal outside;
 	margin-inline-start: 2rem;
 

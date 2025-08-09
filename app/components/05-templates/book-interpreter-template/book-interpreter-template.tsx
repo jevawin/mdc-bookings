@@ -4,7 +4,7 @@ import type {
 	TFormSubmissionError,
 } from '~/global-types.ts';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { TermsConditionsCheckbox } from '~/components/01-atoms/terms-conditions-checkbox/terms-conditions-checkbox.tsx';
 
@@ -20,6 +20,8 @@ import { Form } from '~/components/03-organisms/form/form.tsx';
 import { Container } from '~/components/04-layouts/container/container.tsx';
 
 import styles from './book-interpreter-template.module.css';
+import { Text } from '~/components/01-atoms/text/text.tsx';
+import { List } from '~/components/03-organisms/list/list.tsx';
 
 export type TBookInterpreterTemplate = {
 	formError?: TFormSubmissionError;
@@ -31,6 +33,24 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 	fieldErrors,
 }) => {
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
+	const [appointmentType, setAppointmentType] = useState<string | null>(null);
+
+	const apptInfoNonMedicalItems = [
+		'Does your client have special requirements?',
+		'Would you prefer a particular interpreter?',
+		'Will preparation notes be provided before the appointment?',
+		'Will the appointment be recorded/live-streamed?',
+		'Anything else you think we should know.',
+	];
+
+	const apptInfoMedicalItems = [
+		'What is the nature of the appointment?',
+		'In which department will the appointment take place?',
+		'Does your client have special requirements?',
+		'Would you prefer a particular interpreter?',
+		'Will preparation notes be provided before the appointment?',
+		'Anything else you think we should know.',
+	];
 
 	// Hours and minutes error
 	const appointmentDurationError = (
@@ -46,6 +66,27 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 		}
 
 		return '';
+	};
+
+	const handleAppointmentTypeChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+	): void => {
+		setAppointmentType(e.currentTarget.value);
+	};
+
+	const AdditionalAppointmentInfoList = (): React.ReactNode => {
+		const isMedical = appointmentType === 'Medical';
+		const items = isMedical
+			? apptInfoMedicalItems
+			: apptInfoNonMedicalItems;
+
+		return (
+			<List.Root>
+				{items.map((item, index) => (
+					<List.Item key={index}>{item}</List.Item>
+				))}
+			</List.Root>
+		);
 	};
 
 	useEffect(() => {
@@ -157,6 +198,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									value: 'General',
 									hint: 'Work meetings, home visits (non-medical), events, job interviews, etc',
 									icon: 'bsl-hands',
+									onChange: handleAppointmentTypeChange,
 								},
 								{
 									id: 'appointment-medical',
@@ -165,6 +207,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									value: 'Medical',
 									hint: "Hospital or GP appointments, health visits, opticians' appointments.",
 									icon: 'check-circle',
+									onChange: handleAppointmentTypeChange,
 								},
 								{
 									id: 'appointment-specialist',
@@ -173,6 +216,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									value: 'Specialist',
 									hint: 'Legal, mental health, child protection, or assistance with the police.',
 									icon: 'check-circle',
+									onChange: handleAppointmentTypeChange,
 								},
 							]}
 						/>
@@ -244,7 +288,15 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 							id="appointment-description"
 							label="What else can you tell us about the appointment?"
 							name="appointmentDescription"
-							hint="For example, tell us if your client has any access needs, if you have a preferred interpreter, if you'll send preparation notes, or if the appointment will be recorded or live-streamed."
+							hint={
+								<>
+									<Text tag="p" weight="200">
+										Things that are useful for us to know:
+									</Text>
+
+									<AdditionalAppointmentInfoList />
+								</>
+							}
 						/>
 					</Fieldset>
 
