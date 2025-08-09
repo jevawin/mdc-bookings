@@ -138,7 +138,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									label: 'BSL to English interpreter',
 									name: 'appointmentService',
 									value: 'BSL to English interpreter',
-									icon: 'check-circle',
+									icon: 'bsl-hands',
 								},
 								{
 									id: 'lipspeaker',
