@@ -44,6 +44,7 @@ export const bookingFormSchema = z.object({
 		error: 'hours',
 	}),
 	minutes: z.enum(['0', '15', '30', '45'], { error: 'minutes' }),
+	appointmentDepartment: z.string().optional(),
 	appointmentAddress1: z
 		.string()
 		.min(1, { error: 'Please provide a first address line' }),
@@ -70,5 +71,12 @@ export const bookingFormSchema = z.object({
 	financeCity: z.string().min(1, { error: 'Please provide a town or city' }),
 	financePostcode: z.string().min(1, { error: 'Please provide a postcode' }),
 	financeEmail: z.email({ error: 'Please provide a valid email address' }),
+	financePO: z
+		.string()
+		.regex(
+			/[0-9a-zA-Z-]+/,
+			'Must contain only letters, numbers, or hyphens (-)',
+		)
+		.optional(),
 	termsConditions: z.string('on'),
 });

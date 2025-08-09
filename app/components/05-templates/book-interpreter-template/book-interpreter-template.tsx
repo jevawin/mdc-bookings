@@ -11,9 +11,9 @@ import { TermsConditionsCheckbox } from '~/components/01-atoms/terms-conditions-
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
 import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
 import { Fieldset } from '~/components/02-molecules/fieldset/fieldset.tsx';
-import { FormInputsGroup } from '~/components/03-organisms/form-inputs-group/form-inputs-group.tsx';
-import { Textarea } from '~/components/02-molecules/textarea/textarea.tsx';
 import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
+import { Textarea } from '~/components/02-molecules/textarea/textarea.tsx';
+import { FormInputsGroup } from '~/components/03-organisms/form-inputs-group/form-inputs-group.tsx';
 
 import { Form } from '~/components/03-organisms/form/form.tsx';
 
@@ -413,6 +413,13 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 							isRequired={true}
 							items={[
 								{
+									id: 'appointment-department',
+									label: 'Department',
+									name: 'appointmentDepartment',
+									isRequired: false,
+									showRequired: true,
+								},
+								{
 									id: 'appointment-address-1',
 									label: 'Address line 1',
 									name: 'appointmentAddress1',
@@ -628,6 +635,18 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 							validationMessage={
 								fieldErrors?.financeEmail?.message
 							}
+						/>
+
+						{/* FINANCE PO */}
+						<TextInput
+							id="finance-po"
+							label="What's your PO or cost centre code?"
+							name="financePO"
+							hint="You can provide this later if you don't have it to hand."
+							isRequired={false}
+							showRequired={true}
+							isInvalid={Boolean(fieldErrors?.financePO)}
+							validationMessage={fieldErrors?.financePO?.message}
 						/>
 					</Fieldset>
 

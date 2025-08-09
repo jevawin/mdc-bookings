@@ -31,6 +31,7 @@ export type TAirtableJobFields = {
 	'Appointment: interpreter gender'?: string;
 	'Appointment: date'?: string;
 	'Appointment: duration'?: string;
+	'Appointment: department'?: string;
 	'Appointment: address 1'?: string;
 	'Appointment: address 2'?: string;
 	'Appointment: city'?: string;
@@ -44,7 +45,6 @@ export type TAirtableJobFields = {
 	'Airtable: request received'?: string;
 	'Airtable: appointment start'?: string;
 	'Airtable: appointment end'?: string;
-	'Finance: department'?: string;
 	'Finance: company name'?: string;
 	'Finance: address 1'?: string;
 	'Finance: address 2'?: string;

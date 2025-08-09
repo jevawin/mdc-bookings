@@ -24,6 +24,7 @@ type TFormDataResult = {
 	appointmentDate: string;
 	hours: string;
 	minutes: string;
+	appointmentDepartment?: string;
 	appointmentAddress1: string;
 	appointmentAddress2?: string;
 	appointmentCity: string;
@@ -40,6 +41,7 @@ type TFormDataResult = {
 	financeCity?: string;
 	financePostcode?: string;
 	financeEmail?: string;
+	financePO?: string;
 	termsConditions: string;
 };
 
@@ -101,6 +103,7 @@ const sendBookingToAirtable = async (
 			'Appointment: interpreter gender': formData.interpreterGender,
 			'Appointment: date': formData.appointmentDate,
 			'Appointment: duration': `${formData.hours}h${formData.minutes}m`,
+			'Appointment: department': formData.appointmentDepartment,
 			'Appointment: address 1': formData.appointmentAddress1,
 			'Appointment: address 2': formData.appointmentAddress2,
 			'Appointment: city': formData.appointmentCity,
@@ -113,6 +116,7 @@ const sendBookingToAirtable = async (
 			'Finance: city': formData.financeCity,
 			'Finance: post code': formData.financeCity,
 			'Finance: email': formData.financeEmail,
+			'Finance: PO / cost centre code': formData.financePO,
 		};
 
 		const response = await createAirtableRecord(payload, 'Jobs', env);
