@@ -16,4 +16,5 @@ type Story = StoryObj<typeof TextareaComponent>;
 
 export const Textarea: Story = {
 	args: mockTextareaData,
+	render: (args) => <TextareaComponent {...args} />,
 };

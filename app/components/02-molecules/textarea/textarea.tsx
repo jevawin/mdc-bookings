@@ -9,7 +9,7 @@ import styles from './textarea.module.css';
 export type TTextarea = {
 	id: string;
 	label: string;
-	hint?: string;
+	hint?: React.ReactNode;
 	name?: string;
 	isDataShared?: boolean;
 	isInvalid?: boolean;
@@ -37,6 +37,8 @@ export const Textarea: React.FC<TTextarea> = ({
 	const hintId = hint ? `${id}-hint` : null;
 	const invalidId = showInvalid ? `${id}-error` : null;
 
+	const isHintString = typeof hint === 'string';
+
 	const describedByIds = [hintId, dataSharedId, invalidId]
 		.filter(Boolean)
 		.join(' ');
@@ -56,9 +58,9 @@ export const Textarea: React.FC<TTextarea> = ({
 			</label>
 
 			{hint ? (
-				<Text tag="p" id={hintId ?? undefined}>
-					{hint}
-				</Text>
+				<div id={hintId ?? undefined}>
+					{isHintString ? <Text tag="p">{hint}</Text> : hint}
+				</div>
 			) : null}
 
 			{isDataShared ? (

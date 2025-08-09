@@ -27,7 +27,17 @@ export type TTextWeights = '100' | '200' | '300';
 
 export type TText = {
 	size?: TTextSizes;
-	tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend' | 'p' | 'span';
+	tag?:
+		| 'h1'
+		| 'h2'
+		| 'h3'
+		| 'h4'
+		| 'h5'
+		| 'h6'
+		| 'legend'
+		| 'li'
+		| 'p'
+		| 'span';
 	weight?: TTextWeights;
 	color?: TTextColors;
 } & Pick<React.HtmlHTMLAttributes<Element>, 'children' | 'className'>;
