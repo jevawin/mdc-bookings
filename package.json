@@ -16,6 +16,7 @@
 		"new:r": "cross-env HYGEN_TMPLS=generators hygen new route",
 		"format": "prettier \"*/**/*.{js,jsx,ts,tsx,json,md,css,scss}\" --write",
 		"formatw": "prettier \"{,!(node_modules)/**/}*.js\"",
+		"fresh-npm": "rm -rf node_modules package-lock.json && npm cache clean && npm install",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build -o ./public/storybook",
 		"prepare": "husky",
