@@ -612,16 +612,6 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						id="finance-information"
 						title="Finance information"
 					>
-						{/* COMPANY NAME */}
-						<TextInput
-							id="company-name"
-							label="What's your company's name?"
-							name="companyName"
-							autoComplete="organization"
-							isRequired={false}
-							showRequired={true}
-						/>
-
 						{/* COMPANY ADDRESS */}
 						<FormInputsGroup
 							id="company-address"
@@ -630,6 +620,14 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 							hint="We'll use this address on your invoice."
 							isRequired={true}
 							items={[
+								{
+									id: 'company-name',
+									label: 'Company name',
+									name: 'companyName',
+									autoComplete: 'organization',
+									isRequired: false,
+									showRequired: true,
+								},
 								{
 									id: 'company-address-1',
 									label: 'Address line 1',
