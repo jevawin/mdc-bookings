@@ -21,6 +21,9 @@
 				"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare PRODUCTION",
 				"AIRTABLE_BASE_ID": "appVvBBcXMR0P1Lo6",
 			},
+		},
+		"staging": {
+			"workers_dev": true
 		}
 	},
 	"observability": {
