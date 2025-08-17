@@ -15,4 +15,22 @@
 		border-block-end: 2px solid var(--color-core-inactive);
 		padding-block-end: calc(var(--base-spacing) * 4);
 	}
+
+	/* hide finance information when siu checked */
+	&:has([id='siu']:checked) [id='finance-information'] {
+		border-block-end: none;
+		padding: 0;
+
+		& * {
+			display: none;
+		}
+	}
+
+	/* hide finance information except po number when sft checked */
+	&:has([id='sft']:checked) [id='finance-information'] {
+		& [id='company-address'],
+		& [data-e2e-id='text-input']:has([id='finance-email']) {
+			display: none;
+		}
+	}
 }

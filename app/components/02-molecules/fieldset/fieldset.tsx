@@ -26,6 +26,7 @@ export const Fieldset: React.FC<TFieldset> = ({
 			className={clsx(styles.fieldset, fieldsetClassName)}
 			aria-describedby={bodyText ? hintId : undefined}
 			data-e2e-id="fieldset"
+			id={id}
 		>
 			<header className={styles.header}>
 				<Text tag="legend" size="300" weight="300">

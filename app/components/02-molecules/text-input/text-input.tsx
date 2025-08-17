@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { clsx } from 'clsx';
+import { useState } from 'react';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
-import styles from './text-input.module.css';
 import { Callout } from '../callout/callout.tsx';
+import styles from './text-input.module.css';
 
 type InputType = React.HTMLInputTypeAttribute;
 
