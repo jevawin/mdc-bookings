@@ -64,7 +64,6 @@ const validateFormData = async (
 ): Promise<TValidateBookingForm> => {
 	try {
 		const formData = await request.formData();
-		console.log(formData);
 		const formObject = convertFormDataToObject(formData);
 		const result = bookingFormSchema.safeParse(formObject);
 		const isSuccess = result.success;
@@ -90,7 +89,7 @@ const sendBookingToAirtable = async (
 ): Promise<TFormError> => {
 	try {
 		const payload: TAirtableJobFields = {
-			'Status': 'Booking posted',
+			'Status': 'New request',
 			'Booker: name': formData.bookerName,
 			'Appointment: service': formData.appointmentService,
 			'Appointment: specialism': formData.appointmentSpecialism,

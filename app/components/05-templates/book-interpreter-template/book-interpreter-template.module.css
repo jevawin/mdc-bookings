@@ -1,8 +1,11 @@
 .inner {
 	display: grid;
 	gap: calc(var(--base-spacing) * 2.5);
-	justify-content: stretch;
-	max-inline-size: 80rem;
+	max-inline-size: 70rem;
+}
+
+.errorSummary {
+	inline-size: max-content;
 }
 
 .form {

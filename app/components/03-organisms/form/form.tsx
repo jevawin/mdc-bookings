@@ -15,6 +15,7 @@ export type TForm = React.PropsWithChildren<{
 	id: string;
 	title: string;
 	submitButtonText?: string;
+	ref?: React.RefObject<HTMLFormElement | null>;
 }>;
 
 type TFormProps = TForm & FormProps;
@@ -24,6 +25,7 @@ export const Form: React.FC<TFormProps> = ({
 	title,
 	method,
 	submitButtonText,
+	ref,
 	className,
 	children,
 	...rest
@@ -38,6 +40,7 @@ export const Form: React.FC<TFormProps> = ({
 			name={title}
 			method={method}
 			className={clsx(styles.form, className)}
+			ref={ref}
 			data-e2e-id="form"
 			{...rest}
 		>

@@ -1,0 +1,53 @@
+.field {
+	align-items: center;
+	border: 0.2rem solid var(--color-core-inactive);
+	border-radius: var(--border-radius);
+	display: inline-flex;
+	gap: var(--base-spacing);
+	padding: var(--base-spacing);
+	position: relative;
+}
+
+.field:focus-within {
+	outline: 0.2rem solid var(--color-core-brand);
+	outline-offset: 0.2rem;
+}
+
+.input {
+	appearance: none;
+	block-size: 100%;
+	border-radius: inherit;
+	inline-size: 100%;
+	inset: 0;
+	margin: 0;
+	position: absolute;
+}
+
+.input:checked + .checkbox {
+	--checkbox-bg-color: color-mix(in srgb, var(--color-core-brand), white 90%);
+	--checkbox-border-color: var(--color-core-brand);
+}
+
+.input:not(:checked) + .checkbox .icon {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.input:focus {
+	outline: none;
+}
+
+.checkbox {
+	--checkbox-bg-color: var(--color-core-background);
+	--checkbox-border-color: var(--color-core-inactive);
+
+	aspect-ratio: 1;
+	background-color: var(--checkbox-bg-color);
+	border: 0.2rem solid var(--checkbox-border-color);
+	border-radius: var(--border-radius);
+	color: var(--color-core-brand);
+	display: grid;
+	inline-size: 2.6rem;
+	padding: 0.2rem;
+	place-items: center;
+}

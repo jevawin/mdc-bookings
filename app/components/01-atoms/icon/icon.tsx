@@ -11,6 +11,7 @@ export type TIconName =
 	| 'calendar-plus'
 	| 'calendar-tick'
 	| 'certificate'
+	| 'check'
 	| 'check-circle'
 	| 'cross'
 	| 'circle-cross'

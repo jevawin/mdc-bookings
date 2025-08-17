@@ -21,6 +21,7 @@ export type TTextInput = {
 	validationMessage?: string;
 	className?: string;
 	ref?: React.Ref<HTMLDivElement>;
+	inputRef?: React.Ref<HTMLInputElement>;
 } & Pick<
 	React.ComponentProps<'input'>,
 	'autoComplete' | 'enterKeyHint' | 'name' | 'inputMode' | 'hidden'
@@ -43,6 +44,7 @@ export const TextInput: React.FC<TTextInput> = ({
 	validationMessage,
 	className,
 	ref,
+	inputRef,
 }) => {
 	const [showPassword, setshowPassword] = useState(false);
 
@@ -121,6 +123,7 @@ export const TextInput: React.FC<TTextInput> = ({
 					autoComplete={autoComplete}
 					enterKeyHint={enterKeyHint}
 					inputMode={inputMode}
+					ref={inputRef}
 					aria-required={isRequired ? 'true' : undefined}
 					aria-invalid={isInvalid ? 'true' : undefined}
 					aria-describedby={

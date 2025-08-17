@@ -7,6 +7,7 @@ import type {
 import { useEffect, useRef, useState } from 'react';
 
 import { TermsConditionsCheckbox } from '~/components/01-atoms/terms-conditions-checkbox/terms-conditions-checkbox.tsx';
+import { Text } from '~/components/01-atoms/text/text.tsx';
 
 import { DatePicker } from '~/components/02-molecules/date-picker/date-picker.tsx';
 import { ErrorSummary } from '~/components/02-molecules/error-summary/error-summary.tsx';
@@ -16,11 +17,10 @@ import { Textarea } from '~/components/02-molecules/textarea/textarea.tsx';
 import { FormInputsGroup } from '~/components/03-organisms/form-inputs-group/form-inputs-group.tsx';
 
 import { Form } from '~/components/03-organisms/form/form.tsx';
+import { List } from '~/components/03-organisms/list/list.tsx';
 
 import { Container } from '~/components/04-layouts/container/container.tsx';
 
-import { Text } from '~/components/01-atoms/text/text.tsx';
-import { List } from '~/components/03-organisms/list/list.tsx';
 import styles from './book-interpreter-template.module.css';
 
 export type TBookInterpreterTemplate = {
@@ -33,6 +33,16 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 	fieldErrors,
 }) => {
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
+	const formRef = useRef<HTMLFormElement>(null);
+	const copyInputRefs = {
+		contactName: useRef<HTMLInputElement>(null),
+		contactNumber: useRef<HTMLInputElement>(null),
+		address1: useRef<HTMLInputElement>(null),
+		address2: useRef<HTMLInputElement>(null),
+		city: useRef<HTMLInputElement>(null),
+		postcode: useRef<HTMLInputElement>(null),
+	};
+
 	const [appointmentType, setAppointmentType] = useState<string | null>(null);
 
 	const apptInfoNonMedicalItems = [
@@ -74,7 +84,51 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 		setAppointmentType(e.currentTarget.value);
 	};
 
-	const AdditionalAppointmentInfoList = (): React.ReactNode => {
+	const handleCopyNameAndNumberClick = (): void => {
+		if (!formRef.current) return;
+
+		const formData = new FormData(formRef.current);
+		const fromEntries = Object.fromEntries(formData);
+		const entries = Object.entries(fromEntries);
+		const entriesFormatted = entries
+			.filter(([key]) => key.includes('contact'))
+			.map(([key, value]) => [key, value.toString()]);
+		const fields = Object.fromEntries(entriesFormatted);
+
+		const contactName = copyInputRefs.contactName.current;
+		const contactNumber = copyInputRefs.contactNumber.current;
+
+		if (!contactName || !contactNumber) return;
+
+		contactName.value = fields['contactName'];
+		contactNumber.value = fields['contactNumber'];
+	};
+
+	const handleCopyAddressDetailsClick = (): void => {
+		if (!formRef.current) return;
+
+		const formData = new FormData(formRef.current);
+		const fromEntries = Object.fromEntries(formData);
+		const entries = Object.entries(fromEntries);
+		const entriesFormatted = entries
+			.filter(([key]) => key.includes('appointment'))
+			.map(([key, value]) => [key, value.toString()]);
+
+		const fields = Object.fromEntries(entriesFormatted);
+		const address1 = copyInputRefs.address1.current;
+		const address2 = copyInputRefs.address2.current;
+		const city = copyInputRefs.city.current;
+		const postcode = copyInputRefs.postcode.current;
+
+		if (!address1 || !address2 || !city || !postcode) return;
+
+		address1.value = fields['appointmentAddress1'];
+		address2.value = fields['appointmentAddress2'];
+		city.value = fields['appointmentCity'];
+		postcode.value = fields['appointmentPostcode'];
+	};
+
+	const AdditionalAppointmentInfoList: React.FC = () => {
 		const isMedical = appointmentType === 'Medical';
 		const items = isMedical
 			? apptInfoMedicalItems
@@ -106,6 +160,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						title={formError.title}
 						bodyText={formError.bodyText}
 						errorSummaryRef={errorSummaryRef}
+						className={styles.errorSummary}
 					/>
 				) : null}
 
@@ -116,6 +171,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 					action="/book-interpreter"
 					submitButtonText="Request booking →"
 					className={styles.form}
+					ref={formRef}
 				>
 					{/* APPOINTMENT OVERVIEW */}
 					<Fieldset
@@ -123,171 +179,226 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						title="Appointment overview"
 					>
 						{/* SERVICE */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="service"
-							type="radio"
-							title="Which service do you require?"
-							isRequired={true}
 							isInvalid={Boolean(fieldErrors?.appointmentService)}
 							validationMessage={
 								fieldErrors?.appointmentService?.message
 							}
-							items={[
-								{
-									id: 'bsl-to-english-interpreter',
-									label: 'BSL to English interpreter',
-									name: 'appointmentService',
-									value: 'BSL to English interpreter',
-									icon: 'bsl-hands',
-								},
-								{
-									id: 'lipspeaker',
-									label: 'Lipspeaker',
-									name: 'appointmentService',
-									value: 'Lipspeaker',
-									icon: 'lips',
-								},
-								{
-									id: 'deaf-intermediary-interpreter',
-									label: 'Deaf intermediary interpreter',
-									name: 'appointmentService',
-									value: 'Deaf intermediary interpreter',
-									icon: 'hearing-loop',
-								},
-								{
-									id: 'deafblind-interpreter',
-									label: 'Deafblind interpreter',
-									name: 'appointmentService',
-									value: 'Deafblind interpreters',
-									icon: 'blind-person',
-								},
-								{
-									id: 'speech-to-text-reporter',
-									label: 'Speech to text reporter',
-									name: 'appointmentService',
-									value: 'Speech to text reporter',
-									icon: 'speech-bubble',
-								},
-								{
-									id: 'note-taker',
-									label: 'Note taker',
-									name: 'appointmentService',
-									value: 'Note taker',
-									icon: 'pencil',
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="service"
+								title="Which service do you require?"
+								isRequired={true}
+								isInvalid={Boolean(
+									fieldErrors?.appointmentService,
+								)}
+								validationMessage={
+									fieldErrors?.appointmentService?.message
+								}
+							/>
+
+							<FormInputsGroup.Fields
+								type="radio"
+								items={[
+									{
+										id: 'bsl-to-english-interpreter',
+										label: 'BSL to English interpreter',
+										name: 'appointmentService',
+										value: 'BSL to English interpreter',
+										icon: 'check-circle',
+									},
+									{
+										id: 'lipspeaker',
+										label: 'Lipspeaker',
+										name: 'appointmentService',
+										value: 'Lipspeaker',
+										icon: 'lips',
+									},
+									{
+										id: 'deaf-intermediary-interpreter',
+										label: 'Deaf intermediary interpreter',
+										name: 'appointmentService',
+										value: 'Deaf intermediary interpreter',
+										icon: 'hearing-loop',
+									},
+									{
+										id: 'deafblind-interpreter',
+										label: 'Deafblind interpreter',
+										name: 'appointmentService',
+										value: 'Deafblind interpreters',
+										icon: 'blind-person',
+									},
+									{
+										id: 'speech-to-text-reporter',
+										label: 'Speech to text reporter',
+										name: 'appointmentService',
+										value: 'Speech to text reporter',
+										icon: 'speech-bubble',
+									},
+									{
+										id: 'note-taker',
+										label: 'Note taker',
+										name: 'appointmentService',
+										value: 'Note taker',
+										icon: 'pencil',
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* APPOINTMENT TYPE */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="appointment-type"
-							type="radio"
-							title="What type of appointment is it?"
-							isRequired={true}
 							isInvalid={Boolean(
 								fieldErrors?.appointmentSpecialism,
 							)}
 							validationMessage={
 								fieldErrors?.appointmentSpecialism?.message
 							}
-							items={[
-								{
-									id: 'appointment-general',
-									label: 'General',
-									name: 'appointmentSpecialism',
-									value: 'General',
-									hint: 'Work meetings, home visits (non-medical), events, job interviews, etc',
-									icon: 'users',
-									onChange: handleAppointmentTypeChange,
-								},
-								{
-									id: 'appointment-medical',
-									label: 'Medical',
-									name: 'appointmentSpecialism',
-									value: 'Medical',
-									hint: "Hospital or GP appointments, health visits, opticians' appointments.",
-									icon: 'cross',
-									onChange: handleAppointmentTypeChange,
-								},
-								{
-									id: 'appointment-specialist',
-									label: 'Specialist',
-									name: 'appointmentSpecialism',
-									value: 'Specialist',
-									hint: 'Legal, mental health, child protection, or assistance with the police.',
-									icon: 'certificate',
-									onChange: handleAppointmentTypeChange,
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="appointment-type"
+								title="What type of appointment is it?"
+								isRequired={true}
+								isInvalid={Boolean(
+									fieldErrors?.appointmentSpecialism,
+								)}
+								validationMessage={
+									fieldErrors?.appointmentSpecialism?.message
+								}
+							/>
+
+							<FormInputsGroup.Fields
+								type="radio"
+								items={[
+									{
+										id: 'appointment-general',
+										label: 'General',
+										name: 'appointmentSpecialism',
+										value: 'General',
+										hint: 'Work meetings, home visits (non-medical), events, job interviews, etc',
+										icon: 'bsl-hands',
+										onChange: handleAppointmentTypeChange,
+									},
+									{
+										id: 'appointment-medical',
+										label: 'Medical',
+										name: 'appointmentSpecialism',
+										value: 'Medical',
+										hint: "Hospital or GP appointments, health visits, opticians' appointments.",
+										icon: 'check-circle',
+										onChange: handleAppointmentTypeChange,
+									},
+									{
+										id: 'appointment-specialist',
+										label: 'Specialist',
+										name: 'appointmentSpecialism',
+										value: 'Specialist',
+										hint: 'Legal, mental health, child protection, or assistance with the police.',
+										icon: 'check-circle',
+										onChange: handleAppointmentTypeChange,
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* SIU / SFT */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="siu-sft"
-							type="radio"
-							title="Are you booking from either SIU or SFT?"
 							hint={'Choose "No" if you\'re unsure.'}
-							isRequired={true}
 							isInvalid={Boolean(
 								fieldErrors?.appointmentOrganisation,
 							)}
 							validationMessage={
 								fieldErrors?.appointmentOrganisation?.message
 							}
-							items={[
-								{
-									id: 'siu-sft-none',
-									label: 'No',
-									name: 'appointmentOrganisation',
-									value: 'GEN',
-								},
-								{
-									id: 'siu',
-									label: 'Stockport Interpreting Unit (SIU)',
-									name: 'appointmentOrganisation',
-									value: 'SIU',
-								},
-								{
-									id: 'sft',
-									label: 'Stockport NHS Foundation Trust (SFT)',
-									name: 'appointmentOrganisation',
-									value: 'SFT',
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="siu-sft"
+								title="Are you booking from either SIU or SFT?"
+								hint={'Choose "No" if you\'re unsure.'}
+								isRequired={true}
+								isInvalid={Boolean(
+									fieldErrors?.appointmentOrganisation,
+								)}
+								validationMessage={
+									fieldErrors?.appointmentOrganisation
+										?.message
+								}
+							/>
+
+							<FormInputsGroup.Fields
+								type="radio"
+								items={[
+									{
+										id: 'siu-sft-none',
+										label: 'No',
+										name: 'appointmentOrganisation',
+										value: 'GEN',
+									},
+									{
+										id: 'siu',
+										label: 'Stockport Interpreting Unit (SIU)',
+										name: 'appointmentOrganisation',
+										value: 'SIU',
+									},
+									{
+										id: 'sft',
+										label: 'Stockport NHS Foundation Trust (SFT)',
+										name: 'appointmentOrganisation',
+										value: 'SFT',
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* ACCESS TO WORK */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="access-to-work-booking"
-							type="radio"
-							title='Is this an "Access to Work" booking?'
 							hint={'Choose "No" if you\'re unsure.'}
-							isRequired={true}
 							isInvalid={Boolean(fieldErrors?.accessToWork)}
 							validationMessage={
 								fieldErrors?.accessToWork?.message
 							}
-							items={[
-								{
-									id: 'access-to-work-yes',
-									label: 'Yes',
-									name: 'accessToWork',
-									value: 'Yes',
-								},
-								{
-									id: 'access-to-work-no',
-									label: 'No',
-									name: 'accessToWork',
-									value: 'No',
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="access-to-work-booking"
+								title='Is this an "Access to Work" booking?'
+								hint={'Choose "No" if you\'re unsure.'}
+								isRequired={true}
+								isInvalid={Boolean(fieldErrors?.accessToWork)}
+								validationMessage={
+									fieldErrors?.accessToWork?.message
+								}
+							/>
+
+							<FormInputsGroup.Fields
+								type="radio"
+								items={[
+									{
+										id: 'access-to-work-yes',
+										label: 'Yes',
+										name: 'accessToWork',
+										value: 'Yes',
+									},
+									{
+										id: 'access-to-work-no',
+										label: 'No',
+										name: 'accessToWork',
+										value: 'No',
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* APPOINTMENT DESCRIPTION */}
 						<Textarea
 							id="appointment-description"
 							label="What else can you tell us about the appointment?"
 							name="appointmentDescription"
+							isRequired={false}
+							showRequired={true}
 							hint={
 								<>
 									<Text tag="p" weight="200">
@@ -306,36 +417,49 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						title="Interpreter preference"
 					>
 						{/* INTERPRETER GENDER/S */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="interpreter-gender"
-							type="radio"
-							title="What gender interpreter/s do you need?"
-							isRequired={true}
 							isInvalid={Boolean(fieldErrors?.interpreterGender)}
 							validationMessage={
 								fieldErrors?.interpreterGender?.message
 							}
-							items={[
-								{
-									id: 'interpreter-gender-male',
-									label: 'Male',
-									name: 'interpreterGender',
-									value: 'Male',
-								},
-								{
-									id: 'interpreter-gender-female',
-									label: 'Female',
-									name: 'interpreterGender',
-									value: 'Female',
-								},
-								{
-									id: 'interpreter-gender-either',
-									label: "Don't mind",
-									name: 'interpreterGender',
-									value: 'Any',
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="interpreter-gender"
+								title="What gender interpreter/s do you need?"
+								isRequired={true}
+								isInvalid={Boolean(
+									fieldErrors?.interpreterGender,
+								)}
+								validationMessage={
+									fieldErrors?.interpreterGender?.message
+								}
+							/>
+
+							<FormInputsGroup.Fields
+								type="radio"
+								items={[
+									{
+										id: 'interpreter-gender-male',
+										label: 'Male',
+										name: 'interpreterGender',
+										value: 'Male',
+									},
+									{
+										id: 'interpreter-gender-female',
+										label: 'Female',
+										name: 'interpreterGender',
+										value: 'Female',
+									},
+									{
+										id: 'interpreter-gender-either',
+										label: "Don't mind",
+										name: 'interpreterGender',
+										value: 'Any',
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 					</Fieldset>
 
 					{/* APPOINTMENT DETAILS */}
@@ -359,11 +483,8 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						/>
 
 						{/* APPOINTMENT DURATION */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="appointment-duration"
-							type="select"
-							title="How long is the appointment?"
-							isRequired={true}
 							isInvalid={Boolean(
 								fieldErrors?.hours || fieldErrors?.minutes,
 							)}
@@ -371,151 +492,174 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 								fieldErrors?.hours,
 								fieldErrors?.minutes,
 							)}
-							items={[
-								{
-									id: 'appointment-duration-hours',
-									label: 'Hours',
-									name: 'hours',
-									options: [
-										{
-											description: '',
-											value: '',
-										},
-										{
-											description: '0',
-											value: 0,
-										},
-										{
-											description: '1',
-											value: 1,
-										},
-										{
-											description: '2',
-											value: 2,
-										},
-										{
-											description: '3',
-											value: 3,
-										},
-										{
-											description: '4',
-											value: 4,
-										},
-										{
-											description: '5',
-											value: 5,
-										},
-										{
-											description: '6',
-											value: 6,
-										},
-										{
-											description: '7',
-											value: 7,
-										},
-										{
-											description: '8',
-											value: 8,
-										},
-										{
-											description: '9',
-											value: 9,
-										},
-										{
-											description: '10',
-											value: 10,
-										},
-									],
-								},
-								{
-									id: 'appointment-duration-minutes',
-									label: 'Minutes',
-									name: 'minutes',
-									options: [
-										{
-											description: '',
-											value: '',
-										},
-										{
-											description: '0',
-											value: 0,
-										},
-										{
-											description: '15',
-											value: 15,
-										},
-										{
-											description: '30',
-											value: 30,
-										},
-										{
-											description: '45',
-											value: 45,
-										},
-									],
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="appointment-duration"
+								title="How long is the appointment?"
+								isRequired={true}
+								isInvalid={Boolean(
+									fieldErrors?.hours || fieldErrors?.minutes,
+								)}
+								validationMessage={appointmentDurationError(
+									fieldErrors?.hours,
+									fieldErrors?.minutes,
+								)}
+							/>
+
+							<FormInputsGroup.Fields
+								type="select"
+								items={[
+									{
+										id: 'appointment-duration-hours',
+										label: 'Hours',
+										name: 'hours',
+										options: [
+											{
+												description: '',
+												value: '',
+											},
+											{
+												description: '0',
+												value: 0,
+											},
+											{
+												description: '1',
+												value: 1,
+											},
+											{
+												description: '2',
+												value: 2,
+											},
+											{
+												description: '3',
+												value: 3,
+											},
+											{
+												description: '4',
+												value: 4,
+											},
+											{
+												description: '5',
+												value: 5,
+											},
+											{
+												description: '6',
+												value: 6,
+											},
+											{
+												description: '7',
+												value: 7,
+											},
+											{
+												description: '8',
+												value: 8,
+											},
+											{
+												description: '9',
+												value: 9,
+											},
+											{
+												description: '10',
+												value: 10,
+											},
+										],
+									},
+									{
+										id: 'appointment-duration-minutes',
+										label: 'Minutes',
+										name: 'minutes',
+										options: [
+											{
+												description: '',
+												value: '',
+											},
+											{
+												description: '0',
+												value: 0,
+											},
+											{
+												description: '15',
+												value: 15,
+											},
+											{
+												description: '30',
+												value: 30,
+											},
+											{
+												description: '45',
+												value: 45,
+											},
+										],
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* APPOINTMENT LOCATION */}
-						<FormInputsGroup
-							id="appointment-location"
-							type="input"
-							title="Where is the appointment?"
-							isRequired={true}
-							items={[
-								{
-									id: 'appointment-department',
-									label: 'Department',
-									name: 'appointmentDepartment',
-									isRequired: false,
-									showRequired: true,
-								},
-								{
-									id: 'appointment-address-1',
-									label: 'Address line 1',
-									name: 'appointmentAddress1',
-									autoComplete: 'address-line1',
-									isInvalid: Boolean(
-										fieldErrors?.appointmentAddress1,
-									),
-									validationMessage:
-										fieldErrors?.appointmentAddress1
-											?.message,
-								},
-								{
-									id: 'appointment-address-2',
-									label: 'Address line 2',
-									name: 'appointmentAddress2',
-									autoComplete: 'address-line2',
-									isRequired: false,
-									showRequired: true,
-								},
-								{
-									id: 'appointment-city',
-									label: 'Town or city',
-									name: 'appointmentCity',
-									autoComplete: 'address-level2',
-									isInvalid: Boolean(
-										fieldErrors?.appointmentCity,
-									),
-									validationMessage:
-										fieldErrors?.appointmentCity?.message,
-								},
-								{
-									id: 'appointment-postcode',
-									label: 'Postcode',
-									name: 'appointmentPostcode',
-									autoComplete: 'postal-code',
-									isInvalid: Boolean(
-										fieldErrors?.appointmentPostcode,
-									),
-									validationMessage:
-										fieldErrors?.appointmentPostcode
-											?.message,
-								},
-							]}
-						/>
+						<FormInputsGroup.Root id="appointment-location">
+							<FormInputsGroup.Content
+								id="appointment-location"
+								title="Where is the appointment?"
+								isRequired={true}
+							/>
+
+							<FormInputsGroup.Fields
+								type="input"
+								items={[
+									{
+										id: 'appointment-department',
+										label: 'Department',
+										name: 'appointmentDepartment',
+										isRequired: false,
+										showRequired: true,
+									},
+									{
+										id: 'appointment-address-1',
+										label: 'Address line 1',
+										name: 'appointmentAddress1',
+										autoComplete: 'address-line1',
+										isInvalid: Boolean(
+											fieldErrors?.appointmentAddress1,
+										),
+										validationMessage:
+											fieldErrors?.appointmentAddress1
+												?.message,
+									},
+									{
+										id: 'appointment-address-2',
+										label: 'Address line 2',
+										name: 'appointmentAddress2',
+										autoComplete: 'address-line2',
+										isRequired: false,
+										showRequired: true,
+									},
+									{
+										id: 'appointment-city',
+										label: 'Town or city',
+										name: 'appointmentCity',
+										autoComplete: 'address-level2',
+										isInvalid: Boolean(
+											fieldErrors?.appointmentCity,
+										),
+										validationMessage:
+											fieldErrors?.appointmentCity
+												?.message,
+									},
+									{
+										id: 'appointment-postcode',
+										label: 'Postcode',
+										name: 'appointmentPostcode',
+										autoComplete: 'postal-code',
+										isInvalid: Boolean(
+											fieldErrors?.appointmentPostcode,
+										),
+										validationMessage:
+											fieldErrors?.appointmentPostcode
+												?.message,
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* CONTACT NAME */}
 						<TextInput
@@ -559,52 +703,67 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 
 					{/* YOUR DETAILS */}
 					<Fieldset id="your-details" title="Your details">
-						<FormInputsGroup
-							id="your-details-info"
-							type="input"
-							isRequired={true}
-							items={[
-								{
-									id: 'your-name',
-									label: "What's your name?",
-									hint: 'Forename and surname',
-									name: 'bookerName',
-									autoComplete: 'name',
-									showRequired: true,
-									isInvalid: Boolean(fieldErrors?.bookerName),
-									validationMessage:
-										fieldErrors?.bookerName?.message,
-								},
-								{
-									id: 'your-number',
-									label: "What's your phone number?",
-									hint: "We'll only use this to contact you about this booking.",
-									name: 'bookerNumber',
-									autoComplete: 'tel',
-									inputMode: 'tel',
-									showRequired: true,
-									isInvalid: Boolean(
-										fieldErrors?.bookerNumber,
-									),
-									validationMessage:
-										fieldErrors?.bookerNumber?.message,
-								},
-								{
-									id: 'your-email',
-									label: "What's your email address?",
-									hint: "We'll only use this to contact you about this booking.",
-									name: 'bookerEmail',
-									autoComplete: 'email',
-									inputMode: 'email',
-									showRequired: true,
-									isInvalid: Boolean(
-										fieldErrors?.bookerEmail,
-									),
-									validationMessage:
-										fieldErrors?.bookerEmail?.message,
-								},
-							]}
-						/>
+						<FormInputsGroup.Root id="your-details-info">
+							<FormInputsGroup.Content
+								id="your-details-info"
+								isRequired={true}
+							/>
+
+							<FormInputsGroup.CopyDetails
+								id="name-number-copy"
+								label="Use name and phone number from above"
+								onCopy={handleCopyNameAndNumberClick}
+							/>
+
+							<FormInputsGroup.Fields
+								type="input"
+								items={[
+									{
+										id: 'your-name',
+										label: "What's your name?",
+										hint: 'Forename and surname',
+										name: 'bookerName',
+										autoComplete: 'name',
+										inputRef: copyInputRefs.contactName,
+										showRequired: true,
+										isInvalid: Boolean(
+											fieldErrors?.bookerName,
+										),
+										validationMessage:
+											fieldErrors?.bookerName?.message,
+									},
+									{
+										id: 'your-number',
+										label: "What's your phone number?",
+										hint: "We'll only use this to contact you about this booking.",
+										name: 'bookerNumber',
+										autoComplete: 'tel',
+										inputMode: 'tel',
+										inputRef: copyInputRefs.contactNumber,
+										showRequired: true,
+										isInvalid: Boolean(
+											fieldErrors?.bookerNumber,
+										),
+										validationMessage:
+											fieldErrors?.bookerNumber?.message,
+									},
+									{
+										id: 'your-email',
+										label: "What's your email address?",
+										hint: "We'll only use this to contact you about this booking.",
+										name: 'bookerEmail',
+										autoComplete: 'email',
+										inputMode: 'email',
+										showRequired: true,
+										isInvalid: Boolean(
+											fieldErrors?.bookerEmail,
+										),
+										validationMessage:
+											fieldErrors?.bookerEmail?.message,
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 					</Fieldset>
 
 					{/* FINANCE INFORMATION */}
@@ -613,64 +772,76 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						title="Finance information"
 					>
 						{/* COMPANY ADDRESS */}
-						<FormInputsGroup
+						<FormInputsGroup.Root
 							id="company-address"
-							type="input"
-							title="What's your company's address?"
 							hint="We'll use this address on your invoice."
-							isRequired={true}
-							items={[
-								{
-									id: 'company-name',
-									label: 'Company name',
-									name: 'companyName',
-									autoComplete: 'organization',
-									isRequired: false,
-									showRequired: true,
-								},
-								{
-									id: 'company-address-1',
-									label: 'Address line 1',
-									name: 'financeAddress1',
-									autoComplete: 'billing address-line1',
-									isInvalid: Boolean(
-										fieldErrors?.financeAddress1,
-									),
-									validationMessage:
-										fieldErrors?.financeAddress1?.message,
-								},
-								{
-									id: 'company-address-2',
-									label: 'Address line 2',
-									name: 'financeAddress2',
-									autoComplete: 'billing address-line2',
-									isRequired: false,
-									showRequired: true,
-								},
-								{
-									id: 'company-address-city',
-									label: 'Town or city',
-									name: 'financeCity',
-									autoComplete: 'billing address-level2',
-									isInvalid: Boolean(
-										fieldErrors?.financeCity,
-									),
-									validationMessage:
-										fieldErrors?.financeCity?.message,
-								},
-								{
-									id: 'company-address-postcode',
-									label: 'Postcode',
-									name: 'financePostcode',
-									autoComplete: 'billing postal-code',
-									isInvalid: Boolean(
-										fieldErrors?.financePostcode,
-									),
-									validationMessage:
-										fieldErrors?.financePostcode?.message,
-								},
-							]}
-						/>
+						>
+							<FormInputsGroup.Content
+								id="company-address"
+								title="What's your company's address?"
+								hint="We'll use this address on your invoice."
+								isRequired={true}
+							/>
+
+							<FormInputsGroup.CopyDetails
+								id="company-address-copy"
+								label="Use appointment address"
+								onCopy={handleCopyAddressDetailsClick}
+							/>
+
+							<FormInputsGroup.Fields
+								type="input"
+								items={[
+									{
+										id: 'company-address-1',
+										label: 'Address line 1',
+										name: 'financeAddress1',
+										autoComplete: 'billing address-line1',
+										inputRef: copyInputRefs.address1,
+										isInvalid: Boolean(
+											fieldErrors?.financeAddress1,
+										),
+										validationMessage:
+											fieldErrors?.financeAddress1
+												?.message,
+									},
+									{
+										id: 'company-address-2',
+										label: 'Address line 2',
+										name: 'financeAddress2',
+										autoComplete: 'billing address-line2',
+										inputRef: copyInputRefs.address2,
+										isRequired: false,
+										showRequired: true,
+									},
+									{
+										id: 'company-address-city',
+										label: 'Town or city',
+										name: 'financeCity',
+										autoComplete: 'billing address-level2',
+										inputRef: copyInputRefs.city,
+										isInvalid: Boolean(
+											fieldErrors?.financeCity,
+										),
+										validationMessage:
+											fieldErrors?.financeCity?.message,
+									},
+									{
+										id: 'company-address-postcode',
+										label: 'Postcode',
+										name: 'financePostcode',
+										autoComplete: 'billing postal-code',
+										inputRef: copyInputRefs.postcode,
+										isInvalid: Boolean(
+											fieldErrors?.financePostcode,
+										),
+										validationMessage:
+											fieldErrors?.financePostcode
+												?.message,
+									},
+								]}
+							/>
+						</FormInputsGroup.Root>
 
 						{/* FINANCE EMAIL */}
 						<TextInput

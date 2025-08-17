@@ -1,9 +1,11 @@
+import type { TCopyDetails } from '~/components/02-molecules/copy-details/copy-details.tsx';
 import type { TRadio } from '~/components/02-molecules/radio/radio.tsx';
 import type { TSelect } from '~/components/02-molecules/select/select.tsx';
 import type { TTextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 import { clsx } from 'clsx';
 
+import { CopyDetails } from '~/components/02-molecules/copy-details/copy-details.tsx';
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 
@@ -14,48 +16,44 @@ import { TextInput } from '~/components/02-molecules/text-input/text-input.tsx';
 
 import styles from './form-inputs-group.module.css';
 
-type TFormInputsGroupShared = {
+export type TFormInputsGroup = TInputProps | TSelectProps | TRadioProps;
+
+type Input = {
+	type: 'input';
+	items: TTextInput[];
+};
+
+type Select = {
+	type: 'select';
+	items: TSelect[];
+};
+
+type Radio = {
+	type: 'radio';
+	items: TRadio[];
+};
+
+type TInputProps = Input & TFormsInputsGroupContent;
+type TSelectProps = Select & TFormsInputsGroupContent;
+type TRadioProps = Radio & TFormsInputsGroupContent;
+
+type TFormInputsGroupRoot = {
 	id: string;
-	title?: string;
 	hint?: string;
 	isDataShared?: boolean;
 	isInvalid?: boolean;
-	isRequired?: boolean;
 	validationMessage?: string;
+	children?: React.ReactNode;
 };
 
-type TInputProps = {
-	type: 'input';
-	items: TTextInput[];
-} & TFormInputsGroupShared;
-
-type TSelectProps = {
-	type: 'select';
-	items: TSelect[];
-} & TFormInputsGroupShared;
-
-type TRadioProps = {
-	type: 'radio';
-	items: TRadio[];
-} & TFormInputsGroupShared;
-
-export type TFormInputsGroup = TInputProps | TSelectProps | TRadioProps;
-
-export const FormInputsGroup: React.FC<TFormInputsGroup> = ({
+const FormInputsGroupRoot: React.FC<TFormInputsGroupRoot> = ({
 	id,
-	type,
-	title,
 	hint,
-	items,
-	isDataShared = false,
-	isInvalid = false,
-	isRequired = true,
+	isDataShared,
+	isInvalid,
 	validationMessage,
+	children,
 }) => {
-	const isRadioGroup = type === 'radio';
-	const isInputGroup = type === 'input';
-	const isSelectGroup = type === 'select';
-	const reqOpt = isRequired ? '(Required)' : '(Optional)';
 	const showInvalid = isInvalid && validationMessage;
 
 	const dataSharedId = isDataShared ? `${id}-data-shared` : null;
@@ -76,6 +74,43 @@ export const FormInputsGroup: React.FC<TFormInputsGroup> = ({
 				!isEmptyDescribedByIds ? describedByIds : undefined
 			}
 		>
+			{children}
+		</fieldset>
+	);
+};
+
+type TFormsInputsGroupContent = {
+	id: string;
+	title?: string;
+	hint?: string;
+	isDataShared?: boolean;
+	isInvalid?: boolean;
+	isRequired?: boolean;
+	validationMessage?: string;
+};
+
+const FormsInputsGroupContent: React.FC<TFormsInputsGroupContent> = ({
+	id,
+	title,
+	hint,
+	isDataShared,
+	validationMessage,
+	isInvalid,
+	isRequired,
+}) => {
+	const reqOpt = isRequired ? '(Required)' : '(Optional)';
+	const showInvalid = isInvalid && validationMessage;
+
+	const dataSharedId = isDataShared ? `${id}-data-shared` : null;
+	const hintId = hint ? `${id}-hint` : null;
+	const invalidId = showInvalid ? `${id}-error` : null;
+
+	if (!title && !hint && !isDataShared) {
+		return null;
+	}
+
+	return (
+		<>
 			{title ? (
 				<Text tag="legend" size="150" weight="200">
 					{title}{' '}
@@ -121,27 +156,60 @@ export const FormInputsGroup: React.FC<TFormInputsGroup> = ({
 					{validationMessage}
 				</Text>
 			) : null}
-
-			<div
-				className={clsx(
-					styles.fields,
-					isInputGroup ? styles.inputFields : undefined,
-					isSelectGroup ? styles.selectFields : undefined,
-					isRadioGroup ? styles.radioFields : undefined,
-				)}
-			>
-				{type === 'radio'
-					? items.map((item) => <Radio key={item.id} {...item} />)
-					: null}
-
-				{type === 'input'
-					? items.map((item) => <TextInput key={item.id} {...item} />)
-					: null}
-
-				{type === 'select'
-					? items.map((item) => <Select key={item.id} {...item} />)
-					: null}
-			</div>
-		</fieldset>
+		</>
 	);
+};
+
+type TFormInputsGroupFields = Input | Select | Radio;
+
+const FormInputsGroupFields: React.FC<TFormInputsGroupFields> = ({
+	type,
+	items,
+}) => {
+	const isInputGroup = type === 'input';
+	const isSelectGroup = type === 'select';
+	const isRadioGroup = type === 'radio';
+
+	return (
+		<div
+			className={clsx(
+				styles.fields,
+				isInputGroup ? styles.inputFields : undefined,
+				isSelectGroup ? styles.selectFields : undefined,
+				isRadioGroup ? styles.radioFields : undefined,
+			)}
+		>
+			{type === 'radio'
+				? items.map((item) => <Radio key={item.id} {...item} />)
+				: null}
+
+			{type === 'input'
+				? items.map((item) => <TextInput key={item.id} {...item} />)
+				: null}
+
+			{type === 'select'
+				? items.map((item) => <Select key={item.id} {...item} />)
+				: null}
+		</div>
+	);
+};
+
+type TFormsInputsGroupCopyDetails = {
+	className?: string;
+} & TCopyDetails;
+
+const FormInputsGroupCopyDetails: React.FC<TFormsInputsGroupCopyDetails> = ({
+	id,
+	label,
+	className,
+	onCopy,
+}): React.ReactNode => (
+	<CopyDetails id={id} label={label} className={className} onCopy={onCopy} />
+);
+
+export const FormInputsGroup = {
+	Root: FormInputsGroupRoot,
+	Content: FormsInputsGroupContent,
+	Fields: FormInputsGroupFields,
+	CopyDetails: FormInputsGroupCopyDetails,
 };
