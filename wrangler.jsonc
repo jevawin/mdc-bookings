@@ -5,13 +5,22 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "mdc-bookings",
-	"compatibility_flags": ["nodejs_compat"],
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
 	"compatibility_date": "2025-04-04",
 	"main": "./workers/app.ts",
 	"vars": {
 		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare",
 		"AIRTABLE_URL": "https://api.airtable.com/v0",
-		"AIRTABLE_BASE_ID": "appVvBBcXMR0P1Lo6",
+		"AIRTABLE_BASE_ID": "appIBG2w16U6XXBxf",
+	},
+	"env": {
+		"production": {
+			"vars": {
+				"AIRTABLE_BASE_ID": "appVvBBcXMR0P1Lo6",
+			},
+		}
 	},
 	"observability": {
 		"enabled": true,
