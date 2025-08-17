@@ -28,6 +28,7 @@ export type TIconName =
 	| 'question-circle'
 	| 'speech-bubble'
 	| 'user'
+	| 'users'
 	| 'user-circle-star'
 	| 'warning'
 	| 'wave';

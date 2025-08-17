@@ -19,9 +19,9 @@ import { Form } from '~/components/03-organisms/form/form.tsx';
 
 import { Container } from '~/components/04-layouts/container/container.tsx';
 
-import styles from './book-interpreter-template.module.css';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
+import styles from './book-interpreter-template.module.css';
 
 export type TBookInterpreterTemplate = {
 	formError?: TFormSubmissionError;
@@ -197,7 +197,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 									name: 'appointmentSpecialism',
 									value: 'General',
 									hint: 'Work meetings, home visits (non-medical), events, job interviews, etc',
-									icon: 'bsl-hands',
+									icon: 'users',
 									onChange: handleAppointmentTypeChange,
 								},
 								{
