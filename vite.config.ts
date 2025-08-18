@@ -8,12 +8,14 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig(({ mode }) => {
 	// Resolve custom mode based on Cloudflare environment variables
 	let resolvedMode = mode;
-	console.log(process?.env?.CF_PAGES_BRANCH || 'NO ENV VARS FROM CLOUDFLARE');
+	console.log(
+		process?.env?.WORKERS_CI_BRANCH || 'NO ENV VARS FROM CLOUDFLARE',
+	);
 	if (
 		typeof process !== 'undefined' &&
 		process.env &&
-		process.env.CF_PAGES_BRANCH &&
-		process.env.CF_PAGES_BRANCH !== 'main'
+		process.env.WORKERS_CI_BRANCH &&
+		process.env.WORKERS_CI_BRANCH !== 'main'
 	) {
 		resolvedMode = 'development';
 	}
