@@ -2,12 +2,13 @@ import { cloudflare } from '@cloudflare/vite-plugin';
 import { reactRouter } from '@react-router/dev/vite';
 import autoprefixer from 'autoprefixer';
 import postcssPresetEnv from 'postcss-preset-env';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => {
 	// Resolve custom mode based on Cloudflare environment variables
 	let resolvedMode = mode;
+	console.log(process?.env?.CF_PAGES_BRANCH || 'NO ENV VARS FROM CLOUDFLARE');
 	if (
 		typeof process !== 'undefined' &&
 		process.env &&
@@ -17,7 +18,8 @@ export default defineConfig(({ mode }) => {
 		resolvedMode = 'development';
 	}
 	// Load environment variables for the resolved mode
-	const env = loadEnv(resolvedMode, process.cwd(), '');
+	process.env.NOVE_ENV = resolvedMode;
+	process.env.CLOUDFLARE_ENV = resolvedMode;
 
 	return {
 		css: {
@@ -40,11 +42,5 @@ export default defineConfig(({ mode }) => {
 			reactRouter(),
 			tsconfigPaths(),
 		],
-		define: {
-			// Example: make env vars available in code
-			'__APP_ENV__': JSON.stringify(env.APP_ENV),
-			'process.env.NODE_ENV': JSON.stringify(resolvedMode),
-			'process.env.CLOUDFLARE_ENV': JSON.stringify(resolvedMode),
-		},
 	};
 });
