@@ -44,6 +44,7 @@ export default defineConfig(({ mode }) => {
 			// Example: make env vars available in code
 			'__APP_ENV__': JSON.stringify(env.APP_ENV),
 			'process.env.NODE_ENV': JSON.stringify(resolvedMode),
+			'process.env.CLOUDFLARE_ENV': JSON.stringify(resolvedMode),
 		},
 	};
 });

@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "npm run build-storybook && react-router build",
-		"dev": "cross-env NODE_ENV=development react-router dev --host",
+		"dev": "react-router dev --host",
 		"deploy": "wrangler deploy",
 		"preview": "npm run build && vite preview",
 		"typecheck": "npm run cf-typegen && react-router typegen && tsc -b",
