@@ -10,11 +10,6 @@
 	],
 	"compatibility_date": "2025-04-04",
 	"main": "./workers/app.ts",
-	"vars": {
-		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare STAGING",
-		"AIRTABLE_URL": "https://api.airtable.com/v0",
-		"AIRTABLE_BASE_ID": "appIBG2w16U6XXBxf",
-	},
 	"env": {
 		"production": {
 			"vars": {
@@ -23,7 +18,12 @@
 			},
 		},
 		"staging": {
-			"workers_dev": true
+			"workers_dev": true,
+			"vars": {
+				"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare STAGING",
+				"AIRTABLE_URL": "https://api.airtable.com/v0",
+				"AIRTABLE_BASE_ID": "appIBG2w16U6XXBxf",
+			},
 		}
 	},
 	"observability": {
