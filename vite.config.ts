@@ -6,8 +6,18 @@ import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => {
-	// Load environment variables for the given mode
-	const env = loadEnv(mode, process.cwd(), '');
+	// Resolve custom mode based on Cloudflare environment variables
+	let resolvedMode = mode;
+	if (
+		typeof process !== 'undefined' &&
+		process.env &&
+		process.env.CF_PAGES_BRANCH &&
+		process.env.CF_PAGES_BRANCH !== 'main'
+	) {
+		resolvedMode = 'development';
+	}
+	// Load environment variables for the resolved mode
+	const env = loadEnv(resolvedMode, process.cwd(), '');
 
 	return {
 		css: {
@@ -33,7 +43,7 @@ export default defineConfig(({ mode }) => {
 		define: {
 			// Example: make env vars available in code
 			'__APP_ENV__': JSON.stringify(env.APP_ENV),
-			'process.env.NODE_ENV': JSON.stringify(mode),
+			'process.env.NODE_ENV': JSON.stringify(resolvedMode),
 		},
 	};
 });

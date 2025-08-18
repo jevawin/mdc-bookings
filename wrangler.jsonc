@@ -17,10 +17,10 @@
 				"AIRTABLE_BASE_ID": "appVvBBcXMR0P1Lo6",
 			},
 		},
-		"staging": {
+		"development": {
 			"workers_dev": true,
 			"vars": {
-				"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare STAGING",
+				"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare DEVELOPMENT",
 				"AIRTABLE_URL": "https://api.airtable.com/v0",
 				"AIRTABLE_BASE_ID": "appIBG2w16U6XXBxf",
 			},
