@@ -1,6 +1,6 @@
+import type { TJob } from '~/global-types.ts';
 import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TButtonVariant } from '~/components/02-molecules/button/button.tsx';
-import type { TJob } from '~/global-types.ts';
 
 import { Card } from '~/components/02-molecules/card/card.tsx';
 
