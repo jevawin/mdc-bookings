@@ -17,6 +17,7 @@
 }
 
 .inner {
+	border-block-end: 2px solid var(--color-core-inactive);
 	display: grid;
 	gap: calc(var(--base-spacing) * 2.5);
 	padding-block-end: calc(var(--base-spacing) * 5);
