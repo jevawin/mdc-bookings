@@ -20,9 +20,6 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env*
-
 # typescript
 *.tsbuildinfo
 
@@ -31,3 +28,6 @@ yarn-error.log*
 .wrangler
 .dev.vars*
 *storybook.log
+
+# local env files
+.env*
