@@ -9,6 +9,7 @@ const { getSession, commitSession, destroySession } =
 			sameSite: 'lax',
 			path: '/',
 			httpOnly: true,
+			maxAge: 60 * 60 * 24 * 7, // 1 week
 		},
 	});
 
