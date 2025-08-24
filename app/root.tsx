@@ -30,6 +30,66 @@ export const links: Route.LinksFunction = () => [
 		type: 'font/woff2',
 		crossOrigin: 'anonymous',
 	},
+	{
+		rel: 'icon',
+		href: '/assets/favicons/favicon.svg',
+		type: 'image/svg+xml',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '48x48',
+		href: '/assets/favicons/favicon-48x48.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '72x72',
+		href: '/assets/favicons/favicon-72x72.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '96x96',
+		href: '/assets/favicons/favicon-96x96.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '128x128',
+		href: '/assets/favicons/favicon-128x128.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '192x192',
+		href: '/assets/favicons/favicon-192x192.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/png',
+		sizes: '512x512',
+		href: '/assets/favicons/favicon-512x512.png',
+	},
+	{
+		rel: 'icon',
+		type: 'image/svg+xml',
+		href: '/assets/favicons/favicon.svg',
+	},
+	{
+		rel: 'shortcut icon',
+		href: '/assets/favicons/favicon.ico',
+		sizes: 'any',
+	},
+	{
+		rel: 'apple-touch-icon',
+		sizes: '180x180',
+		href: '/assets/favicons/favicon-180x180.png',
+	},
+	{
+		rel: 'manifest',
+		href: '/site.webmanifest',
+	},
 	{ rel: 'stylesheet', href: fontFace },
 	{ rel: 'stylesheet', href: styles },
 ];
