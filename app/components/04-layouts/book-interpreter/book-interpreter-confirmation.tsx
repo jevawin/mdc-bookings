@@ -1,28 +1,27 @@
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
-import { Header } from '~/components/02-molecules/header/header.tsx';
-import { List } from '~/components/03-organisms/list/list.tsx';
-import { Segment } from '../segment/segment.tsx';
 
+import { Header } from '~/components/02-molecules/header/header.tsx';
+
+import { List } from '~/components/03-organisms/list/list.tsx';
+
+import { Segment } from '../segment/segment.tsx';
 import styles from './book-interpreter.module.css';
 
 export type TBookInterpreter = React.PropsWithChildren;
 
 export default function BookInterpreterLayout(): React.ReactNode {
-	const id = 'interpreter-booking-confirmation';
-
 	return (
 		<>
 			<Header showNav={false} />
-
 			<main id="main">
-				<Segment.Root id={id}>
+				<Segment.Root id="interpreter-booking-confirmation">
 					<Segment.Container className={styles.container}>
 						<div className={styles.inner}>
 							<Text
 								tag="h1"
-								id={id}
+								id="interpreter-booking-confirmation"
 								color="brand"
 								weight="300"
 								size="500"
@@ -33,18 +32,13 @@ export default function BookInterpreterLayout(): React.ReactNode {
 
 							<Text tag="p" size="300">
 								You should{' '}
-								<Text
-									color="brand"
-									weight="300"
-									size="300"
-									role="presentation"
-								>
+								<Text color="brand" weight="300" size="300">
 									receive an email
 								</Text>{' '}
 								confirming your booking details within 5
 								minutes. If you have not received your email
-								after 5 minutes, or if you need to change your
-								booking, please contact our bookings officer:
+								after 5 minutes, please contact our bookings
+								officer:
 							</Text>
 
 							<List.Root>
@@ -115,7 +109,6 @@ export default function BookInterpreterLayout(): React.ReactNode {
 									</Text>
 								</List.Item>
 							</List.Root>
-
 							<Text tag="p" size="300">
 								You can close this window,{' '}
 								<TextLink
