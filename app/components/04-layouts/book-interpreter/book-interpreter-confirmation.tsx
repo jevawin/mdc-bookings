@@ -1,27 +1,28 @@
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
-
 import { Header } from '~/components/02-molecules/header/header.tsx';
-
 import { List } from '~/components/03-organisms/list/list.tsx';
-
 import { Segment } from '../segment/segment.tsx';
+
 import styles from './book-interpreter.module.css';
 
 export type TBookInterpreter = React.PropsWithChildren;
 
 export default function BookInterpreterLayout(): React.ReactNode {
+	const id = 'interpreter-booking-confirmation';
+
 	return (
 		<>
 			<Header showNav={false} />
+
 			<main id="main">
-				<Segment.Root id="interpreter-booking-confirmation">
+				<Segment.Root id={id}>
 					<Segment.Container className={styles.container}>
 						<div className={styles.inner}>
 							<Text
 								tag="h1"
-								id="interpreter-booking-confirmation"
+								id={id}
 								color="brand"
 								weight="300"
 								size="500"
@@ -32,7 +33,12 @@ export default function BookInterpreterLayout(): React.ReactNode {
 
 							<Text tag="p" size="300">
 								You should{' '}
-								<Text color="brand" weight="300" size="300">
+								<Text
+									color="brand"
+									weight="300"
+									size="300"
+									role="presentation"
+								>
 									receive an email
 								</Text>{' '}
 								confirming your booking details within 5
@@ -109,6 +115,7 @@ export default function BookInterpreterLayout(): React.ReactNode {
 									</Text>
 								</List.Item>
 							</List.Root>
+
 							<Text tag="p" size="300">
 								You can close this window,{' '}
 								<TextLink
