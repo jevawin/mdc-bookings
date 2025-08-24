@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
 		resolvedMode = 'development';
 	}
 	// Load environment variables for the resolved mode
-	process.env.NOVE_ENV = resolvedMode;
+	process.env.NODE_ENV = resolvedMode;
 	process.env.CLOUDFLARE_ENV = resolvedMode;
 
 	return {
