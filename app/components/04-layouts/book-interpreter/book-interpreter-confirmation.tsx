@@ -37,8 +37,8 @@ export default function BookInterpreterLayout(): React.ReactNode {
 								</Text>{' '}
 								confirming your booking details within 5
 								minutes. If you have not received your email
-								after 5 minutes, please contact our bookings
-								officer:
+								after 5 minutes, or if you need to change your
+								booking, please contact our bookings officer:
 							</Text>
 
 							<List.Root>
