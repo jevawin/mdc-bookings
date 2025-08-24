@@ -102,7 +102,10 @@ export default function Approved({
 	if (error) {
 		return (
 			<>
-				<title>Approved Interpreter Jobs</title>
+				<title>
+					Approved interpreter jobs | Manchester Deaf Centre booking
+					system
+				</title>
 				<meta
 					name="description"
 					content="Your upcoming and past jobs."

@@ -182,8 +182,11 @@ export default function Home({
 
 	return (
 		<>
-			<title>Registration</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>Registration | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Register for an account with the Manchester Deaf Centre."
+			/>
 
 			<Authentication.Header title="Become an interpreter" />
 

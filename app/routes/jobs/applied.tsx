@@ -168,7 +168,9 @@ export default function Applied({
 
 	return (
 		<>
-			<title>Applied Interpreter Jobs</title>
+			<title>
+				Applied interpreter jobs | Manchester Deaf Centre booking system
+			</title>
 			<meta
 				name="description"
 				content="Your applied jobs, pending approval by Manchester Deaf Centre."

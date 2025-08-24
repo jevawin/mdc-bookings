@@ -109,8 +109,11 @@ export default function Account({
 
 	return (
 		<>
-			<title>My account</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>My account | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Manage your account settings and preferences."
+			/>
 
 			<Card.Root id="personal">
 				<Card.Content>

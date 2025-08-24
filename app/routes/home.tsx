@@ -15,8 +15,11 @@ export default function Home({
 
 	return (
 		<>
-			<title>New React Router App</title>
-			<meta name="description" content="Welcome to React Router!" />
+			<title>Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Book an interpreter with the Manchester Deaf Centre"
+			/>
 
 			<main>
 				<svg

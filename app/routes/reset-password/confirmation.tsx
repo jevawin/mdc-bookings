@@ -20,8 +20,11 @@ export default function Confirmation({
 
 	return (
 		<>
-			<title>Confirmation</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>Confirmation | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Your password has been successfully reset."
+			/>
 
 			<Authentication.Header title="Reset password" />
 

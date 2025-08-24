@@ -140,8 +140,11 @@ export default function LogIn({
 }: Route.ComponentProps): React.ReactNode {
 	return (
 		<>
-			<title>Log in</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>Log in | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Log in to your Manchester Deaf Centre account."
+			/>
 
 			<LogInTemplate
 				formError={actionData?.error}

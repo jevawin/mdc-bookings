@@ -98,7 +98,9 @@ export default function ResetPassword({
 
 	return (
 		<>
-			<title>Reset your password</title>
+			<title>
+				Reset your password | Manchester Deaf Centre booking system
+			</title>
 			<meta
 				name="description"
 				content="Send a password reset link to your email."

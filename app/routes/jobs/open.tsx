@@ -161,7 +161,9 @@ export default function Open({
 
 	return (
 		<>
-			<title>📋 Open Interpreter Jobs</title>
+			<title>
+				📋 Open interpreter jobs | Manchester Deaf Centre booking system
+			</title>
 			<meta
 				name="description"
 				content="Open interpreter jobs at Manchester Deaf Centre."

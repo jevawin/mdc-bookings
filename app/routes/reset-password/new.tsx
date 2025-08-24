@@ -119,8 +119,13 @@ export default function New({
 
 	return (
 		<>
-			<title>Create new password</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>
+				Create new password | Manchester Deaf Centre booking system
+			</title>
+			<meta
+				name="description"
+				content="Create a new password for your Manchester Deaf Centre account."
+			/>
 
 			<Authentication.Header title="Change password" />
 

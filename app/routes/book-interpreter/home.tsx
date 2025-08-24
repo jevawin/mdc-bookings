@@ -166,7 +166,9 @@ export default function BookInterpreter({
 
 	return (
 		<>
-			<title>Book an interpreter</title>
+			<title>
+				Book an interpreter | Manchester Deaf Centre booking system
+			</title>
 			<meta
 				name="description"
 				content="Book a Manchester Deaf Centre interpreter here."
