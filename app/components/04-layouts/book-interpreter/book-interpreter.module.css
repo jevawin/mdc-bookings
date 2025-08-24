@@ -4,14 +4,9 @@
 	max-inline-size: 70rem;
 }
 
-.terms {
-	padding-block: calc(var(--base-spacing) * 5);
-}
-
 .inner {
 	margin-inline-start: 0;
 	max-inline-size: 100rem;
-	padding-block-end: var(--base-spacing);
 
 	& > :not([hidden]) ~ :not([hidden]) {
 		margin-block-start: calc(var(--base-spacing) * 3);
