@@ -4,57 +4,58 @@ import { jobMapper } from '~/.server/mappers/job-mapper.ts';
 
 export type TAirtableInterpreterFields = {
 	'Email'?: string;
-	'Posted listings'?: string[];
-	'Name'?: string;
-	'Preferred name'?: string;
-	'Registration number'?: string;
 	'Job post emails'?: boolean;
 	'Job summary emails'?: boolean;
-	'Registration organisation'?: string;
-	'Registration lookup'?: string;
+	'Name'?: string;
+	'Posted listings'?: string[];
+	'Preferred name'?: string;
 	'Registration details'?: string;
+	'Registration lookup'?: string;
+	'Registration number'?: string;
+	'Registration organisation'?: string;
 	'User ID'?: string;
 };
 
 export type TAirtableJobFields = {
-	'Request ID'?: string;
-	'Status'?: string;
-	'Booker: name'?: string;
-	'Appointment: service'?: string;
-	'Appointment: specialism'?: string;
-	'Appointment: organisation'?: string;
-	'Appointment: details'?: string;
-	'Appointment: client name'?: string;
-	'Appointment: contact name'?: string;
-	'Appointment: contact number'?: string;
+	'Airtable: applications'?: string[];
+	'Airtable: appointment end'?: string;
+	'Airtable: appointment start'?: string;
+	'Airtable: friendly address'?: string;
+	'Airtable: Google Maps link'?: string;
+	'Airtable: name and ID'?: string;
+	'Airtable: post email sent'?: boolean;
+	'Airtable: request last updated'?: string;
+	'Airtable: request number'?: number;
+	'Airtable: request received'?: string;
 	'Appointment: access to work'?: string;
-	'Appointment: interpreter gender'?: string;
-	'Appointment: date'?: string;
-	'Appointment: duration'?: string;
-	'Appointment: department'?: string;
 	'Appointment: address 1'?: string;
 	'Appointment: address 2'?: string;
 	'Appointment: city'?: string;
+	'Appointment: client name'?: string;
+	'Appointment: contact name'?: string;
+	'Appointment: contact number'?: string;
+	'Appointment: date'?: string;
+	'Appointment: department'?: string;
+	'Appointment: details'?: string;
+	'Appointment: duration'?: string;
+	'Appointment: interpreter gender'?: string;
+	'Appointment: notes'?: string;
+	'Appointment: organisation'?: string;
 	'Appointment: post code'?: string;
-	'Booker: number'?: string;
+	'Appointment: service'?: string;
+	'Appointment: specialism'?: string;
 	'Booker: email'?: string;
-	'Airtable: applications'?: string[];
-	'Airtable: request last updated'?: string;
-	'Airtable: request number'?: number;
-	'Airtable: name and ID'?: string;
-	'Airtable: request received'?: string;
-	'Airtable: appointment start'?: string;
-	'Airtable: appointment end'?: string;
-	'Finance: company name'?: string;
+	'Booker: name'?: string;
+	'Booker: number'?: string;
 	'Finance: address 1'?: string;
 	'Finance: address 2'?: string;
 	'Finance: city'?: string;
-	'Finance: post code'?: string;
+	'Finance: company name'?: string;
 	'Finance: email'?: string;
 	'Finance: PO / cost centre code'?: string;
-	'Airtable: post email sent'?: boolean;
-	'Airtable: friendly address'?: string;
-	'Airtable: Google Maps link'?: string;
+	'Finance: post code'?: string;
+	'Request ID'?: string;
+	'Status'?: string;
 };
 
 type TAirtableFields = TAirtableInterpreterFields & TAirtableJobFields;
@@ -288,7 +289,7 @@ export const getAvailableAirtableJobs = async (
 				'Appointment: date',
 				'Appointment: duration',
 				'Airtable: friendly address',
-				'Appointment: details',
+				'Appointment: notes',
 			],
 			filters,
 		);
