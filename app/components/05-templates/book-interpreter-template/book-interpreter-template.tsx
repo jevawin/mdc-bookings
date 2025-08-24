@@ -172,6 +172,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 					submitButtonText="Request booking →"
 					className={styles.form}
 					ref={formRef}
+					noValidate={true}
 				>
 					{/* APPOINTMENT OVERVIEW */}
 					<Fieldset
