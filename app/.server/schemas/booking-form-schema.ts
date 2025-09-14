@@ -37,9 +37,9 @@ export const bookingFormSchema = z
 					})
 					.transform((val) => new Date(val))
 					.refine(
-						(d) => d > new Date(Date.now() + 24 * 60 * 60 * 1000),
+						(d) => d > new Date(Date.now() + 1 * 60 * 60 * 1000),
 						{
-							error: 'Date must be 24 hours in the future',
+							error: 'Date must be more than 1 hour from now - please call for urgent appointments',
 						},
 					)
 					.transform((val) => val.toISOString()),
