@@ -6,8 +6,13 @@ import { logInFormSchema } from '~/.server/schemas/log-in-form-schema.ts';
 import {
 	getUser,
 	logInWithEmailPassword,
+	refreshAccessToken,
 } from '~/.server/services/supabase.ts';
-import { commitSession, getSession } from '~/.server/sessions.ts';
+import {
+	commitSession,
+	destroySession,
+	getSession,
+} from '~/.server/sessions.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
@@ -118,20 +123,52 @@ export const loader = async ({
 	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
+
 	const access_token = session.get('access_token');
-	const expires_at = session.get('expires_at');
 	const refresh_token = session.get('refresh_token');
+	const expires_at = session.get('expires_at');
 	const now = Math.floor(Date.now() / 1000);
 	const isExpired = !expires_at || now > expires_at;
 
-	if (access_token || refresh_token || !isExpired) {
-		return redirect('/jobs/open');
+	// If access token missing entirely → no session
+	if (!access_token && !refresh_token) {
+		return null; // show login page
 	}
 
-	const user = await getUser(env, access_token);
+	// If expired, try refresh
+	if (isExpired && refresh_token) {
+		const refreshResult = await refreshAccessToken(env, refresh_token);
 
-	if (user.success) return redirect('/jobs/open');
+		if (refreshResult.success) {
+			const newTokens = refreshResult.data;
 
+			session.set('access_token', newTokens.access_token);
+			session.set('refresh_token', newTokens.refresh_token);
+			session.set('expires_at', newTokens.expires_at);
+
+			return redirect('/jobs/open', {
+				headers: {
+					'Set-Cookie': await commitSession(session),
+				},
+			});
+		}
+
+		// Refresh failed → clear session
+		return redirect('/log-in', {
+			headers: {
+				'Set-Cookie': await destroySession(session),
+			},
+		});
+	}
+
+	// If still valid, verify with Supabase
+	if (access_token && !isExpired) {
+		const user = await getUser(env, access_token);
+
+		if (user.success) return redirect('/jobs/open');
+	}
+
+	// Otherwise, show login page
 	return null;
 };
 

@@ -5,8 +5,12 @@ import type { TAccountLoaderData } from '~/components/04-layouts/account/account
 import { clsx } from 'clsx';
 import { redirect, useNavigation, useOutletContext } from 'react-router';
 import { updateAirtableRecords } from '~/.server/services/airtable.ts';
-import { getSession } from '~/.server/sessions.ts';
-import { getUser } from '~/.server/services/supabase.ts';
+import {
+	commitSession,
+	destroySession,
+	getSession,
+} from '~/.server/sessions.ts';
+import { getUser, refreshAccessToken } from '~/.server/services/supabase.ts';
 
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
@@ -79,19 +83,53 @@ export const loader = async ({
 	const session = await getSession(cookieHeader);
 
 	const access_token = session.get('access_token');
-	const expires_at = session.get('expires_at');
 	const refresh_token = session.get('refresh_token');
+	const expires_at = session.get('expires_at');
 	const now = Math.floor(Date.now() / 1000);
 	const isExpired = !expires_at || now > expires_at;
 
-	if (!access_token || !refresh_token || isExpired) {
+	// If no token at all → force login
+	if (!access_token && !refresh_token) {
 		return redirect('/log-in');
 	}
 
-	const user = await getUser(env, access_token);
+	let tokenToUse = access_token;
 
+	// Try refresh if expired
+	if (isExpired && refresh_token) {
+		const refreshResult = await refreshAccessToken(env, refresh_token);
+
+		if (refreshResult.success) {
+			const newTokens = refreshResult.data;
+			session.set('access_token', newTokens.access_token);
+			session.set('refresh_token', newTokens.refresh_token);
+			session.set('expires_at', newTokens.expires_at);
+
+			tokenToUse = newTokens.access_token;
+
+			// Important: commit updated session
+			return redirect(request.url, {
+				headers: {
+					'Set-Cookie': await commitSession(session),
+				},
+			});
+		} else {
+			return redirect('/log-in', {
+				headers: {
+					'Set-Cookie': await destroySession(session),
+				},
+			});
+		}
+	}
+
+	// Validate user with Supabase
+	const user = await getUser(env, tokenToUse);
 	if (!user.success) {
-		return redirect('/log-in');
+		return redirect('/log-in', {
+			headers: {
+				'Set-Cookie': await destroySession(session),
+			},
+		});
 	}
 
 	return user;
