@@ -6,7 +6,7 @@
 		"rollup": "4.22.4"
 	},
 	"scripts": {
-		"build": "npm run build-storybook && react-router build",
+		"build": "react-router build",
 		"dev": "react-router dev --host",
 		"deploy": "wrangler deploy",
 		"preview": "npm run build && vite preview",
