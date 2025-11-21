@@ -28,7 +28,6 @@ export const action = async ({
 	request,
 }: ActionFunctionArgs): Promise<Response> => {
 	try {
-		const env = process.env;
 		const cookieHeader = request.headers.get('Cookie');
 		const session = await getSession(cookieHeader);
 		const token = session.get('access_token');
