@@ -71,13 +71,12 @@ type TAppliedPageData = {
 
 export async function loader({
 	request,
-	context,
 }: Route.LoaderArgs): Promise<Response | TAppliedPageData> {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
-	const user = await getUser(env, token);
+	const user = await getUser(token);
 	const lastUpdated = new Date().toLocaleString('en-GB');
 
 	// Redirect to login if not logged in
@@ -106,7 +105,6 @@ export async function loader({
 				) > 0,
 				{Appointment: date} > NOW()
 			)`,
-			env,
 		);
 
 		if (data.error) {

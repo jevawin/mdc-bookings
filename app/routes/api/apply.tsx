@@ -26,14 +26,13 @@ const respond = (data: TAPIResponse, status: number): Response => {
 
 export const action = async ({
 	request,
-	context,
 }: ActionFunctionArgs): Promise<Response> => {
 	try {
-		const env = context.cloudflare.env;
+		const env = process.env;
 		const cookieHeader = request.headers.get('Cookie');
 		const session = await getSession(cookieHeader);
 		const token = session.get('access_token');
-		const user = await getUser(env, token);
+		const user = await getUser(token);
 
 		// Redirect to login if not logged in
 		if (!user.success) {
@@ -73,7 +72,6 @@ export const action = async ({
 		// Get intpreter recordID from Airtable
 		const interpreterRecord = await getAirtableRecords(
 			'Interpreters',
-			env,
 			['Posted listings'],
 			`{Email} = '${email}'`,
 		);
@@ -99,7 +97,7 @@ export const action = async ({
 		// If not already applied, apply
 		if (!alreadyApplied && interpreterID) {
 			// Get record to apply interpreter to
-			const record = await getAirtableRecord('Jobs', env, recordID);
+			const record = await getAirtableRecord('Jobs', recordID);
 
 			// Error if no record retrived
 			if (!record.success) {
@@ -116,7 +114,7 @@ export const action = async ({
 			];
 
 			// Append Airtable
-			const updated = await updateAirtableRecords('Jobs', env, [
+			const updated = await updateAirtableRecords('Jobs', [
 				{
 					id: recordID,
 					fields: {

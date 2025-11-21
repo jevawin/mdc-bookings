@@ -1,5 +1,5 @@
 import type { TAirtableJobFields } from '../../.server/services/airtable.ts';
-import type { Env, TFormError, TValidateFormData } from '../../global-types.ts';
+import type { TFormError, TValidateFormData } from '../../global-types.ts';
 import type { Route } from './+types/home.ts';
 
 import { bookingFormSchema } from '../../.server/schemas/booking-form-schema.ts';
@@ -85,7 +85,6 @@ const validateFormData = async (
 
 const sendBookingToAirtable = async (
 	formData: TFormDataResult,
-	env: Env,
 ): Promise<TFormError> => {
 	try {
 		const payload: TAirtableJobFields = {
@@ -118,7 +117,7 @@ const sendBookingToAirtable = async (
 			'Finance: PO / cost centre code': formData.financePO,
 		};
 
-		const response = await createAirtableRecord(payload, 'Jobs', env);
+		const response = await createAirtableRecord(payload, 'Jobs');
 
 		return {
 			status: response.success ? 200 : 400,
@@ -130,13 +129,8 @@ const sendBookingToAirtable = async (
 	}
 };
 
-export const action = async ({
-	request,
-	context,
-}: Route.ActionArgs): TBookingAction => {
+export const action = async ({ request }: Route.ActionArgs): TBookingAction => {
 	if (request.method !== 'POST') return defaultFormError;
-
-	const env = context.cloudflare.env;
 
 	try {
 		const formData = await validateFormData(request);
@@ -145,7 +139,7 @@ export const action = async ({
 			return formData;
 		}
 
-		const bookingData = await sendBookingToAirtable(formData.data, env);
+		const bookingData = await sendBookingToAirtable(formData.data);
 
 		if (bookingData.status !== 200) {
 			return defaultFormError;

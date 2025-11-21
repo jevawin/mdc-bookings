@@ -53,10 +53,8 @@ type TNewPasswordAction = Promise<Response | TFormError>;
 
 export const action = async ({
 	request,
-	context,
 }: Route.ActionArgs): TNewPasswordAction => {
 	try {
-		const env = context.cloudflare.env;
 		const cookieHeader = request.headers.get('Cookie');
 		const form = await request.formData();
 		const formValidation = validateFormData(form);
@@ -70,7 +68,7 @@ export const action = async ({
 		const password = formValidation.data.password;
 		const payload = { password };
 
-		const updatePassword = await updateUser(env, token, payload);
+		const updatePassword = await updateUser(token, payload);
 
 		if (!updatePassword.success) {
 			return defaultFormError;
@@ -86,9 +84,7 @@ export const action = async ({
 
 export const loader = async ({
 	request,
-	context,
 }: Route.LoaderArgs): Promise<Response | TGetUser> => {
-	const env = context.cloudflare.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 
@@ -102,7 +98,7 @@ export const loader = async ({
 		return redirect('/log-in');
 	}
 
-	const user = await getUser(env, access_token);
+	const user = await getUser(access_token);
 
 	if (!user.success) {
 		return redirect('/log-in');

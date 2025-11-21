@@ -1,4 +1,4 @@
-import type { Env, Prettify, TJob } from '~/global-types.ts';
+import type { Prettify, TJob } from '~/global-types.ts';
 
 import { jobMapper } from '~/.server/mappers/job-mapper.ts';
 
@@ -94,10 +94,9 @@ type TCreateAirtableRecord = {
 export const createAirtableRecord = async (
 	fields: TAirtableFields,
 	table: TAirtableTable,
-	env: Env,
 ): Promise<TCreateAirtableRecord> => {
 	try {
-		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
+		const url = `${process.env.AIRTABLE_URL}/${process.env.AIRTABLE_BASE_ID}/${table}`;
 		const body = {
 			records: [
 				{
@@ -109,7 +108,7 @@ export const createAirtableRecord = async (
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${env.AIRTABLE_API_KEY}`,
+				'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(body),
@@ -140,16 +139,15 @@ type TGetAirtableRecord<T extends TAirtableTable> = {
 
 export const getAirtableRecord = async <T extends TAirtableTable>(
 	table: T,
-	env: Env,
 	recordID: string,
 ): Promise<Prettify<TGetAirtableRecord<T>>> => {
 	try {
-		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}/${recordID}`;
+		const url = `${process.env.AIRTABLE_URL}/${process.env.AIRTABLE_BASE_ID}/${table}/${recordID}`;
 
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
-				Authorization: `Bearer ${env.AIRTABLE_API_KEY}`,
+				Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
 			},
 		});
 
@@ -180,12 +178,11 @@ type TGetAirtableRecords<T extends TAirtableTable> = {
 
 export const getAirtableRecords = async <T extends TAirtableTable>(
 	table: T,
-	env: Env,
 	fields?: (keyof TableFieldMap[T])[],
 	filters?: string,
 ): Promise<TGetAirtableRecords<T>> => {
 	try {
-		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
+		const url = `${process.env.AIRTABLE_URL}/${process.env.AIRTABLE_BASE_ID}/${table}`;
 		const params = new URLSearchParams();
 
 		// Add fields to the params
@@ -202,7 +199,7 @@ export const getAirtableRecords = async <T extends TAirtableTable>(
 		const response = await fetch(urlWithParams, {
 			method: 'GET',
 			headers: {
-				Authorization: `Bearer ${env.AIRTABLE_API_KEY}`,
+				Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
 			},
 		});
 
@@ -235,15 +232,14 @@ type TUpdateAirtableRecords = {
 
 export const updateAirtableRecords = async <T extends TAirtableTable>(
 	table: T,
-	env: Env,
 	records: TAirtableRecordPartial<T>[],
 ): Promise<TUpdateAirtableRecords> => {
 	try {
-		const url = `${env.AIRTABLE_URL}/${env.AIRTABLE_BASE_ID}/${table}`;
+		const url = `${process.env.AIRTABLE_URL}/${process.env.AIRTABLE_BASE_ID}/${table}`;
 		const response = await fetch(url, {
 			method: 'PATCH',
 			headers: {
-				'Authorization': `Bearer ${env.AIRTABLE_API_KEY}`,
+				'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ records }),
@@ -276,12 +272,10 @@ type TGetAvailableAirtableJobs = {
 
 export const getAvailableAirtableJobs = async (
 	filters: string,
-	env: Env,
 ): Promise<TGetAvailableAirtableJobs> => {
 	try {
 		const response = await getAirtableRecords(
 			'Jobs',
-			env,
 			[
 				'Request ID',
 				'Appointment: service',

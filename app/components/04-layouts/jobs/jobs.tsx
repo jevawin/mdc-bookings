@@ -42,13 +42,12 @@ type TJobsPageData = {
 
 export async function loader({
 	request,
-	context,
 }: LoaderFunctionArgs): Promise<Response | TJobsPageData> {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
-	const user = await getUser(env, token);
+	const user = await getUser(token);
 
 	const date = new Date();
 	const lastUpdated = date.toISOString();
@@ -73,7 +72,6 @@ export async function loader({
 	// Get user name from Airtable
 	const airtableResponse = await getAirtableRecords(
 		'Interpreters',
-		env,
 		['Preferred name'],
 		`{User ID}="${userID}"`,
 	);

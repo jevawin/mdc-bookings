@@ -1,4 +1,4 @@
-import { cloudflare } from '@cloudflare/vite-plugin';
+import netlifyPlugin from '@netlify/vite-plugin-react-router';
 import { reactRouter } from '@react-router/dev/vite';
 import autoprefixer from 'autoprefixer';
 import postcssPresetEnv from 'postcss-preset-env';
@@ -6,7 +6,6 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => {
-	// Resolve custom mode based on Cloudflare environment variables
 	let resolvedMode = mode;
 	if (
 		typeof process !== 'undefined' &&
@@ -18,7 +17,6 @@ export default defineConfig(({ mode }) => {
 	}
 	// Load environment variables for the resolved mode
 	process.env.NODE_ENV = resolvedMode;
-	process.env.CLOUDFLARE_ENV = resolvedMode;
 
 	return {
 		css: {
@@ -36,10 +34,6 @@ export default defineConfig(({ mode }) => {
 				],
 			},
 		},
-		plugins: [
-			cloudflare({ viteEnvironment: { name: 'ssr' } }),
-			reactRouter(),
-			tsconfigPaths(),
-		],
+		plugins: [reactRouter(), tsconfigPaths(), netlifyPlugin()],
 	};
 });

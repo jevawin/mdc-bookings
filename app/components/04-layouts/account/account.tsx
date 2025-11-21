@@ -40,13 +40,12 @@ const getGreeting = (): 'Morning' | 'Afternoon' | 'Evening' => {
 
 export async function loader({
 	request,
-	context,
 }: LoaderFunctionArgs): Promise<Response | TAccountLoaderData> {
 	const cookieHeader = request.headers.get('Cookie');
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
-	const user = await getUser(env, token);
+	const user = await getUser(token);
 
 	// Redirect to login if not logged in
 	if (!user.success) return redirect('/log-in');
@@ -67,7 +66,6 @@ export async function loader({
 	// Get user name from Airtable
 	const airtableResponse = await getAirtableRecords(
 		'Interpreters',
-		env,
 		[
 			'Email',
 			'Job post emails',
