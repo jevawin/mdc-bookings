@@ -2,12 +2,12 @@ import type { TAirtableJobFields } from '../../.server/services/airtable.ts';
 import type { TFormError, TValidateFormData } from '../../global-types.ts';
 import type { Route } from './+types/home.ts';
 
-import { bookingFormSchema } from '../../.server/schemas/booking-form-schema.ts';
-import { createAirtableRecord } from '../../.server/services/airtable.ts';
+import { bookingFormSchema } from '~/.server/schemas/booking-form-schema.ts';
+import { createAirtableRecord } from '~/.server/services/airtable.ts';
 import {
 	buildFormFieldErrors,
 	convertFormDataToObject,
-} from '../../utils/form-utils.ts';
+} from '~/utils/form-utils.ts';
 
 import { redirect } from 'react-router';
 import { BookInterpreterTemplate } from '~/components/05-templates/book-interpreter-template/book-interpreter-template.tsx';

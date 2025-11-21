@@ -2,9 +2,6 @@
 	"name": "mdc-bookings",
 	"private": true,
 	"type": "module",
-	"overrides": {
-		"rollup": "4.22.4"
-	},
 	"scripts": {
 		"build": "react-router build",
 		"dev": "react-router dev --host",
