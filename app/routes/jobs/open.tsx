@@ -4,8 +4,12 @@ import type { TJob } from '~/global-types.ts';
 import { useState } from 'react';
 import { redirect } from 'react-router';
 import { getAvailableAirtableJobs } from '~/.server/services/airtable.ts';
-import { getUser } from '~/.server/services/supabase.ts';
-import { getSession } from '~/.server/sessions.ts';
+import { getUser, refreshAccessToken } from '~/.server/services/supabase.ts';
+import {
+	commitSession,
+	destroySession,
+	getSession,
+} from '~/.server/sessions.ts';
 
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { JobsDisplay } from '~/components/03-organisms/jobs-display/jobs-display.tsx';
@@ -64,38 +68,77 @@ export async function loader({
 	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
-	const token = session.get('access_token');
-	const user = await getUser(token);
+
+	const access_token = session.get('access_token');
+	const refresh_token = session.get('refresh_token');
+	const expires_at = session.get('expires_at');
+	const now = Math.floor(Date.now() / 1000);
+	const isExpired = !expires_at || now > expires_at;
+
 	const lastUpdated = new Date().toLocaleString('en-GB');
 
-	// Redirect to login if not logged in
-	if (!user.success) return redirect('/log-in');
+	// If no token at all → force login
+	if (!access_token && !refresh_token) {
+		return redirect('/log-in');
+	}
 
-	// Get interpreter ID and email from Supabase
+	let tokenToUse = access_token;
+
+	// Try refresh if expired
+	if (isExpired && refresh_token) {
+		const refreshResult = await refreshAccessToken(refresh_token);
+
+		if (refreshResult.success) {
+			const newTokens = refreshResult.data;
+			session.set('access_token', newTokens.access_token);
+			session.set('refresh_token', newTokens.refresh_token);
+			session.set('expires_at', newTokens.expires_at);
+
+			tokenToUse = newTokens.access_token;
+
+			// Important: commit updated session
+			return redirect(request.url, {
+				headers: {
+					'Set-Cookie': await commitSession(session),
+				},
+			});
+		} else {
+			return redirect('/log-in', {
+				headers: {
+					'Set-Cookie': await destroySession(session),
+				},
+			});
+		}
+	}
+
+	// Validate user with Supabase
+	const user = await getUser(tokenToUse);
+	if (!user.success) {
+		return redirect('/log-in', {
+			headers: {
+				'Set-Cookie': await destroySession(session),
+			},
+		});
+	}
+
 	const email = user.data?.email;
-
 	if (!email) {
 		console.error(`No email found for user`);
-
 		return getDefaultError(`No email found for user`, lastUpdated);
 	}
 
-	// Query available jobs for the interpreter to apply for
 	try {
 		const data = await getAvailableAirtableJobs(
 			`AND(
 				OR(
-					{Status} = 'Booking posted',
-					AND(
-						{Status} = 'Applications received',
-						FIND(
-							"${email}",
-							ARRAYJOIN(
-								{Airtable: applications},
-								","
-							)
-						) = 0
-					)
+				{Status} = 'Booking posted',
+				AND(
+					{Status} = 'Applications received',
+					FIND(
+					"${email}",
+					ARRAYJOIN({Airtable: applications}, ",")
+					) = 0
+				)
 				),
 				{Appointment: date} > NOW()
 			)`,
@@ -105,18 +148,10 @@ export async function loader({
 			return getDefaultError(data.error, lastUpdated);
 		}
 
-		return {
-			jobs: data.jobs,
-			lastUpdated,
-		};
+		return { jobs: data.jobs, lastUpdated };
 	} catch (error) {
 		console.error(error);
-
-		return {
-			error,
-			jobs: [],
-			lastUpdated,
-		};
+		return { error, jobs: [], lastUpdated };
 	}
 }
 

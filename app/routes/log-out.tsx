@@ -6,23 +6,23 @@ import { destroySession, getSession } from '~/.server/sessions.ts';
 
 export const loader = async ({
 	request,
-}: Route.LoaderArgs): Promise<Response | 'Error logging you out.'> => {
-	const env = process.env;
+}: Route.LoaderArgs): Promise<Response> => {
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
 
-	// Log out
-	const loggedOut = await logOut(token);
+	try {
+		// Attempt Supabase logout, but don’t block local session cleanup
+		await logOut(token);
+	} catch (error) {
+		console.error('Supabase logout error:', error);
+	}
 
-	if (loggedOut.success)
-		return redirect('/log-in', {
-			headers: {
-				'Set-Cookie': await destroySession(session),
-			},
-		});
-
-	return 'Error logging you out.';
+	return redirect('/log-in', {
+		headers: {
+			'Set-Cookie': await destroySession(session),
+		},
+	});
 };
 
 export default function LogOut(data: Route.ComponentProps): React.ReactNode {

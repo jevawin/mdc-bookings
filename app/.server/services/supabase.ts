@@ -198,13 +198,13 @@ type TSupabaseLogInSuccessResponse = {
 	data: TSupabaseSessionSchema;
 };
 
-type TLogInWithEmailPassword = Prettify<
+type TLogInResponse = Prettify<
 	TSupabaseLogInSuccessResponse | TSupabaseErrorResponse
 >;
 
 export const logInWithEmailPassword = async (
 	body: TLogInBody,
-): Promise<TLogInWithEmailPassword> => {
+): Promise<TLogInResponse> => {
 	try {
 		const { email, password } = body;
 		const url = `${process.env.SUPABASE_URL}/auth/v1/token?grant_type=password`;
@@ -228,6 +228,37 @@ export const logInWithEmailPassword = async (
 	} catch (error) {
 		console.error('logInWithEmailPassword - Unexpected error:', error);
 
+		return { success: false };
+	}
+};
+
+export const refreshAccessToken = async (
+	refresh_token: string,
+): Promise<TLogInResponse> => {
+	try {
+		const url = `${process.env.SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`;
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'apikey': process.env.SUPABASE_API_KEY ?? '',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ refresh_token }),
+		});
+
+		if (!response.ok) {
+			const error = await response.json();
+
+			console.error('refreshAccessToken - Supabase error:', error);
+
+			return parseSupabaseError(error);
+		}
+
+		const data = (await response.json()) satisfies TSupabaseSessionSchema;
+
+		return { success: true, data };
+	} catch (error) {
+		console.error('refreshAccessToken - Unexpected error:', error);
 		return { success: false };
 	}
 };
