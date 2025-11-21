@@ -172,6 +172,7 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 					submitButtonText="Request booking →"
 					className={styles.form}
 					ref={formRef}
+					noValidate={true}
 				>
 					{/* APPOINTMENT OVERVIEW */}
 					<Fieldset
@@ -771,6 +772,21 @@ export const BookInterpreterTemplate: React.FC<TBookInterpreterTemplate> = ({
 						id="finance-information"
 						title="Finance information"
 					>
+						{/* COMPANY NAME */}
+						<TextInput
+							id="company-name"
+							label="What's your company name?"
+							hint="We'll use this for invoices."
+							name="companyName"
+							autoComplete="organization"
+							isRequired={false}
+							showRequired={true}
+							isInvalid={Boolean(fieldErrors?.companyName)}
+							validationMessage={
+								fieldErrors?.companyName?.message
+							}
+						/>
+
 						{/* COMPANY ADDRESS */}
 						<FormInputsGroup.Root
 							id="company-address"

@@ -60,13 +60,12 @@ type TOpenJobsPageData = {
 
 export async function loader({
 	request,
-	context,
 }: Route.LoaderArgs): Promise<Response | TOpenJobsPageData> {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
-	const user = await getUser(env, token);
+	const user = await getUser(token);
 	const lastUpdated = new Date().toLocaleString('en-GB');
 
 	// Redirect to login if not logged in
@@ -100,7 +99,6 @@ export async function loader({
 				),
 				{Appointment: date} > NOW()
 			)`,
-			env,
 		);
 
 		if (data.error) {
@@ -161,7 +159,9 @@ export default function Open({
 
 	return (
 		<>
-			<title>📋 Open Interpreter Jobs</title>
+			<title>
+				📋 Open interpreter jobs | Manchester Deaf Centre booking system
+			</title>
 			<meta
 				name="description"
 				content="Open interpreter jobs at Manchester Deaf Centre."

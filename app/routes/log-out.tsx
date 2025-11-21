@@ -5,16 +5,15 @@ import { logOut } from '~/.server/services/supabase.ts';
 import { destroySession, getSession } from '~/.server/sessions.ts';
 
 export const loader = async ({
-	context,
 	request,
 }: Route.LoaderArgs): Promise<Response | 'Error logging you out.'> => {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
 
 	// Log out
-	const loggedOut = await logOut(env, token);
+	const loggedOut = await logOut(token);
 
 	if (loggedOut.success)
 		return redirect('/log-in', {

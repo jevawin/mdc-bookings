@@ -95,17 +95,6 @@
 	place-self: end start;
 }
 
-.atc {
-	@media (--bp-tiny_max) {
-		& > span {
-			block-size: 1px;
-			inline-size: 1px;
-			opacity: 0;
-			position: absolute;
-		}
-	}
-}
-
 .textLink {
 	justify-self: start;
 }

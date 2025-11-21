@@ -3,14 +3,15 @@ import type { TIconName } from '~/components/01-atoms/icon/icon.tsx';
 import type { TButtonVariant } from '../button/button.tsx';
 
 import { clsx } from 'clsx';
+
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
+import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { Loader } from '~/components/01-atoms/loader/loader.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
 import { AddToCalendar } from '~/components/03-organisms/add-to-calendar/add-to-calendar.tsx';
 import { Button, ButtonContent } from '../button/button.tsx';
 
 import styles from './card.module.css';
-import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 
 export type TCard = {
 	id: string;

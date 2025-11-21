@@ -29,6 +29,10 @@
 
 .bodyText {
 	& > :not([hidden]) ~ :not([hidden]) {
-		margin-block-start: calc(var(--base-spacing) * 2);
+		margin-block-start: calc(var(--base-spacing) * 3);
+	}
+
+	& > h2:not([hidden]) ~ h2:not([hidden]) {
+		margin-block-start: calc(var(--base-spacing) * 6);
 	}
 }

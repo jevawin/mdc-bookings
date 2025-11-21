@@ -52,10 +52,9 @@ type TResetPasswordAction = Promise<Response | TFormError>;
 
 export const action = async ({
 	request,
-	context,
 }: Route.ActionArgs): TResetPasswordAction => {
 	try {
-		const env = context.cloudflare.env;
+		const env = process.env;
 		const form = await request.formData();
 		const formValidation = validateFormData(form);
 
@@ -64,7 +63,7 @@ export const action = async ({
 		}
 
 		const email = formValidation.data.email;
-		const sendForgotPassword = await forgottenPassword(env, email);
+		const sendForgotPassword = await forgottenPassword(email);
 
 		if (!sendForgotPassword.success) {
 			return defaultFormError;
@@ -98,7 +97,9 @@ export default function ResetPassword({
 
 	return (
 		<>
-			<title>Reset your password</title>
+			<title>
+				Reset your password | Manchester Deaf Centre booking system
+			</title>
 			<meta
 				name="description"
 				content="Send a password reset link to your email."

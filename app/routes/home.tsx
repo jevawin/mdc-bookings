@@ -1,22 +1,11 @@
-import type { Route } from './+types/home.ts';
-
-type THomepageData = {
-	message: string;
-};
-
-export function loader({ context }: Route.LoaderArgs): THomepageData {
-	return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
-}
-
-export default function Home({
-	loaderData,
-}: Route.ComponentProps): React.ReactNode {
-	console.log(loaderData);
-
+export default function Home(): React.ReactNode {
 	return (
 		<>
-			<title>New React Router App</title>
-			<meta name="description" content="Welcome to React Router!" />
+			<title>Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Book an interpreter with the Manchester Deaf Centre"
+			/>
 
 			<main>
 				<svg
@@ -94,8 +83,6 @@ export default function Home({
 						</clipPath>
 					</defs>
 				</svg>
-
-				<h1>{loaderData.message}</h1>
 			</main>
 		</>
 	);

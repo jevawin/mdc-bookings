@@ -1,27 +1,28 @@
 import { Icon } from '~/components/01-atoms/icon/icon.tsx';
 import { TextLink } from '~/components/01-atoms/text-link/text-link.tsx';
 import { Text } from '~/components/01-atoms/text/text.tsx';
-
 import { Header } from '~/components/02-molecules/header/header.tsx';
-
-import { Hero } from '~/components/03-organisms/hero/hero.tsx';
 import { List } from '~/components/03-organisms/list/list.tsx';
-import { Container } from '../container/container.tsx';
+import { Segment } from '../segment/segment.tsx';
 
 import styles from './book-interpreter.module.css';
 
 export type TBookInterpreter = React.PropsWithChildren;
 
 export default function BookInterpreterLayout(): React.ReactNode {
+	const id = 'interpreter-booking-confirmation';
+
 	return (
 		<>
 			<Header showNav={false} />
+
 			<main id="main">
-				<Hero.Root id="interpreter-booking-hero">
-					<Hero.Content>
-						<Hero.BodyText>
+				<Segment.Root id={id}>
+					<Segment.Container className={styles.container}>
+						<div className={styles.inner}>
 							<Text
-								tag="h2"
+								tag="h1"
+								id={id}
 								color="brand"
 								weight="300"
 								size="500"
@@ -32,13 +33,28 @@ export default function BookInterpreterLayout(): React.ReactNode {
 
 							<Text tag="p" size="300">
 								You should{' '}
-								<Text color="brand" weight="300" size="300">
+								<Text
+									color="brand"
+									weight="300"
+									size="300"
+									role="presentation"
+								>
 									receive an email
 								</Text>{' '}
-								confirming your booking details within 5
+								containing your booking details within 5
 								minutes. If you have not received your email
-								after 5 minutes, please contact our bookings
-								officer:
+								after 5 minutes, or if you need to change your
+								booking, please contact our bookings officer.
+							</Text>
+
+							<Text
+								tag="p"
+								size="300"
+								color="negative"
+								weight="300"
+							>
+								If your booking is today or the next working
+								day, please call us to confirm.
 							</Text>
 
 							<List.Root>
@@ -109,26 +125,25 @@ export default function BookInterpreterLayout(): React.ReactNode {
 									</Text>
 								</List.Item>
 							</List.Root>
-						</Hero.BodyText>
-					</Hero.Content>
-				</Hero.Root>
-				<Container className={styles.container}>
-					<Text size="300">
-						You can close this window,{' '}
-						<TextLink
-							linkText="book another interpreter"
-							to="/book-interpreter"
-							size="300"
-						/>
-						, or visit{' '}
-						<TextLink
-							linkText="manchesterdeafcentre.com"
-							to="https://www.manchesterdeafcentre.com/"
-							size="300"
-						/>{' '}
-						next.
-					</Text>
-				</Container>
+
+							<Text tag="p" size="300">
+								You can close this window,{' '}
+								<TextLink
+									linkText="book another interpreter"
+									to="/book-interpreter"
+									size="300"
+								/>
+								, or visit{' '}
+								<TextLink
+									linkText="manchesterdeafcentre.com"
+									to="https://www.manchesterdeafcentre.com/"
+									size="300"
+								/>{' '}
+								next.
+							</Text>
+						</div>
+					</Segment.Container>
+				</Segment.Root>
 			</main>
 		</>
 	);

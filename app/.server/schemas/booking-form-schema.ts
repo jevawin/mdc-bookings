@@ -36,9 +36,12 @@ export const bookingFormSchema = z
 						error: 'Invalid date format',
 					})
 					.transform((val) => new Date(val))
-					.refine((d) => d > new Date(), {
-						error: 'Date must be in the future',
-					})
+					.refine(
+						(d) => d > new Date(Date.now() + 1 * 60 * 60 * 1000),
+						{
+							error: 'Date must be more than 1 hour from now - please call for urgent appointments',
+						},
+					)
 					.transform((val) => val.toISOString()),
 			),
 		hours: z.enum(

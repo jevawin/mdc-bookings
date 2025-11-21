@@ -1,5 +1,5 @@
-import type { TJob } from '~/global-types.ts';
 import type { TAirtableJobFields } from '~/.server/services/airtable.ts';
+import type { TJob } from '~/global-types.ts';
 
 import {
 	addDurationToDateTime,
@@ -18,7 +18,7 @@ export const jobMapper = (data: TJobMapperData): TJob => {
 	const date = data.fields['Appointment: date'];
 	const duration = data.fields['Appointment: duration'];
 	const location = data.fields['Airtable: friendly address'];
-	const description = data.fields['Appointment: details'];
+	const description = data.fields['Appointment: notes'];
 	const service = data.fields['Appointment: service'];
 	const specialism = data.fields['Appointment: specialism'];
 

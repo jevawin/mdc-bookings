@@ -5,11 +5,10 @@ import { verifyAuth } from '~/.server/services/supabase.ts';
 import { commitSession, getSession } from '~/.server/sessions.ts';
 
 export const loader = async ({
-	context,
 	request,
 }: Route.LoaderArgs): Promise<Response> => {
 	try {
-		const env = context.cloudflare.env;
+		const env = process.env;
 		const url = new URL(request.url);
 		const params = url.searchParams;
 		const token = params.get('token');
@@ -21,7 +20,7 @@ export const loader = async ({
 			return redirect('/log-in');
 		}
 
-		const response = await verifyAuth(token, type, env);
+		const response = await verifyAuth(token, type);
 
 		if (!response.success) {
 			console.error('Supabase error:', response);

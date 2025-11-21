@@ -4,6 +4,15 @@
 	max-inline-size: 70rem;
 }
 
-.terms {
-	padding-block: calc(var(--base-spacing) * 5);
+.inner {
+	margin-inline-start: 0;
+	max-inline-size: 100rem;
+
+	& > :not([hidden]) ~ :not([hidden]) {
+		margin-block-start: calc(var(--base-spacing) * 3);
+	}
+
+	& > h2:not([hidden]) ~ h2:not([hidden]) {
+		margin-block-start: calc(var(--base-spacing) * 6);
+	}
 }

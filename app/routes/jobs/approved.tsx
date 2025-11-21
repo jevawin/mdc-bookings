@@ -35,13 +35,12 @@ type TApprovaedPageData = {
 
 export async function loader({
 	request,
-	context,
 }: Route.LoaderArgs): Promise<Response | TApprovaedPageData> {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const token = session.get('access_token');
-	const user = await getUser(env, token);
+	const user = await getUser(token);
 	const lastUpdated = new Date().toLocaleString('en-GB');
 
 	// Redirect to login if not logged in
@@ -70,7 +69,6 @@ export async function loader({
 				) > 0,
 				DATETIME_DIFF({Appointment: date}, TODAY(), "days") > -90
 			)`,
-			env,
 		);
 
 		if (data.error) {
@@ -102,7 +100,10 @@ export default function Approved({
 	if (error) {
 		return (
 			<>
-				<title>Approved Interpreter Jobs</title>
+				<title>
+					Approved interpreter jobs | Manchester Deaf Centre booking
+					system
+				</title>
 				<meta
 					name="description"
 					content="Your upcoming and past jobs."

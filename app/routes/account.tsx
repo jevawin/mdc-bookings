@@ -23,9 +23,8 @@ type TAccountAction = {
 
 export const action = async ({
 	request,
-	context,
 }: Route.ActionArgs): Promise<TAccountAction> => {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const formData = await request.formData();
 
 	// Get form fields
@@ -54,7 +53,7 @@ export const action = async ({
 
 	// Update airtable
 	try {
-		await updateAirtableRecords('Interpreters', env, airtableData);
+		await updateAirtableRecords('Interpreters', airtableData);
 
 		return {
 			success: true,
@@ -72,9 +71,8 @@ export const action = async ({
 
 export const loader = async ({
 	request,
-	context,
 }: Route.LoaderArgs): Promise<TGetUser | Response> => {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 
@@ -88,7 +86,7 @@ export const loader = async ({
 		return redirect('/log-in');
 	}
 
-	const user = await getUser(env, access_token);
+	const user = await getUser(access_token);
 
 	if (!user.success) {
 		return redirect('/log-in');
@@ -109,8 +107,11 @@ export default function Account({
 
 	return (
 		<>
-			<title>My account</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>My account | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Manage your account settings and preferences."
+			/>
 
 			<Card.Root id="personal">
 				<Card.Content>

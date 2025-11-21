@@ -65,11 +65,8 @@ const buildFormError = (error?: { msg?: string }): TFormError => {
 
 type TLogInAction = Promise<Response | TFormError>;
 
-export const action = async ({
-	request,
-	context,
-}: Route.ActionArgs): TLogInAction => {
-	const env = context.cloudflare.env;
+export const action = async ({ request }: Route.ActionArgs): TLogInAction => {
+	const env = process.env;
 
 	try {
 		const form = await request.formData();
@@ -79,10 +76,7 @@ export const action = async ({
 			return formValidation;
 		}
 
-		const loginResult = await logInWithEmailPassword(
-			formValidation.data,
-			env,
-		);
+		const loginResult = await logInWithEmailPassword(formValidation.data);
 
 		if (!loginResult.success) {
 			return buildFormError(loginResult.error);
@@ -113,9 +107,8 @@ export const action = async ({
 
 export const loader = async ({
 	request,
-	context,
 }: Route.LoaderArgs): Promise<Response | null> => {
-	const env = context.cloudflare.env;
+	const env = process.env;
 	const cookieHeader = request.headers.get('Cookie');
 	const session = await getSession(cookieHeader);
 	const access_token = session.get('access_token');
@@ -128,7 +121,7 @@ export const loader = async ({
 		return redirect('/jobs/open');
 	}
 
-	const user = await getUser(env, access_token);
+	const user = await getUser(access_token);
 
 	if (user.success) return redirect('/jobs/open');
 
@@ -140,8 +133,11 @@ export default function LogIn({
 }: Route.ComponentProps): React.ReactNode {
 	return (
 		<>
-			<title>Log in</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>Log in | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Log in to your Manchester Deaf Centre account."
+			/>
 
 			<LogInTemplate
 				formError={actionData?.error}

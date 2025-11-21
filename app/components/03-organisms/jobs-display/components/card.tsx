@@ -27,7 +27,7 @@ type TJobsDisplayCard = {
 const getButtonData = (isPast: boolean): TGetButtonData => ({
 	applied: {
 		text: 'Revoke',
-		icon: 'cross',
+		icon: 'circle-cross',
 		varaint: 'revoke',
 	},
 	approved: {

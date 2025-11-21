@@ -1,4 +1,3 @@
-import type { Env, Prettify } from '~/global-types.ts';
 import type { TSupabaseErrorSchema } from '~/.server/schemas/supabase-error-schema.ts';
 import type {
 	TSupabaseSessionSchema,
@@ -6,6 +5,7 @@ import type {
 	TSupabaseUserSchema,
 	TSupabaseVerifySuccessSchema,
 } from '~/.server/schemas/supabase-user-schema.ts';
+import type { Prettify } from '~/global-types.ts';
 
 import { supabaseErrorSchema } from '~/.server/schemas/supabase-error-schema.ts';
 import {
@@ -38,15 +38,10 @@ type TCreateNewUser = Prettify<
 	TSupabaseUserSuccessResponse | TSupabaseErrorResponse
 >;
 
-type TGetHeaders = {
-	'apikey': string;
-	'Content-Type': string;
-};
-
-const getHeaders = (env: Env): TGetHeaders => ({
-	'apikey': env.SUPABASE_API_KEY,
+const DEFAULT_HEADERS = {
+	'apikey': process.env.SUPABASE_API_KEY ?? '',
 	'Content-Type': 'application/json',
-});
+};
 
 const parseSupabaseUserResponse = (data: unknown): TCreateNewUser => {
 	const parsed = supabaseUserSchema.safeParse(data);
@@ -71,14 +66,16 @@ type TCreateNewUserBody = {
 
 export const createNewUser = async (
 	body: TCreateNewUserBody,
-	env: Env,
 ): Promise<TCreateNewUser> => {
 	try {
-		const response = await fetch(`${env.SUPABASE_URL}/auth/v1/signup`, {
-			method: 'POST',
-			headers: getHeaders(env),
-			body: JSON.stringify(body),
-		});
+		const response = await fetch(
+			`${process.env.SUPABASE_URL}/auth/v1/signup`,
+			{
+				method: 'POST',
+				headers: DEFAULT_HEADERS,
+				body: JSON.stringify(body),
+			},
+		);
 
 		if (!response.ok) {
 			return parseSupabaseError(response);
@@ -156,14 +153,16 @@ type TVerifyAuth = Prettify<
 export const verifyAuth = async (
 	token_hash: string,
 	type: 'email' | 'recovery',
-	env: Env,
 ): Promise<TVerifyAuth> => {
 	try {
-		const response = await fetch(`${env.SUPABASE_URL}/auth/v1/verify`, {
-			method: 'POST',
-			headers: getHeaders(env),
-			body: JSON.stringify({ token_hash, type }),
-		});
+		const response = await fetch(
+			`${process.env.SUPABASE_URL}/auth/v1/verify`,
+			{
+				method: 'POST',
+				headers: DEFAULT_HEADERS,
+				body: JSON.stringify({ token_hash, type }),
+			},
+		);
 
 		if (!response.ok) {
 			const data = await response.json();
@@ -205,14 +204,13 @@ type TLogInWithEmailPassword = Prettify<
 
 export const logInWithEmailPassword = async (
 	body: TLogInBody,
-	env: Env,
 ): Promise<TLogInWithEmailPassword> => {
 	try {
 		const { email, password } = body;
-		const url = `${env.SUPABASE_URL}/auth/v1/token?grant_type=password`;
+		const url = `${process.env.SUPABASE_URL}/auth/v1/token?grant_type=password`;
 		const response = await fetch(url, {
 			method: 'POST',
-			headers: getHeaders(env),
+			headers: DEFAULT_HEADERS,
 			body: JSON.stringify({ email, password }),
 		});
 
@@ -234,16 +232,13 @@ export const logInWithEmailPassword = async (
 	}
 };
 
-export const logOut = async (
-	env: Env,
-	token: string,
-): Promise<{ success: boolean }> => {
+export const logOut = async (token: string): Promise<{ success: boolean }> => {
 	try {
-		const url = `${env.SUPABASE_URL}/auth/v1/logout`;
+		const url = `${process.env.SUPABASE_URL}/auth/v1/logout`;
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
-				...getHeaders(env),
+				...DEFAULT_HEADERS,
 				Authorization: `Bearer ${token}`,
 			},
 		});
@@ -269,14 +264,14 @@ export type TGetUser = {
 	data?: TSupabaseUserSchema;
 };
 
-export const getUser = async (env: Env, token: string): Promise<TGetUser> => {
+export const getUser = async (token: string): Promise<TGetUser> => {
 	try {
-		const url = `${env.SUPABASE_URL}/auth/v1/user`;
+		const url = `${process.env.SUPABASE_URL}/auth/v1/user`;
 
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
-				apikey: env.SUPABASE_API_KEY,
+				apikey: process.env.SUPABASE_API_KEY ?? '',
 				Authorization: `Bearer ${token}`,
 			},
 		});
@@ -310,19 +305,18 @@ type TUpdateUser = {
 };
 
 export const updateUser = async (
-	env: Env,
 	token: string,
 	body: TUpdateUserBody,
 ): Promise<TUpdateUser> => {
 	try {
-		const url = `${env.SUPABASE_URL}/auth/v1/user`;
+		const url = `${process.env.SUPABASE_URL}/auth/v1/user`;
 
 		console.log(body, 'body');
 
 		const response = await fetch(url, {
 			method: 'PUT',
 			headers: {
-				...getHeaders(env),
+				...DEFAULT_HEADERS,
 				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(body),
@@ -352,15 +346,14 @@ type TForgottenPassword = {
 };
 
 export const forgottenPassword = async (
-	env: Env,
 	email: string,
 ): Promise<TForgottenPassword> => {
 	try {
-		const url = `${env.SUPABASE_URL}/auth/v1/recover`;
+		const url = `${process.env.SUPABASE_URL}/auth/v1/recover`;
 
 		const response = await fetch(url, {
 			method: 'POST',
-			headers: getHeaders(env),
+			headers: DEFAULT_HEADERS,
 			body: JSON.stringify({ email }),
 		});
 

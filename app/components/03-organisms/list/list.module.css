@@ -1,8 +1,8 @@
-.base {
+.list {
 	color: inherit;
 	display: flex;
 	flex-direction: column;
-	gap: var(--base-spacing);
+	gap: calc(var(--base-spacing) * 1.5);
 }
 
 .list:is(ul):not(:has(svg)) {

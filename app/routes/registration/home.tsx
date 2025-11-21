@@ -1,5 +1,5 @@
 import type { Route } from './+types/home.ts';
-import type { Env, TFormError, TValidateFormData } from '~/global-types.ts';
+import type { TFormError, TValidateFormData } from '~/global-types.ts';
 import type { TAirtableInterpreterFields } from '~/.server/services/airtable.ts';
 
 import { redirect } from 'react-router';
@@ -72,7 +72,6 @@ const validateFormData = async (
 
 const registerUser = async (
 	data: TFormDataResult,
-	env: Env,
 ): Promise<TRegisterUserData> => {
 	try {
 		const payload = {
@@ -80,7 +79,7 @@ const registerUser = async (
 			password: data.password,
 		};
 
-		const response = await createNewUser(payload, env);
+		const response = await createNewUser(payload);
 
 		if (response.success && response.data) {
 			return {
@@ -100,7 +99,6 @@ const registerUser = async (
 const sendUserToAirtable = async (
 	userId: string,
 	formData: TFormDataResult,
-	env: Env,
 ): Promise<TFormError> => {
 	try {
 		const regOrg = formData.registrationOrganisation;
@@ -119,11 +117,7 @@ const sendUserToAirtable = async (
 			'Job summary emails': isJobSummaryEmails,
 		};
 
-		const response = await createAirtableRecord(
-			payload,
-			'Interpreters',
-			env,
-		);
+		const response = await createAirtableRecord(payload, 'Interpreters');
 
 		return {
 			status: response.success ? 200 : 400,
@@ -137,11 +131,8 @@ const sendUserToAirtable = async (
 
 export const action = async ({
 	request,
-	context,
 }: Route.ActionArgs): TRegistrationAction => {
 	if (request.method !== 'POST') return defaultFormError;
-
-	const env = context.cloudflare.env;
 
 	try {
 		const formData = await validateFormData(request);
@@ -150,7 +141,7 @@ export const action = async ({
 			return formData;
 		}
 
-		const userData = await registerUser(formData.data, env);
+		const userData = await registerUser(formData.data);
 
 		if (!userData.userId) {
 			return defaultFormError;
@@ -159,7 +150,6 @@ export const action = async ({
 		const airtableData = await sendUserToAirtable(
 			userData.userId,
 			formData.data,
-			env,
 		);
 
 		if (airtableData.status !== 200) {
@@ -182,8 +172,11 @@ export default function Home({
 
 	return (
 		<>
-			<title>Registration</title>
-			<meta name="description" content="DESCRIPTION OF YOUR ROUTE." />
+			<title>Registration | Manchester Deaf Centre booking system</title>
+			<meta
+				name="description"
+				content="Register for an account with the Manchester Deaf Centre."
+			/>
 
 			<Authentication.Header title="Become an interpreter" />
 

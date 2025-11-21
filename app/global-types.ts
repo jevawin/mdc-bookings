@@ -1,14 +1,5 @@
 import type { TIconName } from './components/01-atoms/icon/icon.tsx';
 
-export type Env = {
-	AIRTABLE_API_KEY: string;
-	AIRTABLE_URL: string;
-	AIRTABLE_BASE_ID: string;
-	SUPABASE_API_KEY: string;
-	SUPABASE_URL: string;
-	VALUE_FROM_CLOUDFLARE: string;
-};
-
 export type Prettify<T> = {
 	[K in keyof T]: T[K];
 } & {};
