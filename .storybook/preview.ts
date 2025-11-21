@@ -25,7 +25,7 @@ const preview: Preview = {
 			},
 		},
 		viewport: {
-			viewports: {
+			options: {
 				iPhoneSE: {
 					name: 'iPhone SE',
 					styles: {
